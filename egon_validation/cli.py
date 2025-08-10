@@ -5,6 +5,9 @@ from egon_validation.db import make_engine
 from egon_validation.runner.execute import run_for_task
 from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
 from egon_validation.report.generate import generate
+import egon_validation.rules.formal  # noqa: F401
+import egon_validation.rules.custom  # noqa: F401
+
 
 def _run_task(args):
     db_url = args.db_url or get_env(ENV_DB_URL)

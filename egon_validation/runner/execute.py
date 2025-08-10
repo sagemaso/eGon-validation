@@ -3,6 +3,9 @@ from typing import List
 from egon_validation.rules.registry import rules_for
 from egon_validation.rules.base import SqlRule, Rule, RuleResult
 from egon_validation import db
+import egon_validation.rules.formal  # noqa: F401
+import egon_validation.rules.custom  # noqa: F401
+
 
 def _ensure_dir(path: str) -> None:
     os.makedirs(path, exist_ok=True)
@@ -21,5 +24,5 @@ def run_for_task(engine, ctx, task: str) -> List[RuleResult]:
                 # PyRule or other kinds can implement evaluate directly
                 res = rule.evaluate(engine, ctx)  # type: ignore
             results.append(res)
-            f.write(json.dumps(res.__dict__) + "\n")
+            f.write(json.dumps(res.to_dict()) + "\n")
     return results

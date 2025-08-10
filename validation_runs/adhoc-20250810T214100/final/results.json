@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "rule_id": "adhoc_NOT_NULL_NAN",
+      "task": "adhoc",
+      "dataset": "demand.egon_demandregio_hh",
+      "success": true,
+      "message": "0 offending rows (NULL or NaN)",
+      "observed": null,
+      "expected": null,
+      "severity": "WARNING",
+      "schema": "demand",
+      "table": "egon_demandregio_hh",
+      "column": "demand"
+    },
+    {
+      "rule_id": "TS_LENGTH_CHECK",
+      "task": "adhoc",
+      "dataset": "grid.egon_etrago_load_timeseries",
+      "success": true,
+      "message": "All 44013 time series have correct length of 8760 (44013 validated)",
+      "observed": 0,
+      "expected": 0.0,
+      "severity": "WARNING",
+      "schema": "grid",
+      "table": "egon_etrago_load_timeseries",
+      "column": "p_set"
+    },
+    {
+      "rule_id": "TS_LENGTH_CHECK",
+      "task": "adhoc",
+      "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
+      "success": true,
+      "message": "All 472 time series have correct length of 8760 (472 validated)",
+      "observed": 0,
+      "expected": 0.0,
+      "severity": "WARNING",
+      "schema": "demand",
+      "table": "egon_demandregio_sites_ind_electricity_dsm_timeseries",
+      "column": "p_set"
+    }
+  ],
+  "datasets": [
+    "demand.egon_demandregio_hh",
+    "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
+    "grid.egon_etrago_load_timeseries"
+  ]
+}

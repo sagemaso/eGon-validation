@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from enum import Enum
 from typing import Any, Dict, Optional
 
@@ -20,6 +20,12 @@ class RuleResult:
     schema: Optional[str] = None
     table: Optional[str] = None
     column: Optional[str] = None
+
+    def to_dict(self):
+        d = asdict(self)
+        # Enum -> String für JSON
+        d["severity"] = self.severity.value if self.severity else None
+        return d
 
 class Rule:
     def __init__(self, rule_id: str, task: str, dataset: str, **params: Any) -> None:

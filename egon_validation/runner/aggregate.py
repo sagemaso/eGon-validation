@@ -42,7 +42,7 @@ def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
         m[ds].sort()
     return m
 
-def build_coverage(ctx, collected: Dict]) -> Dict:
+def build_coverage(ctx, collected: Dict) -> Dict:
     items = collected.get("items", [])
     datasets = collected.get("datasets", [])
     rules_formal = _build_formal_rules_index()
