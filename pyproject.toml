@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egon-validation"
+version = "0.1.0"
+description = "Validation library for eGon data pipeline (rules hard-coded, SQL-first, Airflow-friendly)"
+readme = "README.md"
+requires-python = ">=3.8,<3.9"
+license = {text = "AGPL-3.0-only"}
+authors = [{name="eGon Team", email="maintainers@example.org"}]
+dependencies = [
+    "SQLAlchemy>=1.4,<3",
+    "psycopg2-binary>=2.9"
+]
+
+[project.scripts]
+egon-validation = "egon_validation.cli:main"

@@ -1,0 +1,2 @@
+[console_scripts]
+egon-validation = egon_validation.cli:main
