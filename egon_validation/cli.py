@@ -1,21 +1,33 @@
 import argparse, os, json, datetime
-from egon_validation.config import DEFAULT_OUT_DIR, ENV_DB_URL, get_env
+from egon_validation.config import DEFAULT_OUT_DIR, ENV_DB_URL, get_env, build_db_url
 from egon_validation.context import RunContext
 from egon_validation.db import make_engine
 from egon_validation.runner.execute import run_for_task
 from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
 from egon_validation.report.generate import generate
+from egon_validation.ssh_tunnel import create_tunnel_from_env
 import egon_validation.rules.formal  # noqa: F401
+import egon_validation.rules.sanity   # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
 
 def _run_task(args):
-    db_url = args.db_url or get_env(ENV_DB_URL)
+    db_url = args.db_url or get_env(ENV_DB_URL) or build_db_url()
     if not db_url:
-        raise SystemExit("Missing DB URL (use --db-url or set EGON_DB_URL)")
+        raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
+    
     ctx = RunContext(run_id=args.run_id, scenario=args.scenario, out_dir=args.out, extra={})
-    engine = make_engine(db_url)
-    run_for_task(engine, ctx, args.task)
+    
+    # Use SSH tunnel if configured and --with-tunnel flag is set
+    if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
+        print("Starting SSH tunnel...")
+        with create_tunnel_from_env() as tunnel:
+            engine = make_engine(db_url)
+            run_for_task(engine, ctx, args.task)
+    else:
+        engine = make_engine(db_url)
+        run_for_task(engine, ctx, args.task)
+    
     print(f"Written task results for '{args.task}' -> {os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)}")
 
 def _final_report(args):
@@ -31,11 +43,12 @@ def main():
     subs = p.add_subparsers(dest="cmd", required=True)
 
     p1 = subs.add_parser("run-task", help="Run rules for a single task")
-    p1.add_argument("--db-url", type=str, help="PostgreSQL URL (or set EGON_DB_URL)")
+    p1.add_argument("--db-url", type=str, help="PostgreSQL URL (or set EGON_DB_URL or configure .env)")
     p1.add_argument("--run-id", required=True, type=str)
     p1.add_argument("--task", required=True, type=str)
     p1.add_argument("--scenario", type=str, default=None)
     p1.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
+    p1.add_argument("--with-tunnel", action="store_true", help="Use SSH tunnel (requires SSH config in .env)")
     p1.set_defaults(func=_run_task)
 
     p2 = subs.add_parser("final-report", help="Aggregate results and write final report")

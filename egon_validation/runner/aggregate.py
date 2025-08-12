@@ -26,10 +26,11 @@ def _build_formal_rules_index() -> List[str]:
 def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
     # dataset -> list of custom rule names
     reg = list_registered()
-    custom_ids = {r["rule_id"] for r in reg if r.get("kind") == "custom"}
+    tag_kinds = {"custom", "sanity"}
+    tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
     m: Dict[str, List[str]] = {}
     for it in items:
-        if it.get("rule_id") in custom_ids:
+        if it.get("rule_id") in tag_ids:
             ds = it.get("dataset")
             if not ds: 
                 continue

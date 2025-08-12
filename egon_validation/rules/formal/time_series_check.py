@@ -1,10 +1,9 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register
+from egon_validation.rules.registry import register, register_map
 
-@register(task="adhoc", dataset="demand.egon_demandregio_sites_ind_electricity_dsm_timeseries", rule_id="TS_LENGTH_CHECK",
-          kind="formal", column="p_set", expected_length=8760)
-@register(task="adhoc", dataset="grid.egon_etrago_load_timeseries", rule_id="TS_LENGTH_CHECK",
-          kind="formal", column="p_set", expected_length=8760)
+
+#@register(task="adhoc", dataset="grid.egon_etrago_load_timeseries", rule_id="TS_LENGTH_CHECK",
+#          kind="formal", column="p_set", expected_length=8760)
 class TimeSeriesLengthValidation(SqlRule):
     def sql(self, ctx):
         col = self.params.get("column", "values")
@@ -45,3 +44,19 @@ class TimeSeriesLengthValidation(SqlRule):
             message=message, severity=Severity.WARNING,
             schema=self.schema, table=self.table, column=self.params.get("column")
         )
+
+register_map(
+    task="adhoc",
+    rule_cls=TimeSeriesLengthValidation,
+    rule_id="TS_LENGTH_CHECK",
+    kind="formal",
+    datasets_params={
+        "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries": {
+            "column": "p_set", "expected_length": 8760
+        },
+        "grid.egon_etrago_load_timeseries": {
+            "column": "p_set", "expected_length": 8760
+        },
+        # weitere Tabellen hier ...
+    }
+)
