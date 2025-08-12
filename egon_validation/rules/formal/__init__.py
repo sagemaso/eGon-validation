@@ -1,14 +1,11 @@
-# Import all formal rules to ensure they get registered
-from .null_check import NotNullAndNotNaN
-from .range_check import Range
-from .balance_check import AbsDiffWithinTolerance
-from .srid_check import SRIDUniqueNonZero
-from .time_series_check import TimeSeriesLengthValidation
+# Auto-import all modules in this package so their @register / register_map runs.
+import importlib
+import pkgutil
+from pathlib import Path
 
-__all__ = [
-    "NotNullAndNotNaN",
-    "Range", 
-    "AbsDiffWithinTolerance",
-    "SRIDUniqueNonZero",
-    "TimeSeriesLengthValidation"
-]
+_pkg_path = Path(__file__).parent
+for mod in pkgutil.iter_modules([str(_pkg_path)]):
+    # skip subpackages and private modules
+    if mod.ispkg or mod.name.startswith("_"):
+        continue
+    importlib.import_module(f"{__name__}.{mod.name}")
