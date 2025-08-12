@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="sanity", dataset="demand.egon_demandregio_hh", rule_id="RESIDENTIAL_ELECTRICITY_ANNUAL_SUM",
+@register(task="adhoc", dataset="demand.egon_demandregio_hh", rule_id="RESIDENTIAL_ELECTRICITY_ANNUAL_SUM",
           kind="sanity", rtol=1e-5, scenario_col="scenario")
 class ResidentialElectricitySum(SqlRule):
     """

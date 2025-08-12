@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="sanity", dataset="grid.egon_etrago_link", rule_id="DSM_SANITY_CHECK",
+@register(task="adhoc", dataset="grid.egon_etrago_link", rule_id="DSM_SANITY_CHECK",
           kind="sanity", atol=1e-01, scenario_col="scn_name")
 class DsmSanityCheck(SqlRule):
     """
