@@ -26,15 +26,25 @@
   // Matrix
   const datasets = coverage.datasets && coverage.datasets.length ? coverage.datasets : [...new Set(items.map(x => x.dataset))];
   const rules = coverage.rules_formal && coverage.rules_formal.length ? coverage.rules_formal : [...new Set(items.map(x => x.rule_id))];
+
+  // Build a map of (dataset, rule) -> {status, title}
   const cellMap = new Map();
-  for (const c of (coverage.cells || [])) cellMap.set(c.dataset + '::' + c.rule_id, c.status);
-  for (const d of datasets) for (const r of rules) if (!cellMap.has(d+'::'+r)) cellMap.set(d+'::'+r, 'na');
+  for (const c of (coverage.cells || [])) {
+    cellMap.set(c.dataset + '::' + c.rule_id, { status: c.status, title: c.title || '' });
+  }
+  // Fill missing with 'na'
+  for (const d of datasets) {
+    for (const r of rules) {
+      const key = d + '::' + r;
+      if (!cellMap.has(key)) cellMap.set(key, { status: 'na', title: 'Not applied' });
+    }
+  }
 
   const mwrap = document.createElement('div'); mwrap.className = 'matrix-wrapper';
   const tbl = document.createElement('table'); tbl.className = 'matrix';
 
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
-  hr.innerHTML = '<th>Dataset \\ Rule</th>' + rules.map(r => `<th>${r}</th>`).join('') + '<th>Custom checks</th>';
+  hr.innerHTML = '<th>Dataset \\\\ Rule</th>' + rules.map(r => `<th>${r}</th>`).join('') + '<th>Custom checks</th>';
   thead.appendChild(hr); tbl.appendChild(thead);
 
   const tbody = document.createElement('tbody');
@@ -42,10 +52,10 @@
     const tr = document.createElement('tr');
     let rowHtml = `<td><strong>${d}</strong></td>`;
     for (const r of rules) {
-      const s = cellMap.get(d+'::'+r);
-      let icon = s==='ok' ? '<span class="icon ok" title="applied: passed">✅</span>' :
-                (s==='fail' ? '<span class="icon fail" title="applied: failed">❌</span>' :
-                               '<span class="icon na" title="not applied">🔵</span>');
+      const { status, title } = cellMap.get(d+'::'+r);
+      const icon = status==='ok'   ? `<span class="icon ok"   title="${title}">✅</span>` :
+                    status==='fail' ? `<span class="icon fail" title="${title}">❌</span>` :
+                                      `<span class="icon na"   title="${title}">🔵</span>`;
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
@@ -55,6 +65,7 @@
   }
   tbl.appendChild(tbody); mwrap.appendChild(tbl);
   document.querySelector('#coverage-matrix').appendChild(mwrap);
+
 
   // Details
   const det = document.createElement('table');

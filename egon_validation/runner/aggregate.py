@@ -45,29 +45,47 @@ def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
 def build_coverage(ctx, collected: Dict) -> Dict:
     items = collected.get("items", [])
     datasets = collected.get("datasets", [])
+
+    # All formal rules from registry (stable column set)
     rules_formal = _build_formal_rules_index()
 
-    # Build status per dataset+rule: ok/fail/na
-    status: Dict[Tuple[str, str], str] = {}
+    # default status/title for every pair
+    status = {}      # (dataset, rule_id) -> "na" | "ok" | "fail"
+    titles = {}      # (dataset, rule_id) -> tooltip text
     for ds in datasets:
         for rid in rules_formal:
             status[(ds, rid)] = "na"
-    for it in items:
-        rid = it.get("rule_id"); ds = it.get("dataset"); ok = it.get("success", False)
-        if rid in rules_formal and ds:
-            # if multiple results for same pair exist: any fail dominates
-            prev = status.get((ds, rid), "na")
-            if prev == "fail":
-                continue
-            status[(ds, rid)] = "ok" if ok else "fail"
+            titles[(ds, rid)] = "Not applied"
 
-    cells = [{"dataset": ds, "rule_id": rid, "status": status[(ds, rid)]}
-             for ds in datasets for rid in rules_formal]
+    # apply results
+    for it in items:
+        rid = it.get("rule_id")
+        ds = it.get("dataset")
+        if ds and rid in rules_formal:
+            ok = bool(it.get("success", False))
+            msg = it.get("message") or ""
+            key = (ds, rid)
+            # if multiple results for same pair exist: any fail dominates
+            if not ok:
+                status[key] = "fail"
+                titles[key] = msg or "Applied: failed"
+            else:
+                # only set OK if we don't already have a fail
+                if status.get(key) != "fail":
+                    status[key] = "ok"
+                    titles[key] = "Applied: passed"
+
+    cells = [{
+        "dataset": ds,
+        "rule_id": rid,
+        "status": status[(ds, rid)],
+        "title": titles[(ds, rid)]
+    } for ds in datasets for rid in rules_formal]
 
     custom_checks = _build_custom_checks_map(items)
 
     cov = {
-        "tables_total": None,  # optional: set later from config
+        "tables_total": None,  # optional: can be set to total datasets in scope later
         "tables_validated": len(datasets),
         "datasets": datasets,
         "rules_formal": rules_formal,
@@ -75,6 +93,7 @@ def build_coverage(ctx, collected: Dict) -> Dict:
         "custom_checks": custom_checks
     }
     return cov
+
 
 def write_outputs(ctx, results: Dict, coverage: Dict) -> str:
     out_dir = os.path.join(ctx.out_dir, ctx.run_id, "final")

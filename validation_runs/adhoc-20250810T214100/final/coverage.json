@@ -17,77 +17,92 @@
     {
       "dataset": "demand.egon_demandregio_hh",
       "rule_id": "BAL_DIFF",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_hh",
       "rule_id": "LP_RANGE",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_hh",
       "rule_id": "SRID_UNIQUE_NONZERO",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_hh",
       "rule_id": "TS_LENGTH_CHECK",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_hh",
       "rule_id": "adhoc_NOT_NULL_NAN",
-      "status": "ok"
+      "status": "ok",
+      "title": "Applied: passed"
     },
     {
       "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
       "rule_id": "BAL_DIFF",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
       "rule_id": "LP_RANGE",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
       "rule_id": "SRID_UNIQUE_NONZERO",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
       "rule_id": "TS_LENGTH_CHECK",
-      "status": "ok"
+      "status": "ok",
+      "title": "Applied: passed"
     },
     {
       "dataset": "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries",
       "rule_id": "adhoc_NOT_NULL_NAN",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "grid.egon_etrago_load_timeseries",
       "rule_id": "BAL_DIFF",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "grid.egon_etrago_load_timeseries",
       "rule_id": "LP_RANGE",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "grid.egon_etrago_load_timeseries",
       "rule_id": "SRID_UNIQUE_NONZERO",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     },
     {
       "dataset": "grid.egon_etrago_load_timeseries",
       "rule_id": "TS_LENGTH_CHECK",
-      "status": "ok"
+      "status": "ok",
+      "title": "Applied: passed"
     },
     {
       "dataset": "grid.egon_etrago_load_timeseries",
       "rule_id": "adhoc_NOT_NULL_NAN",
-      "status": "na"
+      "status": "na",
+      "title": "Not applied"
     }
   ],
   "custom_checks": {}
