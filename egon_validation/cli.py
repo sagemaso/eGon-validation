@@ -22,11 +22,17 @@ def _run_task(args):
     if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
         print("Starting SSH tunnel...")
         with create_tunnel_from_env() as tunnel:
-            engine = make_engine(db_url)
-            run_for_task(engine, ctx, args.task)
+            engine = make_engine(db_url, echo=args.echo_sql)
+            try:
+                run_for_task(engine, ctx, args.task)
+            finally:
+                engine.dispose()
     else:
-        engine = make_engine(db_url)
-        run_for_task(engine, ctx, args.task)
+        engine = make_engine(db_url, echo=args.echo_sql)
+        try:
+            run_for_task(engine, ctx, args.task)
+        finally:
+            engine.dispose()
     
     print(f"Written task results for '{args.task}' -> {os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)}")
 
@@ -49,11 +55,13 @@ def main():
     p1.add_argument("--scenario", type=str, default=None)
     p1.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
     p1.add_argument("--with-tunnel", action="store_true", help="Use SSH tunnel (requires SSH config in .env)")
+    p1.add_argument("--echo-sql", action="store_true", help="Echo SQLAlchemy SQL for debugging")
     p1.set_defaults(func=_run_task)
 
     p2 = subs.add_parser("final-report", help="Aggregate results and write final report")
     p2.add_argument("--run-id", required=True, type=str)
     p2.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
+    p2.add_argument("--list-rules", action="store_true", help="Print registered rules before building report")
     p2.set_defaults(func=_final_report)
 
     args = p.parse_args()

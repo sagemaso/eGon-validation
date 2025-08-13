@@ -45,13 +45,13 @@ class DsmSanityCheck(SqlRule):
             GROUP BY s.bus
         )
         SELECT 
-            COALESCE(al.link_count, 0) + COALESCE(ast.store_count, 0) as total_components,
+            COUNT(*) as total_components,
             COUNT(al.bus) as buses_with_links,
             COUNT(ast.bus) as buses_with_stores,
             AVG(al.total_p_nom) as avg_total_p_nom,
             AVG(ast.total_e_nom) as avg_total_e_nom,
-            SUM(al.total_p_nom) as system_total_p_nom,
-            SUM(ast.total_e_nom) as system_total_e_nom
+            COALESCE(SUM(al.total_p_nom), 0) as system_total_p_nom,
+            COALESCE(SUM(ast.total_e_nom), 0) as system_total_e_nom
         FROM aggregated_links al
         FULL OUTER JOIN aggregated_stores ast ON al.bus = ast.bus
         """

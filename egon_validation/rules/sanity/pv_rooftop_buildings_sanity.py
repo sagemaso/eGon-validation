@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="adhoc", dataset="supply.egon_pv_rooftop", rule_id="PV_ROOFTOP_SANITY",
+@register(task="adhoc", dataset="supply.egon_power_plants_pv_roof_building", rule_id="PV_ROOFTOP_SANITY",
           kind="sanity", scenario_col="scenario")
 class PvRooftopBuildingsSanity(SqlRule):
     """
@@ -20,16 +20,16 @@ class PvRooftopBuildingsSanity(SqlRule):
         return f"""
         SELECT 
             COUNT(*) as total_pv_systems,
-            COUNT(CASE WHEN p_nom < 0 THEN 1 END) as negative_capacity,
-            COUNT(CASE WHEN p_nom = 0 THEN 1 END) as zero_capacity,
-            COUNT(CASE WHEN p_nom > 1000 THEN 1 END) as excessive_capacity,  -- >1MW unusual for rooftop
-            COUNT(CASE WHEN p_nom BETWEEN 0.001 AND 100 THEN 1 END) as reasonable_capacity,
-            AVG(p_nom) as avg_capacity,
-            MIN(p_nom) as min_capacity,
-            MAX(p_nom) as max_capacity,
-            SUM(p_nom) as total_capacity,
-            COUNT(DISTINCT bus) as unique_buses,
-            STDDEV(p_nom) as stddev_capacity
+            COUNT(CASE WHEN capacity < 0 THEN 1 END) as negative_capacity,
+            COUNT(CASE WHEN capacity = 0 THEN 1 END) as zero_capacity,
+            COUNT(CASE WHEN capacity > 1000 THEN 1 END) as excessive_capacity,  -- >1MW unusual for rooftop
+            COUNT(CASE WHEN capacity BETWEEN 0.001 AND 100 THEN 1 END) as reasonable_capacity,
+            AVG(capacity) as avg_capacity,
+            MIN(capacity) as min_capacity,
+            MAX(capacity) as max_capacity,
+            SUM(capacity) as total_capacity,
+            COUNT(DISTINCT bus_id) as unique_buses,
+            STDDEV(capacity) as stddev_capacity
         FROM {self.dataset}
         {where_clause}
         """

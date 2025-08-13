@@ -13,9 +13,11 @@ class EtragoHeatSanity(SqlRule):
     def sql(self, ctx):
         scenario_col = self.params.get("scenario_col", "scn_name")
         
-        where_clause = "WHERE temp_id LIKE '%heat%' OR temp_id LIKE '%district_heating%'"
+        where_clause = ""
         if ctx.scenario and scenario_col:
-            where_clause += f" AND {scenario_col} = :scenario"
+            where_clause = f"WHERE {scenario_col} = :scenario"
+        else:
+            where_clause = "WHERE 1=1"
         
         return f"""
         SELECT 

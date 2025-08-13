@@ -15,25 +15,47 @@ class HomeBatteriesSanity(SqlRule):
         
         where_clause = ""
         if ctx.scenario and scenario_col:
-            where_clause = f"WHERE {scenario_col} = :scenario"
+            where_clause = f"WHERE hb.{scenario_col} = :scenario"
+        else:
+            where_clause = "WHERE 1=1"
         
         return f"""
+        WITH home_battery_data AS (
+            SELECT 
+                hb.*,
+                -- Get cbat_pbat_ratio from etrago storage (replicates get_cbat_pbat_ratio())
+                COALESCE((
+                    SELECT max_hours::numeric 
+                    FROM supply.egon_etrago_storage 
+                    WHERE carrier = 'home_battery' 
+                    LIMIT 1
+                ), 4.0) as cbat_pbat_ratio,
+                -- Calculate actual capacity as p_nom * cbat_pbat_ratio (replicates line 1413)
+                hb.p_nom * COALESCE((
+                    SELECT max_hours::numeric 
+                    FROM supply.egon_etrago_storage 
+                    WHERE carrier = 'home_battery' 
+                    LIMIT 1
+                ), 4.0) as calculated_capacity
+            FROM {self.dataset} hb
+            {where_clause}
+        )
         SELECT 
             COUNT(*) as total_batteries,
             COUNT(CASE WHEN p_nom < 0 THEN 1 END) as negative_power,
             COUNT(CASE WHEN p_nom > 50 THEN 1 END) as excessive_power,  -- >50kW unusual for home
-            COUNT(CASE WHEN e_nom < 0 THEN 1 END) as negative_energy,
-            COUNT(CASE WHEN e_nom > 200 THEN 1 END) as excessive_energy,  -- >200kWh unusual for home
-            COUNT(CASE WHEN e_nom > 0 AND p_nom > 0 AND e_nom/p_nom > 20 THEN 1 END) as unusual_duration,
+            COUNT(CASE WHEN calculated_capacity < 0 THEN 1 END) as negative_energy,
+            COUNT(CASE WHEN calculated_capacity > 200 THEN 1 END) as excessive_energy,  -- >200kWh unusual for home
+            COUNT(CASE WHEN calculated_capacity > 0 AND p_nom > 0 AND calculated_capacity/p_nom > 20 THEN 1 END) as unusual_duration,
             AVG(p_nom) as avg_power,
-            AVG(e_nom) as avg_energy,
+            AVG(calculated_capacity) as avg_energy,
+            AVG(cbat_pbat_ratio) as avg_ratio,
             MIN(p_nom) as min_power,
             MAX(p_nom) as max_power,
-            MIN(e_nom) as min_energy,
-            MAX(e_nom) as max_energy,
-            COUNT(DISTINCT bus) as unique_buses
-        FROM {self.dataset}
-        {where_clause}
+            MIN(calculated_capacity) as min_energy,
+            MAX(calculated_capacity) as max_energy,
+            COUNT(DISTINCT bus_id) as unique_buses
+        FROM home_battery_data
         """
 
     def postprocess(self, row, ctx):
