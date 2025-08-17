@@ -2,8 +2,16 @@ from typing import Any, Dict, List, Optional
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
-def make_engine(db_url: str) -> Engine:
-    return create_engine(db_url, future=True)
+def make_engine(db_url: str, echo: bool = False) -> Engine:
+    return create_engine(
+        db_url, 
+        future=True, 
+        echo=echo,
+        pool_size=20,
+        max_overflow=30,
+        pool_pre_ping=True,
+        pool_recycle=3600
+    )
 
 def fetch_one(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     with engine.connect() as conn:
