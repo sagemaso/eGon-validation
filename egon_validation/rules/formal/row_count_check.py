@@ -1,5 +1,6 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
+from egon_validation.rules.registry import register
+from egon_validation.config import MV_GRID_DISTRICTS_COUNT
 
 @register(task="adhoc", dataset="grid.egon_mv_grid_district", rule_id="MV_GRID_DISTRICT_COUNT",
           kind="formal", expected_count=3854)
@@ -17,7 +18,7 @@ class RowCountValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         actual_count = int(row.get("actual_count") or 0)
-        expected_count = int(self.params.get("expected_count", 0))
+        expected_count = int(self.params.get("expected_count", MV_GRID_DISTRICTS_COUNT))
         
         ok = (actual_count == expected_count)
         

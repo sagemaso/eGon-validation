@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="adhoc", dataset="supply.egon_power_plants_pv_roof_building", rule_id="PV_ROOFTOP_SANITY",
+@register(task="sanity", dataset="supply.egon_power_plants_pv_roof_building", rule_id="PV_ROOFTOP_SANITY",
           kind="sanity", scenario_col="scenario")
 class PvRooftopBuildingsSanity(SqlRule):
     """

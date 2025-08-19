@@ -3,9 +3,10 @@ from pathlib import Path
 
 from egon_validation.rules.base import Rule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import EUROPE_LAT_BOUNDS, EUROPE_LON_BOUNDS
 from egon_validation.utils.gas_data import ensure_gas_data
 
-@register(task="adhoc", dataset="gas.IGGIELGN_Nodes", rule_id="GAS_ABROAD_SANITY",
+@register(task="sanity", dataset="gas.IGGIELGN_Nodes", rule_id="GAS_ABROAD_SANITY",
           kind="sanity")
 class GasAbroadSanity(Rule):
     """
@@ -70,8 +71,8 @@ class GasAbroadSanity(Rule):
             if 'lat' in abroad_df.columns and 'long' in abroad_df.columns:
                 invalid_coords = abroad_df[
                     (abroad_df['lat'].isnull()) | (abroad_df['long'].isnull()) |
-                    (abroad_df['lat'] < 35) | (abroad_df['lat'] > 70) |  # Broader European bounds
-                    (abroad_df['long'] < -10) | (abroad_df['long'] > 30)
+                    (abroad_df['lat'] < EUROPE_LAT_BOUNDS[0]) | (abroad_df['lat'] > EUROPE_LAT_BOUNDS[1]) |
+                    (abroad_df['long'] < EUROPE_LON_BOUNDS[0]) | (abroad_df['long'] > EUROPE_LON_BOUNDS[1])
                 ].shape[0]
                 if invalid_coords > 0:
                     issues.append(f"{invalid_coords} abroad nodes with invalid/missing coordinates")

@@ -1,5 +1,6 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import BALANCE_CHECK_TOLERANCE
 
 @register(task="energy_balance", dataset="public.balance", rule_id="BAL_DIFF",
           kind="formal", tolerance=0.0)
@@ -10,7 +11,7 @@ class AbsDiffWithinTolerance(SqlRule):
 
     def postprocess(self, row, ctx):
         diff = float(row.get("diff") or 0.0)
-        tol = float(self.params.get("tolerance", 0.0))
+        tol = float(self.params.get("tolerance", BALANCE_CHECK_TOLERANCE))
         ok = abs(diff) <= tol
         return RuleResult(
             rule_id=self.rule_id, task=self.task, dataset=self.dataset,

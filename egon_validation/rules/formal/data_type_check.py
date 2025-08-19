@@ -76,6 +76,7 @@ class MultipleColumnsDataTypeValidation(SqlRule):
     """Validates data types for multiple columns in a table."""
     
     def sql(self, ctx):
+        # Modify the query to aggregate all results into a single row with JSON
         column_types = self.params.get("column_types", {})
         columns = list(column_types.keys())
         
@@ -88,27 +89,38 @@ class MultipleColumnsDataTypeValidation(SqlRule):
         
         return f"""
         SELECT 
-            column_name,
-            data_type,
-            udt_name
+            json_agg(
+                json_build_object(
+                    'column_name', column_name,
+                    'data_type', data_type,
+                    'udt_name', udt_name
+                )
+            ) as columns_info
         FROM information_schema.columns
         WHERE 
             table_schema = '{schema}' AND
             table_name = '{table}' AND
             column_name IN ('{columns_list}')
-        ORDER BY column_name
         """
 
-    def evaluate(self, engine, ctx):
-        """Override evaluate to handle multiple rows."""
-        from sqlalchemy import text
+    def postprocess(self, row, ctx):
+        import json
         
-        query = self.sql(ctx)
-        params = {"scenario": ctx.scenario} if ctx.scenario else {}
+        columns_info_json = row.get("columns_info")
+        if not columns_info_json:
+            return RuleResult(
+                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
+                success=False, message="No column information found",
+                severity=Severity.ERROR, schema=self.schema, table=self.table
+            )
         
-        with engine.connect() as conn:
-            result = conn.execute(text(query), params)
-            rows = result.fetchall()
+        columns_info = json.loads(columns_info_json) if isinstance(columns_info_json, str) else columns_info_json
+        if not columns_info:
+            return RuleResult(
+                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
+                success=False, message="No column information found",
+                severity=Severity.ERROR, schema=self.schema, table=self.table
+            )
             
         column_types = self.params.get("column_types", {})
         type_mappings = {
@@ -126,10 +138,10 @@ class MultipleColumnsDataTypeValidation(SqlRule):
         problems = []
         found_columns = set()
         
-        for row in rows:
-            column_name = row[0]  # column_name
-            actual_type = (row[1] or "").lower()  # data_type
-            udt_name = (row[2] or "").lower()  # udt_name
+        for col_info in columns_info:
+            column_name = col_info.get("column_name")
+            actual_type = (col_info.get("data_type") or "").lower()
+            udt_name = (col_info.get("udt_name") or "").lower()
             found_columns.add(column_name)
             
             if column_name in column_types:

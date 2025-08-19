@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="adhoc", dataset="demand.egon_cts_heat_demand_building_share",
+@register(task="sanity", dataset="demand.egon_cts_heat_demand_building_share",
           rule_id="CTS_HEAT_DEMAND_SHARE", kind="sanity", rtol=1e-5, scenario_col="scenario")
 class CtsHeatDemandShare(SqlRule):
     """

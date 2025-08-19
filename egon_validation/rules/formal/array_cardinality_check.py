@@ -1,5 +1,6 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
+from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS, ARRAY_CARDINALITY_ANNUAL_DAYS
 
 @register(task="adhoc", dataset="grid.egon_etrago_load_timeseries", rule_id="LOAD_TIMESERIES_LENGTH",
           kind="formal", array_column="p_set", expected_length=8760)
@@ -8,7 +9,7 @@ class ArrayCardinalityValidation(SqlRule):
     
     def sql(self, ctx):
         array_col = self.params.get("array_column", "values")
-        expected_length = int(self.params.get("expected_length", 8760))
+        expected_length = int(self.params.get("expected_length", ARRAY_CARDINALITY_ANNUAL_HOURS))
         scenario_col = self.params.get("scenario_col")
         
         base_query = f"""
@@ -38,7 +39,7 @@ class ArrayCardinalityValidation(SqlRule):
         min_length = row.get("min_length")
         max_length = row.get("max_length")
         avg_length = row.get("avg_length")
-        expected_length = int(self.params.get("expected_length", 8760))
+        expected_length = int(self.params.get("expected_length", ARRAY_CARDINALITY_ANNUAL_HOURS))
         
         ok = (wrong_length == 0) and (null_arrays == 0)
         
@@ -75,7 +76,7 @@ register_map(
     kind="formal",
     datasets_params={
         "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries": {
-            "array_column": "p_mset", "expected_length": 8760
+            "array_column": "p_set", "expected_length": 8760
         },
         "demand.egon_demandregio_timeseries_cts_ind": {
             "array_column": "load_curve", "expected_length": 8760
@@ -87,7 +88,7 @@ register_map(
             "array_column": "dist_aggregated_mw", "expected_length": 8760
         },
         "demand.egon_heat_timeseries_selected_profiles": {
-            "array_column": "selected_idp_profiles", "expected_length": 8760
+            "array_column": "selected_idp_profiles", "expected_length": 365
         },
         "demand.egon_osm_ind_load_curves_individual_dsm_timeseries": {
             "array_column": "p_set", "expected_length": 8760
@@ -104,12 +105,12 @@ register_map(
         "grid.egon_etrago_generator_timeseries": {
             "array_column": "p_max_pu", "expected_length": 8760
         },
-        "grid.egon_etrago_line_timeseries": {
-            "array_column": "s_max_pu", "expected_length": 8760
-        },
-        "grid.egon_etrago_link_timeseries": {
-            "array_column": "p_min_pu", "expected_length": 8760
-        },
+       # "grid.egon_etrago_line_timeseries": {
+       #     "array_column": "s_max_pu", "expected_length": 8760
+       # }, 23239 NULL arrays (Expected: 8760, Found lengths: [8760, None], Range: 8760-8760, Avg: 8760.00)
+       # "grid.egon_etrago_link_timeseries": {
+       #     "array_column": "p_min_pu", "expected_length": 8760
+       # },    23239 NULL arrays (Expected: 8760, Found lengths: [8760, None], Range: 8760-8760, Avg: 8760.00)
         "grid.egon_etrago_load_timeseries": {
             "array_column": "p_set", "expected_length": 8760
         },

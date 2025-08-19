@@ -1,7 +1,8 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import DSM_SANITY_ATOL
 
-@register(task="adhoc", dataset="grid.egon_etrago_link", rule_id="DSM_SANITY_CHECK",
+@register(task="sanity", dataset="grid.egon_etrago_link", rule_id="DSM_SANITY_CHECK",
           kind="sanity", atol=1e-01, scenario_col="scn_name")
 class DsmSanityCheck(SqlRule):
     """
@@ -15,7 +16,7 @@ class DsmSanityCheck(SqlRule):
     """
     def sql(self, ctx):
         scenario_col = self.params.get("scenario_col", "scn_name")
-        atol = float(self.params.get("atol", 1e-01))
+        atol = float(self.params.get("atol", DSM_SANITY_ATOL))
         
         where_clause = ""
         if ctx.scenario and scenario_col:
@@ -62,7 +63,7 @@ class DsmSanityCheck(SqlRule):
         buses_with_stores = int(row.get("buses_with_stores", 0))
         system_p_nom = float(row.get("system_total_p_nom", 0)) if row.get("system_total_p_nom") else 0
         system_e_nom = float(row.get("system_total_e_nom", 0)) if row.get("system_total_e_nom") else 0
-        atol = float(self.params.get("atol", 1e-01))
+        atol = float(self.params.get("atol", DSM_SANITY_ATOL))
         
         # This is a simplified check - the original eGon-data function is very complex
         # and compares timeseries arrays between aggregated and individual DSM components

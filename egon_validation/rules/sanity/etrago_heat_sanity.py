@@ -1,7 +1,7 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="adhoc", dataset="grid.egon_etrago_load_timeseries", rule_id="ETRAGO_HEAT_SANITY",
+@register(task="sanity", dataset="grid.egon_etrago_load_timeseries", rule_id="ETRAGO_HEAT_SANITY",
           kind="sanity", scenario_col="scn_name")
 class EtragoHeatSanity(SqlRule):
     """

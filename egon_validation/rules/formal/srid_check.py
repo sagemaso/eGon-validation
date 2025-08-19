@@ -1,7 +1,8 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
+from egon_validation.config import DEFAULT_SRID, PROJECTED_SRID
 
-@register(task="topology", dataset="public.lines", rule_id="SRID_UNIQUE_NONZERO",
+@register(task="adhoc", dataset="supply.egon_power_plants_pv", rule_id="SRID_UNIQUE_NONZERO",
           kind="formal", geom="geom")
 class SRIDUniqueNonZero(SqlRule):
     def sql(self, ctx):
@@ -24,14 +25,14 @@ class SRIDUniqueNonZero(SqlRule):
         )
 
 
-@register(task="adhoc", dataset="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
-          kind="formal", geom="geom", expected_srid=3035)
+#@register(task="adhoc", dataset="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
+#          kind="formal", geom="geom", expected_srid=3035)
 class SRIDSpecificValidation(SqlRule):
     """Validates that geometry column has a specific expected SRID."""
     
     def sql(self, ctx):
         geom = self.params.get("geom", "geom")
-        expected_srid = self.params.get("expected_srid", 4326)
+        expected_srid = self.params.get("expected_srid", DEFAULT_SRID)
         scenario_col = self.params.get("scenario_col")
         
         base_query = f"""
@@ -83,17 +84,36 @@ class SRIDSpecificValidation(SqlRule):
 register_map(
     task="adhoc",
     rule_cls=SRIDSpecificValidation,
+    rule_id="SPECIAL_SRID_VALIDATION",
+    kind="formal",
+    datasets_params={
+        "supply.egon_power_plants_wind": {
+            "geom": "geom", "expected_srid": 4326
+        },
+        "boundaries.vg250_sta": {
+            "geom": "geometry", "expected_srid": 4326
+        },
+        "grid.egon_mv_grid_district": {
+            "geom": "geom", "expected_srid": 3035
+        }
+    }
+)
+
+# Register SRID validation for multiple geometry datasets mentioned in CSV
+register_map(
+    task="adhoc",
+    rule_cls=SRIDUniqueNonZero,
     rule_id="SRID_VALIDATION",
     kind="formal",
     datasets_params={
         "supply.egon_power_plants_wind": {
-            "geom": "geom", "expected_srid": 3035
+            "geom": "geom"
         },
         "boundaries.vg250_sta": {
-            "geom": "geometry", "expected_srid": 3035
+            "geom": "geometry"
         },
         "grid.egon_mv_grid_district": {
-            "geom": "geom", "expected_srid": 3035
+            "geom": "geom"
         }
     }
 )

@@ -1,7 +1,8 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import RESIDENTIAL_ELECTRICITY_RTOL
 
-@register(task="adhoc", dataset="demand.egon_demandregio_hh", rule_id="RESIDENTIAL_ELECTRICITY_ANNUAL_SUM",
+@register(task="sanity", dataset="demand.egon_demandregio_hh", rule_id="RESIDENTIAL_ELECTRICITY_ANNUAL_SUM",
           kind="sanity", rtol=1e-5, scenario_col="scenario")
 class ResidentialElectricitySum(SqlRule):
     """
@@ -38,7 +39,7 @@ class ResidentialElectricitySum(SqlRule):
         )
         SELECT 
             COUNT(*) as total_nuts3_pairs,
-            COUNT(CASE WHEN ABS((profiles.profile_sum - dr.demand_regio_sum) / dr.demand_regio_sum) > {self.params.get('rtol', 1e-5)} THEN 1 END) as mismatched_pairs,
+            COUNT(CASE WHEN ABS((profiles.profile_sum - dr.demand_regio_sum) / dr.demand_regio_sum) > {self.params.get('rtol', RESIDENTIAL_ELECTRICITY_RTOL)} THEN 1 END) as mismatched_pairs,
             AVG(ABS((profiles.profile_sum - dr.demand_regio_sum) / dr.demand_regio_sum)) as avg_relative_error,
             MAX(ABS((profiles.profile_sum - dr.demand_regio_sum) / dr.demand_regio_sum)) as max_relative_error,
             SUM(profiles.profile_sum) as total_profile_sum,

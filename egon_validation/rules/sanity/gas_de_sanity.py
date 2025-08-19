@@ -3,9 +3,10 @@ from pathlib import Path
 
 from egon_validation.rules.base import Rule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import GERMANY_LAT_BOUNDS, GERMANY_LON_BOUNDS
 from egon_validation.utils.gas_data import ensure_gas_data
 
-@register(task="adhoc", dataset="gas.IGGIELGN_Productions", rule_id="GAS_DE_SANITY",
+@register(task="sanity", dataset="gas.IGGIELGN_Productions", rule_id="GAS_DE_SANITY",
           kind="sanity")
 class GasDeSanity(Rule):
     """
@@ -64,8 +65,8 @@ class GasDeSanity(Rule):
             if 'lat' in german_df.columns and 'long' in german_df.columns:
                 invalid_coords = german_df[
                     (german_df['lat'].isnull()) | (german_df['long'].isnull()) |
-                    (german_df['lat'] < 45) | (german_df['lat'] > 55) |  # Rough Germany bounds
-                    (german_df['long'] < 5) | (german_df['long'] > 15)
+                    (german_df['lat'] < GERMANY_LAT_BOUNDS[0]) | (german_df['lat'] > GERMANY_LAT_BOUNDS[1]) |
+                    (german_df['long'] < GERMANY_LON_BOUNDS[0]) | (german_df['long'] > GERMANY_LON_BOUNDS[1])
                 ].shape[0]
                 if invalid_coords > 0:
                     issues.append(f"{invalid_coords} sites with invalid/missing coordinates")

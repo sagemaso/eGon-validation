@@ -17,6 +17,11 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
     start_time = time.time()
     try:
         if isinstance(rule, SqlRule):
+            # Check if table is empty first
+            empty_result = rule._check_table_empty(engine, ctx)
+            if empty_result:
+                return empty_result
+            
             row = db.fetch_one(engine, rule.sql(ctx), {"scenario": ctx.scenario} if ctx.scenario else None)
             res = rule.postprocess(row, ctx)
         else:
@@ -42,7 +47,7 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
     _ensure_dir(out_dir)
     jsonl_path = os.path.join(out_dir, "results.jsonl")
     
-    rules = list(rules_for(task, ctx.scenario))
+    rules = list(rules_for(task))
     print(f"Executing {len(rules)} rules in parallel (max_workers={max_workers})...")
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:

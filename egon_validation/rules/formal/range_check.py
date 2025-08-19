@@ -1,13 +1,14 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
+from egon_validation.config import LOAD_PROFILE_MIN_VALUE, LOAD_PROFILE_MAX_VALUE
 
 @register(task="build_lp", dataset="public.load_profiles", rule_id="LP_RANGE",
           kind="formal", column="value", min_val=0.0, max_val=1.2, scenario_col=None)
 class Range(SqlRule):
     def sql(self, ctx):
         col = self.params.get("column", "value")
-        mn = float(self.params.get("min_val", 0.0))
-        mx = float(self.params.get("max_val", 1.2))
+        mn = float(self.params.get("min_val", LOAD_PROFILE_MIN_VALUE))
+        mx = float(self.params.get("max_val", LOAD_PROFILE_MAX_VALUE))
         scenario_col = self.params.get("scenario_col")
         where = f"WHERE ({col} < {mn} OR {col} > {mx})"
         if ctx.scenario and scenario_col:

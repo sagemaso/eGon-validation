@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Any, Dict, Optional
 
 class Severity(Enum):
+    INFO = "INFO"
     WARNING = "WARNING"
     ERROR = "ERROR"
 
@@ -48,3 +49,35 @@ class SqlRule(Rule):
 
     def postprocess(self, row: Dict[str, Any], ctx) -> RuleResult:
         raise NotImplementedError
+    
+    def _check_table_empty(self, engine, ctx) -> Optional[RuleResult]:
+        """Check if the table is empty and return failure result if so."""
+        try:
+            # Build the count query with same scenario filtering as main query
+            count_query = f"SELECT COUNT(*) as total_count FROM {self.dataset}"
+            scenario_col = self.params.get("scenario_col")
+            
+            if ctx.scenario and scenario_col:
+                count_query += f" WHERE {scenario_col} = :scenario"
+                params = {"scenario": ctx.scenario}
+            else:
+                params = {}
+            
+            from egon_validation import db
+            count_row = db.fetch_one(engine, count_query, params)
+            total_count = int(count_row.get("total_count", 0))
+            
+            if total_count == 0:
+                scenario_info = f" (scenario: {ctx.scenario})" if ctx.scenario else ""
+                return RuleResult(
+                    rule_id=self.rule_id, task=self.task, dataset=self.dataset,
+                    success=False, observed=0, expected=">0",
+                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate{scenario_info}",
+                    severity=Severity.ERROR, schema=self.schema, table=self.table
+                )
+            
+            return None  # Table has data, continue normal validation
+            
+        except Exception as e:
+            # If we can't check the table, let the main query handle it
+            return None
