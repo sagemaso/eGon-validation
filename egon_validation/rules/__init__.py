@@ -5,4 +5,4 @@
 from . import formal
 
 # Import sanity rules  
-from . import sanity
+from .custom import sanity

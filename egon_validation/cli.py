@@ -7,7 +7,7 @@ from egon_validation.runner.aggregate import collect, build_coverage, write_outp
 from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
 import egon_validation.rules.formal  # noqa: F401
-import egon_validation.rules.sanity   # noqa: F401
+import egon_validation.rules.custom.sanity   # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
 

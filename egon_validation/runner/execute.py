@@ -6,7 +6,7 @@ from egon_validation.rules.base import SqlRule, RuleResult, Rule
 from egon_validation import db
 import egon_validation.rules.formal  # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
-import egon_validation.rules.sanity   # noqa: F401
+import egon_validation.rules.custom.sanity   # noqa: F401
 
 
 def _ensure_dir(path: str) -> None:
