@@ -120,7 +120,27 @@
     </thead>
     <tbody></tbody>`;
   const detBody = det.querySelector('tbody');
-  for (const r of items) {
+  
+  // Sort items by task, schema, table, column alphabetically
+  const sortedItems = items.sort((a, b) => {
+    const taskA = (a.task ?? '').toLowerCase();
+    const taskB = (b.task ?? '').toLowerCase();
+    if (taskA !== taskB) return taskA.localeCompare(taskB);
+    
+    const schemaA = (a.schema ?? '').toLowerCase();
+    const schemaB = (b.schema ?? '').toLowerCase();
+    if (schemaA !== schemaB) return schemaA.localeCompare(schemaB);
+    
+    const tableA = (a.table ?? '').toLowerCase();
+    const tableB = (b.table ?? '').toLowerCase();
+    if (tableA !== tableB) return tableA.localeCompare(tableB);
+    
+    const columnA = (a.column ?? '').toLowerCase();
+    const columnB = (b.column ?? '').toLowerCase();
+    return columnA.localeCompare(columnB);
+  });
+  
+  for (const r of sortedItems) {
     const tr = document.createElement('tr');
     const status = r.success ? 'OK' : 'FAIL';
     const badge = `<span class="badge ${r.success ? 'ok' : 'fail'}">${status}</span>`;

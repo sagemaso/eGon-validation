@@ -30,18 +30,25 @@ tr:hover td { background: #111418; }
 .badge.fail { background: rgba(255,107,107,.15); color: var(--error); }
 .badge.empty { background: rgba(154,164,178,.15); color: var(--muted); }
 
-#coverage-matrix { overflow-x: auto; position: relative; }
+#coverage-matrix .matrix thead th {
+  position: sticky;
+  top: 0;
+  background: #0d1015;
+  z-index: 15;
+}
+#coverage-matrix .matrix thead th:first-child {
+  left: 0;
+  z-index: 30;
+}
 .matrix-wrapper { /* overflow moved up to parent */ }
 .matrix table { margin: 0; table-layout: fixed; width: 100%; }
 .matrix th:first-child, .matrix td:first-child { position: sticky; left: 0; background: #0d1015; z-index: 12; width: 300px; }
 .matrix th:not(:first-child):not(:last-child), .matrix td:not(:first-child):not(:last-child) { width: calc((100% - 500px) / var(--column-count, 30)); max-width: 40px; }
 .matrix th:last-child, .matrix td:last-child { width: 200px; min-width: 200px; }
-/* Sticky header handled by JavaScript */
+
 .matrix thead.js-sticky {
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  position: static;
+  box-shadow: none;
 }
 .matrix th { background: #0d1015; }
 .matrix th:first-child { white-space: normal; word-wrap: break-word; hyphens: auto; }
