@@ -42,9 +42,48 @@
 
   const mwrap = document.createElement('div'); mwrap.className = 'matrix-wrapper';
   const tbl = document.createElement('table'); tbl.className = 'matrix';
+  
+  // Set CSS variable for actual column count
+  document.documentElement.style.setProperty('--column-count', rules.length);
+
+  // Function to create meaningful abbreviations
+  function createAbbreviation(ruleName) {
+    const abbreviations = {
+      'ARRAY_CARDINALITY_CHECK': 'ARC',
+      'REFERENTIAL_INTEGRITY_CHECK': 'RIC', 
+      'COLUMN_DATA_TYPE_CHECK': 'DTC',
+      'MULTIPLE_COLUMNS_TYPE_CHECK': 'MCTC',
+      'VALUE_SET_VALIDATION': 'VSV',
+      'SRID_VALIDATION': 'SRID',
+      'SRID_UNIQUE_NONZERO': 'SRID-UNZ',
+      'SPECIAL_SRID_VALIDATION': 'SRID-SP',
+      'SCENARIO_VALUES_VALID': 'SVV',
+      'LOAD_TIMESERIES_LENGTH': 'TSL',
+      'TS_LENGTH_CHECK': 'TSC',
+      'WIND_PLANTS_IN_GERMANY': 'WPG',
+      'MV_GRID_DISTRICT_COUNT': 'MGDC',
+      'CTS_IND_ROW_COUNT_MATCH': 'CTS-RC',
+      'DISAGGREGATED_DEMAND_SUM_MATCH': 'DDSM',
+      'ELECTRICAL_LOAD_AGGREGATION': 'ELA',
+      'LP_RANGE': 'LPR',
+      'BAL_DIFF': 'BAL'
+    };
+    
+    // Custom abbreviation exists
+    if (abbreviations[ruleName]) {
+      return abbreviations[ruleName];
+    }
+    
+    // Auto-generate: take first letter of each word, max 4 chars
+    const words = ruleName.split('_');
+    let abbr = words.map(w => w[0]).join('').substring(0, 4);
+    return abbr;
+  }
 
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
-  hr.innerHTML = '<th>Dataset \\\\ Rule</th>' + rules.map(r => `<th>${r}</th>`).join('') + '<th>Custom checks</th>';
+  hr.innerHTML = '<th>Dataset \\\\ Rule</th>' + 
+    rules.map(r => `<th title="${r}">${createAbbreviation(r)}</th>`).join('') + 
+    '<th>Custom checks</th>';
   thead.appendChild(hr); tbl.appendChild(thead);
 
   const tbody = document.createElement('tbody');
@@ -53,9 +92,11 @@
     let rowHtml = `<td><strong>${d}</strong></td>`;
     for (const r of rules) {
       const { status, title } = cellMap.get(d+'::'+r);
-      const icon = status==='ok'   ? `<span class="icon ok"   title="${title}">✅</span>` :
-                    status==='fail' ? `<span class="icon fail" title="${title}">❌</span>` :
-                                      `<span class="icon na"   title="${title}">🔵</span>`;
+      const clickable = status !== 'na' ? 'clickable' : '';
+      const dataAttrs = status !== 'na' ? `data-dataset="${d}" data-rule="${r}"` : '';
+      const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${title}" ${dataAttrs}>✅</span>` :
+                    status==='fail' ? `<span class="icon fail ${clickable}" title="${title}" ${dataAttrs}>❌</span>` :
+                                      `<span class="icon na" title="${title}">●</span>`;
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
@@ -83,6 +124,7 @@
     const tr = document.createElement('tr');
     const status = r.success ? 'OK' : 'FAIL';
     const badge = `<span class="badge ${r.success ? 'ok' : 'fail'}">${status}</span>`;
+    tr.id = `detail-${r.dataset}-${r.rule_id}`;
     tr.innerHTML = `
       <td>${r.task ?? ''}</td>
       <td>${r.schema ?? ''}</td>
@@ -97,4 +139,62 @@
     detBody.appendChild(tr);
   }
   document.querySelector('#results-table').appendChild(det);
+
+  // Add click handlers for matrix icons
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('clickable')) {
+      const dataset = e.target.getAttribute('data-dataset');
+      const rule = e.target.getAttribute('data-rule');
+      if (dataset && rule) {
+        const targetRow = document.getElementById(`detail-${dataset}-${rule}`);
+        if (targetRow) {
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Highlight the row briefly
+          targetRow.style.backgroundColor = '#2a2f38';
+          setTimeout(() => {
+            targetRow.style.backgroundColor = '';
+          }, 2000);
+        }
+      }
+    }
+  });
+
+  // JavaScript Sticky Header for Matrix
+  function handleMatrixStickyHeader() {
+    const matrixHeader = document.querySelector('.matrix thead');
+    const matrixTable = document.querySelector('.matrix table');
+    const detailsTable = document.querySelector('#results-table table');
+    
+    if (!matrixHeader || !matrixTable || !detailsTable) return;
+    
+    const matrixRect = matrixTable.getBoundingClientRect();
+    const detailsRect = detailsTable.getBoundingClientRect();
+    
+    const isMatrixVisible = matrixRect.top <= 0 && matrixRect.bottom > 0;
+    const isDetailsVisible = detailsRect.top <= 100;
+    
+    if (isMatrixVisible && !isDetailsVisible) {
+      // Make header sticky
+      matrixHeader.classList.add('js-sticky');
+      matrixHeader.style.width = matrixTable.offsetWidth + 'px';
+      matrixHeader.style.left = matrixRect.left + 'px';
+    } else {
+      // Remove sticky
+      matrixHeader.classList.remove('js-sticky');
+      matrixHeader.style.width = '';
+      matrixHeader.style.left = '';
+    }
+    
+    // Hide when details table is visible
+    if (isDetailsVisible) {
+      matrixHeader.style.display = 'none';
+    } else {
+      matrixHeader.style.display = '';
+    }
+  }
+
+  // Listen to scroll events
+  window.addEventListener('scroll', handleMatrixStickyHeader);
+  window.addEventListener('resize', handleMatrixStickyHeader);
+  handleMatrixStickyHeader(); // Initial check
 })();
