@@ -18,13 +18,21 @@
 
   <main class="container">
     <section id="summary">
-      <h2>Summary</h2>
+      <h2>Analysis Summary</h2>
       <div class="cards">
-        <div class="card"><div class="kpi" id="kpi-total-rules">--</div><div class="kpi-label">Total rules</div></div>
         <div class="card"><div class="kpi" id="kpi-passed">--</div><div class="kpi-label">Passed</div></div>
         <div class="card"><div class="kpi" id="kpi-failed">--</div><div class="kpi-label">Failed</div></div>
+        <div class="card"><div class="kpi" id="kpi-success-rate">--</div><div class="kpi-label">Success Rate</div></div>
+        <div class="card"><div class="kpi" id="kpi-total-rules">--</div><div class="kpi-label">Active rules</div></div>
+        <div class="card"><div class="kpi" id="kpi-total-rules-registry">--</div><div class="kpi-label">Rules in scope</div></div>
+        <div class="card"><div class="kpi" id="kpi-rule-coverage">--</div><div class="kpi-label">Rule Coverage</div></div>
         <div class="card"><div class="kpi" id="kpi-tables-validated">--</div><div class="kpi-label">Tables validated</div></div>
         <div class="card"><div class="kpi" id="kpi-tables-total">--</div><div class="kpi-label">Tables in scope</div></div>
+        <div class="card"><div class="kpi" id="kpi-table-coverage">--</div><div class="kpi-label">Table Coverage</div></div>
+      </div>
+      <div id="rule-application-stats" class="rule-stats-section" style="display: none;">
+        <h3>Rule Application Statistics</h3>
+        <div id="rule-stats-table"></div>
       </div>
     </section>
 

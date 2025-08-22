@@ -15,6 +15,10 @@
   const failed = total - passed;
 
   $("#kpi-total-rules").textContent = String(total);
+  
+  // Set total rules from registry if available
+  const totalRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? total;
+  $("#kpi-total-rules-registry").textContent = String(totalRulesInRegistry);
   $("#kpi-passed").textContent = String(passed);
   $("#kpi-failed").textContent = String(failed);
 
@@ -22,6 +26,69 @@
   const tablesValidated = coverage.tables_validated ?? (new Set(items.map(x => x.dataset))).size;
   $("#kpi-tables-validated").textContent = String(tablesValidated);
   $("#kpi-tables-total").textContent = String(tablesTotal);
+
+  // Display coverage statistics
+  const coverageStats = coverage.coverage_statistics;
+  if (coverageStats) {
+    // Table coverage
+    const tableCoverage = coverageStats.table_coverage;
+    $("#kpi-table-coverage").textContent = `${tableCoverage.percentage}%`;
+    $("#coverage-table-details").textContent = `${tableCoverage.validated_tables} / ${tableCoverage.total_tables} tables`;
+
+    // Rule coverage
+    const ruleCoverage = coverageStats.rule_coverage;
+    $("#kpi-rule-coverage").textContent = `${ruleCoverage.percentage}%`;
+    $("#coverage-rule-details").textContent = `${ruleCoverage.applied_rules} / ${ruleCoverage.total_rules} rules`;
+
+    // Success rate
+    const validationResults = coverageStats.validation_results;
+    $("#kpi-success-rate").textContent = `${validationResults.success_rate}%`;
+    $("#coverage-success-details").textContent = `${validationResults.successful} / ${validationResults.total_applications} validations`;
+
+    // Rule application statistics
+    if (coverageStats.rule_application_stats && coverageStats.rule_application_stats.length > 0) {
+      const ruleStatsSection = document.getElementById('rule-application-stats');
+      const ruleStatsTable = document.getElementById('rule-stats-table');
+      
+      const table = document.createElement('table');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Rule ID</th>
+            <th>Applications</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+      
+      const tbody = table.querySelector('tbody');
+      coverageStats.rule_application_stats.forEach(stat => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${stat.rule_id}</td>
+          <td><span class="application-count">${stat.applications}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      ruleStatsTable.appendChild(table);
+      ruleStatsSection.style.display = 'block';
+
+      // Add toggle functionality for rule stats section
+      const h3 = ruleStatsSection.querySelector('h3');
+      const tableContainer = ruleStatsTable;
+      let isExpanded = false;
+      
+      h3.addEventListener('click', function() {
+        isExpanded = !isExpanded;
+        tableContainer.style.display = isExpanded ? 'block' : 'none';
+        h3.textContent = `Rule Application Statistics ${isExpanded ? '▼' : '▶'}`;
+      });
+      
+      h3.textContent = 'Rule Application Statistics ▶';
+      tableContainer.style.display = 'none';
+    }
+  }
 
   // Matrix
   const datasets = coverage.datasets && coverage.datasets.length ? coverage.datasets : [...new Set(items.map(x => x.dataset))];

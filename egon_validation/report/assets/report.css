@@ -82,3 +82,51 @@ tr:hover td { background: #111418; }
 .custom-cell .tag { display: inline-block; background: #151922; border: 1px solid var(--line); color: var(--fg); border-radius: 8px; padding: 2px 8px; margin: 2px; }
 
 footer { color: var(--muted); padding-bottom: 24px; }
+
+/* Coverage Statistics Styling */
+.coverage-card { 
+  min-width: 220px; 
+  background: linear-gradient(135deg, var(--card), rgba(79, 140, 255, 0.05));
+}
+.coverage-metric {
+  text-align: center;
+}
+.coverage-details {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.rule-stats-section {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.rule-stats-section h3 {
+  margin: 0 0 16px;
+  color: var(--fg);
+  font-size: 18px;
+  cursor: pointer;
+}
+.rule-stats-section h3:hover {
+  color: var(--accent);
+}
+#rule-stats-table table {
+  margin-top: 12px;
+}
+#rule-stats-table th {
+  background: var(--empty);
+  color: var(--fg);
+  font-weight: 600;
+}
+#rule-stats-table tr:hover {
+  background: rgba(79, 140, 255, 0.1);
+}
+.application-count {
+  font-weight: 600;
+  color: var(--accent);
+}
+#coverage-stats .cards {
+  margin-bottom: 16px;
+}

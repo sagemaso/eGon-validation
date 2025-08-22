@@ -1,6 +1,7 @@
 import os, json, glob
 from typing import Dict, List, Tuple
 from egon_validation.rules.registry import list_registered
+from egon_validation.runner.coverage_analysis import calculate_coverage_stats
 
 def collect(ctx) -> Dict:
     base = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
@@ -85,13 +86,17 @@ def build_coverage(ctx, collected: Dict) -> Dict:
 
     custom_checks = _build_custom_checks_map(items)
 
+    # Calculate comprehensive coverage statistics
+    coverage_stats = calculate_coverage_stats(collected, ctx)
+
     cov = {
-        "tables_total": None,  # optional: can be set to total datasets in scope later
+        "tables_total": coverage_stats["table_coverage"]["total_tables"],
         "tables_validated": len(datasets),
         "datasets": datasets,
         "rules_formal": rules_formal,
         "cells": cells,
-        "custom_checks": custom_checks
+        "custom_checks": custom_checks,
+        "coverage_statistics": coverage_stats
     }
     return cov
 

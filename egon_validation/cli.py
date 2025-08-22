@@ -3,6 +3,7 @@ from egon_validation.config import DEFAULT_OUT_DIR, ENV_DB_URL, get_env, build_d
 from egon_validation.context import RunContext
 from egon_validation.db import make_engine
 from egon_validation.runner.execute import run_for_task
+from egon_validation.runner.coverage_analysis import discover_total_tables
 from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
 from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
@@ -11,12 +12,22 @@ import egon_validation.rules.custom.sanity   # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
 
+def _save_table_count(ctx, total_tables):
+    """Save table count to metadata file for use in final report"""
+    tasks_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
+    os.makedirs(tasks_dir, exist_ok=True)
+    metadata_file = os.path.join(tasks_dir, "db_metadata.json")
+    metadata = {"total_tables": total_tables}
+    with open(metadata_file, "w") as f:
+        json.dump(metadata, f, indent=2)
+
+
 def _run_task(args):
     db_url = args.db_url or get_env(ENV_DB_URL) or build_db_url()
     if not db_url:
         raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
     
-    ctx = RunContext(run_id=args.run_id, scenario=args.scenario, out_dir=args.out, extra={})
+    ctx = RunContext(run_id=args.run_id, scenario=None, out_dir=args.out, extra={})
     
     # Use SSH tunnel if configured and --with-tunnel flag is set
     if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
@@ -25,12 +36,18 @@ def _run_task(args):
             engine = make_engine(db_url, echo=args.echo_sql)
             try:
                 run_for_task(engine, ctx, args.task)
+                # Capture table count while DB is accessible
+                total_tables = discover_total_tables()
+                _save_table_count(ctx, total_tables)
             finally:
                 engine.dispose()
     else:
         engine = make_engine(db_url, echo=args.echo_sql)
         try:
             run_for_task(engine, ctx, args.task)
+            # Capture table count while DB is accessible
+            total_tables = discover_total_tables()
+            _save_table_count(ctx, total_tables)
         finally:
             engine.dispose()
     
@@ -52,7 +69,6 @@ def main():
     p1.add_argument("--db-url", type=str, help="PostgreSQL URL (or set EGON_DB_URL or configure .env)")
     p1.add_argument("--run-id", required=True, type=str)
     p1.add_argument("--task", required=True, type=str)
-    p1.add_argument("--scenario", type=str, default=None)
     p1.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
     p1.add_argument("--with-tunnel", action="store_true", help="Use SSH tunnel (requires SSH config in .env)")
     p1.add_argument("--echo-sql", action="store_true", help="Echo SQLAlchemy SQL for debugging")
