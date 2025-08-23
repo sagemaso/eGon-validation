@@ -14,7 +14,9 @@
   const passed = items.filter(x => x.success).length;
   const failed = total - passed;
 
-  $("#kpi-total-rules").textContent = String(total);
+  // Count unique rule types applied
+  const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_id)).size;
+  $("#kpi-total-rules").textContent = String(appliedRuleTypes);
   
   // Set total rules from registry if available
   const totalRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? total;
@@ -33,17 +35,20 @@
     // Table coverage
     const tableCoverage = coverageStats.table_coverage;
     $("#kpi-table-coverage").textContent = `${tableCoverage.percentage}%`;
-    $("#coverage-table-details").textContent = `${tableCoverage.validated_tables} / ${tableCoverage.total_tables} tables`;
+    const tableCoverageDetails = $("#coverage-table-details");
+    if (tableCoverageDetails) tableCoverageDetails.textContent = `${tableCoverage.validated_tables} / ${tableCoverage.total_tables} tables`;
 
     // Rule coverage
     const ruleCoverage = coverageStats.rule_coverage;
     $("#kpi-rule-coverage").textContent = `${ruleCoverage.percentage}%`;
-    $("#coverage-rule-details").textContent = `${ruleCoverage.applied_rules} / ${ruleCoverage.total_rules} rules`;
+    const ruleCoverageDetails = $("#coverage-rule-details");
+    if (ruleCoverageDetails) ruleCoverageDetails.textContent = `${ruleCoverage.applied_rules} / ${ruleCoverage.total_rules} rules`;
 
     // Success rate
     const validationResults = coverageStats.validation_results;
     $("#kpi-success-rate").textContent = `${validationResults.success_rate}%`;
-    $("#coverage-success-details").textContent = `${validationResults.successful} / ${validationResults.total_applications} validations`;
+    const successDetails = $("#coverage-success-details");
+    if (successDetails) successDetails.textContent = `${validationResults.successful} / ${validationResults.total_applications} validations`;
 
     // Rule application statistics
     if (coverageStats.rule_application_stats && coverageStats.rule_application_stats.length > 0) {
@@ -62,7 +67,9 @@
       `;
       
       const tbody = table.querySelector('tbody');
-      coverageStats.rule_application_stats.forEach(stat => {
+      // Sort by applications ascending
+      const sortedStats = [...coverageStats.rule_application_stats].sort((a, b) => b.applications - a.applications);
+      sortedStats.forEach(stat => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${stat.rule_id}</td>
