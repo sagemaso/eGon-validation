@@ -10,9 +10,6 @@ class RowCountValidation(SqlRule):
     def sql(self, ctx):
         scenario_col = self.params.get("scenario_col")
         where_clause = ""
-        
-        if ctx.scenario and scenario_col:
-            where_clause = f" WHERE {scenario_col} = :scenario"
             
         return f"SELECT COUNT(*) AS actual_count FROM {self.dataset}{where_clause}"
 
@@ -33,14 +30,15 @@ class RowCountValidation(SqlRule):
 
 
 @register(task="adhoc", dataset="demand.egon_demandregio_cts_ind", rule_id="CTS_IND_ROW_COUNT_MATCH",
-          kind="formal", reference_dataset="boundaries.vg250_krs", reference_filter="gf = 4")
+          kind="formal", scenario_col="scenario", economic_sector_col= "wz", reference_dataset="boundaries.vg250_krs", reference_filter="gf = 4")
 class RowCountComparisonValidation(SqlRule):
     """Validates that grouped row counts match a reference table count."""
     
     def sql(self, ctx):
         reference_dataset = self.params.get("reference_dataset")
         reference_filter = self.params.get("reference_filter", "TRUE")
-        scenario_col = self.params.get("scenario_col")
+        scenario = self.params.get("scenario_col")
+        economic_sector = self.params.get("economic_sector_col")
         
         base_query = f"""
         WITH reference_count AS (
@@ -48,17 +46,14 @@ class RowCountComparisonValidation(SqlRule):
         ),
         grouped_counts AS (
             SELECT 
-                scenario,
-                wz,
+                {scenario},
+                {economic_sector},
                 COUNT(*) AS group_count
             FROM {self.dataset}
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
             
         base_query += f"""
-            GROUP BY scenario, wz
+            GROUP BY {scenario}, {economic_sector}
         )
         SELECT 
             r.ref_count,

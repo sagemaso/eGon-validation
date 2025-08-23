@@ -27,7 +27,7 @@ def _run_task(args):
     if not db_url:
         raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
     
-    ctx = RunContext(run_id=args.run_id, scenario=None, out_dir=args.out, extra={})
+    ctx = RunContext(run_id=args.run_id, out_dir=args.out)
     
     # Use SSH tunnel if configured and --with-tunnel flag is set
     if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
@@ -54,7 +54,7 @@ def _run_task(args):
     print(f"Written task results for '{args.task}' -> {os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)}")
 
 def _final_report(args):
-    ctx = RunContext(run_id=args.run_id, scenario=None, out_dir=args.out, extra={})
+    ctx = RunContext(run_id=args.run_id, out_dir=args.out)
     collected = collect(ctx)
     coverage = build_coverage(ctx, collected)
     out_dir = write_outputs(ctx, collected, coverage)

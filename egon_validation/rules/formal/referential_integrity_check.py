@@ -10,6 +10,7 @@ class ReferentialIntegrityValidation(SqlRule):
         reference_dataset = self.params.get("reference_dataset")
         reference_col = self.params.get("reference_column", "id")
         scenario_col = self.params.get("scenario_col")
+        scenario = self.params.get("scenario")
         additional_conditions = self.params.get("additional_conditions", "")
         
         # Build WHERE conditions
@@ -18,7 +19,7 @@ class ReferentialIntegrityValidation(SqlRule):
         if additional_conditions:
             where_conditions.append(additional_conditions)
             
-        if ctx.scenario and scenario_col:
+        if scenario and scenario_col:
             where_conditions.append(f"child.{scenario_col} = :scenario")
         
         where_clause = " AND ".join(where_conditions)

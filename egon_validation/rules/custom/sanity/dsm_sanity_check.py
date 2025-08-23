@@ -19,7 +19,7 @@ class DsmSanityCheck(SqlRule):
         atol = float(self.params.get("atol", DSM_SANITY_ATOL))
         
         where_clause = ""
-        if ctx.scenario and scenario_col:
+        if scenario and scenario_col:
             where_clause = f"AND l.{scenario_col} = :scenario"
         
         return f"""

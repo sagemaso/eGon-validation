@@ -56,10 +56,11 @@ class SqlRule(Rule):
             # Build the count query with same scenario filtering as main query
             count_query = f"SELECT COUNT(*) as total_count FROM {self.dataset}"
             scenario_col = self.params.get("scenario_col")
+            scenario = self.params.get("scenario")
             
-            if ctx.scenario and scenario_col:
+            if scenario_col and scenario:
                 count_query += f" WHERE {scenario_col} = :scenario"
-                params = {"scenario": ctx.scenario}
+                params = {"scenario": scenario}
             else:
                 params = {}
             
@@ -68,7 +69,7 @@ class SqlRule(Rule):
             total_count = int(count_row.get("total_count", 0))
             
             if total_count == 0:
-                scenario_info = f" (scenario: {ctx.scenario})" if ctx.scenario else ""
+                scenario_info = f" (scenario: {scenario})" if scenario else ""
                 return RuleResult(
                     rule_id=self.rule_id, task=self.task, dataset=self.dataset,
                     success=False, observed=0, expected=">0",

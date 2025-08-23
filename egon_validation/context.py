@@ -4,6 +4,9 @@ from typing import Optional, Dict, Any
 @dataclass
 class RunContext:
     run_id: str
-    scenario: Optional[str]
-    out_dir: str
-    extra: Dict[str, Any]
+    out_dir: str = "validation_runs"
+    extra: Dict[str, Any] = None
+    
+    def __post_init__(self):
+        if self.extra is None:
+            self.extra = {}

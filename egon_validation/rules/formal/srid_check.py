@@ -33,7 +33,6 @@ class SRIDSpecificValidation(SqlRule):
     def sql(self, ctx):
         geom = self.params.get("geom", "geom")
         expected_srid = self.params.get("expected_srid", DEFAULT_SRID)
-        scenario_col = self.params.get("scenario_col")
         
         base_query = f"""
         SELECT 
@@ -44,10 +43,7 @@ class SRIDSpecificValidation(SqlRule):
             array_agg(DISTINCT ST_SRID({geom})) AS found_srids
         FROM {self.dataset}
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
-            
+
         return base_query
 
     def postprocess(self, row, ctx):

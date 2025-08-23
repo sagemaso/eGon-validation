@@ -22,7 +22,14 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             if empty_result:
                 return empty_result
             
-            row = db.fetch_one(engine, rule.sql(ctx), {"scenario": ctx.scenario} if ctx.scenario else None)
+            # Only pass scenario parameter if rule has both scenario_col AND scenario parameters
+            params = {}
+            if (hasattr(rule, 'params') and 
+                rule.params.get('scenario_col') and 
+                rule.params.get('scenario')):
+                params["scenario"] = rule.params["scenario"]
+            
+            row = db.fetch_one(engine, rule.sql(ctx), params or None)
             res = rule.postprocess(row, ctx)
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore

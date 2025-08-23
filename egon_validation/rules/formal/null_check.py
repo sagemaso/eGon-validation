@@ -2,14 +2,11 @@ from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
 @register(task="adhoc", dataset="demand.egon_demandregio_hh", rule_id="adhoc_NOT_NULL_NAN",
-          kind="formal", column="demand", scenario_col=None)
+          kind="formal", column="demand")
 class NotNullAndNotNaN(SqlRule):
     def sql(self, ctx):
         col = self.params.get("column", "value")
-        scenario_col = self.params.get("scenario_col")
         where = f"WHERE ({col} IS NULL OR {col} <> {col})"
-        if ctx.scenario and scenario_col:
-            where += f" AND {scenario_col} = :scenario"
         return f"SELECT COUNT(*) AS n_bad FROM {self.dataset} {where}"
 
     def postprocess(self, row, ctx):

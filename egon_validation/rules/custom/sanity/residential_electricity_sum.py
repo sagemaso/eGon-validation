@@ -17,7 +17,7 @@ class ResidentialElectricitySum(SqlRule):
         
         where_clause = ""
         scenario_filter = ""
-        if ctx.scenario and scenario_col:
+        if scenario and scenario_col:
             where_clause = f"AND egon.{scenario_col} = :scenario"
             scenario_filter = f"AND profiles.scenario = :scenario"
         

@@ -14,7 +14,7 @@ class HomeBatteriesSanity(SqlRule):
         scenario_col = self.params.get("scenario_col", "scenario")
         
         where_clause = ""
-        if ctx.scenario and scenario_col:
+        if scenario and scenario_col:
             where_clause = f"WHERE hb.{scenario_col} = :scenario"
         else:
             where_clause = "WHERE 1=1"

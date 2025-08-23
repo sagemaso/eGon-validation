@@ -10,7 +10,6 @@ class ValueSetValidation(SqlRule):
     def sql(self, ctx):
         col = self.params.get("column", "value")
         expected_values = self.params.get("expected_values", [])
-        scenario_col = self.params.get("scenario_col")
         
         # Create SQL array literal for PostgreSQL
         expected_array = "ARRAY[" + ",".join([f"'{v}'" for v in expected_values]) + "]"
@@ -23,9 +22,6 @@ class ValueSetValidation(SqlRule):
             array_agg(DISTINCT {col}) FILTER (WHERE {col} NOT IN (SELECT unnest({expected_array})) OR {col} IS NULL) as invalid_distinct
         FROM {self.dataset}
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
             
         return base_query
 
