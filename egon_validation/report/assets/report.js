@@ -14,7 +14,9 @@
   const passed = items.filter(x => x.success).length;
   const failed = total - passed;
 
-  $("#kpi-total-rules").textContent = String(total);
+  // Count unique rule types applied
+  const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_id)).size;
+  $("#kpi-total-rules").textContent = String(appliedRuleTypes);
   
   // Set total rules from registry if available
   const totalRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? total;
@@ -65,7 +67,9 @@
       `;
       
       const tbody = table.querySelector('tbody');
-      coverageStats.rule_application_stats.forEach(stat => {
+      // Sort by applications ascending
+      const sortedStats = [...coverageStats.rule_application_stats].sort((a, b) => b.applications - a.applications);
+      sortedStats.forEach(stat => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${stat.rule_id}</td>

@@ -73,7 +73,7 @@ class SqlRule(Rule):
                     rule_id=self.rule_id, task=self.task, dataset=self.dataset,
                     success=False, observed=0, expected=">0",
                     message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate{scenario_info}",
-                    severity=Severity.ERROR, schema=self.schema, table=self.table
+                    severity=Severity.INFO, schema=self.schema, table=self.table
                 )
             
             return None  # Table has data, continue normal validation
