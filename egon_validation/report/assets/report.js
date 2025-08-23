@@ -33,17 +33,20 @@
     // Table coverage
     const tableCoverage = coverageStats.table_coverage;
     $("#kpi-table-coverage").textContent = `${tableCoverage.percentage}%`;
-    $("#coverage-table-details").textContent = `${tableCoverage.validated_tables} / ${tableCoverage.total_tables} tables`;
+    const tableCoverageDetails = $("#coverage-table-details");
+    if (tableCoverageDetails) tableCoverageDetails.textContent = `${tableCoverage.validated_tables} / ${tableCoverage.total_tables} tables`;
 
     // Rule coverage
     const ruleCoverage = coverageStats.rule_coverage;
     $("#kpi-rule-coverage").textContent = `${ruleCoverage.percentage}%`;
-    $("#coverage-rule-details").textContent = `${ruleCoverage.applied_rules} / ${ruleCoverage.total_rules} rules`;
+    const ruleCoverageDetails = $("#coverage-rule-details");
+    if (ruleCoverageDetails) ruleCoverageDetails.textContent = `${ruleCoverage.applied_rules} / ${ruleCoverage.total_rules} rules`;
 
     // Success rate
     const validationResults = coverageStats.validation_results;
     $("#kpi-success-rate").textContent = `${validationResults.success_rate}%`;
-    $("#coverage-success-details").textContent = `${validationResults.successful} / ${validationResults.total_applications} validations`;
+    const successDetails = $("#coverage-success-details");
+    if (successDetails) successDetails.textContent = `${validationResults.successful} / ${validationResults.total_applications} validations`;
 
     // Rule application statistics
     if (coverageStats.rule_application_stats && coverageStats.rule_application_stats.length > 0) {
