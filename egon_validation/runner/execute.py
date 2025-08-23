@@ -4,9 +4,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from egon_validation.rules.registry import rules_for
 from egon_validation.rules.base import SqlRule, RuleResult, Rule
 from egon_validation import db
+from egon_validation.logging_config import get_logger
 import egon_validation.rules.formal  # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 import egon_validation.rules.custom.sanity   # noqa: F401
+
+logger = get_logger("runner.execute")
 
 
 def _ensure_dir(path: str) -> None:
@@ -27,11 +30,21 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore
         execution_time = time.time() - start_time
-        print(f"Rule {rule.rule_id} completed in {execution_time:.2f}s")
+        logger.debug("Rule completed successfully", extra={
+            "rule_id": rule.rule_id,
+            "execution_time_seconds": round(execution_time, 2),
+            "success": res.success,
+            "dataset": rule.dataset
+        })
         return res
     except Exception as e:
         execution_time = time.time() - start_time
-        print(f"Rule {rule.rule_id} failed in {execution_time:.2f}s: {str(e)}")
+        logger.error("Rule execution failed", extra={
+            "rule_id": rule.rule_id,
+            "execution_time_seconds": round(execution_time, 2),
+            "error": str(e),
+            "dataset": rule.dataset
+        })
         from egon_validation.rules.base import RuleResult, Severity
         return RuleResult(
             rule_id=rule.rule_id, task=rule.task, dataset=rule.dataset,
@@ -48,7 +61,12 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
     jsonl_path = os.path.join(out_dir, "results.jsonl")
     
     rules = list(rules_for(task))
-    print(f"Executing {len(rules)} rules in parallel (max_workers={max_workers})...")
+    logger.info("Starting rule execution", extra={
+        "task": task,
+        "total_rules": len(rules),
+        "max_workers": max_workers,
+        "run_id": ctx.run_id
+    })
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all rules for execution
@@ -66,8 +84,19 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
                     results.append(res)
                     f.write(json.dumps(res.to_dict()) + "\n")
                 except Exception as e:
-                    print(f"Failed to get result for rule {rule.rule_id}: {e}")
+                    logger.error("Failed to retrieve rule result", extra={
+                        "rule_id": rule.rule_id,
+                        "error": str(e)
+                    })
     
     total_time = time.time() - overall_start
-    print(f"Completed {len(results)} rules in {total_time:.2f}s (avg: {total_time/len(results):.2f}s per rule)")
+    avg_time = total_time / len(results) if results else 0
+    logger.info("Rule execution completed", extra={
+        "task": task,
+        "total_rules_completed": len(results),
+        "total_execution_time_seconds": round(total_time, 2),
+        "average_time_per_rule_seconds": round(avg_time, 2),
+        "run_id": ctx.run_id,
+        "output_path": jsonl_path
+    })
     return results
