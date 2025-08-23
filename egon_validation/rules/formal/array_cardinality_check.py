@@ -10,7 +10,6 @@ class ArrayCardinalityValidation(SqlRule):
     def sql(self, ctx):
         array_col = self.params.get("array_column", "values")
         expected_length = int(self.params.get("expected_length", ARRAY_CARDINALITY_ANNUAL_HOURS))
-        scenario_col = self.params.get("scenario_col")
         
         base_query = f"""
         SELECT 
@@ -24,9 +23,6 @@ class ArrayCardinalityValidation(SqlRule):
             AVG(cardinality({array_col})) as avg_length
         FROM {self.dataset}
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
             
         return base_query
 

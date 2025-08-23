@@ -34,7 +34,7 @@ def _run_task(args):
                 "available_methods": ["--db-url", "EGON_DB_URL env var", ".env file"]
             })
             raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
-        
+
         ctx = RunContext(run_id=args.run_id, scenario=None, out_dir=args.out, extra={})
         logger.info("Starting validation task", extra={
             "task": args.task,
@@ -42,7 +42,7 @@ def _run_task(args):
             "output_dir": args.out,
             "with_tunnel": args.with_tunnel
         })
-        
+
         # Use SSH tunnel if configured and --with-tunnel flag is set
         if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
             logger.info("Starting SSH tunnel for database connection")
@@ -64,21 +64,21 @@ def _run_task(args):
                 _save_table_count(ctx, total_tables)
             finally:
                 engine.dispose()
-        
+
         output_path = os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)
         logger.info("Task completed successfully", extra={
-            "task": args.task, 
-            "output_path": output_path, 
+            "task": args.task,
+            "output_path": output_path,
             "run_id": args.run_id
         })
-        
+
     except KeyboardInterrupt:
         logger.warning("Task interrupted by user", extra={"task": args.task, "run_id": args.run_id})
         raise SystemExit(1)
     except Exception as e:
         logger.error("Task execution failed", extra={
             "task": args.task,
-            "run_id": args.run_id, 
+            "run_id": args.run_id,
             "error": str(e),
             "error_type": type(e).__name__
         })
@@ -91,19 +91,19 @@ def _final_report(args):
             "run_id": args.run_id,
             "output_dir": args.out
         })
-        
+
         collected = collect(ctx)
         coverage = build_coverage(ctx, collected)
         out_dir = write_outputs(ctx, collected, coverage)
         generate(ctx)
-        
+
         report_path = os.path.join(out_dir, 'report.html')
         logger.info("Final report generated successfully", extra={
-            "report_path": report_path, 
+            "report_path": report_path,
             "run_id": args.run_id,
             "total_results": len(collected.get("items", []))
         })
-        
+
     except FileNotFoundError as e:
         logger.error("Required validation data not found", extra={
             "run_id": args.run_id,
@@ -143,12 +143,12 @@ def main():
     p2.set_defaults(func=_final_report)
 
     args = p.parse_args()
-    
+
     # Initialize logging with CLI arguments or environment variables
     log_level = getattr(args, 'log_level', None) or os.getenv("EGON_LOG_LEVEL", "INFO")
     log_format = getattr(args, 'log_format', None) or os.getenv("EGON_LOG_FORMAT", "pipeline")
     setup_logging(level=log_level, format_style=log_format)
-    
+
     args.func(args)
 
 if __name__ == "__main__":

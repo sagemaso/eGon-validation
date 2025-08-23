@@ -14,7 +14,7 @@ class EtragoHeatSanity(SqlRule):
         scenario_col = self.params.get("scenario_col", "scn_name")
         
         where_clause = ""
-        if ctx.scenario and scenario_col:
+        if scenario and scenario_col:
             where_clause = f"WHERE {scenario_col} = :scenario"
         else:
             where_clause = "WHERE 1=1"

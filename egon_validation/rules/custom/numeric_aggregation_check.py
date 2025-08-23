@@ -9,7 +9,6 @@ class ElectricalLoadAggregationValidation(SqlRule):
     
     def sql(self, ctx):
         tolerance = float(self.params.get("tolerance", 0.05))
-        scenario_col = self.params.get("scenario_col", "scn_name")
         
         base_query = f"""
         SELECT
@@ -48,9 +47,6 @@ class ElectricalLoadAggregationValidation(SqlRule):
                     load.carrier = 'AC' AND
                     bus.country = 'DE'
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" AND load.{scenario_col} = :scenario"
             
         base_query += """
                 GROUP BY
@@ -140,7 +136,6 @@ class DisaggregatedDemandSumValidation(SqlRule):
     
     def sql(self, ctx):
         sector = self.params.get("sector", "residential")
-        scenario_col = self.params.get("scenario_col", "scenario")
         
         base_query = f"""
         WITH disaggregated AS (
@@ -152,9 +147,6 @@ class DisaggregatedDemandSumValidation(SqlRule):
             WHERE
                 sector = '{sector}'
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" AND {scenario_col} = :scenario"
             
         base_query += f"""
             GROUP BY scenario
@@ -166,9 +158,6 @@ class DisaggregatedDemandSumValidation(SqlRule):
             FROM
                 demand.egon_demandregio_hh
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
             
         base_query += """
             GROUP BY scenario

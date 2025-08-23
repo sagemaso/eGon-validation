@@ -15,7 +15,6 @@ class GeometryContainmentValidation(SqlRule):
         ref_geom_col = self.params.get("reference_geometry", "geometry")
         ref_filter = self.params.get("reference_filter", "TRUE")
         filter_condition = self.params.get("filter_condition", "TRUE")
-        scenario_col = self.params.get("scenario_col")
         
         base_query = f"""
         WITH reference_geom AS (
@@ -33,9 +32,6 @@ class GeometryContainmentValidation(SqlRule):
         WHERE 
             points.{filter_condition}
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" AND points.{scenario_col} = :scenario"
             
         return base_query
 
