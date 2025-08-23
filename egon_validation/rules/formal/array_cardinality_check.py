@@ -1,6 +1,6 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
-from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS, ARRAY_CARDINALITY_ANNUAL_DAYS
+from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
 
 @register(task="adhoc", dataset="grid.egon_etrago_load_timeseries", rule_id="LOAD_TIMESERIES_LENGTH",
           kind="formal", array_column="p_set", expected_length=8760)

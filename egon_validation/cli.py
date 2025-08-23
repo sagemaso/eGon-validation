@@ -32,7 +32,7 @@ def _run_task(args):
     # Use SSH tunnel if configured and --with-tunnel flag is set
     if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
         print("Starting SSH tunnel...")
-        with create_tunnel_from_env() as tunnel:
+        with create_tunnel_from_env():
             engine = make_engine(db_url, echo=args.echo_sql)
             try:
                 run_for_task(engine, ctx, args.task)

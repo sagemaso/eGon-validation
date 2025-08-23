@@ -81,7 +81,7 @@ egon_validation/
 ## Add a rule
 
 ```python
-# rules/formal.py
+# rules
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 

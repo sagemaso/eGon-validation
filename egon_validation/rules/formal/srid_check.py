@@ -1,6 +1,6 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
-from egon_validation.config import DEFAULT_SRID, PROJECTED_SRID
+from egon_validation.config import DEFAULT_SRID
 
 @register(task="adhoc", dataset="supply.egon_power_plants_pv", rule_id="SRID_UNIQUE_NONZERO",
           kind="formal", geom="geom")
