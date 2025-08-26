@@ -6,7 +6,6 @@ from egon_validation.rules.base import SqlRule, RuleResult, Rule
 from egon_validation import db
 import egon_validation.rules.formal  # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
-import egon_validation.rules.custom.sanity   # noqa: F401
 
 
 def _ensure_dir(path: str) -> None:
@@ -21,15 +20,8 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             empty_result = rule._check_table_empty(engine, ctx)
             if empty_result:
                 return empty_result
-            
-            # Only pass scenario parameter if rule has both scenario_col AND scenario parameters
-            params = {}
-            if (hasattr(rule, 'params') and 
-                rule.params.get('scenario_col') and 
-                rule.params.get('scenario')):
-                params["scenario"] = rule.params["scenario"]
-            
-            row = db.fetch_one(engine, rule.sql(ctx), params or None)
+
+            row = db.fetch_one(engine, rule.sql(ctx))
             res = rule.postprocess(row, ctx)
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore

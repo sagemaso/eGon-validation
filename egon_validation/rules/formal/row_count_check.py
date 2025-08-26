@@ -8,10 +8,8 @@ class RowCountValidation(SqlRule):
     """Validates that a table has the expected number of rows."""
     
     def sql(self, ctx):
-        scenario_col = self.params.get("scenario_col")
-        where_clause = ""
             
-        return f"SELECT COUNT(*) AS actual_count FROM {self.dataset}{where_clause}"
+        return f"SELECT COUNT(*) AS actual_count FROM {self.dataset}"
 
     def postprocess(self, row, ctx):
         actual_count = int(row.get("actual_count") or 0)

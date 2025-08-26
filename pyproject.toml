@@ -15,5 +15,14 @@ dependencies = [
     "psycopg2-binary>=2.9"
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-mock>=3.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["egon_validation*"]
+
 [project.scripts]
 egon-validation = "egon_validation.cli:main"

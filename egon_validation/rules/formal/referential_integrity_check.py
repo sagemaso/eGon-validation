@@ -9,21 +9,7 @@ class ReferentialIntegrityValidation(SqlRule):
         foreign_col = self.params.get("foreign_column", "id")
         reference_dataset = self.params.get("reference_dataset")
         reference_col = self.params.get("reference_column", "id")
-        scenario_col = self.params.get("scenario_col")
-        scenario = self.params.get("scenario")
-        additional_conditions = self.params.get("additional_conditions", "")
-        
-        # Build WHERE conditions
-        where_conditions = ["child." + foreign_col + " IS NOT NULL"]
-        
-        if additional_conditions:
-            where_conditions.append(additional_conditions)
-            
-        if scenario and scenario_col:
-            where_conditions.append(f"child.{scenario_col} = :scenario")
-        
-        where_clause = " AND ".join(where_conditions)
-            
+
         base_query = f"""
         SELECT
             COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL) AS total_non_null_references,
@@ -34,7 +20,6 @@ class ReferentialIntegrityValidation(SqlRule):
         LEFT JOIN
             {reference_dataset} as parent
         ON child.{foreign_col} = parent.{reference_col}
-        WHERE {where_clause}
         """
             
         return base_query

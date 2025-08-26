@@ -7,9 +7,12 @@ from egon_validation.runner.coverage_analysis import discover_total_tables
 from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
 from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
+from egon_validation.logging_config import setup_logging, get_logger
 import egon_validation.rules.formal  # noqa: F401
-import egon_validation.rules.custom.sanity   # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
+
+# Setup logging
+logger = get_logger("cli")
 
 
 def _save_table_count(ctx, total_tables):
@@ -26,9 +29,9 @@ def _run_task(args):
     db_url = args.db_url or get_env(ENV_DB_URL) or build_db_url()
     if not db_url:
         raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
-    
+
     ctx = RunContext(run_id=args.run_id, out_dir=args.out)
-    
+
     # Use SSH tunnel if configured and --with-tunnel flag is set
     if args.with_tunnel and all([get_env("SSH_HOST"), get_env("SSH_USER"), get_env("SSH_KEY_FILE")]):
         print("Starting SSH tunnel...")
@@ -50,7 +53,7 @@ def _run_task(args):
             _save_table_count(ctx, total_tables)
         finally:
             engine.dispose()
-    
+
     print(f"Written task results for '{args.task}' -> {os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)}")
 
 def _final_report(args):

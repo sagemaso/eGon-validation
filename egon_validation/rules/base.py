@@ -55,25 +55,16 @@ class SqlRule(Rule):
         try:
             # Build the count query with same scenario filtering as main query
             count_query = f"SELECT COUNT(*) as total_count FROM {self.dataset}"
-            scenario_col = self.params.get("scenario_col")
-            scenario = self.params.get("scenario")
-            
-            if scenario_col and scenario:
-                count_query += f" WHERE {scenario_col} = :scenario"
-                params = {"scenario": scenario}
-            else:
-                params = {}
             
             from egon_validation import db
-            count_row = db.fetch_one(engine, count_query, params)
+            count_row = db.fetch_one(engine, count_query)
             total_count = int(count_row.get("total_count", 0))
             
             if total_count == 0:
-                scenario_info = f" (scenario: {scenario})" if scenario else ""
                 return RuleResult(
                     rule_id=self.rule_id, task=self.task, dataset=self.dataset,
                     success=False, observed=0, expected=">0",
-                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate{scenario_info}",
+                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
                     severity=Severity.INFO, schema=self.schema, table=self.table
                 )
             
