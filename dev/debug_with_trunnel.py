@@ -10,8 +10,6 @@ sys.argv = [
     "--run-id", run_id,
     "--task", "adhoc",
     "--with-tunnel",
-    # Optional: "--scenario", "2040",
-    # Optional: "--out", "./validation_runs",
 ]
 main()
 
@@ -22,8 +20,6 @@ main()
 #    "--run-id", run_id,
 #"--task", "sanity",
 #   "--with-tunnel",
-    # Optional: "--scenario", "2040",
-    # Optional: "--out", "./validation_runs",
 #]
 #main()
 

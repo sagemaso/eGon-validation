@@ -1,12 +1,9 @@
-from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from dataclasses import dataclass, field
+from typing import Dict, Any
+from pathlib import Path
 
 @dataclass
 class RunContext:
     run_id: str
-    out_dir: str = "validation_runs"
-    extra: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        if self.extra is None:
-            self.extra = {}
+    out_dir: Path = Path("validation_runs")
+    extra: Dict[str, Any] = field(default_factory=dict)
