@@ -1,8 +1,11 @@
+"""Database connection and query utilities."""
+
 from typing import Any, Dict, List, Optional
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
 def make_engine(db_url: str, echo: bool = False) -> Engine:
+    """Create SQLAlchemy engine with connection pooling."""
     return create_engine(
         db_url, 
         future=True, 
@@ -14,11 +17,13 @@ def make_engine(db_url: str, echo: bool = False) -> Engine:
     )
 
 def fetch_one(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """Execute SQL and return first row as dict."""
     with engine.connect() as conn:
         row = conn.execute(text(sql), params or {}).mappings().first()
         return dict(row or {})
 
 def fetch_all(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+    """Execute SQL and return all rows as list of dicts."""
     with engine.connect() as conn:
         rows = conn.execute(text(sql), params or {}).mappings().all()
         return [dict(r) for r in rows]

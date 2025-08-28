@@ -1,10 +1,13 @@
+"""Base classes for validation rules: Rule, SqlRule, RuleResult, and Severity enum."""
+
 from dataclasses import dataclass, asdict
 from enum import Enum
 from typing import Any, Dict, Optional
 
 class Severity(Enum):
+    """Severity levels: INFO, WARNING, ERROR."""
     INFO = "INFO"
-    WARNING = "WARNING"
+    WARNING = "WARNING" 
     ERROR = "ERROR"
 
 @dataclass
