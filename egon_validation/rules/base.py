@@ -76,3 +76,42 @@ class SqlRule(Rule):
         except Exception as e:
             # If we can't check the table, let the main query handle it
             return None
+
+class DataFrameRule(Rule):
+    """Base class for DataFrame-based validation rules."""
+    
+    def get_query(self, ctx) -> str:
+        """Generate SQL query for DataFrame creation. Override in subclasses."""
+        return f"SELECT * FROM {self.dataset}"
+    
+    def evaluate_df(self, df, ctx) -> RuleResult:
+        """Perform validation on DataFrame. Override in subclasses."""
+        raise NotImplementedError
+    
+    def evaluate(self, engine, ctx) -> RuleResult:
+        """Execute rule by fetching DataFrame and calling evaluate_df."""
+        try:
+            from egon_validation.db import fetch_dataframe
+            
+            # Get DataFrame
+            df = fetch_dataframe(engine, self.get_query(ctx))
+            
+            # Check if table is empty
+            if df.empty:
+                return RuleResult(
+                    rule_id=self.rule_id, task=self.task, dataset=self.dataset,
+                    success=False, observed=0, expected=">0",
+                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
+                    severity=Severity.INFO, schema=self.schema, table=self.table
+                )
+            
+            # Delegate to DataFrame-specific evaluation
+            return self.evaluate_df(df, ctx)
+            
+        except Exception as e:
+            return RuleResult(
+                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
+                success=False, observed=None, expected=None,
+                message=f"DataFrame rule execution failed: {str(e)}",
+                severity=Severity.ERROR, schema=self.schema, table=self.table
+            )

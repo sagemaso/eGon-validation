@@ -9,10 +9,15 @@ description = "Validation library for eGon data pipeline (rules hard-coded, SQL-
 readme = "README.md"
 requires-python = ">=3.8,<3.9"
 license = {text = "AGPL-3.0-only"}
-authors = [{name="eGon Team", email="maintainers@example.org"}]
+author = [{name="sagemaso", email="sarah.sommer@rl-institut.de"}]
 dependencies = [
     "SQLAlchemy>=1.4,<3",
-    "psycopg2-binary>=2.9"
+    "psycopg2-binary>=2.9",
+    "pandas>=2.2",
+    "pyarrow>=16", 
+    "geopandas>=0.14",
+    "shapely>=2",
+    "geoalchemy2>=0.14"
 ]
 
 [project.optional-dependencies]
