@@ -390,8 +390,7 @@ pytest tests/test_registry.py        # Test rule registration
 The test suite covers:
 - ✅ **Unit Tests**: Individual rule validation logic
 - ✅ **Integration Tests**: End-to-end validation workflows
-- ✅ **Coverage Tests**: Rule discovery and registration
-- ✅ **Performance Tests**: Parallel execution and scalability
+- ✅ **Coverage Tests**: Rule discovery and registrationCheck
 
 ## Integration with eGon-data Pipeline
 
