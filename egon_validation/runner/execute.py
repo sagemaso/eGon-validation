@@ -2,13 +2,27 @@ import json, os, time
 from typing import List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from egon_validation.rules.registry import rules_for
-from egon_validation.rules.base import SqlRule, RuleResult, Rule
+from egon_validation.rules.base import SqlRule, RuleResult, Rule, Severity
 from egon_validation import db
+from egon_validation.exceptions import (
+    RuleExecutionError, DatabaseConnectionError, ValidationTimeoutError,
+    RunIdCollisionError
+)
+from egon_validation.logging_config import get_logger
+from sqlalchemy.exc import SQLAlchemyError, OperationalError, TimeoutError
 import egon_validation.rules.formal  # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
+logger = get_logger('runner')
 
-def _ensure_dir(path: str) -> None:
+
+def _ensure_dir(path: str, check_collision: bool = True) -> None:
+    """Create directory, optionally checking for run_id collisions."""
+    if check_collision and os.path.exists(path):
+        # Check if there are existing result files
+        jsonl_files = [f for f in os.listdir(path) if f.endswith('.jsonl')]
+        if jsonl_files:
+            raise RunIdCollisionError(f"Run directory already exists with data: {path}")
     os.makedirs(path, exist_ok=True)
 
 def _execute_single_rule(engine, rule, ctx) -> RuleResult:
@@ -26,20 +40,48 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore
         execution_time = time.time() - start_time
-        print(f"Rule {rule.rule_id} completed in {execution_time:.2f}s")
+        logger.info(f"Rule {rule.rule_id} completed in {execution_time:.2f}s", 
+                   extra={'rule_id': rule.rule_id, 'execution_time': execution_time, 'status': 'success'})
         return res
-    except Exception as e:
+    except TimeoutError as e:
         execution_time = time.time() - start_time
-        print(f"Rule {rule.rule_id} failed in {execution_time:.2f}s: {str(e)}")
-        from egon_validation.rules.base import RuleResult, Severity
+        logger.error(f"Rule {rule.rule_id} timed out in {execution_time:.2f}s: {str(e)}", 
+                    extra={'rule_id': rule.rule_id, 'execution_time': execution_time, 'error': str(e)})
+        raise ValidationTimeoutError(f"Rule {rule.rule_id} timed out: {str(e)}")
+    except (OperationalError, SQLAlchemyError) as e:
+        execution_time = time.time() - start_time
+        logger.warning(f"Rule {rule.rule_id} database error in {execution_time:.2f}s: {str(e)}", 
+                      extra={'rule_id': rule.rule_id, 'execution_time': execution_time, 'error': str(e)})
+        # Map database exceptions to appropriate severity
+        severity = Severity.ERROR if "connection" in str(e).lower() else Severity.WARNING
         return RuleResult(
             rule_id=rule.rule_id, task=rule.task, dataset=rule.dataset,
             success=False, observed=None, expected=None,
-            message=f"Rule execution failed: {str(e)}", severity=Severity.ERROR,
+            message=f"Database error: {str(e)}", severity=severity,
+            schema=getattr(rule, 'schema', None), table=getattr(rule, 'table', None)
+        )
+    except RuleExecutionError as e:
+        execution_time = time.time() - start_time
+        logger.error(f"Rule {rule.rule_id} execution error in {execution_time:.2f}s: {str(e)}", 
+                    extra={'rule_id': rule.rule_id, 'execution_time': execution_time, 'error': str(e)})
+        return RuleResult(
+            rule_id=rule.rule_id, task=rule.task, dataset=rule.dataset,
+            success=False, observed=None, expected=None,
+            message=f"Rule execution error: {str(e)}", severity=Severity.ERROR,
+            schema=getattr(rule, 'schema', None), table=getattr(rule, 'table', None)
+        )
+    except Exception as e:
+        execution_time = time.time() - start_time
+        logger.error(f"Rule {rule.rule_id} unexpected error in {execution_time:.2f}s: {str(e)}", 
+                    extra={'rule_id': rule.rule_id, 'execution_time': execution_time, 'error': str(e)}, exc_info=True)
+        return RuleResult(
+            rule_id=rule.rule_id, task=rule.task, dataset=rule.dataset,
+            success=False, observed=None, expected=None,
+            message=f"Unexpected error: {str(e)}", severity=Severity.ERROR,
             schema=getattr(rule, 'schema', None), table=getattr(rule, 'table', None)
         )
 
-def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResult]:
+def run_for_task(engine, ctx, task: str, max_workers: int = 6) -> List[RuleResult]:
     overall_start = time.time()
     results: List[RuleResult] = []
     out_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task)
@@ -47,7 +89,8 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
     jsonl_path = os.path.join(out_dir, "results.jsonl")
     
     rules = list(rules_for(task))
-    print(f"Executing {len(rules)} rules in parallel (max_workers={max_workers})...")
+    logger.info(f"Executing {len(rules)} rules in parallel (max_workers={max_workers})", 
+               extra={'task': task, 'rule_count': len(rules), 'max_workers': max_workers})
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all rules for execution
@@ -65,8 +108,11 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
                     results.append(res)
                     f.write(json.dumps(res.to_dict()) + "\n")
                 except Exception as e:
-                    print(f"Failed to get result for rule {rule.rule_id}: {e}")
+                    logger.error(f"Failed to get result for rule {rule.rule_id}: {e}", 
+                               extra={'rule_id': rule.rule_id, 'task': task, 'error': str(e)}, exc_info=True)
     
     total_time = time.time() - overall_start
-    print(f"Completed {len(results)} rules in {total_time:.2f}s (avg: {total_time/len(results):.2f}s per rule)")
+    avg_time = total_time/len(results) if results else 0
+    logger.info(f"Completed {len(results)} rules in {total_time:.2f}s (avg: {avg_time:.2f}s per rule)", 
+               extra={'task': task, 'total_time': total_time, 'avg_time': avg_time, 'completed_rules': len(results)})
     return results
