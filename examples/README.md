@@ -75,7 +75,7 @@ DB_USER=postgres
 DB_PASSWORD=secret
 
 # Validation settings
-MAX_WORKERS=4
+MAX_WORKERS=6
 DEFAULT_TOLERANCE=0.01
 OUTPUT_DIR=./validation_runs
 

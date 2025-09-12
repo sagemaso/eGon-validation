@@ -139,7 +139,7 @@ Customize validation behavior through environment variables:
 
 ```bash
 # Validation settings
-export MAX_WORKERS="4"                    # Parallel execution threads
+export MAX_WORKERS="6"                    # Parallel execution threads
 export OUTPUT_DIR="./validation_runs"     # Results storage location
 export DEFAULT_TOLERANCE="0.0"           # Default acceptance tolerance
 ```
