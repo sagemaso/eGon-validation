@@ -3,9 +3,15 @@
 from typing import Any, Dict, List, Optional, Union, Iterable
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
+from sqlalchemy.exc import OperationalError, DisconnectionError
 
 import pandas as pd
 import geopandas as gpd
+from egon_validation.retry import database_retry, connection_circuit_breaker
+from egon_validation.logging_config import get_logger
+from egon_validation.exceptions import DatabaseConnectionError
+
+logger = get_logger('db')
 
 def make_engine(db_url: str, echo: bool = False) -> Engine:
     """Create SQLAlchemy engine with connection pooling."""
@@ -13,24 +19,40 @@ def make_engine(db_url: str, echo: bool = False) -> Engine:
         db_url, 
         future=True, 
         echo=echo,
-        pool_size=20,
-        max_overflow=30,
+        pool_size=7,
+        max_overflow=3,
         pool_pre_ping=True,
-        pool_recycle=3600
+        pool_recycle=1800
     )
 
+@database_retry
+@connection_circuit_breaker
 def fetch_one(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """Execute SQL and return first row as dict."""
-    with engine.connect() as conn:
-        row = conn.execute(text(sql), params or {}).mappings().first()
-        return dict(row or {})
+    try:
+        with engine.connect() as conn:
+            row = conn.execute(text(sql), params or {}).mappings().first()
+            result = dict(row or {})
+            logger.debug(f"Successfully fetched one row", extra={'sql': sql[:100]})
+            return result
+    except (OperationalError, DisconnectionError) as e:
+        logger.error(f"Database error in fetch_one: {str(e)}", extra={'sql': sql[:100], 'error': str(e)})
+        raise DatabaseConnectionError(f"Failed to fetch data: {str(e)}") from e
 
+@database_retry
 def fetch_all(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
     """Execute SQL and return all rows as list of dicts."""
-    with engine.connect() as conn:
-        rows = conn.execute(text(sql), params or {}).mappings().all()
-        return [dict(r) for r in rows]
+    try:
+        with engine.connect() as conn:
+            rows = conn.execute(text(sql), params or {}).mappings().all()
+            result = [dict(r) for r in rows]
+            logger.debug(f"Successfully fetched {len(result)} rows", extra={'sql': sql[:100], 'row_count': len(result)})
+            return result
+    except (OperationalError, DisconnectionError) as e:
+        logger.error(f"Database error in fetch_all: {str(e)}", extra={'sql': sql[:100], 'error': str(e)})
+        raise DatabaseConnectionError(f"Failed to fetch data: {str(e)}") from e
 
+@database_retry
 def fetch_dataframe(
     engine: Engine, 
     sql: str, 
@@ -49,9 +71,19 @@ def fetch_dataframe(
         DataFrame or iterator of DataFrames
         
     Raises:
+        DatabaseConnectionError: On database connection issues
     """
-    
-    return pd.read_sql_query(text(sql), engine, params=params, chunksize=chunksize)
+    try:
+        df = pd.read_sql_query(text(sql), engine, params=params, chunksize=chunksize)
+        if chunksize is None:
+            logger.debug(f"Successfully fetched DataFrame with {len(df)} rows", 
+                        extra={'sql': sql[:100], 'row_count': len(df)})
+        else:
+            logger.debug(f"Successfully created DataFrame iterator", extra={'sql': sql[:100]})
+        return df
+    except (OperationalError, DisconnectionError) as e:
+        logger.error(f"Database error in fetch_dataframe: {str(e)}", extra={'sql': sql[:100], 'error': str(e)})
+        raise DatabaseConnectionError(f"Failed to fetch DataFrame: {str(e)}") from e
 
 def fetch_geodataframe(
     engine: Engine,
