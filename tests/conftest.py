@@ -1,6 +1,5 @@
 import pytest
-from unittest.mock import Mock, MagicMock
-from sqlalchemy import create_engine
+from unittest.mock import Mock
 from egon_validation.context import RunContext
 
 

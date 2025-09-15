@@ -11,7 +11,7 @@ from egon_validation.rules.registry import register
 )
 class NotNullAndNotNaN(SqlRule):
     def sql(self, ctx):
-        col = self.params.get("column", "value")
+        col = self.params.get("column", None)
         where = f"WHERE ({col} IS NULL OR {col} <> {col})"
         return f"SELECT COUNT(*) AS n_bad FROM {self.dataset} {where}"
 

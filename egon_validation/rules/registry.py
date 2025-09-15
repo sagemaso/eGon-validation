@@ -5,7 +5,7 @@ from .base import Rule
 
 # Internal registry: (rule_id, task, dataset, rule_cls, defaults, kind)
 _REGISTRY: List[
-    Tuple[str, str, str, Type[Rule], Dict[str, Any], str, Optional[str]]
+    Tuple[str, str, str, Type[Rule], Dict[str, Any], str]
 ] = []
 
 
