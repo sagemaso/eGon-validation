@@ -193,7 +193,7 @@ class DisaggregatedDemandSumValidation(SqlRule):
             FROM
                 {self.dataset}
             WHERE
-                sector = '{sector}'"
+                sector = '{sector}'
         """
 
         base_query += """
