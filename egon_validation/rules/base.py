@@ -47,8 +47,6 @@ class Rule:
         else:
             self.schema, self.table = None, dataset
 
-    def evaluate(self, engine, ctx) -> RuleResult:
-        raise NotImplementedError
 
 
 class SqlRule(Rule):
