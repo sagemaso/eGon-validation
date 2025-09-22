@@ -9,6 +9,7 @@ from egon_validation.runner.coverage_analysis import discover_total_tables
 from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
 from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
+from egon_validation.logging_config import setup_logging
 import egon_validation.rules.formal  # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
@@ -72,6 +73,7 @@ def _final_report(args):
 
 
 def main():
+    setup_logging()
     p = argparse.ArgumentParser(
         prog="egon-validation", description="eGon validation (dev CLI)"
     )
