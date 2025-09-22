@@ -11,10 +11,9 @@ requires-python = ">=3.8,<3.9"
 license = {text = "AGPL-3.0-only"}
 authors = [{name="sagemaso", email="sarah.sommer@rl-institut.de"}]
 dependencies = [
-    "SQLAlchemy>=1.4,<3",
+    "SQLAlchemy>=1.4",
     "psycopg2-binary>=2.9",
     "pandas>=2.0,<2.1",
-    "pyarrow>=16", 
     "geopandas>=0.13,<0.14",
     "shapely>=2",
     "geoalchemy2>=0.14"
@@ -37,7 +36,7 @@ include = ["egon_validation*"]
 egon-validation = "egon_validation.cli:main"
 
 [tool.black]
-line-length = 88
+line-length = 79
 target-version = ["py38"]
 include = '\.pyi?$'
 exclude = '''
