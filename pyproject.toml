@@ -53,3 +53,16 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.flake8]
+max-line-length = 79
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "*.egg-info"
+]
