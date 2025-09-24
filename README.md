@@ -42,7 +42,7 @@ python3 dev/debug_with_trunnel.py
 ```
 
 This script automatically:
-- ✅ Generates a timestamped run ID (format: `adhoc-YYYYMMDDTHHMMSS`)
+- ✅ Generates a timestamped run ID (format: `validation-test-YYYYMMDDTHHMMSS`)
 - ✅ Establishes secure database connection
 - ✅ Executes all registered validation rules
 - ✅ Generates comprehensive HTML and JSON reports
@@ -55,13 +55,13 @@ This script automatically:
 RUNID="validation-$(date +%Y%m%dT%H%M%S)"
 
 # Run validation with SSH tunnel
-egon-validation run-task --run-id $RUNID --task adhoc --with-tunnel
+egon-validation run-task --run-id $RUNID --task validation-test --with-tunnel
 
 # Generate final report
 egon-validation final-report --run-id $RUNID
 
 # Alternative: Direct database connection
-egon-validation run-task --db-url "postgresql://user:pass@host:port/db" --run-id $RUNID --task adhoc
+egon-validation run-task --db-url "postgresql://user:pass@host:port/db" --run-id $RUNID --task validation-test
 ```
 
 ### Viewing Results

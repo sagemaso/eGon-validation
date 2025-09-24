@@ -11,7 +11,6 @@
     <h1>Validation Report</h1>
     <div class="meta">
       <span>Run ID: <strong>{{RUN_ID}}</strong></span>
-      <span>Scenario: <strong>{{SCENARIO}}</strong></span>
       <span>Generated: <strong>{{GENERATED_AT}}</strong></span>
     </div>
   </header>
@@ -22,9 +21,10 @@
       <div class="cards">
         <div class="card"><div class="kpi" id="kpi-passed">--</div><div class="kpi-label">Passed</div></div>
         <div class="card"><div class="kpi" id="kpi-failed">--</div><div class="kpi-label">Failed</div></div>
+        <div class="card"><div class="kpi" id="kpi-total-rule-instances">--</div><div class="kpi-label">Total rules</div></div>
         <div class="card"><div class="kpi" id="kpi-success-rate">--</div><div class="kpi-label">Success Rate</div></div>
         <div class="card"><div class="kpi" id="kpi-total-rules">--</div><div class="kpi-label">Applied rule types</div></div>
-        <div class="card"><div class="kpi" id="kpi-total-rules-registry">--</div><div class="kpi-label">Rules in scope</div></div>
+        <div class="card"><div class="kpi" id="kpi-total-rules-registry">--</div><div class="kpi-label">Available rule types</div></div>
         <div class="card"><div class="kpi" id="kpi-rule-coverage">--</div><div class="kpi-label">Rule Coverage</div></div>
         <div class="card"><div class="kpi" id="kpi-tables-validated">--</div><div class="kpi-label">Tables validated</div></div>
         <div class="card"><div class="kpi" id="kpi-tables-total">--</div><div class="kpi-label">Tables in scope</div></div>

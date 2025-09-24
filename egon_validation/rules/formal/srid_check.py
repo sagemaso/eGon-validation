@@ -4,7 +4,7 @@ from egon_validation.config import DEFAULT_SRID
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="supply.egon_power_plants_pv",
     rule_id="SRID_UNIQUE_NONZERO",
     kind="formal",
@@ -38,7 +38,7 @@ class SRIDUniqueNonZero(SqlRule):
         )
 
 
-# @register(task="adhoc", dataset="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
+# @register(task="validation-test", dataset="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
 #          kind="formal", geom="geom", expected_srid=3035)
 class SRIDSpecificValidation(SqlRule):
     """Validates that geometry column has a specific expected SRID."""
@@ -106,7 +106,7 @@ class SRIDSpecificValidation(SqlRule):
 
 # Register SRID validation for multiple geometry datasets mentioned in CSV
 register_map(
-    task="adhoc",
+    task="validation-test",
     rule_cls=SRIDSpecificValidation,
     rule_id="SPECIAL_SRID_VALIDATION",
     kind="formal",
@@ -119,7 +119,7 @@ register_map(
 
 # Register SRID validation for multiple geometry datasets mentioned in CSV
 register_map(
-    task="adhoc",
+    task="validation-test",
     rule_cls=SRIDUniqueNonZero,
     rule_id="SRID_VALIDATION",
     kind="formal",

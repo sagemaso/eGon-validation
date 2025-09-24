@@ -3,7 +3,7 @@ from egon_validation.rules.registry import register
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="supply.egon_power_plants_wind",
     rule_id="WIND_PLANTS_IN_GERMANY",
     kind="formal",

@@ -26,7 +26,7 @@ def generate(ctx, version: str = "0.1.0"):
         html,
         TITLE="eGon Validation — Report",
         RUN_ID=ctx.run_id,
-        GENERATED_AT=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ"),
+        GENERATED_AT=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         VERSION=version,
     )
 

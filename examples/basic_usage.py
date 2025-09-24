@@ -37,7 +37,7 @@ def main():
 
     # 3. Execute validation rules
     try:
-        results = run_for_task(engine, ctx, "adhoc")
+        results = run_for_task(engine, ctx, "validation-test")
         print(f"✅ Executed {len(results)} validation rules")
 
         # 4. Collect and aggregate results

@@ -3,7 +3,7 @@ from egon_validation.rules.registry import register
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_hh",
     rule_id="adhoc_NOT_NULL_NAN",
     kind="formal",

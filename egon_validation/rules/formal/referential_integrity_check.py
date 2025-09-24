@@ -57,7 +57,7 @@ class ReferentialIntegrityValidation(SqlRule):
 
 # Register multiple referential integrity checks
 register_map(
-    task="adhoc",
+    task="validation-test",
     rule_cls=ReferentialIntegrityValidation,
     rule_id="REFERENTIAL_INTEGRITY_CHECK",
     kind="formal",

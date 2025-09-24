@@ -81,9 +81,10 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         (validated_tables_count / total_tables * 100) if total_tables > 0 else 0
     )
 
-    # Get all registered rules
+    # Get all registered rules and count unique rule_ids
     all_rules = list_registered()
-    total_rules = len(all_rules)
+    unique_rule_ids = set(rule["rule_id"] for rule in all_rules)
+    total_rules = len(unique_rule_ids)
 
     # Count unique applied rules
     applied_rules = set()

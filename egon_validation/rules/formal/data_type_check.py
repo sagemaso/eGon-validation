@@ -3,7 +3,7 @@ from egon_validation.rules.registry import register
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_hh",
     rule_id="COLUMN_DATA_TYPE_CHECK",
     kind="formal",
@@ -99,7 +99,7 @@ class DataTypeValidation(SqlRule):
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_hh",
     rule_id="MULTIPLE_COLUMNS_TYPE_CHECK",
     kind="formal",

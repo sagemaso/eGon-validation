@@ -14,13 +14,18 @@
   const passed = items.filter(x => x.success).length;
   const failed = total - passed;
 
-  // Count unique rule types applied
+  // Applied Rule Types: unique rule_ids that were applied
   const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_id)).size;
   $("#kpi-total-rules").textContent = String(appliedRuleTypes);
-  
-  // Set total rules from registry if available
-  const totalRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? total;
-  $("#kpi-total-rules-registry").textContent = String(totalRulesInRegistry);
+
+  // Rules in Scope: total unique rules available in registry (for coverage calculation)
+  const totalUniqueRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? appliedRuleTypes;
+  $("#kpi-total-rules-registry").textContent = String(totalUniqueRulesInRegistry);
+
+  // Total Rules: all registered rule instances (sum of passed + failed)
+  const totalRuleInstances = coverage.coverage_statistics?.validation_results?.total_applications ?? total;
+  $("#kpi-total-rule-instances").textContent = String(totalRuleInstances);
+
   $("#kpi-passed").textContent = String(passed);
   $("#kpi-failed").textContent = String(failed);
 

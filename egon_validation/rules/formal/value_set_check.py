@@ -4,7 +4,7 @@ import json
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_hh",
     rule_id="SCENARIO_VALUES_VALID",
     kind="formal",
@@ -63,7 +63,7 @@ class ValueSetValidation(SqlRule):
 
 # Register multiple rules using register_map for different datasets
 register_map(
-    task="adhoc",
+    task="validation-test",
     rule_cls=ValueSetValidation,
     rule_id="VALUE_SET_VALIDATION",
     kind="formal",

@@ -4,7 +4,7 @@ from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="grid.egon_etrago_load_timeseries",
     rule_id="LOAD_TIMESERIES_LENGTH",
     kind="formal",
@@ -86,7 +86,7 @@ class ArrayCardinalityValidation(SqlRule):
 
 # Register array cardinality validation for multiple datasets with timeseries
 register_map(
-    task="adhoc",
+    task="validation-test",
     rule_cls=ArrayCardinalityValidation,
     rule_id="ARRAY_CARDINALITY_CHECK",
     kind="formal",

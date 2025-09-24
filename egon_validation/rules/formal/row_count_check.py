@@ -4,7 +4,7 @@ from egon_validation.config import MV_GRID_DISTRICTS_COUNT
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="grid.egon_mv_grid_district",
     rule_id="MV_GRID_DISTRICT_COUNT",
     kind="formal",
@@ -40,7 +40,7 @@ class RowCountValidation(SqlRule):
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_cts_ind",
     rule_id="CTS_IND_ROW_COUNT_MATCH",
     kind="formal",

@@ -7,7 +7,7 @@ from egon_validation.config import (
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="grid.egon_etrago_load",
     rule_id="ELECTRICAL_LOAD_AGGREGATION",
     kind="custom",
@@ -172,7 +172,7 @@ class ElectricalLoadAggregationValidation(SqlRule):
 
 
 @register(
-    task="adhoc",
+    task="validation-test",
     dataset="demand.egon_demandregio_zensus_electricity",
     rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
     kind="formal",
