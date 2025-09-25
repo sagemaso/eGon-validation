@@ -1,0 +1,1383 @@
+2025-09-05 09:21:08,310 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=4) [execute.py:92]
+2025-09-05 09:21:12,721 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.41s [execute.py:43]
+2025-09-05 09:21:12,926 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.61s [execute.py:43]
+2025-09-05 09:21:13,336 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.02s [execute.py:43]
+2025-09-05 09:21:15,793 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.48s [execute.py:43]
+2025-09-05 09:21:15,998 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:43]
+2025-09-05 09:21:16,637 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.30s [execute.py:43]
+2025-09-05 09:21:18,046 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:43]
+2025-09-05 09:21:18,456 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:43]
+2025-09-05 09:21:20,506 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.05s [execute.py:43]
+2025-09-05 09:21:21,528 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:43]
+2025-09-05 09:21:22,756 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.71s [execute.py:43]
+2025-09-05 09:21:23,986 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:43]
+2025-09-05 09:21:25,650 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.89s [execute.py:43]
+2025-09-05 09:21:25,829 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:43]
+2025-09-05 09:21:28,585 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.93s [execute.py:43]
+2025-09-05 09:21:28,695 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.87s [execute.py:43]
+2025-09-05 09:21:30,539 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.55s [execute.py:43]
+2025-09-05 09:21:30,743 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.16s [execute.py:43]
+2025-09-05 09:21:30,949 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.25s [execute.py:43]
+2025-09-05 09:21:32,997 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:43]
+2025-09-05 09:21:33,582 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT COUNT(DISTINCT ST_SRID(geom)) AS srids,
+               SUM(CASE WHEN ST_SRID(geom) = 0 THEN 1 ELSE 0 END) AS srid_zero
+        FROM supply.egon_power_plants_pv
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:39]
+2025-09-05 09:21:33,583 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT 
+            COUNT(*) as total_rows,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) = 365 THEN 1 END) as correct_length,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) != 365 THEN 1 END) as wrong_length,
+            COUNT(CASE WHEN selected_idp_profiles IS NULL THEN 1 END) as null_arrays,
+            array_agg(DISTINCT cardinality(selected_idp_profiles)) as found_lengths,
+            MIN(cardinality(selected_idp_profiles)) as min_length,
+            MAX(cardinality(selected_idp_profiles)) as max_length,
+            AVG(cardinality(selected_idp_profiles)) as avg_length
+        FROM demand.egon_heat_timeseries_selected_profiles
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:39]
+2025-09-05 09:21:33,583 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:39]
+2025-09-05 09:21:33,584 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: SELECT COUNT(*) as total_count FROM boundaries.vg250_sta]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:39]
+2025-09-05 09:21:33,584 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.01s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT COUNT(DISTINCT ST_SRID(geom)) AS srids,
+               SUM(CASE WHEN ST_SRID(geom) = 0 THEN 1 ELSE 0 END) AS srid_zero
+        FROM supply.egon_power_plants_pv
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:75]
+2025-09-05 09:21:33,585 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT 
+            COUNT(*) as total_rows,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) = 365 THEN 1 END) as correct_length,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) != 365 THEN 1 END) as wrong_length,
+            COUNT(CASE WHEN selected_idp_profiles IS NULL THEN 1 END) as null_arrays,
+            array_agg(DISTINCT cardinality(selected_idp_profiles)) as found_lengths,
+            MIN(cardinality(selected_idp_profiles)) as min_length,
+            MAX(cardinality(selected_idp_profiles)) as max_length,
+            AVG(cardinality(selected_idp_profiles)) as avg_length
+        FROM demand.egon_heat_timeseries_selected_profiles
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:75]
+2025-09-05 09:21:33,585 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.10s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:75]
+2025-09-05 09:21:33,585 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: SELECT COUNT(*) as total_count FROM boundaries.vg250_sta]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:75]
+2025-09-05 09:21:34,602 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) connection to server at "127.0.0.1", port 59763 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:39]
+2025-09-05 09:21:34,603 - egon_validation.retry - ERROR - Circuit breaker for fetch_one opened after 5 failures [retry.py:158]
+2025-09-05 09:21:34,603 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.07s: Failed to fetch data: (psycopg2.OperationalError) connection to server at "127.0.0.1", port 59763 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:75]
+2025-09-05 09:21:34,618 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.05s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:34,641 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.04s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:34,682 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.12s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:36,668 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,669 - egon_validation.runner - ERROR - Rule ARRAY_CARDINALITY_CHECK unexpected error in 23.74s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [execute.py:75]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 38, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 66, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,670 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.07s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:36,672 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,672 - egon_validation.runner - ERROR - Rule SRID_UNIQUE_NONZERO unexpected error in 5.93s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [execute.py:75]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 38, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 66, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,673 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.06s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:36,678 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,679 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.01s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:36,806 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,806 - egon_validation.runner - ERROR - Rule SPECIAL_SRID_VALIDATION unexpected error in 5.86s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [execute.py:75]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 38, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 66, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:36,807 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:37,691 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.15s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:37,730 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.11s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:37,743 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.16s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:37,837 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:39,840 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:39,844 - egon_validation.runner - ERROR - Rule SPECIAL_SRID_VALIDATION unexpected error in 6.85s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [execute.py:75]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 38, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 66, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:39,845 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:39,847 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:39,847 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:39,909 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:39,910 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.07s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:40,006 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:61]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 52, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 135, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s.
+2025-09-05 09:21:40,006 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.06s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:40,887 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.19s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:40,894 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.16s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:40,984 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:41,069 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.03s: Circuit breaker is OPEN for fetch_one. Too many failures (5). Will retry after 30s. [retry.py:75]
+2025-09-05 09:21:46,564 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=4) [execute.py:92]
+2025-09-05 09:21:47,874 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.31s [execute.py:43]
+2025-09-05 09:21:47,900 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.33s [execute.py:43]
+2025-09-05 09:21:47,925 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.36s [execute.py:43]
+2025-09-05 09:21:48,687 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.81s [execute.py:43]
+2025-09-05 09:21:49,025 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.34s [execute.py:43]
+2025-09-05 09:21:49,252 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.33s [execute.py:43]
+2025-09-05 09:21:49,891 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.87s [execute.py:43]
+2025-09-05 09:21:50,415 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 3.85s [execute.py:43]
+2025-09-05 09:21:50,897 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.48s [execute.py:43]
+2025-09-05 09:21:51,333 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.76s [execute.py:43]
+2025-09-05 09:21:51,789 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.35s [execute.py:43]
+2025-09-05 09:21:51,988 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.09s [execute.py:43]
+2025-09-05 09:21:52,262 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.47s [execute.py:43]
+2025-09-05 09:21:52,494 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.23s [execute.py:43]
+2025-09-05 09:21:52,621 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.73s [execute.py:43]
+2025-09-05 09:21:52,846 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.35s [execute.py:43]
+2025-09-05 09:21:53,076 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.45s [execute.py:43]
+2025-09-05 09:21:53,251 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.41s [execute.py:43]
+2025-09-05 09:21:53,498 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.42s [execute.py:43]
+2025-09-05 09:21:53,812 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.31s [execute.py:43]
+2025-09-05 09:21:54,018 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.21s [execute.py:43]
+2025-09-05 09:21:54,244 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.23s [execute.py:43]
+2025-09-05 09:21:54,448 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.20s [execute.py:43]
+2025-09-05 09:21:54,523 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.28s [execute.py:43]
+2025-09-05 09:21:54,853 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:43]
+2025-09-05 09:21:54,927 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:43]
+2025-09-05 09:21:55,253 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:43]
+2025-09-05 09:21:55,354 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:43]
+2025-09-05 09:21:56,131 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.78s [execute.py:43]
+2025-09-05 09:21:56,220 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.23s [execute.py:43]
+2025-09-05 09:22:14,161 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.91s [execute.py:43]
+2025-09-05 09:22:16,004 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.10s [execute.py:43]
+2025-09-05 09:22:16,006 - egon_validation.runner - INFO - Completed 34 rules in 29.44s (avg: 0.87s per rule) [execute.py:116]
+2025-09-20 10:12:03,961 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-20 10:12:05,118 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.15s [execute.py:47]
+2025-09-20 10:12:05,143 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.18s [execute.py:47]
+2025-09-20 10:12:05,267 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.30s [execute.py:47]
+2025-09-20 10:12:05,464 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.50s [execute.py:47]
+2025-09-20 10:12:05,538 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.39s [execute.py:47]
+2025-09-20 10:12:05,959 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.69s [execute.py:47]
+2025-09-20 10:12:06,213 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.09s [execute.py:47]
+2025-09-20 10:12:06,213 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.25s [execute.py:47]
+2025-09-20 10:12:06,674 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.29s [execute.py:47]
+2025-09-20 10:12:06,882 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-20 10:12:07,403 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.19s [execute.py:47]
+2025-09-20 10:12:07,530 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.99s [execute.py:47]
+2025-09-20 10:12:07,755 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.35s [execute.py:47]
+2025-09-20 10:12:07,932 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.40s [execute.py:47]
+2025-09-20 10:12:07,957 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 3.99s [execute.py:47]
+2025-09-20 10:12:08,182 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.43s [execute.py:47]
+2025-09-20 10:12:08,332 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.40s [execute.py:47]
+2025-09-20 10:12:08,357 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-20 10:12:08,706 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.04s [execute.py:47]
+2025-09-20 10:12:08,731 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-20 10:12:08,756 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-20 10:12:09,160 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-20 10:12:09,161 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.45s [execute.py:47]
+2025-09-20 10:12:09,185 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-20 10:12:09,369 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.19s [execute.py:47]
+2025-09-20 10:12:09,545 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.38s [execute.py:47]
+2025-09-20 10:12:09,571 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.41s [execute.py:47]
+2025-09-20 10:12:09,622 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.44s [execute.py:47]
+2025-09-20 10:12:10,379 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.83s [execute.py:47]
+2025-09-20 10:12:11,530 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.65s [execute.py:47]
+2025-09-20 10:12:29,093 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.72s [execute.py:47]
+2025-09-20 10:12:34,213 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 30.25s [execute.py:47]
+2025-09-20 10:12:34,214 - egon_validation.runner - INFO - Completed 34 rules in 30.25s (avg: 0.89s per rule) [execute.py:177]
+2025-09-20 16:23:39,248 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-20 16:23:44,849 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.60s [execute.py:47]
+2025-09-20 16:23:44,850 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.60s [execute.py:47]
+2025-09-20 16:23:44,850 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.60s [execute.py:47]
+2025-09-20 16:23:44,951 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.70s [execute.py:47]
+2025-09-20 16:23:46,850 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.60s [execute.py:47]
+2025-09-20 16:23:47,511 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-09-20 16:23:47,716 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:47]
+2025-09-20 16:23:48,125 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-09-20 16:23:50,558 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.05s [execute.py:47]
+2025-09-20 16:23:50,682 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.20s [execute.py:47]
+2025-09-20 16:23:51,811 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.09s [execute.py:47]
+2025-09-20 16:23:52,015 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.16s [execute.py:47]
+2025-09-20 16:23:52,015 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.46s [execute.py:47]
+2025-09-20 16:23:52,866 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.31s [execute.py:47]
+2025-09-20 16:23:54,472 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.66s [execute.py:47]
+2025-09-20 16:23:54,676 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.66s [execute.py:47]
+2025-09-20 16:23:54,677 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.66s [execute.py:47]
+2025-09-20 16:23:55,291 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.42s [execute.py:47]
+2025-09-20 16:23:56,835 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.15s [execute.py:47]
+2025-09-20 16:23:56,930 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:47]
+2025-09-20 16:23:57,134 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.46s [execute.py:47]
+2025-09-20 16:23:57,953 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.66s [execute.py:47]
+2025-09-20 16:23:57,954 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.28s [execute.py:47]
+2025-09-20 16:23:59,461 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.63s [execute.py:47]
+2025-09-20 16:23:59,486 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.56s [execute.py:47]
+2025-09-20 16:23:59,521 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.39s [execute.py:47]
+2025-09-20 16:24:00,207 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.25s [execute.py:47]
+2025-09-20 16:24:00,208 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.25s [execute.py:47]
+2025-09-20 16:24:01,434 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 1.97s [execute.py:47]
+2025-09-20 16:24:01,844 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.32s [execute.py:47]
+2025-09-20 16:24:12,835 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.58s [execute.py:47]
+2025-09-20 16:24:19,660 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.17s [execute.py:47]
+2025-09-20 16:24:19,661 - egon_validation.runner - INFO - Completed 34 rules in 40.41s (avg: 1.19s per rule) [execute.py:177]
+2025-09-24 08:38:29,921 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 08:38:34,836 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.91s [execute.py:47]
+2025-09-24 08:38:34,838 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.91s [execute.py:47]
+2025-09-24 08:38:34,940 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.02s [execute.py:47]
+2025-09-24 08:38:35,043 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:47]
+2025-09-24 08:38:37,090 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.17s [execute.py:47]
+2025-09-24 08:38:37,267 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.43s [execute.py:47]
+2025-09-24 08:38:37,705 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.76s [execute.py:47]
+2025-09-24 08:38:37,997 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.16s [execute.py:47]
+2025-09-24 08:38:39,752 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.48s [execute.py:47]
+2025-09-24 08:38:40,776 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:47]
+2025-09-24 08:38:41,185 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:47]
+2025-09-24 08:38:42,004 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.91s [execute.py:47]
+2025-09-24 08:38:42,004 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-09-24 08:38:42,618 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-09-24 08:38:43,978 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL) AS total_non_null_references,
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL AND parent.load_id IS NOT NULL) AS valid_references,
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL AND parent.load_id IS NULL) AS orphaned_references
+        FROM
+            grid.egon_etrago_load_timeseries as child
+        LEFT JOIN
+            grid.egon_etrago_load as parent
+        ON child.load_id = parent.load_id
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,978 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        WITH reference_geom AS (
+            SELECT ST_Union(ST_Transform(geometry, 3035)) as unified_geom
+            FROM boundaries.vg250_sta
+            WHERE nuts = 'DE' AND gf = 4
+        )
+        SELECT 
+            COUNT(*) as total_points,
+            COUNT(CASE WHEN ST_Contains(reference_geom.unified_geom, ST_Transform(points.geom, 3035)) THEN 1 END) as points_inside,
+            COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.geom, 3035)) THEN 1 END) as points_outside
+        FROM 
+            reference_geom,
+            supply.egon_power_plants_wind AS points
+        WHERE 
+            points.site_type = 'Windkraft an Land'
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,979 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL) AS total_non_null_references,
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL AND parent.bus_id IS NOT NULL) AS valid_references,
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL AND parent.bus_id IS NULL) AS orphaned_references
+        FROM
+            grid.egon_etrago_load as child
+        LEFT JOIN
+            grid.egon_etrago_bus as parent
+        ON child.bus = parent.bus_id
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,979 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT 
+            COUNT(*) as total_rows,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) = 365 THEN 1 END) as correct_length,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) != 365 THEN 1 END) as wrong_length,
+            COUNT(CASE WHEN selected_idp_profiles IS NULL THEN 1 END) as null_arrays,
+            array_agg(DISTINCT cardinality(selected_idp_profiles)) as found_lengths,
+            MIN(cardinality(selected_idp_profiles)) as min_length,
+            MAX(cardinality(selected_idp_profiles)) as max_length,
+            AVG(cardinality(selected_idp_profiles)) as avg_length
+        FROM demand.egon_heat_timeseries_selected_profiles
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,979 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,980 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 08:38:43,983 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.00s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL) AS total_non_null_references,
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL AND parent.load_id IS NOT NULL) AS valid_references,
+            COUNT(*) FILTER (WHERE child.load_id IS NOT NULL AND parent.load_id IS NULL) AS orphaned_references
+        FROM
+            grid.egon_etrago_load_timeseries as child
+        LEFT JOIN
+            grid.egon_etrago_load as parent
+        ON child.load_id = parent.load_id
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:43,984 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        WITH reference_geom AS (
+            SELECT ST_Union(ST_Transform(geometry, 3035)) as unified_geom
+            FROM boundaries.vg250_sta
+            WHERE nuts = 'DE' AND gf = 4
+        )
+        SELECT 
+            COUNT(*) as total_points,
+            COUNT(CASE WHEN ST_Contains(reference_geom.unified_geom, ST_Transform(points.geom, 3035)) THEN 1 END) as points_inside,
+            COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.geom, 3035)) THEN 1 END) as points_outside
+        FROM 
+            reference_geom,
+            supply.egon_power_plants_wind AS points
+        WHERE 
+            points.site_type = 'Windkraft an Land'
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:43,984 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL) AS total_non_null_references,
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL AND parent.bus_id IS NOT NULL) AS valid_references,
+            COUNT(*) FILTER (WHERE child.bus IS NOT NULL AND parent.bus_id IS NULL) AS orphaned_references
+        FROM
+            grid.egon_etrago_load as child
+        LEFT JOIN
+            grid.egon_etrago_bus as parent
+        ON child.bus = parent.bus_id
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:43,984 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT 
+            COUNT(*) as total_rows,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) = 365 THEN 1 END) as correct_length,
+            COUNT(CASE WHEN cardinality(selected_idp_profiles) != 365 THEN 1 END) as wrong_length,
+            COUNT(CASE WHEN selected_idp_profiles IS NULL THEN 1 END) as null_arrays,
+            array_agg(DISTINCT cardinality(selected_idp_profiles)) as found_lengths,
+            MIN(cardinality(selected_idp_profiles)) as min_length,
+            MAX(cardinality(selected_idp_profiles)) as max_length,
+            AVG(cardinality(selected_idp_profiles)) as avg_length
+        FROM demand.egon_heat_timeseries_selected_profiles
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:43,985 - egon_validation.retry - ERROR - Circuit breaker for fetch_one opened after 5 failures [retry.py:176]
+2025-09-24 08:38:43,986 - egon_validation.retry - ERROR - Circuit breaker for fetch_one opened after 5 failures [retry.py:176]
+2025-09-24 08:38:43,986 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:43,986 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 08:38:44,987 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.18s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:45,015 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:45,017 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.13s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:45,030 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:45,035 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:45,038 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,050 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,055 - egon_validation.runner - ERROR - Rule ARRAY_CARDINALITY_CHECK unexpected error in 17.13s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,056 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,079 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,080 - egon_validation.runner - ERROR - Rule REFERENTIAL_INTEGRITY_CHECK unexpected error in 5.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,080 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,151 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,152 - egon_validation.runner - ERROR - Rule adhoc_NOT_NULL_NAN unexpected error in 5.97s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,153 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.08s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,171 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,172 - egon_validation.runner - ERROR - Rule REFERENTIAL_INTEGRITY_CHECK unexpected error in 5.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,172 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,192 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,192 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:47,203 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,204 - egon_validation.runner - ERROR - Rule WIND_PLANTS_IN_GERMANY unexpected error in 6.43s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:47,204 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,066 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.03s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,174 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,234 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.13s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,258 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.13s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,261 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:48,283 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.08s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,095 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,096 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.08s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,197 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,198 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,273 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,274 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.08s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,361 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,362 - egon_validation.runner - ERROR - Rule MV_GRID_DISTRICT_COUNT unexpected error in 7.74s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,363 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,369 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,370 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:50,389 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:50,389 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,172 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,285 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,359 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.03s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,409 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.15s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,426 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:51,427 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,250 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,250 - egon_validation.runner - ERROR - Rule CTS_IND_ROW_COUNT_MATCH unexpected error in 6.19s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,251 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,389 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,390 - egon_validation.runner - ERROR - Rule SPECIAL_SRID_VALIDATION unexpected error in 6.22s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,390 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.06s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,455 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,456 - egon_validation.runner - ERROR - Rule SRID_UNIQUE_NONZERO unexpected error in 6.38s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,457 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,463 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,464 - egon_validation.runner - ERROR - Rule SPECIAL_SRID_VALIDATION unexpected error in 6.26s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,465 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,521 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,522 - egon_validation.runner - ERROR - Rule SPECIAL_SRID_VALIDATION unexpected error in 6.37s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,522 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:53,559 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:53,560 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,305 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.15s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,454 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,491 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.10s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,508 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.19s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,578 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.20s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:54,610 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,459 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,460 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,597 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,597 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,623 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,624 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,683 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,684 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,696 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,697 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:56,777 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,778 - egon_validation.runner - ERROR - Rule SRID_VALIDATION unexpected error in 6.41s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:56,778 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,531 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.19s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,639 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,664 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.10s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,711 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.12s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,751 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.14s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:57,827 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.13s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:38:59,664 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,665 - egon_validation.runner - ERROR - Rule VALUE_SET_VALIDATION unexpected error in 6.20s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,724 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,725 - egon_validation.runner - ERROR - Rule SRID_VALIDATION unexpected error in 6.47s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,765 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,765 - egon_validation.runner - ERROR - Rule SRID_VALIDATION unexpected error in 6.37s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,829 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,829 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 6.31s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,897 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,898 - egon_validation.runner - ERROR - Rule SCENARIO_VALUES_VALID unexpected error in 6.44s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,957 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:38:59,957 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.06s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:39:01,015 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 08:39:03,086 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:39:03,087 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 6.31s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [execute.py:117]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 42, in _execute_single_rule
+    row = db.fetch_one(engine, rule.sql(ctx))
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 73, in wrapper
+    raise e
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 08:39:16,878 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 08:39:20,702 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.82s [execute.py:47]
+2025-09-24 08:39:20,738 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.86s [execute.py:47]
+2025-09-24 08:39:20,877 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.99s [execute.py:47]
+2025-09-24 08:39:20,926 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.04s [execute.py:47]
+2025-09-24 08:39:21,209 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.47s [execute.py:47]
+2025-09-24 08:39:21,490 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.61s [execute.py:47]
+2025-09-24 08:39:21,702 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 08:39:21,909 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.21s [execute.py:47]
+2025-09-24 08:39:22,245 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.24s [execute.py:47]
+2025-09-24 08:39:22,457 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 08:39:23,242 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.54s [execute.py:47]
+2025-09-24 08:39:23,344 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.21s [execute.py:47]
+2025-09-24 08:39:23,622 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.38s [execute.py:47]
+2025-09-24 08:39:23,672 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 6.79s [execute.py:47]
+2025-09-24 08:39:23,748 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,051 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.43s [execute.py:47]
+2025-09-24 08:39:24,076 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,152 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,427 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.22s [execute.py:47]
+2025-09-24 08:39:24,477 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,551 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,857 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 08:39:24,881 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:39:24,957 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:39:25,234 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.18s [execute.py:47]
+2025-09-24 08:39:25,259 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:39:25,284 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 08:39:25,387 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 08:39:26,042 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.78s [execute.py:47]
+2025-09-24 08:39:27,125 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.67s [execute.py:47]
+2025-09-24 08:39:43,960 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.73s [execute.py:47]
+2025-09-24 08:39:48,138 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.26s [execute.py:47]
+2025-09-24 08:39:48,139 - egon_validation.runner - INFO - Completed 34 rules in 31.26s (avg: 0.92s per rule) [execute.py:177]
+2025-09-24 08:42:20,955 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 08:42:22,267 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.31s [execute.py:47]
+2025-09-24 08:42:22,293 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.34s [execute.py:47]
+2025-09-24 08:42:22,442 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.49s [execute.py:47]
+2025-09-24 08:42:22,619 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.66s [execute.py:47]
+2025-09-24 08:42:22,696 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 08:42:23,094 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.65s [execute.py:47]
+2025-09-24 08:42:23,423 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.15s [execute.py:47]
+2025-09-24 08:42:23,449 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.35s [execute.py:47]
+2025-09-24 08:42:23,909 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.26s [execute.py:47]
+2025-09-24 08:42:24,119 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 08:42:24,743 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.32s [execute.py:47]
+2025-09-24 08:42:24,948 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.21s [execute.py:47]
+2025-09-24 08:42:25,081 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.38s [execute.py:47]
+2025-09-24 08:42:25,230 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 4.27s [execute.py:47]
+2025-09-24 08:42:25,307 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.36s [execute.py:47]
+2025-09-24 08:42:25,508 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.43s [execute.py:47]
+2025-09-24 08:42:25,637 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.41s [execute.py:47]
+2025-09-24 08:42:25,712 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 08:42:25,885 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-09-24 08:42:26,033 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,109 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,310 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.42s [execute.py:47]
+2025-09-24 08:42:26,433 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,509 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,684 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.18s [execute.py:47]
+2025-09-24 08:42:26,709 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,836 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 08:42:26,936 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 08:42:27,492 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.78s [execute.py:47]
+2025-09-24 08:42:28,973 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.85s [execute.py:47]
+2025-09-24 08:42:45,766 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.08s [execute.py:47]
+2025-09-24 08:42:50,067 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.11s [execute.py:47]
+2025-09-24 08:42:50,068 - egon_validation.runner - INFO - Completed 34 rules in 29.11s (avg: 0.86s per rule) [execute.py:177]
+2025-09-24 08:58:30,124 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 08:58:34,244 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.12s [execute.py:47]
+2025-09-24 08:58:34,269 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.14s [execute.py:47]
+2025-09-24 08:58:34,269 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.14s [execute.py:47]
+2025-09-24 08:58:34,303 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.18s [execute.py:47]
+2025-09-24 08:58:34,960 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.69s [execute.py:47]
+2025-09-24 08:58:35,185 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.92s [execute.py:47]
+2025-09-24 08:58:35,389 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.14s [execute.py:47]
+2025-09-24 08:58:35,566 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.38s [execute.py:47]
+2025-09-24 08:58:35,951 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 08:58:36,161 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 08:58:36,440 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 6.32s [execute.py:47]
+2025-09-24 08:58:36,619 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.23s [execute.py:47]
+2025-09-24 08:58:36,744 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.30s [execute.py:47]
+2025-09-24 08:58:36,845 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.13s [execute.py:47]
+2025-09-24 08:58:37,021 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 08:58:37,173 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.43s [execute.py:47]
+2025-09-24 08:58:37,250 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.41s [execute.py:47]
+2025-09-24 08:58:37,423 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 08:58:37,652 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:37,828 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,053 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,078 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.12s [execute.py:47]
+2025-09-24 08:58:38,227 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,378 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.20s [execute.py:47]
+2025-09-24 08:58:38,453 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,479 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,626 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 08:58:38,811 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 08:58:39,335 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.86s [execute.py:47]
+2025-09-24 08:58:40,630 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.47s [execute.py:47]
+2025-09-24 08:58:57,694 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.24s [execute.py:47]
+2025-09-24 08:59:01,179 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.05s [execute.py:47]
+2025-09-24 08:59:01,180 - egon_validation.runner - INFO - Completed 34 rules in 31.06s (avg: 0.91s per rule) [execute.py:177]
+2025-09-24 09:10:06,142 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 09:10:11,063 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.92s [execute.py:47]
+2025-09-24 09:10:11,114 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.97s [execute.py:47]
+2025-09-24 09:10:11,651 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.51s [execute.py:47]
+2025-09-24 09:10:11,676 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.53s [execute.py:47]
+2025-09-24 09:10:12,973 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.86s [execute.py:47]
+2025-09-24 09:10:13,270 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.62s [execute.py:47]
+2025-09-24 09:10:13,477 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 09:10:13,659 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.60s [execute.py:47]
+2025-09-24 09:10:13,892 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.75s [execute.py:47]
+2025-09-24 09:10:14,169 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.38s [execute.py:47]
+2025-09-24 09:10:14,306 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.41s [execute.py:47]
+2025-09-24 09:10:14,609 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.30s [execute.py:47]
+2025-09-24 09:10:14,835 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.22s [execute.py:47]
+2025-09-24 09:10:14,909 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.43s [execute.py:47]
+2025-09-24 09:10:15,259 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.42s [execute.py:47]
+2025-09-24 09:10:15,284 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.37s [execute.py:47]
+2025-09-24 09:10:15,336 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:47]
+2025-09-24 09:10:15,658 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 09:10:15,732 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.39s [execute.py:47]
+2025-09-24 09:10:16,012 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.04s [execute.py:47]
+2025-09-24 09:10:16,062 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:10:16,140 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.41s [execute.py:47]
+2025-09-24 09:10:16,415 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:10:16,464 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:10:16,547 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.41s [execute.py:47]
+2025-09-24 09:10:16,547 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.26s [execute.py:47]
+2025-09-24 09:10:16,821 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.41s [execute.py:47]
+2025-09-24 09:10:16,897 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 09:10:17,444 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.90s [execute.py:47]
+2025-09-24 09:10:18,537 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.37s [execute.py:47]
+2025-09-24 09:10:36,021 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.47s [execute.py:47]
+2025-09-24 09:10:37,560 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.41s [execute.py:47]
+2025-09-24 09:10:37,561 - egon_validation.runner - INFO - Completed 34 rules in 31.42s (avg: 0.92s per rule) [execute.py:177]
+2025-09-24 09:21:57,317 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 09:22:00,834 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.52s [execute.py:47]
+2025-09-24 09:22:00,861 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.54s [execute.py:47]
+2025-09-24 09:22:00,887 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.57s [execute.py:47]
+2025-09-24 09:22:00,913 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.59s [execute.py:47]
+2025-09-24 09:22:01,245 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.38s [execute.py:47]
+2025-09-24 09:22:01,522 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.64s [execute.py:47]
+2025-09-24 09:22:01,756 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.23s [execute.py:47]
+2025-09-24 09:22:01,962 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.13s [execute.py:47]
+2025-09-24 09:22:02,278 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 09:22:02,489 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.21s [execute.py:47]
+2025-09-24 09:22:02,924 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 5.61s [execute.py:47]
+2025-09-24 09:22:03,129 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.21s [execute.py:47]
+2025-09-24 09:22:03,207 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.09s [execute.py:47]
+2025-09-24 09:22:03,258 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.50s [execute.py:47]
+2025-09-24 09:22:03,532 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 09:22:03,632 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.42s [execute.py:47]
+2025-09-24 09:22:03,656 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.40s [execute.py:47]
+2025-09-24 09:22:03,935 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 09:22:04,010 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.77s [execute.py:47]
+2025-09-24 09:22:04,062 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.41s [execute.py:47]
+2025-09-24 09:22:04,337 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:22:04,438 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 09:22:04,462 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:22:04,739 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:22:04,815 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.18s [execute.py:47]
+2025-09-24 09:22:04,841 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:22:04,865 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 09:22:05,167 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 09:22:05,684 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.84s [execute.py:47]
+2025-09-24 09:22:06,638 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.15s [execute.py:47]
+2025-09-24 09:22:23,800 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.98s [execute.py:47]
+2025-09-24 09:22:27,253 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.93s [execute.py:47]
+2025-09-24 09:22:27,254 - egon_validation.runner - INFO - Completed 34 rules in 29.94s (avg: 0.88s per rule) [execute.py:177]
+2025-09-24 09:24:34,030 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 09:24:39,141 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.11s [execute.py:47]
+2025-09-24 09:24:39,142 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.11s [execute.py:47]
+2025-09-24 09:24:39,551 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.52s [execute.py:47]
+2025-09-24 09:24:39,755 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.72s [execute.py:47]
+2025-09-24 09:24:41,803 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-09-24 09:24:42,000 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.97s [execute.py:47]
+2025-09-24 09:24:42,418 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-09-24 09:24:42,419 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:47]
+2025-09-24 09:24:44,875 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:47]
+2025-09-24 09:24:44,978 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.99s [execute.py:47]
+2025-09-24 09:24:45,514 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 1.87s [execute.py:47]
+2025-09-24 09:24:46,104 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:47]
+2025-09-24 09:24:46,513 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 1.64s [execute.py:47]
+2025-09-24 09:24:47,041 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.24s [execute.py:47]
+2025-09-24 09:24:47,742 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.23s [execute.py:47]
+2025-09-24 09:24:48,561 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.46s [execute.py:47]
+2025-09-24 09:24:48,852 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.34s [execute.py:47]
+2025-09-24 09:24:49,790 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.75s [execute.py:47]
+2025-09-24 09:24:50,405 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 5.43s [execute.py:47]
+2025-09-24 09:24:50,526 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.78s [execute.py:47]
+2025-09-24 09:24:51,428 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.58s [execute.py:47]
+2025-09-24 09:24:52,043 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.48s [execute.py:47]
+2025-09-24 09:24:52,452 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.66s [execute.py:47]
+2025-09-24 09:24:52,862 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.46s [execute.py:47]
+2025-09-24 09:24:53,067 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.54s [execute.py:47]
+2025-09-24 09:24:54,296 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-09-24 09:24:54,868 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.82s [execute.py:47]
+2025-09-24 09:24:55,115 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.66s [execute.py:47]
+2025-09-24 09:24:55,524 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 2.66s [execute.py:47]
+2025-09-24 09:24:56,343 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.05s [execute.py:47]
+2025-09-24 09:25:05,969 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.93s [execute.py:47]
+2025-09-24 09:25:13,546 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.48s [execute.py:47]
+2025-09-24 09:25:13,547 - egon_validation.runner - INFO - Completed 34 rules in 39.52s (avg: 1.16s per rule) [execute.py:177]
+2025-09-24 09:32:44,349 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 09:32:48,852 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:47]
+2025-09-24 09:32:48,852 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:47]
+2025-09-24 09:32:48,852 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:47]
+2025-09-24 09:32:48,899 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.55s [execute.py:47]
+2025-09-24 09:32:50,592 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.74s [execute.py:47]
+2025-09-24 09:32:50,886 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 6.54s [execute.py:47]
+2025-09-24 09:32:50,910 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.06s [execute.py:47]
+2025-09-24 09:32:51,257 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.37s [execute.py:47]
+2025-09-24 09:32:51,282 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.43s [execute.py:47]
+2025-09-24 09:32:51,681 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 09:32:51,860 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.40s [execute.py:47]
+2025-09-24 09:32:52,140 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.28s [execute.py:47]
+2025-09-24 09:32:52,366 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.23s [execute.py:47]
+2025-09-24 09:32:52,441 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.53s [execute.py:47]
+2025-09-24 09:32:52,739 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.71s [execute.py:47]
+2025-09-24 09:32:52,788 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.42s [execute.py:47]
+2025-09-24 09:32:52,814 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.37s [execute.py:47]
+2025-09-24 09:32:53,139 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-09-24 09:32:53,213 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:32:53,540 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:32:53,615 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:32:53,891 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.30s [execute.py:47]
+2025-09-24 09:32:53,941 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:32:54,016 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 09:32:54,065 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.28s [execute.py:47]
+2025-09-24 09:32:54,318 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 09:32:54,343 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 09:32:54,437 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.42s [execute.py:47]
+2025-09-24 09:32:55,186 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.87s [execute.py:47]
+2025-09-24 09:32:56,214 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.53s [execute.py:47]
+2025-09-24 09:33:13,168 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.10s [execute.py:47]
+2025-09-24 09:33:15,830 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.48s [execute.py:47]
+2025-09-24 09:33:15,831 - egon_validation.runner - INFO - Completed 34 rules in 31.48s (avg: 0.93s per rule) [execute.py:177]
+2025-09-24 09:34:33,918 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 09:34:35,984 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,985 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.05s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:35,985 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,986 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,986 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.10s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:35,986 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,987 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,987 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.00s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:35,987 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:43]
+2025-09-24 09:34:35,987 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.08s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:35,988 - egon_validation.retry - ERROR - Circuit breaker for fetch_one opened after 5 failures [retry.py:176]
+2025-09-24 09:34:35,988 - egon_validation.retry - ERROR - Circuit breaker for fetch_one opened after 5 failures [retry.py:176]
+2025-09-24 09:34:35,988 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.09s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:35,989 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.07s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: select pg_catalog.version()]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-09-24 09:34:36,990 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:37,037 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.06s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:37,064 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.12s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:37,068 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.02s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:37,075 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.18s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:37,083 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,007 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,008 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.08s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,094 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,094 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,103 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,104 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.07s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,125 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,126 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.04s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,190 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,191 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:39,262 - egon_validation.retry - ERROR - Function fetch_one failed after 3 attempts: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:67]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 55, in wrapper
+    result = func(*args, **kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/retry.py", line 151, in wrapper
+    raise DatabaseConnectionError(
+egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s.
+2025-09-24 09:34:39,263 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.06s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,086 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.05s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,131 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,164 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,179 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.06s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,198 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.01s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 09:34:40,325 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.12s: Circuit breaker is OPEN for fetch_one. Too many failures (6). Will retry after 30s. [retry.py:82]
+2025-09-24 10:05:57,208 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-09-24 10:06:02,969 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.76s [execute.py:47]
+2025-09-24 10:06:02,969 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.76s [execute.py:47]
+2025-09-24 10:06:02,969 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.76s [execute.py:47]
+2025-09-24 10:06:03,379 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.17s [execute.py:47]
+2025-09-24 10:06:05,427 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.22s [execute.py:47]
+2025-09-24 10:06:05,427 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:47]
+2025-09-24 10:06:05,632 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-09-24 10:06:06,041 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-09-24 10:06:07,647 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.22s [execute.py:47]
+2025-09-24 10:06:08,704 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:47]
+2025-09-24 10:06:08,952 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.32s [execute.py:47]
+2025-09-24 10:06:09,113 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 1.64s [execute.py:47]
+2025-09-24 10:06:09,932 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.29s [execute.py:47]
+2025-09-24 10:06:10,547 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:47]
+2025-09-24 10:06:11,162 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.05s [execute.py:47]
+2025-09-24 10:06:11,603 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.67s [execute.py:47]
+2025-09-24 10:06:12,186 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.64s [execute.py:47]
+2025-09-24 10:06:12,933 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 1.77s [execute.py:47]
+2025-09-24 10:06:13,057 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 1.45s [execute.py:47]
+2025-09-24 10:06:13,333 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 10:06:13,457 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 10:06:13,760 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.43s [execute.py:47]
+2025-09-24 10:06:13,837 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.38s [execute.py:47]
+2025-09-24 10:06:13,913 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.73s [execute.py:47]
+2025-09-24 10:06:14,160 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 10:06:14,237 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-09-24 10:06:14,313 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.40s [execute.py:47]
+2025-09-24 10:06:14,413 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 5.71s [execute.py:47]
+2025-09-24 10:06:14,609 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.45s [execute.py:47]
+2025-09-24 10:06:15,195 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.88s [execute.py:47]
+2025-09-24 10:06:29,597 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.38s [execute.py:47]
+2025-09-24 10:06:33,104 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.87s [execute.py:47]
+2025-09-24 10:09:23,907 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 194.95s [execute.py:47]
+2025-09-24 10:09:23,908 - egon_validation.runner - INFO - Completed 35 rules in 206.70s (avg: 5.91s per rule) [execute.py:177]
