@@ -1,9 +1,13 @@
-import os, json, shutil, datetime
+import os
+import shutil
+import datetime
+
 
 def _replace_tokens(s: str, **tokens) -> str:
     for k, v in tokens.items():
         s = s.replace("{{" + k + "}}", str(v))
     return s
+
 
 def generate(ctx, version: str = "0.1.0"):
     base = os.path.join(ctx.out_dir, ctx.run_id, "final")
@@ -22,8 +26,7 @@ def generate(ctx, version: str = "0.1.0"):
         html,
         TITLE="eGon Validation — Report",
         RUN_ID=ctx.run_id,
-        SCENARIO=ctx.scenario or "-",
-        GENERATED_AT=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ"),
+        GENERATED_AT=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         VERSION=version,
     )
 

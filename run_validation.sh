@@ -5,7 +5,7 @@
 set -e
 
 # Default values
-TASK="adhoc"
+TASK="validation-test"
 SCENARIO=""
 RUN_ID="validation-$(date +%Y%m%d%H%M%S)"
 
@@ -28,7 +28,7 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: $0 [--task TASK] [--scenario SCENARIO] [--run-id RUN_ID]"
             echo ""
             echo "Options:"
-            echo "  --task TASK        Task to run (default: adhoc)"
+            echo "  --task TASK        Task to run (default: validation-test)"
             echo "  --scenario SCENARIO Scenario name (optional)"
             echo "  --run-id RUN_ID    Run identifier (default: validation-YYYYMMDDHHMMSS)"
             echo "  --help, -h         Show this help message"

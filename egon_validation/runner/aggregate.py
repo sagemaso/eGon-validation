@@ -1,7 +1,10 @@
-import os, json, glob
-from typing import Dict, List, Tuple
+import os
+import json
+import glob
+from typing import Dict, List
 from egon_validation.rules.registry import list_registered
 from egon_validation.runner.coverage_analysis import calculate_coverage_stats
+
 
 def collect(ctx) -> Dict:
     base = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
@@ -19,10 +22,12 @@ def collect(ctx) -> Dict:
                         pass
     return {"items": items, "datasets": sorted(d for d in datasets_set if d)}
 
+
 def _build_formal_rules_index() -> List[str]:
     # Determine all formal rule_ids from registry
     reg = list_registered()
     return sorted({r["rule_id"] for r in reg if r.get("kind") == "formal"})
+
 
 def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
     # dataset -> list of custom rule names
@@ -33,7 +38,7 @@ def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
     for it in items:
         if it.get("rule_id") in tag_ids:
             ds = it.get("dataset")
-            if not ds: 
+            if not ds:
                 continue
             m.setdefault(ds, [])
             name = it.get("rule_id")
@@ -44,6 +49,7 @@ def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
         m[ds].sort()
     return m
 
+
 def build_coverage(ctx, collected: Dict) -> Dict:
     items = collected.get("items", [])
     datasets = collected.get("datasets", [])
@@ -52,8 +58,8 @@ def build_coverage(ctx, collected: Dict) -> Dict:
     rules_formal = _build_formal_rules_index()
 
     # default status/title for every pair
-    status = {}      # (dataset, rule_id) -> "na" | "ok" | "fail"
-    titles = {}      # (dataset, rule_id) -> tooltip text
+    status = {}  # (dataset, rule_id) -> "na" | "ok" | "fail"
+    titles = {}  # (dataset, rule_id) -> tooltip text
     for ds in datasets:
         for rid in rules_formal:
             status[(ds, rid)] = "na"
@@ -77,12 +83,16 @@ def build_coverage(ctx, collected: Dict) -> Dict:
                     status[key] = "ok"
                     titles[key] = "Applied: passed"
 
-    cells = [{
-        "dataset": ds,
-        "rule_id": rid,
-        "status": status[(ds, rid)],
-        "title": titles[(ds, rid)]
-    } for ds in datasets for rid in rules_formal]
+    cells = [
+        {
+            "dataset": ds,
+            "rule_id": rid,
+            "status": status[(ds, rid)],
+            "title": titles[(ds, rid)],
+        }
+        for ds in datasets
+        for rid in rules_formal
+    ]
 
     custom_checks = _build_custom_checks_map(items)
 
@@ -96,7 +106,7 @@ def build_coverage(ctx, collected: Dict) -> Dict:
         "rules_formal": rules_formal,
         "cells": cells,
         "custom_checks": custom_checks,
-        "coverage_statistics": coverage_stats
+        "coverage_statistics": coverage_stats,
     }
     return cov
 

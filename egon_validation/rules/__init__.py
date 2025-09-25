@@ -2,7 +2,7 @@
 # This ensures all rules get registered when the module is imported
 
 # Import formal rules
-from . import formal
+from . import formal  # noqa: F401
 
-# Import sanity rules  
-from .custom import sanity
+# Import custom rules
+from . import custom  # noqa: F401

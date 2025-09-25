@@ -1,17 +1,23 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
-from egon_validation.config import ELECTRICAL_LOAD_EXPECTED_VALUES, DISAGGREGATED_DEMAND_TOLERANCE
+from egon_validation.rules.registry import register
+from egon_validation.config import (
+    ELECTRICAL_LOAD_EXPECTED_VALUES,
+    DISAGGREGATED_DEMAND_TOLERANCE,
+)
 
-@register(task="adhoc", dataset="grid.egon_etrago_load", rule_id="ELECTRICAL_LOAD_AGGREGATION",
-          kind="custom", tolerance=0.05)
+
+@register(
+    task="validation-test",
+    dataset="grid.egon_etrago_load",
+    rule_id="ELECTRICAL_LOAD_AGGREGATION",
+    kind="custom",
+    tolerance=0.05,
+)
 class ElectricalLoadAggregationValidation(SqlRule):
     """Validates sum, max, min of electrical load profiles against expected values."""
-    
+
     def sql(self, ctx):
-        tolerance = float(self.params.get("tolerance", 0.05))
-        scenario_col = self.params.get("scenario_col", "scn_name")
-        
-        base_query = f"""
+        base_query = """
         SELECT
             json_agg(
                 json_build_object(
@@ -48,10 +54,7 @@ class ElectricalLoadAggregationValidation(SqlRule):
                     load.carrier = 'AC' AND
                     bus.country = 'DE'
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" AND load.{scenario_col} = :scenario"
-            
+
         base_query += """
                 GROUP BY
                     load.scn_name, time_index
@@ -60,88 +63,128 @@ class ElectricalLoadAggregationValidation(SqlRule):
                 s.scn_name
         ) agg
         """
-        
+
         return base_query
 
     def postprocess(self, row, ctx):
         import json
-        
+
         scenarios_data_json = row.get("scenarios_data")
         if not scenarios_data_json:
             return RuleResult(
-                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-                success=False, message="No scenario data found",
-                severity=Severity.ERROR, schema=self.schema, table=self.table
+                rule_id=self.rule_id,
+                task=self.task,
+                dataset=self.dataset,
+                success=False,
+                message="No scenario data found",
+                severity=Severity.ERROR,
+                schema=self.schema,
+                table=self.table,
             )
-        
-        scenarios_data = json.loads(scenarios_data_json) if isinstance(scenarios_data_json, str) else scenarios_data_json
+
+        scenarios_data = (
+            json.loads(scenarios_data_json)
+            if isinstance(scenarios_data_json, str)
+            else scenarios_data_json
+        )
         if not scenarios_data:
             return RuleResult(
-                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-                success=False, message="No scenario data found",
-                severity=Severity.ERROR, schema=self.schema, table=self.table
+                rule_id=self.rule_id,
+                task=self.task,
+                dataset=self.dataset,
+                success=False,
+                message="No scenario data found",
+                severity=Severity.ERROR,
+                schema=self.schema,
+                table=self.table,
             )
-        
+
         tolerance = float(self.params.get("tolerance", 0.05))
-        
+
         # Expected values from config
         expected_values = ELECTRICAL_LOAD_EXPECTED_VALUES
-        
+
         scenario_results = []
         all_scenarios_ok = True
         total_observed = 0.0
         total_expected = 0.0
-        
+
         for scenario_data in scenarios_data:
             scn_name = scenario_data.get("scn_name")
             load_sum_twh = float(scenario_data.get("load_sum_twh") or 0.0)
             load_max_gw = float(scenario_data.get("load_max_gw") or 0.0)
             load_min_gw = float(scenario_data.get("load_min_gw") or 0.0)
-            
+
             if scn_name not in expected_values:
                 # Fail validation for scenarios without expected values
                 scenario_ok = False
                 all_scenarios_ok = False
                 total_observed += load_sum_twh
                 # Don't add to total_expected since we have no expected value
-                scenario_results.append(f"✗ {scn_name}: Sum={load_sum_twh:.2f}TWh, Max={load_max_gw:.2f}GW, Min={load_min_gw:.2f}GW (NO EXPECTED VALUES)")
+                scenario_results.append(
+                    f"✗ {scn_name}: Sum={load_sum_twh:.2f}TWh, "
+                    f"Max={load_max_gw:.2f}GW, Min={load_min_gw:.2f}GW "
+                    f"(NO EXPECTED VALUES)"
+                )
                 continue
-            
+
             expected = expected_values[scn_name]
-            
+
             # Check if values are within tolerance
-            sum_ok = abs(load_sum_twh - expected["sum_twh"]) <= (expected["sum_twh"] * tolerance)
-            max_ok = abs(load_max_gw - expected["max_gw"]) <= (expected["max_gw"] * tolerance)  
-            min_ok = abs(load_min_gw - expected["min_gw"]) <= (expected["min_gw"] * tolerance)
-            
+            sum_ok = abs(load_sum_twh - expected["sum_twh"]) <= (
+                expected["sum_twh"] * tolerance
+            )
+            max_ok = abs(load_max_gw - expected["max_gw"]) <= (
+                expected["max_gw"] * tolerance
+            )
+            min_ok = abs(load_min_gw - expected["min_gw"]) <= (
+                expected["min_gw"] * tolerance
+            )
+
             scenario_ok = sum_ok and max_ok and min_ok
             all_scenarios_ok = all_scenarios_ok and scenario_ok
-            
+
             total_observed += load_sum_twh
             total_expected += expected["sum_twh"]
-            
+
             status = "✓" if scenario_ok else "✗"
-            scenario_results.append(f"{status} {scn_name}: Sum={load_sum_twh:.2f}TWh (exp={expected['sum_twh']}), Max={load_max_gw:.2f}GW (exp={expected['max_gw']}), Min={load_min_gw:.2f}GW (exp={expected['min_gw']})")
-        
+            scenario_results.append(
+                f"{status} {scn_name}: Sum={load_sum_twh:.2f}TWh "
+                f"(exp={expected['sum_twh']}), Max={load_max_gw:.2f}GW "
+                f"(exp={expected['max_gw']}), Min={load_min_gw:.2f}GW "
+                f"(exp={expected['min_gw']})"
+            )
+
         message = "; ".join(scenario_results)
-        
+
         return RuleResult(
-            rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-            success=all_scenarios_ok, observed=total_observed, expected=total_expected,
-            message=message, severity=Severity.WARNING,
-            schema=self.schema, table=self.table
+            rule_id=self.rule_id,
+            task=self.task,
+            dataset=self.dataset,
+            success=all_scenarios_ok,
+            observed=total_observed,
+            expected=total_expected,
+            message=message,
+            severity=Severity.WARNING,
+            schema=self.schema,
+            table=self.table,
         )
 
 
-@register(task="adhoc", dataset="demand.egon_demandregio_zensus_electricity", rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
-          kind="formal", sector="residential", tolerance=0.01)
+@register(
+    task="validation-test",
+    dataset="demand.egon_demandregio_zensus_electricity",
+    rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
+    kind="formal",
+    sector="residential",
+    tolerance=0.01,
+)
 class DisaggregatedDemandSumValidation(SqlRule):
     """Validates that sum of disaggregated demands matches original aggregated value."""
-    
+
     def sql(self, ctx):
         sector = self.params.get("sector", "residential")
-        scenario_col = self.params.get("scenario_col", "scenario")
-        
+
         base_query = f"""
         WITH disaggregated AS (
             SELECT
@@ -152,11 +195,8 @@ class DisaggregatedDemandSumValidation(SqlRule):
             WHERE
                 sector = '{sector}'
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" AND {scenario_col} = :scenario"
-            
-        base_query += f"""
+
+        base_query += """
             GROUP BY scenario
         ),
         original AS (
@@ -166,14 +206,11 @@ class DisaggregatedDemandSumValidation(SqlRule):
             FROM
                 demand.egon_demandregio_hh
         """
-        
-        if ctx.scenario and scenario_col:
-            base_query += f" WHERE {scenario_col} = :scenario"
-            
+
         base_query += """
             GROUP BY scenario
         )
-        SELECT 
+        SELECT
             d.scenario,
             d.disagg_sum,
             o.orig_sum,
@@ -182,24 +219,33 @@ class DisaggregatedDemandSumValidation(SqlRule):
         FROM disaggregated d
         JOIN original o USING (scenario)
         """
-        
+
         return base_query
 
     def postprocess(self, row, ctx):
         scenario = row.get("scenario")
         disagg_sum = float(row.get("disagg_sum") or 0.0)
         orig_sum = float(row.get("orig_sum") or 0.0)
-        abs_diff = float(row.get("abs_diff") or 0.0)
         rel_diff = float(row.get("rel_diff") or 0.0)
         tolerance = float(self.params.get("tolerance", DISAGGREGATED_DEMAND_TOLERANCE))
-        
+
         ok = rel_diff <= tolerance
-        
-        message = f"Scenario {scenario}: Disaggregated sum {disagg_sum:.2f}, Original sum {orig_sum:.2f}, Rel. diff {rel_diff:.4f} (tolerance {tolerance})"
-        
+
+        message = (
+            f"Scenario {scenario}: Disaggregated sum {disagg_sum:.2f}, "
+            f"Original sum {orig_sum:.2f}, Rel. diff {rel_diff:.4f} "
+            f"(tolerance {tolerance})"
+        )
+
         return RuleResult(
-            rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-            success=ok, observed=rel_diff, expected=0.0,
-            message=message, severity=Severity.WARNING,
-            schema=self.schema, table=self.table
+            rule_id=self.rule_id,
+            task=self.task,
+            dataset=self.dataset,
+            success=ok,
+            observed=rel_diff,
+            expected=0.0,
+            message=message,
+            severity=Severity.WARNING,
+            schema=self.schema,
+            table=self.table,
         )
