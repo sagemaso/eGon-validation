@@ -104,7 +104,7 @@ class SRIDSpecificValidation(SqlRule):
         )
 
 
-# Register SRID validation for multiple geometry datasets mentioned in CSV
+# Register SRID validation for multiple geometry datasets
 register_map(
     task="validation-test",
     rule_cls=SRIDSpecificValidation,
@@ -117,7 +117,7 @@ register_map(
     },
 )
 
-# Register SRID validation for multiple geometry datasets mentioned in CSV
+# Register SRID validation for multiple geometry datasets
 register_map(
     task="validation-test",
     rule_cls=SRIDUniqueNonZero,
