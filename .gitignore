@@ -9,6 +9,9 @@ validation_runs/
 # Gas data (downloaded reference data)
 gas_data/
 
+# Log files
+logs/
+
 # Python
 __pycache__/
 *.py[cod]

@@ -1,21 +1,28 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 
-@register(task="adhoc", dataset="demand.egon_demandregio_hh", rule_id="COLUMN_DATA_TYPE_CHECK",
-          kind="formal", column="year", expected_type="integer")
+
+@register(
+    task="validation-test",
+    dataset="demand.egon_demandregio_hh",
+    rule_id="COLUMN_DATA_TYPE_CHECK",
+    kind="formal",
+    column="year",
+    expected_type="integer",
+)
 class DataTypeValidation(SqlRule):
     """Validates that a column has the expected PostgreSQL data type."""
-    
+
     def sql(self, ctx):
         column = self.params.get("column", "id")
         expected_type = self.params.get("expected_type", "integer").lower()
-        
+
         # Split dataset to get schema and table
         if "." in self.dataset:
             schema, table = self.dataset.split(".", 1)
         else:
             schema, table = "public", self.dataset
-            
+
         return f"""
         SELECT 
             column_name,
@@ -33,60 +40,86 @@ class DataTypeValidation(SqlRule):
     def postprocess(self, row, ctx):
         if not row:
             return RuleResult(
-                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-                success=False, message="Column not found",
-                severity=Severity.ERROR, schema=self.schema, table=self.table,
-                column=self.params.get("column")
+                rule_id=self.rule_id,
+                task=self.task,
+                dataset=self.dataset,
+                success=False,
+                message="Column not found",
+                severity=Severity.ERROR,
+                schema=self.schema,
+                table=self.table,
+                column=self.params.get("column"),
             )
-            
+
         column_name = row.get("column_name")
         actual_type = row.get("data_type", "").lower()
         udt_name = row.get("udt_name", "").lower()
         expected_type = self.params.get("expected_type", "integer").lower()
-        
+
         # PostgreSQL type mapping
         type_mappings = {
             "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
             "text": ["text", "character varying", "varchar", "character", "char"],
-            "numeric": ["numeric", "decimal", "real", "double precision", "float4", "float8"],
+            "numeric": [
+                "numeric",
+                "decimal",
+                "real",
+                "double precision",
+                "float4",
+                "float8",
+            ],
             "boolean": ["boolean", "bool"],
-            "timestamp": ["timestamp without time zone", "timestamp with time zone", "timestamptz"],
+            "timestamp": [
+                "timestamp without time zone",
+                "timestamp with time zone",
+                "timestamptz",
+            ],
             "date": ["date"],
             "uuid": ["uuid"],
             "geometry": ["geometry", "geography"],
-            "array": ["array", "_int4", "_text", "_numeric"]
+            "array": ["array", "_int4", "_text", "_numeric"],
         }
-        
+
         expected_types = type_mappings.get(expected_type, [expected_type])
         ok = actual_type in expected_types or udt_name in expected_types
-        
+
         message = f"Column '{column_name}' has type '{actual_type}' (udt: '{udt_name}'), expected: {expected_type}"
-        
+
         return RuleResult(
-            rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-            success=ok, message=message,
-            severity=Severity.WARNING, schema=self.schema, table=self.table,
-            column=column_name
+            rule_id=self.rule_id,
+            task=self.task,
+            dataset=self.dataset,
+            success=ok,
+            message=message,
+            severity=Severity.WARNING,
+            schema=self.schema,
+            table=self.table,
+            column=column_name,
         )
 
 
-@register(task="adhoc", dataset="demand.egon_demandregio_hh", rule_id="MULTIPLE_COLUMNS_TYPE_CHECK", 
-          kind="formal", column_types={"year": "integer", "scenario": "text", "demand": "numeric"})
+@register(
+    task="validation-test",
+    dataset="demand.egon_demandregio_hh",
+    rule_id="MULTIPLE_COLUMNS_TYPE_CHECK",
+    kind="formal",
+    column_types={"year": "integer", "scenario": "text", "demand": "numeric"},
+)
 class MultipleColumnsDataTypeValidation(SqlRule):
     """Validates data types for multiple columns in a table."""
-    
+
     def sql(self, ctx):
         # Modify the query to aggregate all results into a single row with JSON
         column_types = self.params.get("column_types", {})
         columns = list(column_types.keys())
-        
+
         if "." in self.dataset:
             schema, table = self.dataset.split(".", 1)
         else:
             schema, table = "public", self.dataset
-            
+
         columns_list = "', '".join(columns)
-        
+
         return f"""
         SELECT 
             json_agg(
@@ -105,63 +138,96 @@ class MultipleColumnsDataTypeValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         import json
-        
+
         columns_info_json = row.get("columns_info")
         if not columns_info_json:
             return RuleResult(
-                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-                success=False, message="No column information found",
-                severity=Severity.ERROR, schema=self.schema, table=self.table
+                rule_id=self.rule_id,
+                task=self.task,
+                dataset=self.dataset,
+                success=False,
+                message="No column information found",
+                severity=Severity.ERROR,
+                schema=self.schema,
+                table=self.table,
             )
-        
-        columns_info = json.loads(columns_info_json) if isinstance(columns_info_json, str) else columns_info_json
+
+        columns_info = (
+            json.loads(columns_info_json)
+            if isinstance(columns_info_json, str)
+            else columns_info_json
+        )
         if not columns_info:
             return RuleResult(
-                rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-                success=False, message="No column information found",
-                severity=Severity.ERROR, schema=self.schema, table=self.table
+                rule_id=self.rule_id,
+                task=self.task,
+                dataset=self.dataset,
+                success=False,
+                message="No column information found",
+                severity=Severity.ERROR,
+                schema=self.schema,
+                table=self.table,
             )
-            
+
         column_types = self.params.get("column_types", {})
         type_mappings = {
             "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
             "text": ["text", "character varying", "varchar", "character", "char"],
-            "numeric": ["numeric", "decimal", "real", "double precision", "float4", "float8"],
+            "numeric": [
+                "numeric",
+                "decimal",
+                "real",
+                "double precision",
+                "float4",
+                "float8",
+            ],
             "boolean": ["boolean", "bool"],
-            "timestamp": ["timestamp without time zone", "timestamp with time zone", "timestamptz"],
+            "timestamp": [
+                "timestamp without time zone",
+                "timestamp with time zone",
+                "timestamptz",
+            ],
             "date": ["date"],
             "uuid": ["uuid"],
             "geometry": ["geometry", "geography"],
-            "array": ["array", "_int4", "_text", "_numeric"]
+            "array": ["array", "_int4", "_text", "_numeric"],
         }
-        
+
         problems = []
         found_columns = set()
-        
+
         for col_info in columns_info:
             column_name = col_info.get("column_name")
             actual_type = (col_info.get("data_type") or "").lower()
             udt_name = (col_info.get("udt_name") or "").lower()
             found_columns.add(column_name)
-            
+
             if column_name in column_types:
                 expected_type = column_types[column_name].lower()
                 expected_types = type_mappings.get(expected_type, [expected_type])
-                
+
                 if actual_type not in expected_types and udt_name not in expected_types:
-                    problems.append(f"{column_name}: got '{actual_type}' (udt: '{udt_name}'), expected {expected_type}")
-        
+                    problems.append(
+                        f"{column_name}: got '{actual_type}' (udt: '{udt_name}'), expected {expected_type}"
+                    )
+
         # Check for missing columns
         missing_columns = set(column_types.keys()) - found_columns
         for missing in missing_columns:
             problems.append(f"{missing}: column not found")
-        
+
         ok = len(problems) == 0
         message = "All column types valid" if ok else "; ".join(problems)
-        
+
         return RuleResult(
-            rule_id=self.rule_id, task=self.task, dataset=self.dataset,
-            success=ok, observed=float(len(problems)), expected=0.0,
-            message=message, severity=Severity.WARNING,
-            schema=self.schema, table=self.table
+            rule_id=self.rule_id,
+            task=self.task,
+            dataset=self.dataset,
+            success=ok,
+            observed=float(len(problems)),
+            expected=0.0,
+            message=message,
+            severity=Severity.WARNING,
+            schema=self.schema,
+            table=self.table,
         )

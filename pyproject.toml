@@ -9,11 +9,60 @@ description = "Validation library for eGon data pipeline (rules hard-coded, SQL-
 readme = "README.md"
 requires-python = ">=3.8,<3.9"
 license = {text = "AGPL-3.0-only"}
-authors = [{name="eGon Team", email="maintainers@example.org"}]
+authors = [{name="sagemaso", email="sarah.sommer@rl-institut.de"}]
 dependencies = [
-    "SQLAlchemy>=1.4,<3",
-    "psycopg2-binary>=2.9"
+    "SQLAlchemy>=1.4",
+    "psycopg2-binary>=2.9",
+    "pandas>=2.0,<2.1",
+    "geopandas>=0.13,<0.14",
+    "shapely>=2",
+    "geoalchemy2>=0.14"
 ]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-mock>=3.0"
+]
+dev = [
+    "black>=24.0.0",
+    "flake8>=6.0.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["egon_validation*"]
 
 [project.scripts]
 egon-validation = "egon_validation.cli:main"
+
+[tool.black]
+line-length = 79
+target-version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 79
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "*.egg-info"
+]

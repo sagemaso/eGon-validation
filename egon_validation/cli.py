@@ -1,4 +1,6 @@
-import argparse, os, json, datetime
+import argparse
+import json
+import os
 from egon_validation.config import DEFAULT_OUT_DIR, ENV_DB_URL, get_env, build_db_url
 from egon_validation.context import RunContext
 from egon_validation.db import make_engine
@@ -9,7 +11,6 @@ from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
 from egon_validation.logging_config import setup_logging, get_logger
 import egon_validation.rules.formal  # noqa: F401
-import egon_validation.rules.custom.sanity   # noqa: F401
 import egon_validation.rules.custom  # noqa: F401
 
 # Setup logging
@@ -35,7 +36,7 @@ def _run_task(args):
             })
             raise SystemExit("Missing DB URL (use --db-url, set EGON_DB_URL, or configure .env file)")
 
-        ctx = RunContext(run_id=args.run_id, scenario=None, out_dir=args.out, extra={})
+        ctx = RunContext(run_id=args.run_id, out_dir=args.out, extra={})
         logger.info("Starting validation task", extra={
             "task": args.task,
             "run_id": args.run_id,
@@ -71,6 +72,7 @@ def _run_task(args):
             "output_path": output_path,
             "run_id": args.run_id
         })
+
 
     except KeyboardInterrupt:
         logger.warning("Task interrupted by user", extra={"task": args.task, "run_id": args.run_id})
@@ -119,12 +121,20 @@ def _final_report(args):
         })
         raise SystemExit(f"Report generation failed: {e}")
 
+
 def main():
-    p = argparse.ArgumentParser(prog="egon-validation", description="eGon validation (dev CLI)")
+    setup_logging()
+    p = argparse.ArgumentParser(
+        prog="egon-validation", description="eGon validation (dev CLI)"
+    )
     subs = p.add_subparsers(dest="cmd", required=True)
 
     p1 = subs.add_parser("run-task", help="Run rules for a single task")
-    p1.add_argument("--db-url", type=str, help="PostgreSQL URL (or set EGON_DB_URL or configure .env)")
+    p1.add_argument(
+        "--db-url",
+        type=str,
+        help="PostgreSQL URL (or set EGON_DB_URL or configure .env)",
+    )
     p1.add_argument("--run-id", required=True, type=str)
     p1.add_argument("--task", required=True, type=str)
     p1.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
@@ -150,6 +160,7 @@ def main():
     setup_logging(level=log_level, format_style=log_format)
 
     args.func(args)
+
 
 if __name__ == "__main__":
     main()

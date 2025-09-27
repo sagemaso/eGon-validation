@@ -1,17 +1,17 @@
 import time, sys
 from egon_validation.cli import main
 
-run_id = f"adhoc-{time.strftime('%Y%m%dT%H%M%S')}"
+# Define the task name
+task_name = "validation-test"
+run_id = f"{task_name}-{time.strftime('%Y%m%dT%H%M%S')}"
 
-# 1) run adhoc task with SSH-Tunnel
+# 1) run task with SSH-Tunnel
 sys.argv = [
     "egon-validation",
     "run-task",
     "--run-id", run_id,
-    "--task", "adhoc",
+    "--task", task_name,
     "--with-tunnel",
-    # Optional: "--scenario", "2040",
-    # Optional: "--out", "./validation_runs",
 ]
 main()
 
@@ -22,8 +22,6 @@ main()
 #    "--run-id", run_id,
 #"--task", "sanity",
 #   "--with-tunnel",
-    # Optional: "--scenario", "2040",
-    # Optional: "--out", "./validation_runs",
 #]
 #main()
 
