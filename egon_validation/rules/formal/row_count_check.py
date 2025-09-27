@@ -19,7 +19,9 @@ class RowCountValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         actual_count = int(row.get("actual_count") or 0)
-        expected_count = int(self.params.get("expected_count", MV_GRID_DISTRICTS_COUNT))
+        expected_count = int(
+            self.params.get("expected_count", MV_GRID_DISTRICTS_COUNT)
+        )
 
         ok = actual_count == expected_count
 
@@ -63,7 +65,7 @@ class RowCountComparisonValidation(SqlRule):
             SELECT COUNT(*) AS ref_count FROM {reference_dataset} WHERE {reference_filter}
         ),
         grouped_counts AS (
-            SELECT 
+            SELECT
                 {scenario},
                 {economic_sector},
                 COUNT(*) AS group_count
@@ -73,7 +75,7 @@ class RowCountComparisonValidation(SqlRule):
         base_query += f"""
             GROUP BY {scenario}, {economic_sector}
         )
-        SELECT 
+        SELECT
             r.ref_count,
             COUNT(g.group_count) AS total_groups,
             COUNT(CASE WHEN g.group_count = r.ref_count THEN 1 END) AS matching_groups,
@@ -89,14 +91,15 @@ class RowCountComparisonValidation(SqlRule):
     def postprocess(self, row, ctx):
         ref_count = int(row.get("ref_count") or 0)
         total_groups = int(row.get("total_groups") or 0)
-        matching_groups = int(row.get("matching_groups") or 0)
         mismatching_groups = int(row.get("mismatching_groups") or 0)
         found_counts = row.get("found_counts", [])
 
         ok = mismatching_groups == 0
 
         if ok:
-            message = f"All {total_groups} groups have expected count {ref_count}"
+            message = (
+                f"All {total_groups} groups have expected count {ref_count}"
+            )
         else:
             message = f"{mismatching_groups}/{total_groups} groups have wrong count. Expected: {ref_count}, Found: {found_counts}"
 

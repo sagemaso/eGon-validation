@@ -1,6 +1,4 @@
-import pytest
 from egon_validation.rules.formal.value_set_check import ValueSetValidation
-from egon_validation.rules.base import Severity
 
 
 class TestValueSetValidation:
@@ -88,7 +86,7 @@ class TestValueSetValidation:
             "data_validation",
             "demand.egon_demandregio_hh",
             column="scenario",
-            expected_values=["eGon2035", "eGon100RE", "eGon2021"]
+            expected_values=["eGon2035", "eGon100RE", "eGon2021"],
         )
 
         # Simulate DB result: all 50000 rows have valid scenario values
@@ -96,7 +94,7 @@ class TestValueSetValidation:
             "total_rows": 50000,
             "valid_values": 50000,
             "invalid_values": 0,
-            "invalid_distinct": []
+            "invalid_distinct": [],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -119,7 +117,7 @@ class TestValueSetValidation:
             "data_validation",
             "grid.egon_etrago_load",
             column="carrier",
-            expected_values=["AC", "heat", "CH4", "H2"]
+            expected_values=["AC", "heat", "CH4", "H2"],
         )
 
         # Simulate DB result: 89 rows have invalid carrier values
@@ -127,7 +125,7 @@ class TestValueSetValidation:
             "total_rows": 12567,
             "valid_values": 12478,
             "invalid_values": 89,
-            "invalid_distinct": ["biomass", "oil", "unknown"]
+            "invalid_distinct": ["biomass", "oil", "unknown"],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -135,7 +133,9 @@ class TestValueSetValidation:
         # Should fail - invalid values detected
         assert result.success is False
         assert "89 invalid values found" in result.message
-        assert "Invalid values: ['biomass', 'oil', 'unknown']" in result.message
+        assert (
+            "Invalid values: ['biomass', 'oil', 'unknown']" in result.message
+        )
         assert result.observed == 89
         assert result.rule_id == "carrier_value_check"
         assert result.dataset == "grid.egon_etrago_load"

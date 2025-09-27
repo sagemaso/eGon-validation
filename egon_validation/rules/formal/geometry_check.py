@@ -29,14 +29,20 @@ class GeometryContainmentValidation(SqlRule):
             FROM {ref_dataset}
             WHERE {ref_filter}
         )
-        SELECT 
+        SELECT
             COUNT(*) as total_points,
-            COUNT(CASE WHEN ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_inside,
-            COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_outside
-        FROM 
+            COUNT(CASE WHEN ST_Contains(
+                reference_geom.unified_geom,
+                ST_Transform(points.{geom_col}, 3035)
+            ) THEN 1 END) as points_inside,
+            COUNT(CASE WHEN NOT ST_Contains(
+                reference_geom.unified_geom,
+                ST_Transform(points.{geom_col}, 3035)
+            ) THEN 1 END) as points_outside
+        FROM
             reference_geom,
             {self.dataset} AS points
-        WHERE 
+        WHERE
             points.{filter_condition}
         """
 
@@ -52,15 +58,29 @@ class GeometryContainmentValidation(SqlRule):
         ref_filter = self.params.get("reference_filter", "TRUE")
 
         if ok:
-            message = f"All {total_points} points are within reference boundary (filter: {filter_condition})"
+            message = (
+                f"All {total_points} points are within reference boundary "
+                f"(filter: {filter_condition})"
+            )
         else:
-            message = f"{points_outside} points are outside reference boundary ({points_inside} inside)"
+            message = (
+                f"{points_outside} points are outside reference boundary "
+                f"({points_inside} inside)"
+            )
             message += f" [Filter: {filter_condition}, Ref: {ref_filter}]"
 
             # Add debugging information for wind plants specifically
             if self.rule_id == "WIND_PLANTS_IN_GERMANY" and points_outside > 0:
-                message += f" | To get coordinates: SELECT * FROM supply.egon_power_plants_wind WHERE site_type = 'Windkraft an Land'"
-                message += f" | AND NOT ST_Covers((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
+                message += (
+                    " | To get coordinates: SELECT * FROM "
+                    "supply.egon_power_plants_wind WHERE "
+                    "site_type = 'Windkraft an Land'"
+                )
+                message += (
+                    " | AND NOT ST_Covers((SELECT ST_Union("
+                    "ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta "
+                    "WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
+                )
 
         return RuleResult(
             rule_id=self.rule_id,
@@ -108,7 +128,9 @@ class GeometryContainmentValidation_Original(SqlRule):
         ok = points_outside == 0
 
         if ok:
-            message = f"All wind plants are within Germany boundaries (original SQL)"
+            message = (
+                "All wind plants are within Germany boundaries (original SQL)"
+            )
         else:
             message = f"{points_outside} wind plants are outside Germany boundaries (original SQL)"
 

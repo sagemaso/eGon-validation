@@ -21,10 +21,16 @@ class ArrayCardinalityValidation(SqlRule):
         )
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) as total_rows,
-            COUNT(CASE WHEN cardinality({array_col}) = {expected_length} THEN 1 END) as correct_length,
-            COUNT(CASE WHEN cardinality({array_col}) != {expected_length} THEN 1 END) as wrong_length,
+            COUNT(
+                CASE WHEN cardinality({array_col}) = {expected_length}
+                     THEN 1 END
+            ) as correct_length,
+            COUNT(
+                CASE WHEN cardinality({array_col}) != {expected_length}
+                     THEN 1 END
+            ) as wrong_length,
             COUNT(CASE WHEN {array_col} IS NULL THEN 1 END) as null_arrays,
             array_agg(DISTINCT cardinality({array_col})) as found_lengths,
             MIN(cardinality({array_col})) as min_length,
@@ -37,7 +43,6 @@ class ArrayCardinalityValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         total_rows = int(row.get("total_rows") or 0)
-        correct_length = int(row.get("correct_length") or 0)
         wrong_length = int(row.get("wrong_length") or 0)
         null_arrays = int(row.get("null_arrays") or 0)
         found_lengths = row.get("found_lengths", [])
@@ -51,9 +56,7 @@ class ArrayCardinalityValidation(SqlRule):
         ok = (wrong_length == 0) and (null_arrays == 0)
 
         if ok:
-            message = (
-                f"All {total_rows} arrays have correct length of {expected_length}"
-            )
+            message = f"All {total_rows} arrays have correct length of {expected_length}"
         else:
             problems = []
             if wrong_length > 0:
@@ -61,7 +64,9 @@ class ArrayCardinalityValidation(SqlRule):
             if null_arrays > 0:
                 problems.append(f"{null_arrays} NULL arrays")
 
-            details = f"Expected: {expected_length}, Found lengths: {found_lengths}"
+            details = (
+                f"Expected: {expected_length}, Found lengths: {found_lengths}"
+            )
             if min_length is not None and max_length is not None:
                 details += f", Range: {min_length}-{max_length}"
             if avg_length is not None:
@@ -133,10 +138,12 @@ register_map(
         },
         # "grid.egon_etrago_line_timeseries": {
         #     "array_column": "s_max_pu", "expected_length": 8760
-        # }, 23239 NULL arrays (Expected: 8760, Found lengths: [8760, None], Range: 8760-8760, Avg: 8760.00)
+        # }, 23239 NULL arrays (Expected: 8760, Found lengths: [8760, None],
+        #    Range: 8760-8760, Avg: 8760.00)
         # "grid.egon_etrago_link_timeseries": {
         #     "array_column": "p_min_pu", "expected_length": 8760
-        # },    23239 NULL arrays (Expected: 8760, Found lengths: [8760, None], Range: 8760-8760, Avg: 8760.00)
+        # },    23239 NULL arrays (Expected: 8760, Found lengths: [8760, None],
+        #        Range: 8760-8760, Avg: 8760.00)
         "grid.egon_etrago_load_timeseries": {
             "array_column": "p_set",
             "expected_length": 8760,

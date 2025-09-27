@@ -1,5 +1,3 @@
-import pytest
-from unittest.mock import Mock
 from egon_validation.rules.registry import (
     register,
     register_map,
@@ -7,7 +5,7 @@ from egon_validation.rules.registry import (
     list_registered,
     _REGISTRY,
 )
-from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
+from egon_validation.rules.base import Rule, SqlRule, RuleResult
 
 
 class MockRule(Rule):
@@ -48,7 +46,9 @@ class TestRegistry:
         assert kind == "formal"  # Default
 
     def test_register_decorator_with_rule_id(self):
-        @register(task="test_task", dataset="test.table", rule_id="CUSTOM_RULE_ID")
+        @register(
+            task="test_task", dataset="test.table", rule_id="CUSTOM_RULE_ID"
+        )
         class AnotherRule(MockRule):
             pass
 
@@ -93,7 +93,9 @@ class TestRegistry:
             rule_cls=MockSqlRule,
             rule_id="MAP_RULE",
             kind="custom",
-            datasets_params={"schema1.table1": {"column": "col1", "threshold": 10}},
+            datasets_params={
+                "schema1.table1": {"column": "col1", "threshold": 10}
+            },
         )
 
         assert len(_REGISTRY) == 1
@@ -133,7 +135,9 @@ class TestRegistry:
 
     def test_register_map_default_rule_id(self):
         register_map(
-            task="test_task", rule_cls=MockSqlRule, datasets_params={"test.table": {}}
+            task="test_task",
+            rule_cls=MockSqlRule,
+            datasets_params={"test.table": {}},
         )
 
         rule_id, _, _, _, _, _ = _REGISTRY[0]
@@ -219,7 +223,8 @@ class TestRegistry:
     def test_register_preserves_original_class(self):
         @register(task="test_task", dataset="test.table")
         class OriginalRule(MockRule):
-            custom_method = lambda self: "test"
+            def custom_method(self):
+                return "test"
 
         # The decorator should return the original class unchanged
         assert hasattr(OriginalRule, "custom_method")
@@ -246,7 +251,10 @@ class TestRegistry:
 
     def test_rules_for_instantiation(self):
         @register(
-            task="test_task", dataset="schema.table", kind="custom", param="value"
+            task="test_task",
+            dataset="schema.table",
+            kind="custom",
+            param="value",
         )
         class TestRuleForInstantiation(MockRule):
             pass

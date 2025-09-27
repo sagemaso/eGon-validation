@@ -3,7 +3,6 @@
 from typing import Any, Dict, List, Optional, Union, Iterable
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
-from egon_validation.retry_utils import retry_database_operation
 from egon_validation.logging_config import get_logger
 from sqlalchemy.exc import OperationalError, DisconnectionError
 import pandas as pd
@@ -26,12 +25,6 @@ def make_engine(db_url: str, echo: bool = False) -> Engine:
         pool_recycle=1800,
     )
 
-@retry_database_operation
-def fetch_one(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    logger.debug("Executing database query", extra={"sql": sql[:100], "has_params": bool(params)})
-    with engine.connect() as conn:
-        row = conn.execute(text(sql), params or {}).mappings().first()
-        return dict(row or {})
 
 @database_retry
 @connection_circuit_breaker
@@ -43,7 +36,9 @@ def fetch_one(
         with engine.connect() as conn:
             row = conn.execute(text(sql), params or {}).mappings().first()
             result = dict(row or {})
-            logger.debug("Successfully fetched one row", extra={"sql": sql[:100]})
+            logger.debug(
+                "Successfully fetched one row", extra={"sql": sql[:100]}
+            )
             return result
     except (OperationalError, DisconnectionError) as e:
         logger.error(
@@ -52,12 +47,6 @@ def fetch_one(
         )
         raise DatabaseConnectionError(f"Failed to fetch data: {str(e)}") from e
 
-@retry_database_operation
-def fetch_all(engine: Engine, sql: str, params: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
-    logger.debug("Executing database query (fetch all)", extra={"sql": sql[:100], "has_params": bool(params)})
-    with engine.connect() as conn:
-        rows = conn.execute(text(sql), params or {}).mappings().all()
-        return [dict(r) for r in rows]
 
 @database_retry
 def fetch_all(
@@ -103,7 +92,9 @@ def fetch_dataframe(
         DatabaseConnectionError: On database connection issues
     """
     try:
-        df = pd.read_sql_query(text(sql), engine, params=params, chunksize=chunksize)
+        df = pd.read_sql_query(
+            text(sql), engine, params=params, chunksize=chunksize
+        )
         if chunksize is None:
             logger.debug(
                 f"Successfully fetched DataFrame with {len(df)} rows",
@@ -111,7 +102,8 @@ def fetch_dataframe(
             )
         else:
             logger.debug(
-                "Successfully created DataFrame iterator", extra={"sql": sql[:100]}
+                "Successfully created DataFrame iterator",
+                extra={"sql": sql[:100]},
             )
         return df
     except (OperationalError, DisconnectionError) as e:
@@ -119,7 +111,9 @@ def fetch_dataframe(
             f"Database error in fetch_dataframe: {str(e)}",
             extra={"sql": sql[:100], "error": str(e)},
         )
-        raise DatabaseConnectionError(f"Failed to fetch DataFrame: {str(e)}") from e
+        raise DatabaseConnectionError(
+            f"Failed to fetch DataFrame: {str(e)}"
+        ) from e
 
 
 def fetch_geodataframe(
@@ -165,7 +159,8 @@ class DataInterface:
     def fetch_all_dict(
         self, sql: str, params: Optional[Dict[str, Any]] = None
     ) -> List[Dict[str, Any]]:
-        """Execute SQL and return all rows as list of dicts (performance-optimized)."""
+        """Execute SQL and return all rows as list of dicts
+        (performance-optimized)."""
         return fetch_all(self.engine, sql, params)
 
     def fetch_dataframe(

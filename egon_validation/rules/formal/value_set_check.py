@@ -1,6 +1,5 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
-import json
 
 
 @register(
@@ -19,10 +18,12 @@ class ValueSetValidation(SqlRule):
         expected_values = self.params.get("expected_values", [])
 
         # Create SQL array literal for PostgreSQL
-        expected_array = "ARRAY[" + ",".join([f"'{v}'" for v in expected_values]) + "]"
+        expected_array = (
+            "ARRAY[" + ",".join([f"'{v}'" for v in expected_values]) + "]"
+        )
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) as total_rows,
             COUNT(CASE WHEN {col} = ANY({expected_array}) THEN 1 END) as valid_values,
             COUNT(CASE WHEN {col} NOT IN (SELECT unnest({expected_array})) OR {col} IS NULL THEN 1 END) as invalid_values,
@@ -34,7 +35,6 @@ class ValueSetValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         total_rows = int(row.get("total_rows") or 0)
-        valid_values = int(row.get("valid_values") or 0)
         invalid_values = int(row.get("invalid_values") or 0)
         invalid_distinct = row.get("invalid_distinct", [])
         expected_values = self.params.get("expected_values", [])

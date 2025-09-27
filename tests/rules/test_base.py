@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
 
 
@@ -115,7 +115,9 @@ class TestSqlRule:
         mock_fetch_one.assert_called_once()
 
     @patch("egon_validation.db.fetch_one")
-    def test_check_table_empty_no_data(self, mock_fetch_one, mock_engine, mock_context):
+    def test_check_table_empty_no_data(
+        self, mock_fetch_one, mock_engine, mock_context
+    ):
         mock_fetch_one.return_value = {"total_count": 0}
 
         rule = SqlRule("test_rule", "test_task", "test.table")
@@ -129,7 +131,9 @@ class TestSqlRule:
         assert result.severity == Severity.INFO
 
     @patch("egon_validation.db.fetch_one")
-    def test_check_empty_table(self, mock_fetch_one, mock_engine, mock_context):
+    def test_check_empty_table(
+        self, mock_fetch_one, mock_engine, mock_context
+    ):
         mock_fetch_one.return_value = {"total_count": 0}
 
         rule = SqlRule(

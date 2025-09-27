@@ -1,4 +1,3 @@
-import pytest
 from egon_validation.rules.formal.data_type_check import (
     DataTypeValidation,
     MultipleColumnsDataTypeValidation,
@@ -45,7 +44,11 @@ class TestDataTypeValidation:
 
     def test_postprocess_type_match(self):
         rule = DataTypeValidation(
-            "test_rule", "test_task", "test.table", column="id", expected_type="integer"
+            "test_rule",
+            "test_task",
+            "test.table",
+            column="id",
+            expected_type="integer",
         )
         row = {"column_name": "id", "data_type": "integer", "udt_name": "int4"}
 
@@ -97,14 +100,14 @@ class TestDataTypeValidation:
             "data_validation",
             "demand.egon_demandregio_hh",
             column="year",
-            expected_type="integer"
+            expected_type="integer",
         )
 
         # Simulate DB result: year column is correctly integer type
         mock_db_row = {
             "column_name": "year",
             "data_type": "integer",
-            "udt_name": "int4"
+            "udt_name": "int4",
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -125,14 +128,14 @@ class TestDataTypeValidation:
             "data_validation",
             "grid.egon_etrago_load",
             column="bus_id",
-            expected_type="integer"
+            expected_type="integer",
         )
 
         # Simulate DB result: bus_id column is incorrectly text type
         mock_db_row = {
             "column_name": "bus_id",
             "data_type": "text",
-            "udt_name": "text"
+            "udt_name": "text",
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -163,7 +166,10 @@ class TestMultipleColumnsDataTypeValidation:
 
     def test_postprocess_no_columns_info(self):
         rule = MultipleColumnsDataTypeValidation(
-            "test_rule", "test_task", "test.table", column_types={"year": "integer"}
+            "test_rule",
+            "test_task",
+            "test.table",
+            column_types={"year": "integer"},
         )
 
         result = rule.postprocess({"columns_info": None}, None)
@@ -181,7 +187,11 @@ class TestMultipleColumnsDataTypeValidation:
         )
 
         columns_info = [
-            {"column_name": "year", "data_type": "integer", "udt_name": "int4"},
+            {
+                "column_name": "year",
+                "data_type": "integer",
+                "udt_name": "int4",
+            },
             {"column_name": "name", "data_type": "text", "udt_name": "text"},
         ]
         row = {"columns_info": columns_info}
@@ -241,16 +251,32 @@ class TestMultipleColumnsDataTypeValidation:
                 "bus_id": "integer",
                 "carrier": "text",
                 "scn_name": "text",
-                "p_set": "numeric"
-            }
+                "p_set": "numeric",
+            },
         )
 
         # Simulate DB result: all columns have correct types
         mock_columns_info = [
-            {"column_name": "bus_id", "data_type": "integer", "udt_name": "int4"},
-            {"column_name": "carrier", "data_type": "text", "udt_name": "text"},
-            {"column_name": "scn_name", "data_type": "character varying", "udt_name": "varchar"},
-            {"column_name": "p_set", "data_type": "numeric", "udt_name": "numeric"}
+            {
+                "column_name": "bus_id",
+                "data_type": "integer",
+                "udt_name": "int4",
+            },
+            {
+                "column_name": "carrier",
+                "data_type": "text",
+                "udt_name": "text",
+            },
+            {
+                "column_name": "scn_name",
+                "data_type": "character varying",
+                "udt_name": "varchar",
+            },
+            {
+                "column_name": "p_set",
+                "data_type": "numeric",
+                "udt_name": "numeric",
+            },
         ]
         mock_db_row = {"columns_info": mock_columns_info}
 
@@ -275,16 +301,32 @@ class TestMultipleColumnsDataTypeValidation:
                 "year": "integer",
                 "nuts3": "text",
                 "demand": "numeric",
-                "sector": "text"
-            }
+                "sector": "text",
+            },
         )
 
         # Simulate DB result: year and demand have wrong types
         mock_columns_info = [
-            {"column_name": "year", "data_type": "text", "udt_name": "text"},  # Should be integer
-            {"column_name": "nuts3", "data_type": "text", "udt_name": "text"},  # Correct
-            {"column_name": "demand", "data_type": "text", "udt_name": "text"},  # Should be numeric
-            {"column_name": "sector", "data_type": "text", "udt_name": "text"}  # Correct
+            {
+                "column_name": "year",
+                "data_type": "text",
+                "udt_name": "text",
+            },  # Should be integer
+            {
+                "column_name": "nuts3",
+                "data_type": "text",
+                "udt_name": "text",
+            },  # Correct
+            {
+                "column_name": "demand",
+                "data_type": "text",
+                "udt_name": "text",
+            },  # Should be numeric
+            {
+                "column_name": "sector",
+                "data_type": "text",
+                "udt_name": "text",
+            },  # Correct
         ]
         mock_db_row = {"columns_info": mock_columns_info}
 

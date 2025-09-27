@@ -1,13 +1,17 @@
 import pytest
 from unittest.mock import Mock, patch
-from egon_validation.rules.custom.numeric_aggregation_check import DisaggregatedDemandSumValidation
+from egon_validation.rules.custom.numeric_aggregation_check import (
+    DisaggregatedDemandSumValidation,
+)
 from egon_validation.rules.base import RuleResult, Severity
 
 
 class TestDisaggregatedDemandSumValidation:
     def test_sql_generation_default_sector(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            "test_rule",
+            "test_task",
+            "demand.egon_demandregio_zensus_electricity",
         )
         sql = rule.sql(None)
 
@@ -75,7 +79,9 @@ class TestDisaggregatedDemandSumValidation:
     def test_postprocess_default_tolerance(self):
         # Use actual config default tolerance: DISAGGREGATED_DEMAND_TOLERANCE = 0.01
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            "test_rule",
+            "test_task",
+            "demand.egon_demandregio_zensus_electricity",
         )
 
         row = {
@@ -93,7 +99,9 @@ class TestDisaggregatedDemandSumValidation:
 
     def test_postprocess_none_values(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            "test_rule",
+            "test_task",
+            "demand.egon_demandregio_zensus_electricity",
         )
 
         row = {
@@ -107,12 +115,16 @@ class TestDisaggregatedDemandSumValidation:
         result = rule.postprocess(row, None)
 
         # Should handle None values gracefully
-        assert "Scenario None" in result.message  # scenario info is in the message
+        assert (
+            "Scenario None" in result.message
+        )  # scenario info is in the message
         assert result.observed == 0.0
 
     def test_postprocess_zero_original_sum(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            "test_rule",
+            "test_task",
+            "demand.egon_demandregio_zensus_electricity",
         )
 
         row = {

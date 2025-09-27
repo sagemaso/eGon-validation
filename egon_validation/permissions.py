@@ -3,7 +3,10 @@
 from typing import Dict, List, Tuple
 from sqlalchemy.engine import Engine
 from egon_validation.logging_config import get_logger
-from egon_validation.exceptions import PermissionDeniedError, DatabaseConnectionError
+from egon_validation.exceptions import (
+    PermissionDeniedError,
+    DatabaseConnectionError,
+)
 from egon_validation.retry import database_retry
 from egon_validation import db
 
@@ -61,9 +64,13 @@ class PermissionValidator:
             self._permission_cache[cache_key] = has_permission
 
             if has_permission:
-                logger.debug(f"Permission granted: {privilege} on {schema}.{table}")
+                logger.debug(
+                    f"Permission granted: {privilege} on {schema}.{table}"
+                )
             else:
-                logger.warning(f"Permission denied: {privilege} on {schema}.{table}")
+                logger.warning(
+                    f"Permission denied: {privilege} on {schema}.{table}"
+                )
 
             return has_permission
 
@@ -82,7 +89,9 @@ class PermissionValidator:
             ) from e
 
     @database_retry
-    def check_schema_access(self, schema: str, privilege: str = "USAGE") -> bool:
+    def check_schema_access(
+        self, schema: str, privilege: str = "USAGE"
+    ) -> bool:
         """
         Check if current user has privilege on a schema.
 
@@ -104,23 +113,33 @@ class PermissionValidator:
             """
 
             result = db.fetch_one(
-                self.engine, schema_query, {"schema": schema, "privilege": privilege}
+                self.engine,
+                schema_query,
+                {"schema": schema, "privilege": privilege},
             )
             has_permission = result.get("has_privilege", False)
 
             self._permission_cache[cache_key] = has_permission
 
             if has_permission:
-                logger.debug(f"Schema permission granted: {privilege} on {schema}")
+                logger.debug(
+                    f"Schema permission granted: {privilege} on {schema}"
+                )
             else:
-                logger.warning(f"Schema permission denied: {privilege} on {schema}")
+                logger.warning(
+                    f"Schema permission denied: {privilege} on {schema}"
+                )
 
             return has_permission
 
         except Exception as e:
             logger.error(
                 f"Failed to check schema permission: {str(e)}",
-                extra={"schema": schema, "privilege": privilege, "error": str(e)},
+                extra={
+                    "schema": schema,
+                    "privilege": privilege,
+                    "error": str(e),
+                },
             )
             raise DatabaseConnectionError(
                 f"Unable to check schema permissions: {str(e)}"
@@ -154,12 +173,16 @@ class PermissionValidator:
                 logger.debug(f"System table accessible: {table}")
             except Exception as e:
                 results[table] = False
-                logger.warning(f"System table access denied: {table} - {str(e)}")
+                logger.warning(
+                    f"System table access denied: {table} - {str(e)}"
+                )
 
         return results
 
     def validate_required_permissions(
-        self, required_tables: List[Tuple[str, str]], fail_on_missing: bool = True
+        self,
+        required_tables: List[Tuple[str, str]],
+        fail_on_missing: bool = True,
     ) -> Dict[str, bool]:
         """
         Validate permissions for a list of required tables.
@@ -180,7 +203,9 @@ class PermissionValidator:
         for schema, table in required_tables:
             table_key = f"{schema}.{table}"
             try:
-                has_permission = self.check_table_access(schema, table, "SELECT")
+                has_permission = self.check_table_access(
+                    schema, table, "SELECT"
+                )
                 results[table_key] = has_permission
 
                 if not has_permission:
@@ -191,10 +216,10 @@ class PermissionValidator:
                 missing_permissions.append(table_key)
 
         if fail_on_missing and missing_permissions:
-            error_msg = (
-                f"Missing permissions for tables: {', '.join(missing_permissions)}"
+            error_msg = f"Missing permissions for tables: {', '.join(missing_permissions)}"
+            logger.error(
+                error_msg, extra={"missing_tables": missing_permissions}
             )
-            logger.error(error_msg, extra={"missing_tables": missing_permissions})
             raise PermissionDeniedError(error_msg)
 
         return results
@@ -263,7 +288,9 @@ class PermissionValidator:
             return result
 
         except Exception as e:
-            logger.error(f"Failed to get user info: {str(e)}", extra={"error": str(e)})
+            logger.error(
+                f"Failed to get user info: {str(e)}", extra={"error": str(e)}
+            )
             return {"username": "unknown", "database": "unknown"}
 
     def clear_cache(self) -> None:
@@ -272,7 +299,9 @@ class PermissionValidator:
         logger.debug("Permission cache cleared")
 
 
-def check_validation_permissions(engine: Engine, schemas: List[str]) -> Dict[str, any]:
+def check_validation_permissions(
+    engine: Engine, schemas: List[str]
+) -> Dict[str, any]:
     """
     Comprehensive permission check for validation framework.
 
@@ -305,13 +334,17 @@ def check_validation_permissions(engine: Engine, schemas: List[str]) -> Dict[str
 
         if schema_info["has_usage"]:
             results["summary"]["accessible_schemas"] += 1
-            schema_info["accessible_tables"] = validator.get_accessible_tables(schema)
+            schema_info["accessible_tables"] = validator.get_accessible_tables(
+                schema
+            )
             results["summary"]["accessible_tables"] += len(
                 schema_info["accessible_tables"]
             )
 
         results["schemas"][schema] = schema_info
-        results["summary"]["total_tables"] += len(schema_info["accessible_tables"])
+        results["summary"]["total_tables"] += len(
+            schema_info["accessible_tables"]
+        )
 
     logger.info(
         f"Permission check completed: "

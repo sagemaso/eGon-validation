@@ -86,7 +86,9 @@ class RunContextFactory:
             output_dir = Path(out_dir)
         else:
             # Default Airflow-style path
-            output_dir = Path("/opt/airflow/logs/egon_validation") / dag_id / date_str
+            output_dir = (
+                Path("/opt/airflow/logs/egon_validation") / dag_id / date_str
+            )
 
         logger.info(
             f"Created Airflow RunContext: {run_id}",
@@ -106,7 +108,9 @@ class RunContextFactory:
         )
 
     @staticmethod
-    def create_unique(prefix: str = "run", out_dir: Optional[str] = None) -> RunContext:
+    def create_unique(
+        prefix: str = "run", out_dir: Optional[str] = None
+    ) -> RunContext:
         """Create a RunContext with UUID-based ID for guaranteed uniqueness.
 
         Args:
@@ -131,7 +135,10 @@ class RunContextFactory:
             run_id=run_id,
             out_dir=output_dir,
             source="api",
-            extra={"created_by": "RunContextFactory.create_unique", "uuid": unique_id},
+            extra={
+                "created_by": "RunContextFactory.create_unique",
+                "uuid": unique_id,
+            },
         )
 
     @staticmethod
@@ -156,7 +163,9 @@ class RunContextFactory:
                 run_id=run_id,
                 out_dir=output_dir,
                 source="environment",
-                extra={"created_by": "RunContextFactory.create_from_environment"},
+                extra={
+                    "created_by": "RunContextFactory.create_from_environment"
+                },
             )
 
         # Check for Airflow context
@@ -164,14 +173,18 @@ class RunContextFactory:
         if dag_id:
             exec_date_str = os.getenv("AIRFLOW_CTX_EXECUTION_DATE")
             if exec_date_str:
-                exec_date = datetime.fromisoformat(exec_date_str.replace("Z", "+00:00"))
+                exec_date = datetime.fromisoformat(
+                    exec_date_str.replace("Z", "+00:00")
+                )
             else:
                 exec_date = datetime.now()
 
             task_id = os.getenv("AIRFLOW_CTX_TASK_ID")
             out_dir = os.getenv("EGON_OUT_DIR")
 
-            return RunContextFactory.create_airflow(dag_id, exec_date, task_id, out_dir)
+            return RunContextFactory.create_airflow(
+                dag_id, exec_date, task_id, out_dir
+            )
 
         # Fallback to timestamped
         out_dir = os.getenv("EGON_OUT_DIR")

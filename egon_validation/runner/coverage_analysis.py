@@ -78,7 +78,9 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
 
     # Calculate table coverage percentage
     table_coverage_percent = (
-        (validated_tables_count / total_tables * 100) if total_tables > 0 else 0
+        (validated_tables_count / total_tables * 100)
+        if total_tables > 0
+        else 0
     )
 
     # Get all registered rules and count unique rule_ids
@@ -96,7 +98,9 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         rule_id = item.get("rule_id")
         if rule_id:
             applied_rules.add(rule_id)
-            rule_application_count[rule_id] = rule_application_count.get(rule_id, 0) + 1
+            rule_application_count[rule_id] = (
+                rule_application_count.get(rule_id, 0) + 1
+            )
 
             if item.get("success", False):
                 successful_applications += 1
@@ -119,7 +123,10 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     rule_stats = []
     for rule_id in sorted(applied_rules):
         rule_stats.append(
-            {"rule_id": rule_id, "applications": rule_application_count[rule_id]}
+            {
+                "rule_id": rule_id,
+                "applications": rule_application_count[rule_id],
+            }
         )
 
     coverage_stats = {

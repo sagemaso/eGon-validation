@@ -54,7 +54,9 @@ def main():
         # 6. Show summary
         total_rules = len(collected_data.get("items", []))
         successful = sum(
-            1 for item in collected_data.get("items", []) if item.get("success")
+            1
+            for item in collected_data.get("items", [])
+            if item.get("success")
         )
         failed = total_rules - successful
 

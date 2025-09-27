@@ -1,5 +1,6 @@
-import pytest
-from egon_validation.rules.formal.array_cardinality_check import ArrayCardinalityValidation
+from egon_validation.rules.formal.array_cardinality_check import (
+    ArrayCardinalityValidation,
+)
 from egon_validation.rules.base import Severity
 
 
@@ -24,7 +25,7 @@ class TestArrayCardinalityValidation:
             "test_task",
             "demand.egon_heat_timeseries_selected_profiles",
             array_column="selected_idp_profiles",
-            expected_length=365
+            expected_length=365,
         )
         sql = rule.sql(None)
 
@@ -39,7 +40,7 @@ class TestArrayCardinalityValidation:
             "data_quality",
             "grid.egon_etrago_load_timeseries",
             array_column="p_set",
-            expected_length=8760
+            expected_length=8760,
         )
 
         # Simulate DB result: all 1000 arrays have correct length of 8760
@@ -51,7 +52,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [8760],
             "min_length": 8760,
             "max_length": 8760,
-            "avg_length": 8760.0
+            "avg_length": 8760.0,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -74,7 +75,7 @@ class TestArrayCardinalityValidation:
             "data_quality",
             "demand.egon_heat_timeseries_selected_profiles",
             array_column="selected_idp_profiles",
-            expected_length=365
+            expected_length=365,
         )
 
         # Simulate DB result: 50 arrays have wrong length, 5 are NULL
@@ -86,7 +87,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [365, 364, 366, None],
             "min_length": 364,
             "max_length": 366,
-            "avg_length": 365.1
+            "avg_length": 365.1,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -101,7 +102,9 @@ class TestArrayCardinalityValidation:
         assert "Avg: 365.10" in result.message
         assert result.observed == 50.0
         assert result.rule_id == "heat_profiles_validation"
-        assert result.dataset == "demand.egon_heat_timeseries_selected_profiles"
+        assert (
+            result.dataset == "demand.egon_heat_timeseries_selected_profiles"
+        )
 
     def test_postprocess_only_wrong_length_no_nulls(self):
         """Test with only wrong length arrays, no NULL arrays"""
@@ -117,7 +120,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [8760, 8759, 8761],
             "min_length": 8759,
             "max_length": 8761,
-            "avg_length": 8759.8
+            "avg_length": 8759.8,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -141,7 +144,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [8760, None],
             "min_length": 8760,
             "max_length": 8760,
-            "avg_length": 8760.0
+            "avg_length": 8760.0,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -165,13 +168,15 @@ class TestArrayCardinalityValidation:
             "found_lengths": None,
             "min_length": None,
             "max_length": None,
-            "avg_length": None
+            "avg_length": None,
         }
 
         result = rule.postprocess(mock_db_row, None)
 
         # Should handle None values gracefully
-        assert result.success is True  # 0 wrong_length and 0 null_arrays = success
+        assert (
+            result.success is True
+        )  # 0 wrong_length and 0 null_arrays = success
         assert result.message == "All 0 arrays have correct length of 8760"
         assert result.observed == 0.0
 
@@ -189,7 +194,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [],  # empty list
             "min_length": 8759,
             "max_length": 8760,
-            "avg_length": 8759.5
+            "avg_length": 8759.5,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -205,7 +210,7 @@ class TestArrayCardinalityValidation:
             "timeseries_validation",
             "grid.egon_etrago_generator_timeseries",
             array_column="p_max_pu",
-            expected_length=8760
+            expected_length=8760,
         )
 
         # Simulate DB result: perfect annual timeseries data
@@ -217,7 +222,7 @@ class TestArrayCardinalityValidation:
             "found_lengths": [8760],
             "min_length": 8760,
             "max_length": 8760,
-            "avg_length": 8760.0
+            "avg_length": 8760.0,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -237,7 +242,7 @@ class TestArrayCardinalityValidation:
             "timeseries_validation",
             "grid.egon_etrago_bus_timeseries",
             array_column="v_mag_pu_set",
-            expected_length=8760
+            expected_length=8760,
         )
 
         # Simulate DB result: corrupted data with various issues
@@ -246,10 +251,16 @@ class TestArrayCardinalityValidation:
             "correct_length": 1850,
             "wrong_length": 100,
             "null_arrays": 50,
-            "found_lengths": [8760, 8759, 8761, 4380, None],  # Some half-year data
+            "found_lengths": [
+                8760,
+                8759,
+                8761,
+                4380,
+                None,
+            ],  # Some half-year data
             "min_length": 4380,
             "max_length": 8761,
-            "avg_length": 8456.2
+            "avg_length": 8456.2,
         }
 
         result = rule.postprocess(mock_db_row, None)

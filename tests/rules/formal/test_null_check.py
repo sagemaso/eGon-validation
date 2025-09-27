@@ -1,4 +1,3 @@
-import pytest
 from egon_validation.rules.formal.null_check import NotNullAndNotNaN
 from egon_validation.rules.base import Severity
 
@@ -12,14 +11,18 @@ class TestNotNullAndNotNaN:
         assert sql == expected
 
     def test_sql_generation_custom_column(self):
-        rule = NotNullAndNotNaN("test_rule", "test_task", "test.table", column="demand")
+        rule = NotNullAndNotNaN(
+            "test_rule", "test_task", "test.table", column="demand"
+        )
         sql = rule.sql(None)
 
         expected = "SELECT COUNT(*) AS n_bad FROM test.table WHERE (demand IS NULL OR demand <> demand)"
         assert sql == expected
 
     def test_postprocess_success(self):
-        rule = NotNullAndNotNaN("test_rule", "test_task", "test.table", column="demand")
+        rule = NotNullAndNotNaN(
+            "test_rule", "test_task", "test.table", column="demand"
+        )
         row = {"n_bad": 0}
 
         result = rule.postprocess(row, None)
@@ -54,7 +57,7 @@ class TestNotNullAndNotNaN:
             "test_null_check",
             "data_quality",
             "demand.egon_demandregio_hh",
-            column="demand"
+            column="demand",
         )
 
         # Simulate DB result: 0 rows with NULL or NaN values found
@@ -78,7 +81,7 @@ class TestNotNullAndNotNaN:
             "demand_null_check",
             "data_quality",
             "demand.egon_demandregio_hh",
-            column="demand"
+            column="demand",
         )
 
         # Simulate DB result: 127 rows have NULL or NaN demand values

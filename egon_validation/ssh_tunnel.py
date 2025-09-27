@@ -8,6 +8,7 @@ from egon_validation.logging_config import get_logger
 
 logger = get_logger("ssh_tunnel")
 
+
 class SSHTunnel:
     """Manages SSH tunnel for database connections"""
 
@@ -39,14 +40,19 @@ class SSHTunnel:
     def start(self) -> bool:
         """Start SSH tunnel if not already running"""
         if self.is_port_open(self.local_port):
-            logger.warning("SSH tunnel port already in use", extra={
-                "local_port": self.local_port,
-                "status": "may_already_be_active"
-            })
+            logger.warning(
+                "SSH tunnel port already in use",
+                extra={
+                    "local_port": self.local_port,
+                    "status": "may_already_be_active",
+                },
+            )
             return True
 
         if not Path(self.ssh_key_file).exists():
-            raise FileNotFoundError(f"SSH key file not found: {self.ssh_key_file}")
+            raise FileNotFoundError(
+                f"SSH key file not found: {self.ssh_key_file}"
+            )
 
         cmd = [
             "ssh",
@@ -71,49 +77,59 @@ class SSHTunnel:
             # Wait for tunnel to establish
             for _ in range(10):  # 10 second timeout
                 if self.is_port_open(self.local_port):
-                    logger.info("SSH tunnel established successfully", extra={
-                        "local_port": self.local_port,
-                        "remote_port": self.remote_port,
-                        "ssh_host": self.ssh_host
-                    })
+                    logger.info(
+                        "SSH tunnel established successfully",
+                        extra={
+                            "local_port": self.local_port,
+                            "remote_port": self.remote_port,
+                            "ssh_host": self.ssh_host,
+                        },
+                    )
                     return True
                 time.sleep(1)
-            
-            logger.error("SSH tunnel failed to establish within timeout", extra={
-                "local_port": self.local_port,
-                "timeout_seconds": 10
-            })
+
+            logger.error(
+                "SSH tunnel failed to establish within timeout",
+                extra={"local_port": self.local_port, "timeout_seconds": 10},
+            )
             return False
-            
+
         except Exception as e:
-            logger.error("Failed to start SSH tunnel", extra={
-                "error": str(e),
-                "ssh_host": self.ssh_host,
-                "local_port": self.local_port
-            })
+            logger.error(
+                "Failed to start SSH tunnel",
+                extra={
+                    "error": str(e),
+                    "ssh_host": self.ssh_host,
+                    "local_port": self.local_port,
+                },
+            )
             return False
-    
+
     def stop(self):
         """Stop SSH tunnel"""
         if self.process:
             try:
                 # Kill the entire process group
-                os.killpg(os.getpgid(self.process.pid), subprocess.signal.SIGTERM)
+                os.killpg(
+                    os.getpgid(self.process.pid), subprocess.signal.SIGTERM
+                )
                 self.process.wait(timeout=5)
             except (subprocess.TimeoutExpired, ProcessLookupError):
                 try:
-                    os.killpg(os.getpgid(self.process.pid), subprocess.signal.SIGKILL)
+                    os.killpg(
+                        os.getpgid(self.process.pid), subprocess.signal.SIGKILL
+                    )
                 except ProcessLookupError:
                     pass
             self.process = None
             logger.info("SSH tunnel stopped successfully")
-    
+
     def __enter__(self):
         """Context manager entry"""
         if self.start():
             return self
         raise RuntimeError("Failed to establish SSH tunnel")
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager exit"""
         self.stop()

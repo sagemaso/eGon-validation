@@ -1,5 +1,5 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
+from egon_validation.rules.registry import register_map
 
 
 class ReferentialIntegrityValidation(SqlRule):
@@ -12,9 +12,17 @@ class ReferentialIntegrityValidation(SqlRule):
 
         base_query = f"""
         SELECT
-            COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL) AS total_non_null_references,
-            COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NOT NULL) AS valid_references,
-            COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NULL) AS orphaned_references
+            COUNT(*) FILTER (
+                WHERE child.{foreign_col} IS NOT NULL
+            ) AS total_non_null_references,
+            COUNT(*) FILTER (
+                WHERE child.{foreign_col} IS NOT NULL
+                AND parent.{reference_col} IS NOT NULL
+            ) AS valid_references,
+            COUNT(*) FILTER (
+                WHERE child.{foreign_col} IS NOT NULL
+                AND parent.{reference_col} IS NULL
+            ) AS orphaned_references
         FROM
             {self.dataset} as child
         LEFT JOIN
@@ -25,8 +33,9 @@ class ReferentialIntegrityValidation(SqlRule):
         return base_query
 
     def postprocess(self, row, ctx):
-        total_non_null_references = int(row.get("total_non_null_references") or 0)
-        valid_references = int(row.get("valid_references") or 0)
+        total_non_null_references = int(
+            row.get("total_non_null_references") or 0
+        )
         orphaned_references = int(row.get("orphaned_references") or 0)
 
         ok = orphaned_references == 0
@@ -36,9 +45,15 @@ class ReferentialIntegrityValidation(SqlRule):
         reference_col = self.params.get("reference_column", "id")
 
         if ok:
-            message = f"All {total_non_null_references} references in {foreign_col} have valid matches in {reference_dataset}.{reference_col}"
+            message = (
+                f"All {total_non_null_references} references in {foreign_col} "
+                f"have valid matches in {reference_dataset}.{reference_col}"
+            )
         else:
-            message = f"{orphaned_references} orphaned references found in {foreign_col} (out of {total_non_null_references} total non-null references)"
+            message = (
+                f"{orphaned_references} orphaned references found in {foreign_col} "
+                f"(out of {total_non_null_references} total non-null references)"
+            )
 
         return RuleResult(
             rule_id=self.rule_id,

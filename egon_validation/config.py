@@ -15,7 +15,9 @@ def load_env_file():
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
                     key, value = line.split("=", 1)
-                    if key not in os.environ:  # Don't override existing env vars
+                    if (
+                        key not in os.environ
+                    ):  # Don't override existing env vars
                         os.environ[key] = value
 
 

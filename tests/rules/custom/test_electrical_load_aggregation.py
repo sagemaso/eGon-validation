@@ -1,7 +1,8 @@
-import pytest
-from unittest.mock import Mock, patch
-from egon_validation.rules.custom.numeric_aggregation_check import ElectricalLoadAggregationValidation
-from egon_validation.rules.base import RuleResult, Severity
+from unittest.mock import patch
+from egon_validation.rules.custom.numeric_aggregation_check import (
+    ElectricalLoadAggregationValidation,
+)
+from egon_validation.rules.base import Severity
 
 
 class TestElectricalLoadAggregationValidation:
@@ -157,7 +158,9 @@ class TestElectricalLoadAggregationValidation:
         ]
         row = {"scenarios_data": json.dumps(scenarios_data)}
 
-        with patch("egon_validation.config.ELECTRICAL_LOAD_EXPECTED_VALUES", {}):
+        with patch(
+            "egon_validation.config.ELECTRICAL_LOAD_EXPECTED_VALUES", {}
+        ):
             result = rule.postprocess(row, None)
 
         # Should handle JSON string input

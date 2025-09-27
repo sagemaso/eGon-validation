@@ -67,13 +67,18 @@ def exponential_backoff(
                         logger.error(
                             f"Function {func.__name__} failed after "
                             f"{max_attempts} attempts: {str(e)}",
-                            extra={"attempts": max_attempts, "final_error": str(e)},
+                            extra={
+                                "attempts": max_attempts,
+                                "final_error": str(e),
+                            },
                             exc_info=True,
                         )
                         raise e
 
                     # Calculate delay with exponential backoff
-                    delay = min(base_delay * (backoff_factor**attempt), max_delay)
+                    delay = min(
+                        base_delay * (backoff_factor**attempt), max_delay
+                    )
 
                     # Add jitter to prevent thundering herd
                     if jitter:
@@ -115,7 +120,9 @@ def exponential_backoff(
 def circuit_breaker(
     failure_threshold: int = 5,
     recovery_timeout: int = 60,
-    expected_exception: Union[Type[Exception], Tuple[Type[Exception], ...]] = Exception,
+    expected_exception: Union[
+        Type[Exception], Tuple[Type[Exception], ...]
+    ] = Exception,
 ):
     """
     Circuit breaker pattern implementation.
@@ -139,7 +146,8 @@ def circuit_breaker(
             if (
                 func._circuit_state == "OPEN"
                 and func._circuit_last_failure_time
-                and current_time - func._circuit_last_failure_time > recovery_timeout
+                and current_time - func._circuit_last_failure_time
+                > recovery_timeout
             ):
                 func._circuit_state = "HALF_OPEN"
                 logger.info(
@@ -219,7 +227,9 @@ class RetryableOperation:
             self.attempt += 1
 
             if self.attempt < self.max_attempts:
-                delay = self.base_delay * (self.backoff_factor ** (self.attempt - 1))
+                delay = self.base_delay * (
+                    self.backoff_factor ** (self.attempt - 1)
+                )
                 logger.warning(
                     f"Operation {self.operation_name} failed (attempt "
                     f"{self.attempt}/{self.max_attempts}), retrying in "
@@ -236,7 +246,10 @@ class RetryableOperation:
                 logger.error(
                     f"Operation {self.operation_name} failed after "
                     f"{self.max_attempts} attempts: {str(exc_val)}",
-                    extra={"attempts": self.max_attempts, "final_error": str(exc_val)},
+                    extra={
+                        "attempts": self.max_attempts,
+                        "final_error": str(exc_val),
+                    },
                 )
 
         return False  # Don't suppress other exceptions

@@ -31,7 +31,9 @@ def run_validation_task(**context):
     engine = db.make_engine(db_url)
 
     # Create run context
-    ctx = RunContext(run_id=run_id, out_dir=Path("/opt/airflow/validation_runs"))
+    ctx = RunContext(
+        run_id=run_id, out_dir=Path("/opt/airflow/validation_runs")
+    )
 
     # Execute validation
     results = run_for_task(engine, ctx, task="data_quality")
@@ -131,7 +133,11 @@ def main():
     from unittest.mock import Mock
 
     # Mock Airflow context for testing
-    context = {"execution_date": datetime.now(), "task_instance": Mock(), "dag": Mock()}
+    context = {
+        "execution_date": datetime.now(),
+        "task_instance": Mock(),
+        "dag": Mock(),
+    }
 
     try:
         result = run_validation_task(**context)

@@ -1,12 +1,10 @@
 """Rule registration and discovery system."""
 
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
+from typing import Any, Dict, Iterable, List, Tuple, Type
 from .base import Rule
 
 # Internal registry: (rule_id, task, dataset, rule_cls, defaults, kind)
-_REGISTRY: List[
-    Tuple[str, str, str, Type[Rule], Dict[str, Any], str]
-] = []
+_REGISTRY: List[Tuple[str, str, str, Type[Rule], Dict[str, Any], str]] = []
 
 
 def register(
@@ -54,6 +52,12 @@ def rules_for(task: str) -> Iterable[Rule]:
 def list_registered() -> List[Dict[str, Any]]:
     """List all registered rules."""
     return [
-        {"rule_id": rid, "task": tid, "dataset": ds, "kind": kind, "params": params}
+        {
+            "rule_id": rid,
+            "task": tid,
+            "dataset": ds,
+            "kind": kind,
+            "params": params,
+        }
         for rid, tid, ds, _, params, kind in _REGISTRY
     ]

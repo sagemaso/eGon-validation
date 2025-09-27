@@ -1,4 +1,5 @@
-"""Base classes for validation rules: Rule, SqlRule, RuleResult, and Severity enum."""
+"""Base classes for validation rules: Rule, SqlRule, RuleResult,
+and Severity enum."""
 
 from dataclasses import dataclass, asdict
 from enum import Enum
@@ -36,7 +37,9 @@ class RuleResult:
 
 
 class Rule:
-    def __init__(self, rule_id: str, task: str, dataset: str, **params: Any) -> None:
+    def __init__(
+        self, rule_id: str, task: str, dataset: str, **params: Any
+    ) -> None:
         self.rule_id = rule_id
         self.task = task
         self.dataset = dataset  # "<schema>.<table>" or view
@@ -46,7 +49,6 @@ class Rule:
             self.schema, self.table = dataset.split(".", 1)
         else:
             self.schema, self.table = None, dataset
-
 
 
 class SqlRule(Rule):

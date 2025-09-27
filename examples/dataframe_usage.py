@@ -79,7 +79,9 @@ def demonstrate_dataframe_interface():
     print("📊 DataFrame Interface Demo")
 
     # Setup (would normally connect to real database)
-    db_url = config.get_env("DB_URL") or "postgresql://demo:demo@localhost/demo"
+    db_url = (
+        config.get_env("DB_URL") or "postgresql://demo:demo@localhost/demo"
+    )
 
     try:
         engine = make_engine(db_url)
@@ -101,7 +103,9 @@ def demonstrate_dataframe_interface():
 
         # Example 2: DataFrame rule usage
         print("\n2️⃣ DataFrame Rule Demo:")
-        rule = CorrelationCheck("demo_corr", "dataframe_demo", "demo.sample_data")
+        rule = CorrelationCheck(
+            "demo_corr", "dataframe_demo", "demo.sample_data"
+        )
         print(f"   Created rule: {rule.rule_id}")
         print(f"   Rule type: {type(rule).__name__}")
         print(f"   Query: {rule.get_query(None)}")

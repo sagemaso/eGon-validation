@@ -48,7 +48,7 @@ class SRIDSpecificValidation(SqlRule):
         expected_srid = self.params.get("expected_srid", DEFAULT_SRID)
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) AS total_geometries,
             COUNT(DISTINCT ST_SRID({geom})) AS unique_srids,
             SUM(CASE WHEN ST_SRID({geom}) = {expected_srid} THEN 1 ELSE 0 END) AS correct_srid_count,
@@ -74,9 +74,7 @@ class SRIDSpecificValidation(SqlRule):
         )
 
         if ok:
-            message = (
-                f"All {total_geometries} geometries have correct SRID {expected_srid}"
-            )
+            message = f"All {total_geometries} geometries have correct SRID {expected_srid}"
         else:
             problems = []
             if unique_srids != 1:
@@ -111,7 +109,10 @@ register_map(
     rule_id="SPECIAL_SRID_VALIDATION",
     kind="formal",
     datasets_params={
-        "supply.egon_power_plants_wind": {"geom": "geom", "expected_srid": 4326},
+        "supply.egon_power_plants_wind": {
+            "geom": "geom",
+            "expected_srid": 4326,
+        },
         "boundaries.vg250_sta": {"geom": "geometry", "expected_srid": 4326},
         "grid.egon_mv_grid_district": {"geom": "geom", "expected_srid": 3035},
     },

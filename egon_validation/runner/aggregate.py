@@ -114,8 +114,12 @@ def build_coverage(ctx, collected: Dict) -> Dict:
 def write_outputs(ctx, results: Dict, coverage: Dict) -> str:
     out_dir = os.path.join(ctx.out_dir, ctx.run_id, "final")
     os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "results.json"), "w", encoding="utf-8") as f:
+    with open(
+        os.path.join(out_dir, "results.json"), "w", encoding="utf-8"
+    ) as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
-    with open(os.path.join(out_dir, "coverage.json"), "w", encoding="utf-8") as f:
+    with open(
+        os.path.join(out_dir, "coverage.json"), "w", encoding="utf-8"
+    ) as f:
         json.dump(coverage, f, ensure_ascii=False, indent=2)
     return out_dir

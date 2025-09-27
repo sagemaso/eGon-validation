@@ -227,7 +227,9 @@ class DisaggregatedDemandSumValidation(SqlRule):
         disagg_sum = float(row.get("disagg_sum") or 0.0)
         orig_sum = float(row.get("orig_sum") or 0.0)
         rel_diff = float(row.get("rel_diff") or 0.0)
-        tolerance = float(self.params.get("tolerance", DISAGGREGATED_DEMAND_TOLERANCE))
+        tolerance = float(
+            self.params.get("tolerance", DISAGGREGATED_DEMAND_TOLERANCE)
+        )
 
         ok = rel_diff <= tolerance
 

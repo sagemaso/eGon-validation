@@ -20,15 +20,17 @@ import egon_validation.rules.custom  # noqa: F401
 logger = get_logger("runner.execute")
 
 
-
 def _ensure_dir(path: str, check_collision: bool = True) -> None:
     """Create directory, optionally checking for run_id collisions."""
     if check_collision and os.path.exists(path):
         # Check if there are existing result files
         jsonl_files = [f for f in os.listdir(path) if f.endswith(".jsonl")]
         if jsonl_files:
-            raise RunIdCollisionError(f"Run directory already exists with data: {path}")
+            raise RunIdCollisionError(
+                f"Run directory already exists with data: {path}"
+            )
     os.makedirs(path, exist_ok=True)
+
 
 def _execute_single_rule(engine, rule, ctx) -> RuleResult:
     """Execute a single rule and return the result."""
@@ -53,12 +55,15 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
                 "status": "success",
             },
         )
-        logger.debug("Rule completed successfully", extra={
-            "rule_id": rule.rule_id,
-            "execution_time_seconds": round(execution_time, 2),
-            "success": res.success,
-            "dataset": rule.dataset
-        })
+        logger.debug(
+            "Rule completed successfully",
+            extra={
+                "rule_id": rule.rule_id,
+                "execution_time_seconds": round(execution_time, 2),
+                "success": res.success,
+                "dataset": rule.dataset,
+            },
+        )
         return res
     except TimeoutError as e:
         execution_time = time.time() - start_time
@@ -70,7 +75,9 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
                 "error": str(e),
             },
         )
-        raise ValidationTimeoutError(f"Rule {rule.rule_id} timed out: {str(e)}")
+        raise ValidationTimeoutError(
+            f"Rule {rule.rule_id} timed out: {str(e)}"
+        )
     except (OperationalError, SQLAlchemyError) as e:
         execution_time = time.time() - start_time
         logger.warning(
@@ -83,7 +90,9 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         )
         # Map database exceptions to appropriate severity
         severity = (
-            Severity.ERROR if "connection" in str(e).lower() else Severity.WARNING
+            Severity.ERROR
+            if "connection" in str(e).lower()
+            else Severity.WARNING
         )
         return RuleResult(
             rule_id=rule.rule_id,
@@ -121,13 +130,17 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         )
     except Exception as e:
         execution_time = time.time() - start_time
-        logger.error("Rule execution failed", extra={
-            "rule_id": rule.rule_id,
-            "execution_time_seconds": round(execution_time, 2),
-            "error": str(e),
-            "dataset": rule.dataset
-        })
+        logger.error(
+            "Rule execution failed",
+            extra={
+                "rule_id": rule.rule_id,
+                "execution_time_seconds": round(execution_time, 2),
+                "error": str(e),
+                "dataset": rule.dataset,
+            },
+        )
         from egon_validation.rules.base import RuleResult, Severity
+
         return RuleResult(
             rule_id=rule.rule_id,
             task=rule.task,
@@ -141,7 +154,10 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             table=getattr(rule, "table", None),
         )
 
-def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResult]:
+
+def run_for_task(
+    engine, ctx, task: str, max_workers: int = 4
+) -> List[RuleResult]:
     overall_start = time.time()
     results: List[RuleResult] = []
     out_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task)
@@ -149,16 +165,23 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
     jsonl_path = os.path.join(out_dir, "results.jsonl")
 
     rules = list(rules_for(task))
-    logger.info("Starting rule execution", extra={
-        "task": task,
-        "total_rules": len(rules),
-        "max_workers": max_workers,
-        "run_id": ctx.run_id
-    })
-    
+    logger.info(
+        "Starting rule execution",
+        extra={
+            "task": task,
+            "total_rules": len(rules),
+            "max_workers": max_workers,
+            "run_id": ctx.run_id,
+        },
+    )
+
     logger.info(
         f"Executing {len(rules)} rules in parallel (max_workers={max_workers})",
-        extra={"task": task, "rule_count": len(rules), "max_workers": max_workers},
+        extra={
+            "task": task,
+            "rule_count": len(rules),
+            "max_workers": max_workers,
+        },
     )
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -167,7 +190,7 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
             executor.submit(_execute_single_rule, engine, rule, ctx): rule
             for rule in rules
         }
-        
+
         # Collect results as they complete and write to file
         with open(jsonl_path, "a", encoding="utf-8") as f:
             for future in as_completed(future_to_rule):
@@ -179,14 +202,18 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
                 except Exception as e:
                     logger.error(
                         f"Failed to get result for rule {rule.rule_id}: {e}",
-                        extra={"rule_id": rule.rule_id, "task": task, "error": str(e)},
+                        extra={
+                            "rule_id": rule.rule_id,
+                            "task": task,
+                            "error": str(e),
+                        },
                         exc_info=True,
                     )
 
-                    logger.error("Failed to retrieve rule result", extra={
-                        "rule_id": rule.rule_id,
-                        "error": str(e)
-                    })
+                    logger.error(
+                        "Failed to retrieve rule result",
+                        extra={"rule_id": rule.rule_id, "error": str(e)},
+                    )
 
     total_time = time.time() - overall_start
     avg_time = total_time / len(results) if results else 0
@@ -201,12 +228,15 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 4) -> List[RuleResul
         },
     )
     avg_time = total_time / len(results) if results else 0
-    logger.info("Rule execution completed", extra={
-        "task": task,
-        "total_rules_completed": len(results),
-        "total_execution_time_seconds": round(total_time, 2),
-        "average_time_per_rule_seconds": round(avg_time, 2),
-        "run_id": ctx.run_id,
-        "output_path": jsonl_path
-    })
+    logger.info(
+        "Rule execution completed",
+        extra={
+            "task": task,
+            "total_rules_completed": len(results),
+            "total_execution_time_seconds": round(total_time, 2),
+            "average_time_per_rule_seconds": round(avg_time, 2),
+            "run_id": ctx.run_id,
+            "output_path": jsonl_path,
+        },
+    )
     return results

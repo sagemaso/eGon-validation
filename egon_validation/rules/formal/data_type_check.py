@@ -15,7 +15,6 @@ class DataTypeValidation(SqlRule):
 
     def sql(self, ctx):
         column = self.params.get("column", "id")
-        expected_type = self.params.get("expected_type", "integer").lower()
 
         # Split dataset to get schema and table
         if "." in self.dataset:
@@ -24,14 +23,14 @@ class DataTypeValidation(SqlRule):
             schema, table = "public", self.dataset
 
         return f"""
-        SELECT 
+        SELECT
             column_name,
             data_type,
             udt_name,
             is_nullable,
             column_default
         FROM information_schema.columns
-        WHERE 
+        WHERE
             table_schema = '{schema}' AND
             table_name = '{table}' AND
             column_name = '{column}'
@@ -58,8 +57,22 @@ class DataTypeValidation(SqlRule):
 
         # PostgreSQL type mapping
         type_mappings = {
-            "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
-            "text": ["text", "character varying", "varchar", "character", "char"],
+            "integer": [
+                "integer",
+                "int4",
+                "int",
+                "bigint",
+                "int8",
+                "smallint",
+                "int2",
+            ],
+            "text": [
+                "text",
+                "character varying",
+                "varchar",
+                "character",
+                "char",
+            ],
             "numeric": [
                 "numeric",
                 "decimal",
@@ -121,7 +134,7 @@ class MultipleColumnsDataTypeValidation(SqlRule):
         columns_list = "', '".join(columns)
 
         return f"""
-        SELECT 
+        SELECT
             json_agg(
                 json_build_object(
                     'column_name', column_name,
@@ -130,7 +143,7 @@ class MultipleColumnsDataTypeValidation(SqlRule):
                 )
             ) as columns_info
         FROM information_schema.columns
-        WHERE 
+        WHERE
             table_schema = '{schema}' AND
             table_name = '{table}' AND
             column_name IN ('{columns_list}')
@@ -171,8 +184,22 @@ class MultipleColumnsDataTypeValidation(SqlRule):
 
         column_types = self.params.get("column_types", {})
         type_mappings = {
-            "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
-            "text": ["text", "character varying", "varchar", "character", "char"],
+            "integer": [
+                "integer",
+                "int4",
+                "int",
+                "bigint",
+                "int8",
+                "smallint",
+                "int2",
+            ],
+            "text": [
+                "text",
+                "character varying",
+                "varchar",
+                "character",
+                "char",
+            ],
             "numeric": [
                 "numeric",
                 "decimal",
@@ -204,9 +231,14 @@ class MultipleColumnsDataTypeValidation(SqlRule):
 
             if column_name in column_types:
                 expected_type = column_types[column_name].lower()
-                expected_types = type_mappings.get(expected_type, [expected_type])
+                expected_types = type_mappings.get(
+                    expected_type, [expected_type]
+                )
 
-                if actual_type not in expected_types and udt_name not in expected_types:
+                if (
+                    actual_type not in expected_types
+                    and udt_name not in expected_types
+                ):
                     problems.append(
                         f"{column_name}: got '{actual_type}' (udt: '{udt_name}'), expected {expected_type}"
                     )
