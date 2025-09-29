@@ -57,7 +57,7 @@ RUNID="validation-$(date +%Y%m%dT%H%M%S)"
 # Run validation with SSH tunnel
 egon-validation run-task --run-id $RUNID --task validation-test --with-tunnel
 
-# Generate final report
+# Generate final reporter
 egon-validation final-report --run-id $RUNID
 
 # Alternative: Direct database connection
@@ -376,7 +376,7 @@ The framework includes built-in formal validation rules:
 # Run all tests
 pytest
 
-# Run with coverage report
+# Run with coverage reporter
 pytest --cov=egon_validation --cov-report=html
 
 # Run specific test categories
@@ -408,7 +408,7 @@ validation_task = BashOperator(
     bash_command='''
         RUNID="{{ ds }}_{{ ts_nodash }}"
         egon-validation run-task --run-id $RUNID --task {{ params.task_name }}
-        egon-validation final-report --run-id $RUNID
+        egon-validation final-reporter --run-id $RUNID
     ''',
     params={'task_name': 'data_quality_check'}
 )

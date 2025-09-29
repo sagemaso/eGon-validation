@@ -93,7 +93,7 @@ validation_cli_task = BashOperator(
     bash_command='''
         RUNID="airflow-{{ ds }}-{{ ts_nodash }}"
         egon-validation run-task --run-id $RUNID --task data_quality --with-tunnel
-        egon-validation final-report --run-id $RUNID
+        egon-validation final-reporter --run-id $RUNID
         echo "Validation completed: $RUNID"
     ''',
     dag=dag

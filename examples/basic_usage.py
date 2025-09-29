@@ -46,9 +46,9 @@ def main():
             f"📊 Collected results for {len(collected_data.get('datasets', []))} datasets"
         )
 
-        # 5. Generate HTML report
+        # 5. Generate HTML reporter
         report_dir = generate(ctx)
-        report_path = Path(report_dir) / "report.html"
+        report_path = Path(report_dir) / "reporter.html"
         print(f"📄 Report generated: {report_path}")
 
         # 6. Show summary
