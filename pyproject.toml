@@ -16,7 +16,7 @@ dependencies = [
     "pandas>=2.0,<2.1",
     "geopandas>=0.13,<0.14",
     "shapely>=2",
-    "geoalchemy2>=0.14"
+    "geoalchemy2<0.7.0"
 ]
 
 [project.optional-dependencies]
