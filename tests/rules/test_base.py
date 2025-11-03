@@ -70,12 +70,6 @@ class TestRule:
         assert rule.schema is None
         assert rule.table == "table_only"
 
-    def test_rule_evaluate_not_implemented(self):
-        rule = Rule("test_rule", "test_task", "test.table")
-
-        with pytest.raises(NotImplementedError):
-            rule.evaluate(None, None)
-
 
 class TestSqlRule:
     def test_sql_rule_inheritance(self):

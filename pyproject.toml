@@ -21,7 +21,8 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "pytest>=7.0",
-    "pytest-mock>=3.0"
+    "pytest-mock>=3.0",
+    "pytest-cov>=4.0"
 ]
 dev = [
     "black>=24.0.0",
