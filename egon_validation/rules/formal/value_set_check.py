@@ -12,7 +12,35 @@ import json
     expected_values=["eGon2035", "eGon2021", "eGon100RE"],
 )
 class ValueSetValidation(SqlRule):
-    """Validates that all values in a column are within an expected set of valid values."""
+    """Validates that all values in a column are within an expected set of valid values.
+
+    Args:
+        table: Full table name including schema
+        column: Column name to check
+        expected_values: List of valid values
+        rule_id: Unique identifier
+        kind: Validation kind (default: "formal")
+
+    Example:
+        >>> validation = ValueSetValidation(
+        ...     table="demand.egon_demandregio_hh",
+        ...     column="scenario",
+        ...     expected_values=["eGon2035", "eGon2021"],
+        ...     rule_id="SCENARIO_VALUES_CHECK"
+        ... )
+    """
+
+    def __init__(self, table: str, column: str, expected_values: list,
+                 rule_id: str, kind: str = "formal"):
+        """Initialize value set validation."""
+        super().__init__(
+            rule_id=rule_id,
+            task="inline",
+            dataset=table,
+            column=column,
+            expected_values=expected_values,
+            kind=kind
+        )
 
     def sql(self, ctx):
         col = self.params.get("column", "value")
