@@ -113,7 +113,7 @@ export DB_HOST="your-database-host"
 export DB_PORT="5432"
 export DB_NAME="your-database-name"
 export DB_USER="your-username"
-export DB_PASS="your-password"
+export DB_PASSWORD="your-password"
 ```
 
 #### Method 2: Direct Database URL

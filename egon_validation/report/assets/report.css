@@ -12,7 +12,9 @@
 }
 * { box-sizing: border-box; }
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--fg); margin: 0; }
-.container { max-width: 1300px; margin: 0 auto; padding: 24px; }
+/* No padding on container - add individually per section */
+.container { max-width: 1300px; margin: 0 auto; padding: 0; }
+header.container { padding: 24px; }
 header h1 { margin: 0; font-weight: 700; }
 .meta { display: flex; gap: 16px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
 h2 { margin: 24px 0 8px; }
@@ -81,7 +83,7 @@ tr:hover td { background: #111418; }
 .custom-cell { text-align: left; color: var(--fg); font-size: 12px; }
 .custom-cell .tag { display: inline-block; background: #151922; border: 1px solid var(--line); color: var(--fg); border-radius: 8px; padding: 2px 8px; margin: 2px; }
 
-footer { color: var(--muted); padding-bottom: 24px; }
+footer { color: var(--muted); padding: 24px; }
 
 /* Coverage Statistics Styling */
 .coverage-card { 
@@ -129,4 +131,45 @@ footer { color: var(--muted); padding-bottom: 24px; }
 }
 #coverage-stats .cards {
   margin-bottom: 16px;
+}
+
+/* Add padding to summary and coverage sections */
+#summary, #coverage {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Details section - less padding to be wider */
+#details {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Make details table fit without horizontal scrolling */
+#results-table table {
+  table-layout: fixed;
+  font-size: 13px;
+}
+#results-table th,
+#results-table td {
+  padding: 8px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Responsive column widths using vw */
+#results-table th:nth-child(1), #results-table td:nth-child(1) { width: 7vw; }  /* Task */
+#results-table th:nth-child(2), #results-table td:nth-child(2) { width: 7vw; }  /* Schema */
+#results-table th:nth-child(3), #results-table td:nth-child(3) { width: 9vw; }  /* Table */
+#results-table th:nth-child(4), #results-table td:nth-child(4) { width: 7vw; }  /* Column */
+#results-table th:nth-child(5), #results-table td:nth-child(5) { width: 9vw; }  /* Rule */
+#results-table th:nth-child(6), #results-table td:nth-child(6) { width: 6vw; }  /* Severity */
+#results-table th:nth-child(7), #results-table td:nth-child(7) { width: 6vw; }  /* Status */
+#results-table th:nth-child(8), #results-table td:nth-child(8) { width: 9vw; }  /* Observed */
+#results-table th:nth-child(9), #results-table td:nth-child(9) { width: 9vw; }  /* Expected */
+#results-table th:nth-child(10), #results-table td:nth-child(10) { width: 20vw; } /* Message */
+/* Message column can wrap */
+#results-table td:nth-child(10) {
+  white-space: normal;
+  word-break: break-word;
 }

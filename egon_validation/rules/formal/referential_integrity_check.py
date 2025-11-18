@@ -3,7 +3,39 @@ from egon_validation.rules.registry import register, register_map
 
 
 class ReferentialIntegrityValidation(SqlRule):
-    """Validates referential integrity between tables without foreign key constraints."""
+    """Validates referential integrity between tables without foreign key constraints.
+
+    Args:
+        child_table: Table containing the foreign key
+        child_fk: Foreign key column name in child table
+        parent_table: Referenced parent table
+        parent_key: Primary/unique key column in parent table
+        rule_id: Unique identifier
+        kind: Validation kind (default: "formal")
+
+    Example:
+        >>> validation = ReferentialIntegrityValidation(
+        ...     child_table="facts.timeseries",
+        ...     child_fk="scenario_id",
+        ...     parent_table="dim.scenarios",
+        ...     parent_key="scenario_id",
+        ...     rule_id="FK_TS_SCENARIO"
+        ... )
+    """
+
+    def __init__(self, child_table: str, child_fk: str,
+                 parent_table: str, parent_key: str, rule_id: str,
+                 kind: str = "formal"):
+        """Initialize referential integrity validation."""
+        super().__init__(
+            rule_id=rule_id,
+            task="inline",
+            dataset=child_table,
+            foreign_column=child_fk,
+            reference_dataset=parent_table,
+            reference_column=parent_key,
+            kind=kind
+        )
 
     def sql(self, ctx):
         foreign_col = self.params.get("foreign_column", "id")

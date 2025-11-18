@@ -194,7 +194,7 @@
       <tr>
         <th>Task</th><th>Schema</th><th>Table</th><th>Column</th>
         <th>Rule</th><th>Severity</th>
-        <th>Status</th><th>Observed</th><th>Expected</th><th>Message</th>
+        <th>Status</th><th>Observed</th><th>Expected</th><th>Execution Time</th><th>Message</th>
       </tr>
     </thead>
     <tbody></tbody>`;
@@ -223,6 +223,7 @@
     const tr = document.createElement('tr');
     const status = r.success ? 'OK' : 'FAIL';
     const badge = `<span class="badge ${r.success ? 'ok' : 'fail'}">${status}</span>`;
+    const executionTime = r.execution_time != null ? `${r.execution_time.toFixed(2)}s` : '';
     tr.id = `detail-${r.dataset}-${r.rule_id}`;
     tr.innerHTML = `
       <td>${r.task ?? ''}</td>
@@ -234,6 +235,7 @@
       <td>${badge}</td>
       <td>${r.observed ?? ''}</td>
       <td>${r.expected ?? ''}</td>
+      <td>${executionTime}</td>
       <td>${r.message ?? ''}</td>`;
     detBody.appendChild(tr);
   }

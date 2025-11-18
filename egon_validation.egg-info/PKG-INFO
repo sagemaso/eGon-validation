@@ -7,16 +7,15 @@ License: AGPL-3.0-only
 Requires-Python: <3.9,>=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: SQLAlchemy<3,>=1.4
-Requires-Dist: psycopg2-binary>=2.9
-Requires-Dist: pandas<2.1,>=2.0
-Requires-Dist: pyarrow>=16
-Requires-Dist: geopandas<0.14,>=0.13
-Requires-Dist: shapely>=2
-Requires-Dist: geoalchemy2>=0.14
+Requires-Dist: SQLAlchemy
+Requires-Dist: psycopg2-binary
+Requires-Dist: pandas
+Requires-Dist: geopandas
+Requires-Dist: geoalchemy2
 Provides-Extra: test
 Requires-Dist: pytest>=7.0; extra == "test"
 Requires-Dist: pytest-mock>=3.0; extra == "test"
+Requires-Dist: pytest-cov>=4.0; extra == "test"
 Provides-Extra: dev
 Requires-Dist: black>=24.0.0; extra == "dev"
 Requires-Dist: flake8>=6.0.0; extra == "dev"
@@ -65,7 +64,7 @@ python3 dev/debug_with_trunnel.py
 ```
 
 This script automatically:
-- ✅ Generates a timestamped run ID (format: `adhoc-YYYYMMDDTHHMMSS`)
+- ✅ Generates a timestamped run ID (format: `validation-test-YYYYMMDDTHHMMSS`)
 - ✅ Establishes secure database connection
 - ✅ Executes all registered validation rules
 - ✅ Generates comprehensive HTML and JSON reports
@@ -78,13 +77,13 @@ This script automatically:
 RUNID="validation-$(date +%Y%m%dT%H%M%S)"
 
 # Run validation with SSH tunnel
-egon-validation run-task --run-id $RUNID --task adhoc --with-tunnel
+egon-validation run-task --run-id $RUNID --task validation-test --with-tunnel
 
 # Generate final report
 egon-validation final-report --run-id $RUNID
 
 # Alternative: Direct database connection
-egon-validation run-task --db-url "postgresql://user:pass@host:port/db" --run-id $RUNID --task adhoc
+egon-validation run-task --db-url "postgresql://user:pass@host:port/db" --run-id $RUNID --task validation-test
 ```
 
 ### Viewing Results

@@ -12,7 +12,35 @@ from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
     expected_length=8760,
 )
 class ArrayCardinalityValidation(SqlRule):
-    """Validates that array columns have the expected cardinality (length)."""
+    """Validates that array columns have the expected cardinality (length).
+
+    Args:
+        table: Full table name including schema
+        column: Name of the array column to validate
+        expected_length: Expected array length (cardinality)
+        rule_id: Unique identifier
+        kind: Validation kind (default: "formal")
+
+    Example:
+        >>> validation = ArrayCardinalityValidation(
+        ...     table="facts.timeseries",
+        ...     column="values",
+        ...     expected_length=8760,
+        ...     rule_id="TS_VALUES_LEN_8760"
+        ... )
+    """
+
+    def __init__(self, table: str, column: str, expected_length: int,
+                 rule_id: str, kind: str = "formal"):
+        """Initialize array cardinality validation."""
+        super().__init__(
+            rule_id=rule_id,
+            task="inline",
+            dataset=table,
+            array_column=column,
+            expected_length=expected_length,
+            kind=kind
+        )
 
     def sql(self, ctx):
         array_col = self.params.get("array_column", "values")

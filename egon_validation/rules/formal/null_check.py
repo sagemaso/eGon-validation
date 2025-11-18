@@ -10,6 +10,33 @@ from egon_validation.rules.registry import register
     column="demand",
 )
 class NotNullAndNotNaN(SqlRule):
+    """Validates that a column contains no NULL or NaN values.
+
+    Args:
+        table: Full table name including schema
+        column: Column name to check for NULL/NaN
+        rule_id: Unique identifier
+        kind: Validation kind (default: "formal")
+
+    Example:
+        >>> validation = NotNullAndNotNaN(
+        ...     table="facts.timeseries",
+        ...     column="scenario_id",
+        ...     rule_id="TS_SCENARIO_NOT_NULL"
+        ... )
+    """
+
+    def __init__(self, table: str, column: str, rule_id: str,
+                 kind: str = "formal"):
+        """Initialize NULL/NaN check validation."""
+        super().__init__(
+            rule_id=rule_id,
+            task="inline",
+            dataset=table,
+            column=column,
+            kind=kind
+        )
+
     def sql(self, ctx):
         col = self.params.get("column", None)
         where = f"WHERE ({col} IS NULL OR {col} <> {col})"
