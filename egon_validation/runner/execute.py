@@ -37,6 +37,8 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             # Check if table is empty first
             empty_result = rule._check_table_empty(engine, ctx)
             if empty_result:
+                execution_time = time.time() - start_time
+                empty_result.execution_time = execution_time
                 return empty_result
 
             row = db.fetch_one(engine, rule.sql(ctx))
@@ -44,6 +46,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore
         execution_time = time.time() - start_time
+        res.execution_time = execution_time
         logger.info(
             f"Rule {rule.rule_id} completed in {execution_time:.2f}s",
             extra={
@@ -87,6 +90,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             expected=None,
             message=f"Database error: {str(e)}",
             severity=severity,
+            execution_time=execution_time,
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )
@@ -109,6 +113,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             expected=None,
             message=f"Rule execution error: {str(e)}",
             severity=Severity.ERROR,
+            execution_time=execution_time,
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )
@@ -132,29 +137,52 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             expected=None,
             message=f"Unexpected error: {str(e)}",
             severity=Severity.ERROR,
+            execution_time=execution_time,
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )
 
 
-def run_for_task(engine, ctx, task: str, max_workers: int = 6) -> List[RuleResult]:
+def run_validations(
+    engine, ctx, validations: List, task_name: str, max_workers: int = 6
+) -> List[RuleResult]:
+    """Execute a list of validation rule instances.
+
+    This is the new entry point for inline validation execution.
+    It accepts Rule instances directly instead of looking them up in the registry.
+
+    Args:
+        engine: SQLAlchemy engine
+        ctx: Run context
+        validations: List of instantiated Rule objects
+        task_name: Name of the validation task (for context/output dir)
+        max_workers: Number of parallel workers
+
+    Returns:
+        List of RuleResult objects
+    """
     overall_start = time.time()
     results: List[RuleResult] = []
-    out_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task)
-    _ensure_dir(out_dir)
+
+    # Set task name on all validation instances
+    for validation in validations:
+        validation.task = task_name
+
+    # Create output directory (don't check collision for inline validations)
+    out_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task_name)
+    _ensure_dir(out_dir, check_collision=False)
     jsonl_path = os.path.join(out_dir, "results.jsonl")
 
-    rules = list(rules_for(task))
     logger.info(
-        f"Executing {len(rules)} rules in parallel (max_workers={max_workers})",
-        extra={"task": task, "rule_count": len(rules), "max_workers": max_workers},
+        f"Executing {len(validations)} validations for task '{task_name}' (max_workers={max_workers})",
+        extra={"task": task_name, "rule_count": len(validations), "max_workers": max_workers},
     )
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all rules for execution
         future_to_rule = {
             executor.submit(_execute_single_rule, engine, rule, ctx): rule
-            for rule in rules
+            for rule in validations
         }
 
         # Collect results as they complete and write to file
@@ -168,20 +196,39 @@ def run_for_task(engine, ctx, task: str, max_workers: int = 6) -> List[RuleResul
                 except Exception as e:
                     logger.error(
                         f"Failed to get result for rule {rule.rule_id}: {e}",
-                        extra={"rule_id": rule.rule_id, "task": task, "error": str(e)},
+                        extra={"rule_id": rule.rule_id, "task": task_name, "error": str(e)},
                         exc_info=True,
                     )
 
     total_time = time.time() - overall_start
     avg_time = total_time / len(results) if results else 0
     logger.info(
-        f"Completed {len(results)} rules in {total_time:.2f}s "
+        f"Completed {len(results)} validations in {total_time:.2f}s "
         f"(avg: {avg_time:.2f}s per rule)",
         extra={
-            "task": task,
+            "task": task_name,
             "total_time": total_time,
             "avg_time": avg_time,
             "completed_rules": len(results),
         },
     )
     return results
+
+
+def run_for_task(engine, ctx, task: str, max_workers: int = 6) -> List[RuleResult]:
+    """Execute rules registered for a task (legacy registry-based approach).
+
+    This function uses the decorator-based registry to look up rules.
+    It's kept for backward compatibility with CLI usage.
+
+    Args:
+        engine: SQLAlchemy engine
+        ctx: Run context
+        task: Task name to look up in registry
+        max_workers: Number of parallel workers
+
+    Returns:
+        List of RuleResult objects
+    """
+    rules = list(rules_for(task))
+    return run_validations(engine, ctx, rules, task, max_workers)

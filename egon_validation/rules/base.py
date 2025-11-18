@@ -23,6 +23,7 @@ class RuleResult:
     observed: Optional[float] = None
     expected: Optional[float] = None
     severity: Severity = Severity.WARNING
+    execution_time: Optional[float] = None
     # Debug fields
     schema: Optional[str] = None
     table: Optional[str] = None
