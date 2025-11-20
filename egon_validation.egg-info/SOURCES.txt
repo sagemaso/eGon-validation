@@ -1,7 +1,6 @@
 LICENSE
 README.md
 pyproject.toml
-setup.cfg
 egon_validation/__init__.py
 egon_validation/cli.py
 egon_validation/config.py
@@ -26,11 +25,9 @@ egon_validation/rules/custom/__init__.py
 egon_validation/rules/custom/numeric_aggregation_check.py
 egon_validation/rules/formal/__init__.py
 egon_validation/rules/formal/array_cardinality_check.py
-egon_validation/rules/formal/balance_check.py
 egon_validation/rules/formal/data_type_check.py
 egon_validation/rules/formal/geometry_check.py
 egon_validation/rules/formal/null_check.py
-egon_validation/rules/formal/range_check.py
 egon_validation/rules/formal/referential_integrity_check.py
 egon_validation/rules/formal/row_count_check.py
 egon_validation/rules/formal/srid_check.py
@@ -38,9 +35,3 @@ egon_validation/rules/formal/value_set_check.py
 egon_validation/runner/aggregate.py
 egon_validation/runner/coverage_analysis.py
 egon_validation/runner/execute.py
-egon_validation/utils/__init__.py
-egon_validation/utils/gas_data.py
-tests/test_base.py
-tests/test_custom_rules.py
-tests/test_formal_rules.py
-tests/test_registry.py

@@ -7,7 +7,7 @@ name = "egon-validation"
 version = "0.1.0"
 description = "Validation library for eGon data pipeline (rules hard-coded, SQL-first, Airflow-friendly)"
 readme = "README.md"
-requires-python = ">=3.8,<3.9"
+requires-python = ">=3.10,<3.11"
 license = {text = "AGPL-3.0-only"}
 authors = [{name="sagemaso", email="sarah.sommer@rl-institut.de"}]
 dependencies = [
@@ -37,7 +37,7 @@ egon-validation = "egon_validation.cli:main"
 
 [tool.black]
 line-length = 79
-target-version = ["py38"]
+target-version = ["py310"]
 include = '\.pyi?$'
 exclude = '''
 /(
