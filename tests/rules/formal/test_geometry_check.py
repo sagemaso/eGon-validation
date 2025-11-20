@@ -247,7 +247,7 @@ class TestGeometryContainmentValidation:
         # Should include debugging SQL for wind plants rule
         assert "SELECT * FROM supply.egon_power_plants_wind" in result.message
         assert "site_type = 'Windkraft an Land'" in result.message
-        assert "ST_Contains" in result.message
+        assert "ST_Covers" in result.message
 
     def test_postprocess_non_wind_plants_no_debugging_info(self):
         """Test that debugging SQL is NOT included for other rules"""
