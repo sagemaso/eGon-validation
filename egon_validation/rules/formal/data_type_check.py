@@ -14,32 +14,22 @@ class DataTypeValidation(SqlRule):
     """Validates that a column has the expected PostgreSQL data type.
 
     Args:
-        table: Full table name including schema
-        column: Column name to check
-        expected_type: Expected PostgreSQL data type
         rule_id: Unique identifier
-        kind: Validation kind (default: "formal")
+        task: Task identifier
+        dataset: Full table name including schema
+        column: Column name to check (passed in params)
+        expected_type: Expected PostgreSQL data type (passed in params)
+        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = DataTypeValidation(
-        ...     table="demand.egon_demandregio_hh",
+        ...     rule_id="YEAR_TYPE_CHECK",
+        ...     task="validation-test",
+        ...     dataset="demand.egon_demandregio_hh",
         ...     column="year",
-        ...     expected_type="integer",
-        ...     rule_id="YEAR_TYPE_CHECK"
+        ...     expected_type="integer"
         ... )
     """
-
-    def __init__(self, table: str, column: str, expected_type: str,
-                 rule_id: str, kind: str = "formal"):
-        """Initialize data type validation."""
-        super().__init__(
-            rule_id=rule_id,
-            task="inline",
-            dataset=table,
-            column=column,
-            expected_type=expected_type,
-            kind=kind
-        )
 
     def sql(self, ctx):
         column = self.params.get("column", "id")
@@ -97,29 +87,20 @@ class MultipleColumnsDataTypeValidation(SqlRule):
     """Validates data types for multiple columns in a table.
 
     Args:
-        table: Full table name including schema
-        column_types: Dict mapping column names to expected types
         rule_id: Unique identifier
-        kind: Validation kind (default: "formal")
+        task: Task identifier
+        dataset: Full table name including schema
+        column_types: Dict mapping column names to expected types (passed in params)
+        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = MultipleColumnsDataTypeValidation(
-        ...     table="demand.egon_demandregio_hh",
-        ...     column_types={"year": "integer", "scenario": "text"},
-        ...     rule_id="HH_TYPES_CHECK"
+        ...     rule_id="HH_TYPES_CHECK",
+        ...     task="validation-test",
+        ...     dataset="demand.egon_demandregio_hh",
+        ...     column_types={"year": "integer", "scenario": "text"}
         ... )
     """
-
-    def __init__(self, table: str, column_types: dict, rule_id: str,
-                 kind: str = "formal"):
-        """Initialize multiple columns data type validation."""
-        super().__init__(
-            rule_id=rule_id,
-            task="inline",
-            dataset=table,
-            column_types=column_types,
-            kind=kind
-        )
 
     def sql(self, ctx):
         # Modify the query to aggregate all results into a single row with JSON

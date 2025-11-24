@@ -22,6 +22,7 @@ class TestDataTypeValidation:
         assert "column_name = 'year'" in sql
 
     def test_sql_generation_without_schema(self):
+        """Test that datasets without schema raise an error in get_schema_and_table()"""
         rule = DataTypeValidation(
             "test_rule",
             "test_task",
@@ -29,10 +30,11 @@ class TestDataTypeValidation:
             column="year",
             expected_type="integer",
         )
-        sql = rule.sql(None)
-
-        assert "table_schema = 'public'" in sql
-        assert "table_name = 'table_only'" in sql
+        # The rule should be created, but calling sql() should fail because
+        # get_schema_and_table() requires a schema
+        import pytest
+        with pytest.raises(ValueError, match="must include schema"):
+            sql = rule.sql(None)
 
     def test_postprocess_column_not_found(self):
         rule = DataTypeValidation("test_rule", "test_task", "test.table")

@@ -13,29 +13,20 @@ class NotNullAndNotNaN(SqlRule):
     """Validates that a column contains no NULL or NaN values.
 
     Args:
-        table: Full table name including schema
-        column: Column name to check for NULL/NaN
         rule_id: Unique identifier
-        kind: Validation kind (default: "formal")
+        task: Task identifier
+        dataset: Full table name including schema
+        column: Column name to check for NULL/NaN (passed in params)
+        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = NotNullAndNotNaN(
-        ...     table="facts.timeseries",
-        ...     column="scenario_id",
-        ...     rule_id="TS_SCENARIO_NOT_NULL"
+        ...     rule_id="TS_SCENARIO_NOT_NULL",
+        ...     task="validation-test",
+        ...     dataset="facts.timeseries",
+        ...     column="scenario_id"
         ... )
     """
-
-    def __init__(self, table: str, column: str, rule_id: str,
-                 kind: str = "formal"):
-        """Initialize NULL/NaN check validation."""
-        super().__init__(
-            rule_id=rule_id,
-            task="inline",
-            dataset=table,
-            column=column,
-            kind=kind
-        )
 
     def sql(self, ctx):
         col = self.params.get("column", None)

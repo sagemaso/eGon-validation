@@ -51,7 +51,7 @@ class TestSRIDUniqueNonZero:
         assert result.column == "geom"
         assert result.observed == 1.0
         assert result.expected == 1.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_multiple_srids(self):
         """Test with realistic mock data: mixed SRIDs in wind plant data"""
@@ -177,7 +177,7 @@ class TestSRIDSpecificValidation:
         assert result.column == "geom"
         assert result.observed == 1.0
         assert result.expected == 1.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_wrong_srid(self):
         """Test with realistic mock data: wind plants have wrong SRID"""

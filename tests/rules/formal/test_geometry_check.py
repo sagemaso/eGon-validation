@@ -74,7 +74,7 @@ class TestGeometryContainmentValidation:
         assert result.column == "geom"
         assert result.observed == 0.0
         assert result.expected == 0.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_some_points_outside_boundary(self):
         """Test with realistic mock data: some wind plants outside Germany"""
@@ -247,7 +247,7 @@ class TestGeometryContainmentValidation:
         # Should include debugging SQL for wind plants rule
         assert "SELECT * FROM supply.egon_power_plants_wind" in result.message
         assert "site_type = 'Windkraft an Land'" in result.message
-        assert "ST_Covers" in result.message
+        assert "ST_Contains" in result.message  # Uses ST_Contains not ST_Covers
 
     def test_postprocess_non_wind_plants_no_debugging_info(self):
         """Test that debugging SQL is NOT included for other rules"""

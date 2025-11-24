@@ -13,41 +13,21 @@ from egon_validation.config import MV_GRID_DISTRICTS_COUNT
 class RowCountValidation(SqlRule):
     """Validates that a table has the expected number of rows.
 
-    This validation can be used in two ways:
-    1. Decorator-based registration (legacy, for CLI usage)
-    2. Direct instantiation (new, for Airflow inline declaration)
-
     Args:
-        table: Full table name including schema (e.g., "schema.table")
         rule_id: Unique identifier for this validation rule
-        expected_count: Expected number of rows in the table
-        kind: Validation kind - "formal" or "custom" (default: "formal")
+        task: Task identifier
+        dataset: Full table name including schema (e.g., "schema.table")
+        expected_count: Expected number of rows in the table (passed in params)
+        kind: Validation kind (passed in params, default: "formal")
 
-    Example (inline declaration):
+    Example:
         >>> validation = RowCountValidation(
-        ...     table="boundaries.vg250_krs",
         ...     rule_id="VG250_ROW_CHECK",
+        ...     task="validation-test",
+        ...     dataset="boundaries.vg250_krs",
         ...     expected_count=27
         ... )
     """
-
-    def __init__(self, table: str, rule_id: str, expected_count: int,
-                 kind: str = "formal"):
-        """Initialize row count validation.
-
-        Args:
-            table: Full table name (schema.table)
-            rule_id: Unique identifier
-            expected_count: Expected row count
-            kind: Validation type (default: "formal")
-        """
-        super().__init__(
-            rule_id=rule_id,
-            task="inline",  # Will be set by executor
-            dataset=table,
-            expected_count=expected_count,
-            kind=kind
-        )
 
     def sql(self, ctx):
         return f"SELECT COUNT(*) AS actual_count FROM {self.dataset}"
@@ -87,38 +67,26 @@ class RowCountComparisonValidation(SqlRule):
     """Validates that grouped row counts match a reference table count.
 
     Args:
-        table: Table to validate (child table)
         rule_id: Unique identifier
-        reference_table: Reference table to compare against
-        reference_filter: SQL WHERE clause for reference table (default: "TRUE")
-        group_by_cols: List of column names to group by
-        kind: Validation kind (default: "formal")
+        task: Task identifier
+        dataset: Table to validate (child table)
+        reference_dataset: Reference table to compare against (passed in params)
+        reference_filter: SQL WHERE clause for reference table (passed in params, default: "TRUE")
+        scenario_col: Column name for scenario grouping (passed in params)
+        economic_sector_col: Column name for economic sector grouping (passed in params)
+        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = RowCountComparisonValidation(
-        ...     table="demand.egon_demandregio_cts_ind",
         ...     rule_id="CTS_IND_ROW_COUNT_MATCH",
-        ...     reference_table="boundaries.vg250_krs",
+        ...     task="validation-test",
+        ...     dataset="demand.egon_demandregio_cts_ind",
+        ...     reference_dataset="boundaries.vg250_krs",
         ...     reference_filter="gf = 4",
-        ...     group_by_cols=["scenario", "wz"]
+        ...     scenario_col="scenario",
+        ...     economic_sector_col="wz"
         ... )
     """
-
-    def __init__(self, table: str, rule_id: str, reference_table: str,
-                 reference_filter: str = "TRUE", group_by_cols: list = None,
-                 kind: str = "formal"):
-        """Initialize row count comparison validation."""
-        group_by_cols = group_by_cols or ["scenario", "wz"]
-        super().__init__(
-            rule_id=rule_id,
-            task="inline",
-            dataset=table,
-            reference_dataset=reference_table,
-            reference_filter=reference_filter,
-            scenario_col=group_by_cols[0] if len(group_by_cols) > 0 else "scenario",
-            economic_sector_col=group_by_cols[1] if len(group_by_cols) > 1 else "wz",
-            kind=kind
-        )
 
     def sql(self, ctx):
         reference_dataset = self.params.get("reference_dataset")

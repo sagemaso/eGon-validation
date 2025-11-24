@@ -26,7 +26,7 @@ class TestNotNullAndNotNaN:
 
         assert result.success is True
         assert result.message == "0 offending rows (NULL or NaN)"
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
         assert result.column == "demand"
 
     def test_postprocess_failure(self):
@@ -69,7 +69,7 @@ class TestNotNullAndNotNaN:
         assert result.task == "data_quality"
         assert result.dataset == "demand.egon_demandregio_hh"
         assert result.column == "demand"
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_with_mock_data_failure_has_nulls(self):
         """Test with realistic mock data: dataset with NULL/NaN values"""

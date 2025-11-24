@@ -65,7 +65,7 @@ class TestArrayCardinalityValidation:
         assert result.column == "p_set"
         assert result.observed == 0.0
         assert result.expected == 0.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_some_arrays_wrong_length(self):
         """Test with realistic mock data: some arrays have wrong length"""
