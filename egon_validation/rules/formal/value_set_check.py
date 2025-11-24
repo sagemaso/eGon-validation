@@ -1,6 +1,5 @@
 from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register, register_map
-import json
 
 
 @register(
@@ -62,7 +61,6 @@ class ValueSetValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         total_rows = int(row.get("total_rows") or 0)
-        valid_values = int(row.get("valid_values") or 0)
         invalid_values = int(row.get("invalid_values") or 0)
         invalid_distinct = row.get("invalid_distinct", [])
         expected_values = self.params.get("expected_values", [])
