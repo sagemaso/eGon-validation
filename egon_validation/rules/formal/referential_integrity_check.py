@@ -80,7 +80,6 @@ class ReferentialIntegrityValidation(SqlRule):
             observed=float(orphaned_references),
             expected=0.0,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
             column=foreign_col,

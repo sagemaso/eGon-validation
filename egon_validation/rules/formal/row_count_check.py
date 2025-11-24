@@ -68,7 +68,6 @@ class RowCountValidation(SqlRule):
             observed=float(actual_count),
             expected=float(expected_count),
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
         )
@@ -177,7 +176,6 @@ class RowCountComparisonValidation(SqlRule):
             observed=float(mismatching_groups),
             expected=0.0,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
         )

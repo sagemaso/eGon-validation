@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
+from egon_validation.rules.base import SqlRule, RuleResult
 from egon_validation.rules.registry import register
 from egon_validation.config import (
     ELECTRICAL_LOAD_EXPECTED_VALUES,
@@ -67,37 +67,13 @@ class ElectricalLoadAggregationValidation(SqlRule):
         return base_query
 
     def postprocess(self, row, ctx):
-        import json
-
         scenarios_data_json = row.get("scenarios_data")
         if not scenarios_data_json:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                dataset=self.dataset,
-                success=False,
-                message="No scenario data found",
-                severity=Severity.ERROR,
-                schema=self.schema,
-                table=self.table,
-            )
+            return self.error_result("No scenario data found")
 
-        scenarios_data = (
-            json.loads(scenarios_data_json)
-            if isinstance(scenarios_data_json, str)
-            else scenarios_data_json
-        )
+        scenarios_data = self.parse_json_result(scenarios_data_json)
         if not scenarios_data:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                dataset=self.dataset,
-                success=False,
-                message="No scenario data found",
-                severity=Severity.ERROR,
-                schema=self.schema,
-                table=self.table,
-            )
+            return self.error_result("No scenario data found")
 
         tolerance = float(self.params.get("tolerance", 0.05))
 
@@ -165,7 +141,6 @@ class ElectricalLoadAggregationValidation(SqlRule):
             observed=total_observed,
             expected=total_expected,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
         )
@@ -245,7 +220,6 @@ class DisaggregatedDemandSumValidation(SqlRule):
             observed=rel_diff,
             expected=0.0,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
         )

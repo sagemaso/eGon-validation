@@ -51,7 +51,6 @@ class NotNullAndNotNaN(SqlRule):
             dataset=self.dataset,
             success=ok,
             message=f"{n_bad} offending rows (NULL or NaN)",
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
             column=self.params.get("column"),

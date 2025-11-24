@@ -82,7 +82,6 @@ class ValueSetValidation(SqlRule):
             observed=invalid_values,
             expected=0.0,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
             column=self.params.get("column"),

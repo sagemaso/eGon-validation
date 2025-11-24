@@ -105,7 +105,6 @@ class ArrayCardinalityValidation(SqlRule):
             observed=float(wrong_length),
             expected=0.0,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
             table=self.table,
             column=self.params.get("array_column"),

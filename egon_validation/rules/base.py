@@ -5,6 +5,20 @@ from enum import Enum
 from typing import Any, Dict, Optional
 
 
+# PostgreSQL type mappings for data type validation
+POSTGRES_TYPE_MAPPINGS = {
+    "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
+    "text": ["text", "character varying", "varchar", "character", "char"],
+    "numeric": ["numeric", "decimal", "real", "double precision", "float4", "float8"],
+    "boolean": ["boolean", "bool"],
+    "timestamp": ["timestamp without time zone", "timestamp with time zone", "timestamptz"],
+    "date": ["date"],
+    "uuid": ["uuid"],
+    "geometry": ["geometry", "geography"],
+    "array": ["array", "_int4", "_text", "_numeric"],
+}
+
+
 class Severity(Enum):
     """Severity levels: INFO, WARNING, ERROR."""
 
@@ -22,12 +36,17 @@ class RuleResult:
     message: str = ""
     observed: Optional[float] = None
     expected: Optional[float] = None
-    severity: Severity = Severity.WARNING
+    severity: Severity = None
     execution_time: Optional[float] = None
     # Debug fields
     schema: Optional[str] = None
     table: Optional[str] = None
     column: Optional[str] = None
+
+    def __post_init__(self):
+        """Auto-set severity based on success if not explicitly provided."""
+        if self.severity is None:
+            self.severity = Severity.INFO if self.success else Severity.WARNING
 
     def to_dict(self):
         d = asdict(self)
@@ -57,6 +76,58 @@ class SqlRule(Rule):
     def postprocess(self, row: Dict[str, Any], ctx) -> RuleResult:
         raise NotImplementedError
 
+    def get_schema_and_table(self) -> tuple[str, str]:
+        """Parse dataset into schema and table name.
+
+        Returns:
+            tuple: (schema, table)
+
+        Raises:
+            ValueError: If dataset does not contain a schema (missing '.')
+        """
+        if "." not in self.dataset:
+            raise ValueError(
+                f"Dataset '{self.dataset}' must include schema in format 'schema.table'"
+            )
+        return self.dataset.split(".", 1)
+
+    @staticmethod
+    def parse_json_result(json_data):
+        """Parse JSON data that may be a string or already parsed.
+
+        Args:
+            json_data: JSON data either as string or already parsed dict/list
+
+        Returns:
+            Parsed JSON data (dict or list)
+        """
+        import json
+        if isinstance(json_data, str):
+            return json.loads(json_data)
+        return json_data
+
+    def error_result(self, message: str, **kwargs) -> RuleResult:
+        """Create an error RuleResult with ERROR severity.
+
+        Args:
+            message: Error message
+            **kwargs: Additional fields to pass to RuleResult
+
+        Returns:
+            RuleResult with success=False and severity=ERROR
+        """
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            dataset=self.dataset,
+            success=False,
+            message=message,
+            severity=Severity.ERROR,
+            schema=self.schema,
+            table=self.table,
+            **kwargs
+        )
+
     def _check_table_empty(self, engine, ctx) -> Optional[RuleResult]:
         """Check if the table is empty and return failure result if so."""
         try:
@@ -77,7 +148,6 @@ class SqlRule(Rule):
                     observed=0,
                     expected=">0",
                     message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
-                    severity=Severity.INFO,
                     schema=self.schema,
                     table=self.table,
                 )
@@ -118,7 +188,6 @@ class DataFrameRule(Rule):
                     observed=0,
                     expected=">0",
                     message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
-                    severity=Severity.INFO,
                     schema=self.schema,
                     table=self.table,
                 )
