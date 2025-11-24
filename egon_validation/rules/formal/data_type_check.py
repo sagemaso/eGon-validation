@@ -43,7 +43,6 @@ class DataTypeValidation(SqlRule):
 
     def sql(self, ctx):
         column = self.params.get("column", "id")
-        expected_type = self.params.get("expected_type", "integer").lower()
         schema, table = self.get_schema_and_table()
 
         return f"""
