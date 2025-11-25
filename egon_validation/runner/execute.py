@@ -174,10 +174,9 @@ def run_validations(
     for validation in validations:
         validation.task = task_name
 
-    # Create output directory (don't check collision for inline validations)
-    out_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task_name)
-    _ensure_dir(out_dir, check_collision=False)
-    jsonl_path = os.path.join(out_dir, "results.jsonl")
+    # Create base task directory
+    task_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task_name)
+    _ensure_dir(task_dir, check_collision=False)
 
     logger.info(
         f"Executing {len(validations)} validations for task '{task_name}' (max_workers={max_workers})",
@@ -191,20 +190,26 @@ def run_validations(
             for rule in validations
         }
 
-        # Collect results as they complete and write to file
-        with open(jsonl_path, "a", encoding="utf-8") as f:
-            for future in as_completed(future_to_rule):
-                rule = future_to_rule[future]
-                try:
-                    res = future.result()
-                    results.append(res)
+        # Collect results as they complete and write to per-rule file
+        for future in as_completed(future_to_rule):
+            rule = future_to_rule[future]
+            try:
+                res = future.result()
+                results.append(res)
+
+                # Create per-rule directory and append to its JSONL file
+                rule_dir = os.path.join(task_dir, rule.rule_id)
+                _ensure_dir(rule_dir, check_collision=False)
+                jsonl_path = os.path.join(rule_dir, "results.jsonl")
+
+                with open(jsonl_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(res.to_dict()) + "\n")
-                except Exception as e:
-                    logger.error(
-                        f"Failed to get result for rule {rule.rule_id}: {e}",
-                        extra={"rule_id": rule.rule_id, "task": task_name, "error": str(e)},
-                        exc_info=True,
-                    )
+            except Exception as e:
+                logger.error(
+                    f"Failed to get result for rule {rule.rule_id}: {e}",
+                    extra={"rule_id": rule.rule_id, "task": task_name, "error": str(e)},
+                    exc_info=True,
+                )
 
     total_time = time.time() - overall_start
     avg_time = total_time / len(results) if results else 0

@@ -11,11 +11,14 @@ def collect(ctx) -> Dict:
     items: List[Dict] = []
     datasets_set = set()
     if os.path.isdir(base):
-        for path in glob.glob(os.path.join(base, "*", "results.jsonl")):
+        # New structure: tasks/<task_name>/<rule_id>/results.jsonl
+        for path in glob.glob(os.path.join(base, "*", "*", "results.jsonl")):
             with open(path, "r", encoding="utf-8") as f:
-                for line in f:
+                lines = f.readlines()
+                # Take only the last line (most recent result)
+                if lines:
                     try:
-                        obj = json.loads(line)
+                        obj = json.loads(lines[-1])
                         items.append(obj)
                         datasets_set.add(obj.get("dataset"))
                     except Exception:
