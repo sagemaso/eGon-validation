@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from datetime import datetime
 from typing import List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from egon_validation.rules.registry import rules_for
@@ -39,6 +40,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             if empty_result:
                 execution_time = time.time() - start_time
                 empty_result.execution_time = execution_time
+                empty_result.executed_at = datetime.now().isoformat()
                 return empty_result
 
             row = db.fetch_one(engine, rule.sql(ctx))
@@ -47,6 +49,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             res = rule.evaluate(engine, ctx)  # type: ignore
         execution_time = time.time() - start_time
         res.execution_time = execution_time
+        res.executed_at = datetime.now().isoformat()
         logger.info(
             f"Rule {rule.rule_id} completed in {execution_time:.2f}s",
             extra={
@@ -91,6 +94,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             message=f"Database error: {str(e)}",
             severity=severity,
             execution_time=execution_time,
+            executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )
@@ -114,6 +118,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             message=f"Rule execution error: {str(e)}",
             severity=Severity.ERROR,
             execution_time=execution_time,
+            executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )
@@ -138,6 +143,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             message=f"Unexpected error: {str(e)}",
             severity=Severity.ERROR,
             execution_time=execution_time,
+            executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table=getattr(rule, "table", None),
         )

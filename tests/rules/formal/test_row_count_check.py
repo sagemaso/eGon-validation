@@ -34,7 +34,7 @@ class TestRowCountValidation:
         assert result.dataset == "grid.egon_mv_grid_district"
         assert result.observed == 3854.0
         assert result.expected == 3854.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_incorrect_count(self):
         """Test with realistic mock data: table has wrong row count"""
@@ -164,7 +164,7 @@ class TestRowCountComparisonValidation:
         assert result.dataset == "demand.egon_demandregio_cts_ind"
         assert result.observed == 0.0
         assert result.expected == 0.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_some_groups_mismatch(self):
         """Test with realistic mock data: some groups have incomplete data"""

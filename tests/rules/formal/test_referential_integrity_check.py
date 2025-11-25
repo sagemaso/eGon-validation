@@ -65,7 +65,7 @@ class TestReferentialIntegrityValidation:
         assert result.column == "load_id"
         assert result.observed == 0.0
         assert result.expected == 0.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_orphaned_references(self):
         """Test with realistic mock data: some timeseries reference non-existent loads"""
