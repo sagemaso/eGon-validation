@@ -194,48 +194,58 @@
       <tr>
         <th>Task</th><th>Schema</th><th>Table</th><th>Column</th>
         <th>Rule</th><th>Severity</th>
-        <th>Status</th><th>Observed</th><th>Expected</th><th>Execution Time</th><th>Message</th>
+        <th>Status</th><th>Observed</th><th>Expected</th><th>Executed At</th><th>Message</th>
       </tr>
     </thead>
     <tbody></tbody>`;
   const detBody = det.querySelector('tbody');
-  
+
   // Sort items by task, schema, table, column alphabetically
   const sortedItems = items.sort((a, b) => {
     const taskA = (a.task ?? '').toLowerCase();
     const taskB = (b.task ?? '').toLowerCase();
     if (taskA !== taskB) return taskA.localeCompare(taskB);
-    
+
     const schemaA = (a.schema ?? '').toLowerCase();
     const schemaB = (b.schema ?? '').toLowerCase();
     if (schemaA !== schemaB) return schemaA.localeCompare(schemaB);
-    
+
     const tableA = (a.table ?? '').toLowerCase();
     const tableB = (b.table ?? '').toLowerCase();
     if (tableA !== tableB) return tableA.localeCompare(tableB);
-    
+
     const columnA = (a.column ?? '').toLowerCase();
     const columnB = (b.column ?? '').toLowerCase();
     return columnA.localeCompare(columnB);
   });
-  
+
   for (const r of sortedItems) {
     const tr = document.createElement('tr');
     const status = r.success ? 'OK' : 'FAIL';
     const badge = `<span class="badge ${r.success ? 'ok' : 'fail'}">${status}</span>`;
-    const executionTime = r.execution_time != null ? `${r.execution_time.toFixed(2)}s` : '';
+    const executedAt = r.executed_at ? new Date(r.executed_at).toLocaleString() : '';
+
+    // Format observed value: show "<0.01" for very small positive numbers
+    let observedDisplay = r.observed ?? '';
+    if (observedDisplay !== '' && !isNaN(observedDisplay)) {
+      const obsNum = parseFloat(observedDisplay);
+      if (obsNum > 0 && obsNum < 0.01) {
+        observedDisplay = '<0.01';
+      }
+    }
+
     tr.id = `detail-${r.dataset}-${r.rule_id}`;
     tr.innerHTML = `
       <td>${r.task ?? ''}</td>
       <td>${r.schema ?? ''}</td>
-      <td>${r.table ?? ''}</td>
-      <td>${r.column ?? ''}</td>
-      <td>${r.rule_id}</td>
+      <td title="${r.table ?? ''}">${r.table ?? ''}</td>
+      <td title="${r.column ?? ''}">${r.column ?? ''}</td>
+      <td title="${r.rule_id}">${r.rule_id}</td>
       <td>${r.severity}</td>
       <td>${badge}</td>
-      <td>${r.observed ?? ''}</td>
+      <td>${observedDisplay}</td>
       <td>${r.expected ?? ''}</td>
-      <td>${executionTime}</td>
+      <td>${executedAt}</td>
       <td>${r.message ?? ''}</td>`;
     detBody.appendChild(tr);
   }

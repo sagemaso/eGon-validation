@@ -38,6 +38,7 @@ class RuleResult:
     expected: Optional[float] = None
     severity: Severity = None
     execution_time: Optional[float] = None
+    executed_at: Optional[str] = None  # ISO timestamp when rule was executed
     # Debug fields
     schema: Optional[str] = None
     table: Optional[str] = None

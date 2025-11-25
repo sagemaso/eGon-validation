@@ -12,8 +12,8 @@
 }
 * { box-sizing: border-box; }
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--fg); margin: 0; }
-/* No padding on container - add individually per section */
 .container { max-width: 1300px; margin: 0 auto; padding: 0; }
+main.container { max-width: none; }
 header.container { padding: 24px; }
 header h1 { margin: 0; font-weight: 700; }
 .meta { display: flex; gap: 16px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
@@ -133,16 +133,22 @@ footer { color: var(--muted); padding: 24px; }
   margin-bottom: 16px;
 }
 
-/* Add padding to summary and coverage sections */
+/* Summary and coverage sections - constrained width */
 #summary, #coverage {
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 24px;
   padding-right: 24px;
 }
 
-/* Details section - less padding to be wider */
+/* Details section - full width */
 #details {
-  padding-left: 12px;
-  padding-right: 12px;
+  max-width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2.5vw;
+  padding-right: 2.5vw;
 }
 
 /* Make details table fit without horizontal scrolling */
@@ -157,19 +163,20 @@ footer { color: var(--muted); padding: 24px; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* Responsive column widths using vw */
-#results-table th:nth-child(1), #results-table td:nth-child(1) { width: 7vw; }  /* Task */
-#results-table th:nth-child(2), #results-table td:nth-child(2) { width: 7vw; }  /* Schema */
-#results-table th:nth-child(3), #results-table td:nth-child(3) { width: 9vw; }  /* Table */
-#results-table th:nth-child(4), #results-table td:nth-child(4) { width: 7vw; }  /* Column */
-#results-table th:nth-child(5), #results-table td:nth-child(5) { width: 9vw; }  /* Rule */
-#results-table th:nth-child(6), #results-table td:nth-child(6) { width: 6vw; }  /* Severity */
-#results-table th:nth-child(7), #results-table td:nth-child(7) { width: 6vw; }  /* Status */
-#results-table th:nth-child(8), #results-table td:nth-child(8) { width: 9vw; }  /* Observed */
-#results-table th:nth-child(9), #results-table td:nth-child(9) { width: 9vw; }  /* Expected */
-#results-table th:nth-child(10), #results-table td:nth-child(10) { width: 20vw; } /* Message */
+/* Responsive column widths using percentages */
+#results-table th:nth-child(1), #results-table td:nth-child(1) { width: 7%; }  /* Task */
+#results-table th:nth-child(2), #results-table td:nth-child(2) { width: 6%; }  /* Schema */
+#results-table th:nth-child(3), #results-table td:nth-child(3) { width: 15%; }  /* Table */
+#results-table th:nth-child(4), #results-table td:nth-child(4) { width: 7.5%; }  /* Column */
+#results-table th:nth-child(5), #results-table td:nth-child(5) { width: 10%; }  /* Rule */
+#results-table th:nth-child(6), #results-table td:nth-child(6) { width: 4%; }  /* Severity */
+#results-table th:nth-child(7), #results-table td:nth-child(7) { width: 3%; }  /* Status */
+#results-table th:nth-child(8), #results-table td:nth-child(8) { width: 4%; }  /* Observed */
+#results-table th:nth-child(9), #results-table td:nth-child(9) { width: 4%; }  /* Expected */
+#results-table th:nth-child(10), #results-table td:nth-child(10) { width: 8%; } /* Executed At */
+#results-table th:nth-child(11), #results-table td:nth-child(11) { width: 20%; } /* Message */
 /* Message column can wrap */
-#results-table td:nth-child(10) {
+#results-table td:nth-child(11) {
   white-space: normal;
   word-break: break-word;
 }
