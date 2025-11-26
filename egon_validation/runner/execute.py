@@ -87,7 +87,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         return RuleResult(
             rule_id=rule.rule_id,
             task=rule.task,
-            dataset=rule.dataset,
+            table=rule.table,
             success=False,
             observed=None,
             expected=None,
@@ -96,7 +96,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             execution_time=execution_time,
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
-            table=getattr(rule, "table", None),
+            table_name=getattr(rule, "table_name", None),
         )
     except RuleExecutionError as e:
         execution_time = time.time() - start_time
@@ -111,7 +111,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         return RuleResult(
             rule_id=rule.rule_id,
             task=rule.task,
-            dataset=rule.dataset,
+            table=rule.table,
             success=False,
             observed=None,
             expected=None,
@@ -120,7 +120,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             execution_time=execution_time,
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
-            table=getattr(rule, "table", None),
+            table_name=getattr(rule, "table_name", None),
         )
     except Exception as e:
         execution_time = time.time() - start_time
@@ -136,7 +136,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         return RuleResult(
             rule_id=rule.rule_id,
             task=rule.task,
-            dataset=rule.dataset,
+            table=rule.table,
             success=False,
             observed=None,
             expected=None,
@@ -145,7 +145,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             execution_time=execution_time,
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
-            table=getattr(rule, "table", None),
+            table_name=getattr(rule, "table_name", None),
         )
 
 

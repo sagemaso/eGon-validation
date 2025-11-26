@@ -9,10 +9,7 @@ from egon_validation.rules.base import Rule, SqlRule, DataFrameRule, RuleResult,
 from egon_validation.runner.execute import run_validations, run_for_task
 
 # Validation rules (for inline declaration in datasets)
-from egon_validation.rules.formal.row_count_check import (
-    RowCountValidation,
-    RowCountComparisonValidation,
-)
+from egon_validation.rules.formal.row_count_check import RowCountValidation
 from egon_validation.rules.formal.array_cardinality_check import (
     ArrayCardinalityValidation,
 )
@@ -20,6 +17,7 @@ from egon_validation.rules.formal.referential_integrity_check import (
     ReferentialIntegrityValidation,
 )
 from egon_validation.rules.formal.null_check import NotNullAndNotNaN
+from egon_validation.rules.custom.row_count_comparison import RowCountComparisonValidation
 
 __all__ = [
     # Version

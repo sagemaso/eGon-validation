@@ -8,7 +8,7 @@ from egon_validation.config import (
 
 @register(
     task="validation-test",
-    dataset="grid.egon_etrago_load",
+    table="grid.egon_etrago_load",
     rule_id="ELECTRICAL_LOAD_AGGREGATION",
     kind="custom",
     tolerance=0.05,
@@ -136,19 +136,19 @@ class ElectricalLoadAggregationValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=all_scenarios_ok,
             observed=total_observed,
             expected=total_expected,
             message=message,
             schema=self.schema,
-            table=self.table,
+            table_name=self.table_name,
         )
 
 
 @register(
     task="validation-test",
-    dataset="demand.egon_demandregio_zensus_electricity",
+    table="demand.egon_demandregio_zensus_electricity",
     rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
     kind="formal",
     sector="residential",
@@ -166,7 +166,7 @@ class DisaggregatedDemandSumValidation(SqlRule):
                 scenario,
                 sum(demand) as disagg_sum
             FROM
-                {self.dataset}
+                {self.table}
             WHERE
                 sector = '{sector}'
         """
@@ -210,16 +210,4 @@ class DisaggregatedDemandSumValidation(SqlRule):
             f"Scenario {scenario}: Disaggregated sum {disagg_sum:.2f}, "
             f"Original sum {orig_sum:.2f}, Rel. diff {rel_diff:.4f} "
             f"(tolerance {tolerance})"
-        )
-
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=rel_diff,
-            expected=0.0,
-            message=message,
-            schema=self.schema,
-            table=self.table,
         )

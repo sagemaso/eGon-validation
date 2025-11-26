@@ -8,7 +8,7 @@ class ReferentialIntegrityValidation(SqlRule):
     Args:
         rule_id: Unique identifier
         task: Task identifier
-        dataset: Table containing the foreign key (child table)
+        table: Table containing the foreign key (child table)
         foreign_column: Foreign key column name in child table (passed in params)
         reference_dataset: Referenced parent table (passed in params)
         reference_column: Primary/unique key column in parent table (passed in params)
@@ -18,7 +18,7 @@ class ReferentialIntegrityValidation(SqlRule):
         >>> validation = ReferentialIntegrityValidation(
         ...     rule_id="FK_TS_SCENARIO",
         ...     task="validation-test",
-        ...     dataset="facts.timeseries",
+        ...     table="facts.timeseries",
         ...     foreign_column="scenario_id",
         ...     reference_dataset="dim.scenarios",
         ...     reference_column="scenario_id"
@@ -36,7 +36,7 @@ class ReferentialIntegrityValidation(SqlRule):
             COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NOT NULL) AS valid_references,
             COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NULL) AS orphaned_references
         FROM
-            {self.dataset} as child
+            {self.table} as child
         LEFT JOIN
             {reference_dataset} as parent
         ON child.{foreign_col} = parent.{reference_col}
@@ -59,37 +59,3 @@ class ReferentialIntegrityValidation(SqlRule):
             message = f"All {total_non_null_references} references in {foreign_col} have valid matches in {reference_dataset}.{reference_col}"
         else:
             message = f"{orphaned_references} orphaned references found in {foreign_col} (out of {total_non_null_references} total non-null references)"
-
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=float(orphaned_references),
-            expected=0.0,
-            message=message,
-            schema=self.schema,
-            table=self.table,
-            column=foreign_col,
-        )
-
-
-# Register multiple referential integrity checks
-register_map(
-    task="validation-test",
-    rule_cls=ReferentialIntegrityValidation,
-    rule_id="REFERENTIAL_INTEGRITY_CHECK",
-    kind="formal",
-    datasets_params={
-        "grid.egon_etrago_load_timeseries": {
-            "foreign_column": "load_id",
-            "reference_dataset": "grid.egon_etrago_load",
-            "reference_column": "load_id",
-        },
-        "grid.egon_etrago_load": {
-            "foreign_column": "bus",
-            "reference_dataset": "grid.egon_etrago_bus",
-            "reference_column": "bus_id",
-        },
-    },
-)

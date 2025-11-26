@@ -108,7 +108,7 @@ class TestValueSetValidation:
         assert result.expected == 0.0
         assert result.rule_id == "scenario_value_check"
         assert result.task == "data_validation"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.column == "scenario"
 
     def test_with_mock_data_failure_invalid_values_found(self):
@@ -138,5 +138,5 @@ class TestValueSetValidation:
         assert "Invalid values: ['biomass', 'oil', 'unknown']" in result.message
         assert result.observed == 89
         assert result.rule_id == "carrier_value_check"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
         assert result.column == "carrier"

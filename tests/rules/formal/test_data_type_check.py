@@ -116,7 +116,7 @@ class TestDataTypeValidation:
         assert "Column 'year' has type 'integer'" in result.message
         assert result.rule_id == "year_type_check"
         assert result.task == "data_validation"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.column == "year"
 
     def test_with_mock_data_failure_wrong_type(self):
@@ -144,7 +144,7 @@ class TestDataTypeValidation:
         assert "has type 'text'" in result.message
         assert "expected: integer" in result.message
         assert result.rule_id == "bus_id_type_check"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
         assert result.column == "bus_id"
         assert result.severity == Severity.WARNING
 
@@ -264,7 +264,7 @@ class TestMultipleColumnsDataTypeValidation:
         assert result.observed == 0.0
         assert result.rule_id == "grid_schema_check"
         assert result.task == "schema_validation"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
 
     def test_with_mock_data_failure_wrong_types(self):
         """Test with realistic mock data: some columns have wrong types"""
@@ -298,5 +298,5 @@ class TestMultipleColumnsDataTypeValidation:
         assert "demand: got 'text'" in result.message
         assert result.observed == 2.0  # 2 columns with wrong types
         assert result.rule_id == "demand_schema_check"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.severity == Severity.WARNING
