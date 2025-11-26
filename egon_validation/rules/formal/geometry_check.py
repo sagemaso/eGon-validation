@@ -4,7 +4,7 @@ from egon_validation.rules.registry import register
 
 @register(
     task="validation-test",
-    dataset="supply.egon_power_plants_wind",
+    table="supply.egon_power_plants_wind",
     rule_id="WIND_PLANTS_IN_GERMANY",
     kind="formal",
     geometry_column="geom",
@@ -35,7 +35,7 @@ class GeometryContainmentValidation(SqlRule):
             COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_outside
         FROM 
             reference_geom,
-            {self.dataset} AS points
+            {self.table} AS points
         WHERE 
             points.{filter_condition}
         """
@@ -61,16 +61,3 @@ class GeometryContainmentValidation(SqlRule):
             if self.rule_id == "WIND_PLANTS_IN_GERMANY" and points_outside > 0:
                 message += f" | To get coordinates: SELECT * FROM supply.egon_power_plants_wind WHERE site_type = 'Windkraft an Land'"
                 message += f" | AND NOT ST_Contains((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
-
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=float(points_outside),
-            expected=0.0,
-            message=message,
-            schema=self.schema,
-            table=self.table,
-            column=self.params.get("geometry_column"),
-        )

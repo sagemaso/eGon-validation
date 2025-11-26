@@ -61,7 +61,7 @@ class TestArrayCardinalityValidation:
         assert result.message == "All 1000 arrays have correct length of 8760"
         assert result.rule_id == "load_timeseries_validation"
         assert result.task == "data_quality"
-        assert result.dataset == "grid.egon_etrago_load_timeseries"
+        assert result.table == "grid.egon_etrago_load_timeseries"
         assert result.column == "p_set"
         assert result.observed == 0.0
         assert result.expected == 0.0
@@ -101,7 +101,7 @@ class TestArrayCardinalityValidation:
         assert "Avg: 365.10" in result.message
         assert result.observed == 50.0
         assert result.rule_id == "heat_profiles_validation"
-        assert result.dataset == "demand.egon_heat_timeseries_selected_profiles"
+        assert result.table == "demand.egon_heat_timeseries_selected_profiles"
 
     def test_postprocess_only_wrong_length_no_nulls(self):
         """Test with only wrong length arrays, no NULL arrays"""
@@ -227,7 +227,7 @@ class TestArrayCardinalityValidation:
         assert result.message == "All 5432 arrays have correct length of 8760"
         assert result.rule_id == "generator_timeseries_check"
         assert result.task == "timeseries_validation"
-        assert result.dataset == "grid.egon_etrago_generator_timeseries"
+        assert result.table == "grid.egon_etrago_generator_timeseries"
         assert result.column == "p_max_pu"
 
     def test_with_mock_data_failure_corrupted_timeseries(self):
@@ -263,5 +263,5 @@ class TestArrayCardinalityValidation:
         assert "Avg: 8456.20" in result.message
         assert result.observed == 100.0
         assert result.rule_id == "bus_timeseries_check"
-        assert result.dataset == "grid.egon_etrago_bus_timeseries"
+        assert result.table == "grid.egon_etrago_bus_timeseries"
         assert result.column == "v_mag_pu_set"

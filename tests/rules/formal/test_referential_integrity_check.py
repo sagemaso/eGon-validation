@@ -61,7 +61,7 @@ class TestReferentialIntegrityValidation:
         assert result.message == "All 5000 references in load_id have valid matches in grid.egon_etrago_load.load_id"
         assert result.rule_id == "load_timeseries_integrity"
         assert result.task == "data_integrity"
-        assert result.dataset == "grid.egon_etrago_load_timeseries"
+        assert result.table == "grid.egon_etrago_load_timeseries"
         assert result.column == "load_id"
         assert result.observed == 0.0
         assert result.expected == 0.0
@@ -141,7 +141,7 @@ class TestReferentialIntegrityValidation:
         assert result.message == "All 12000 references in bus have valid matches in grid.egon_etrago_bus.bus_id"
         assert result.rule_id == "load_bus_integrity"
         assert result.task == "grid_validation"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
         assert result.column == "bus"
 
     def test_with_mock_data_failure_missing_buses(self):
@@ -169,7 +169,7 @@ class TestReferentialIntegrityValidation:
         assert result.message == "50 orphaned references found in bus (out of 8550 total non-null references)"
         assert result.observed == 50.0
         assert result.rule_id == "generator_bus_integrity"
-        assert result.dataset == "grid.egon_etrago_generator"
+        assert result.table == "grid.egon_etrago_generator"
         assert result.column == "bus"
 
     def test_with_mock_data_success_demand_region_references(self):

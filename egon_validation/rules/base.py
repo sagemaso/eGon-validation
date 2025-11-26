@@ -31,7 +31,7 @@ class Severity(Enum):
 class RuleResult:
     rule_id: str
     task: str
-    dataset: str
+    table: str
     success: bool
     message: str = ""
     observed: Optional[float] = None
@@ -41,7 +41,7 @@ class RuleResult:
     executed_at: Optional[str] = None  # ISO timestamp when rule was executed
     # Debug fields
     schema: Optional[str] = None
-    table: Optional[str] = None
+    table_name: Optional[str] = None
     column: Optional[str] = None
 
     def __post_init__(self):
@@ -57,16 +57,22 @@ class RuleResult:
 
 
 class Rule:
-    def __init__(self, rule_id: str, task: str, dataset: str, **params: Any) -> None:
+    def __init__(
+        self,
+        rule_id: str,
+        table: str,
+        task: Optional[str] = None,
+        **params: Any
+    ) -> None:
         self.rule_id = rule_id
-        self.task = task
-        self.dataset = dataset  # "<schema>.<table>" or view
+        self.task = task or ""  # Can be set later by run_validations
+        self.table = table  # "<schema>.<table>" or view
         self.params: Dict[str, Any] = params
-        # derive schema/table for debug (best-effort)
-        if "." in dataset:
-            self.schema, self.table = dataset.split(".", 1)
+        # derive schema/table_name for debug (best-effort)
+        if "." in table:
+            self.schema, self.table_name = table.split(".", 1)
         else:
-            self.schema, self.table = None, dataset
+            self.schema, self.table_name = None, table
 
 
 
@@ -78,19 +84,19 @@ class SqlRule(Rule):
         raise NotImplementedError
 
     def get_schema_and_table(self) -> tuple[str, str]:
-        """Parse dataset into schema and table name.
+        """Parse table into schema and table name.
 
         Returns:
             tuple: (schema, table)
 
         Raises:
-            ValueError: If dataset does not contain a schema (missing '.')
+            ValueError: If table does not contain a schema (missing '.')
         """
-        if "." not in self.dataset:
+        if "." not in self.table:
             raise ValueError(
-                f"Dataset '{self.dataset}' must include schema in format 'schema.table'"
+                f"Table '{self.table}' must include schema in format 'schema.table'"
             )
-        return self.dataset.split(".", 1)
+        return self.table.split(".", 1)
 
     @staticmethod
     def parse_json_result(json_data):
@@ -120,12 +126,12 @@ class SqlRule(Rule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=False,
             message=message,
             severity=Severity.ERROR,
             schema=self.schema,
-            table=self.table,
+            table_name=self.table_name,
             **kwargs
         )
 
@@ -133,7 +139,7 @@ class SqlRule(Rule):
         """Check if the table is empty and return failure result if so."""
         try:
             # Build the count query with same scenario filtering as main query
-            count_query = f"SELECT COUNT(*) as total_count FROM {self.dataset}"
+            count_query = f"SELECT COUNT(*) as total_count FROM {self.table}"
 
             from egon_validation import db
 
@@ -144,13 +150,13 @@ class SqlRule(Rule):
                 return RuleResult(
                     rule_id=self.rule_id,
                     task=self.task,
-                    dataset=self.dataset,
+                    table=self.table,
                     success=False,
                     observed=0,
                     expected=">0",
-                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
+                    message=f"🚨 EMPTY TABLE: {self.table} has no data to validate",
                     schema=self.schema,
-                    table=self.table,
+                    table_name=self.table_name,
                 )
 
             return None  # Table has data, continue normal validation
@@ -165,7 +171,7 @@ class DataFrameRule(Rule):
 
     def get_query(self, ctx) -> str:
         """Generate SQL query for DataFrame creation. Override in subclasses."""
-        return f"SELECT * FROM {self.dataset}"
+        return f"SELECT * FROM {self.table}"
 
     def evaluate_df(self, df, ctx) -> RuleResult:
         """Perform validation on DataFrame. Override in subclasses."""
@@ -184,13 +190,13 @@ class DataFrameRule(Rule):
                 return RuleResult(
                     rule_id=self.rule_id,
                     task=self.task,
-                    dataset=self.dataset,
+                    table=self.table,
                     success=False,
                     observed=0,
                     expected=">0",
-                    message=f"🚨 EMPTY TABLE: {self.dataset} has no data to validate",
+                    message=f"🚨 EMPTY TABLE: {self.table} has no data to validate",
                     schema=self.schema,
-                    table=self.table,
+                    table_name=self.table_name,
                 )
 
             # Delegate to DataFrame-specific evaluation
@@ -200,12 +206,12 @@ class DataFrameRule(Rule):
             return RuleResult(
                 rule_id=self.rule_id,
                 task=self.task,
-                dataset=self.dataset,
+                table=self.table,
                 success=False,
                 observed=None,
                 expected=None,
                 message=f"DataFrame rule execution failed: {str(e)}",
                 severity=Severity.ERROR,
                 schema=self.schema,
-                table=self.table,
+                table_name=self.table_name,
             )
