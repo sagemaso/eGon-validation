@@ -33,6 +33,9 @@ dev = [
 [tool.setuptools.packages.find]
 include = ["egon_validation*"]
 
+[tool.setuptools.package-data]
+egon_validation = ["report/assets/*"]
+
 [project.scripts]
 egon-validation = "egon_validation.cli:main"
 
