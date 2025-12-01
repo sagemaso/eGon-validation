@@ -29,9 +29,9 @@ def discover_total_tables() -> int:
         WHERE schemaname NOT IN ('information_schema', 'pg_catalog', 'pg_toast')
         """
         result = fetch_one(engine, query)
+        engine.dispose()
         return result.get("total_tables", 0)
     except Exception:
-        # Database unavailable (e.g., SSH tunnel closed), fallback to 0
         return 0
 
 

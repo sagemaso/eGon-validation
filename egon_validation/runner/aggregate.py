@@ -11,7 +11,7 @@ def collect(ctx) -> Dict:
     items: List[Dict] = []
     datasets_set = set()
     if os.path.isdir(base):
-        # New structure: tasks/<task_name>/<rule_id>/results.jsonl
+        # structure: tasks/<task_name>/<rule_id>/results.jsonl
         for path in glob.glob(os.path.join(base, "*", "*", "results.jsonl")):
             with open(path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
@@ -20,7 +20,8 @@ def collect(ctx) -> Dict:
                     try:
                         obj = json.loads(lines[-1])
                         items.append(obj)
-                        datasets_set.add(obj.get("dataset"))
+                        table = obj.get("table")
+                        datasets_set.add(table)
                     except Exception:
                         pass
     return {"items": items, "datasets": sorted(d for d in datasets_set if d)}
@@ -33,23 +34,23 @@ def _build_formal_rules_index() -> List[str]:
 
 
 def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
-    # dataset -> list of custom rule names
+    # table -> list of custom rule names
     reg = list_registered()
     tag_kinds = {"custom", "sanity"}
     tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
     m: Dict[str, List[str]] = {}
     for it in items:
         if it.get("rule_id") in tag_ids:
-            ds = it.get("dataset")
-            if not ds:
+            tbl = it.get("table")
+            if not tbl:
                 continue
-            m.setdefault(ds, [])
+            m.setdefault(tbl, [])
             name = it.get("rule_id")
-            if name not in m[ds]:
-                m[ds].append(name)
+            if name not in m[tbl]:
+                m[tbl].append(name)
     # sort rule names for stable output
-    for ds in m:
-        m[ds].sort()
+    for tbl in m:
+        m[tbl].sort()
     return m
 
 
@@ -71,11 +72,11 @@ def build_coverage(ctx, collected: Dict) -> Dict:
     # apply results
     for it in items:
         rid = it.get("rule_id")
-        ds = it.get("dataset")
-        if ds and rid in rules_formal:
+        tbl = it.get("table")
+        if tbl and rid in rules_formal:
             ok = bool(it.get("success", False))
             msg = it.get("message") or ""
-            key = (ds, rid)
+            key = (tbl, rid)
             # if multiple results for same pair exist: any fail dominates
             if not ok:
                 status[key] = "fail"
