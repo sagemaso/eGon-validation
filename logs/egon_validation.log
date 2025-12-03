@@ -1726,3 +1726,126 @@ egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for 
 2025-11-07 17:33:23,316 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.18s [execute.py:47]
 2025-11-07 17:33:39,673 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.66s [execute.py:47]
 2025-11-07 17:34:32,203 - egon_validation.runner - INFO - Completed 34 rules in 773.60s (avg: 22.75s per rule) [execute.py:177]
+2025-12-03 09:38:26,841 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 09:38:32,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,659 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,796 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:53]
+2025-12-03 09:38:34,781 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.94s [execute.py:53]
+2025-12-03 09:38:35,526 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 09:38:35,730 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 09:38:35,935 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:53]
+2025-12-03 09:38:38,392 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 09:38:38,748 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.45s [execute.py:53]
+2025-12-03 09:38:39,826 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:53]
+2025-12-03 09:38:40,031 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.25s [execute.py:53]
+2025-12-03 09:38:40,095 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.73s [execute.py:53]
+2025-12-03 09:38:40,850 - egon_validation.runner - ERROR - Rule MULTIPLE_COLUMNS_TYPE_CHECK unexpected error in 2.46s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:42,538 - egon_validation.runner - ERROR - Rule adhoc_NOT_NULL_NAN unexpected error in 2.71s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:42,660 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.63s [execute.py:53]
+2025-12-03 09:38:43,102 - egon_validation.runner - ERROR - Rule SCENARIO_VALUES_VALID unexpected error in 2.25s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:43,644 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.55s [execute.py:53]
+2025-12-03 09:38:44,843 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 2.18s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:44,945 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 1.84s [execute.py:53]
+2025-12-03 09:38:45,150 - egon_validation.runner - ERROR - Rule WIND_PLANTS_IN_GERMANY unexpected error in 6.40s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:59,281 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.43s [execute.py:53]
+2025-12-03 09:39:02,354 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.81s [execute.py:53]
+2025-12-03 09:39:02,355 - egon_validation.runner - INFO - Completed 25 validations in 35.51s (avg: 1.42s per rule) [execute.py:234]
+2025-12-03 09:39:02,356 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 09:39:05,220 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 09:39:05,228 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 10:16:37,597 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 10:16:38,944 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.34s [execute.py:53]
+2025-12-03 10:16:38,985 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.39s [execute.py:53]
+2025-12-03 10:16:39,153 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.55s [execute.py:53]
+2025-12-03 10:16:39,283 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.68s [execute.py:53]
+2025-12-03 10:16:39,674 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.69s [execute.py:53]
+2025-12-03 10:16:39,967 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.81s [execute.py:53]
+2025-12-03 10:16:40,334 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.39s [execute.py:53]
+2025-12-03 10:16:40,627 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.66s [execute.py:53]
+2025-12-03 10:16:41,262 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.34s [execute.py:53]
+2025-12-03 10:16:41,642 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 4.04s [execute.py:53]
+2025-12-03 10:16:41,683 - egon_validation.runner - ERROR - Rule MULTIPLE_COLUMNS_TYPE_CHECK unexpected error in 0.42s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 10:16:41,725 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.09s [execute.py:53]
+2025-12-03 10:16:42,007 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.67s [execute.py:53]
+2025-12-03 10:16:42,332 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.65s [execute.py:53]
+2025-12-03 10:16:42,372 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.65s [execute.py:53]
+2025-12-03 10:16:42,945 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.61s [execute.py:53]
+2025-12-03 10:16:43,108 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.43s [execute.py:53]
+2025-12-03 10:16:43,618 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.51s [execute.py:53]
+2025-12-03 10:16:43,775 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.77s [execute.py:53]
+2025-12-03 10:16:43,942 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 1.00s: name 'Severity' is not defined [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 223, in postprocess
+    severity=Severity.ERROR if not ok else Severity.INFO,
+NameError: name 'Severity' is not defined
+2025-12-03 10:16:46,207 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.56s [execute.py:53]
+2025-12-03 10:17:02,182 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.81s [execute.py:53]
+2025-12-03 10:17:06,482 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.88s [execute.py:53]
+2025-12-03 10:17:06,484 - egon_validation.runner - INFO - Completed 25 validations in 28.89s (avg: 1.16s per rule) [execute.py:234]
+2025-12-03 10:17:06,484 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 10:17:08,941 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 10:17:08,953 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 10:24:41,844 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 10:24:44,624 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.78s [execute.py:53]
+2025-12-03 10:24:44,625 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.78s [execute.py:53]
+2025-12-03 10:24:44,711 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:53]
+2025-12-03 10:24:44,764 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.92s [execute.py:53]
+2025-12-03 10:24:46,877 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 5.03s [execute.py:53]
+2025-12-03 10:24:47,082 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 10:24:47,697 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.98s [execute.py:53]
+2025-12-03 10:24:48,106 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:53]
+2025-12-03 10:24:49,949 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 10:24:50,871 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.61s [execute.py:53]
+2025-12-03 10:24:51,383 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:53]
+2025-12-03 10:24:52,202 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:53]
+2025-12-03 10:24:52,407 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 10:24:52,816 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 10:24:54,455 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 3.07s [execute.py:53]
+2025-12-03 10:24:54,864 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.66s [execute.py:53]
+2025-12-03 10:24:55,683 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:53]
+2025-12-03 10:24:56,094 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.69s [execute.py:53]
+2025-12-03 10:24:57,731 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.86s [execute.py:53]
+2025-12-03 10:24:57,936 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:53]
+2025-12-03 10:24:58,346 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:53]
+2025-12-03 10:25:10,812 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.96s [execute.py:53]
+2025-12-03 10:25:15,140 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.68s [execute.py:53]
+2025-12-03 10:25:15,142 - egon_validation.runner - INFO - Completed 25 validations in 33.30s (avg: 1.33s per rule) [execute.py:234]
+2025-12-03 10:25:15,142 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 10:25:18,212 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 10:25:18,225 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]

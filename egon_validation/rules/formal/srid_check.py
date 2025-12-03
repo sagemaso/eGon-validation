@@ -87,3 +87,14 @@ class SRIDSpecificValidation(SqlRule):
             if zero_srid_count > 0:
                 problems.append(f"{zero_srid_count} geometries with SRID=0")
             message = "; ".join(problems)
+
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            success=ok,
+            observed=correct_srid_count,
+            expected=total_geometries,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+        )

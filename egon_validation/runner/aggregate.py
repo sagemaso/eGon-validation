@@ -47,17 +47,67 @@ def collect(ctx) -> Dict:
     }
 
 
-def _build_formal_rules_index() -> List[str]:
-    # Determine all formal rule_ids from registry
-    reg = list_registered()
-    return sorted({r["rule_id"] for r in reg if r.get("kind") == "formal"})
+def _build_formal_rules_index(expected_rules: Dict[str, List[Dict]] = None) -> List[str]:
+    """
+    Determine formal rule_ids to display in coverage matrix.
+
+    If expected_rules is provided (from pipeline execution), uses those rules.
+    Otherwise falls back to registry (for standalone validation).
+
+    Parameters:
+    -----------
+    expected_rules: Dict mapping task_name -> list of expected rule dicts
+                   Each rule dict has: rule_id, table, kind
+
+    Returns:
+    --------
+    Sorted list of formal rule_ids
+    """
+    if expected_rules:
+        # NEW: Use expected rules from pipeline execution
+        rule_ids = set()
+        for task_name, rules in expected_rules.items():
+            for rule in rules:
+                if rule.get("kind") == "formal":
+                    rule_ids.add(rule["rule_id"])
+        return sorted(rule_ids)
+    else:
+        # Fallback: Determine all formal rule_ids from registry
+        reg = list_registered()
+        return sorted({r["rule_id"] for r in reg if r.get("kind") == "formal"})
 
 
-def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
+def _build_custom_checks_map(items: List[Dict], expected_rules: Dict[str, List[Dict]] = None) -> Dict[str, List[str]]:
+    """
+    Build map of table -> list of custom/sanity rule names.
+
+    If expected_rules is provided, uses those to filter.
+    Otherwise falls back to registry.
+
+    Parameters:
+    -----------
+    items: List of execution result items
+    expected_rules: Dict mapping task_name -> list of expected rule dicts
+
+    Returns:
+    --------
+    Dict mapping table name -> list of custom/sanity rule_ids
+    """
     # table -> list of custom rule names
-    reg = list_registered()
     tag_kinds = {"custom", "sanity"}
-    tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
+
+    if expected_rules:
+        # NEW: Use expected rules from pipeline execution
+        tag_ids = set()
+        for task_name, rules in expected_rules.items():
+            for rule in rules:
+                if rule.get("kind") in tag_kinds:
+                    tag_ids.add(rule["rule_id"])
+    else:
+        # Fallback: Use registry
+        reg = list_registered()
+        tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
+
     m: Dict[str, List[str]] = {}
     for it in items:
         if it.get("rule_id") in tag_ids:
@@ -77,9 +127,10 @@ def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
 def build_coverage(ctx, collected: Dict) -> Dict:
     items = collected.get("items", [])
     datasets = collected.get("datasets", [])
+    expected_rules = collected.get("expected_rules", {})
 
-    # All formal rules from registry (stable column set)
-    rules_formal = _build_formal_rules_index()
+    # All formal rules - from expected rules if available, otherwise from registry
+    rules_formal = _build_formal_rules_index(expected_rules)
 
     # default status/title for every pair
     status = {}  # (dataset, rule_id) -> "na" | "ok" | "fail"
@@ -118,7 +169,7 @@ def build_coverage(ctx, collected: Dict) -> Dict:
         for rid in rules_formal
     ]
 
-    custom_checks = _build_custom_checks_map(items)
+    custom_checks = _build_custom_checks_map(items, expected_rules)
 
     # Calculate comprehensive coverage statistics
     coverage_stats = calculate_coverage_stats(collected, ctx)

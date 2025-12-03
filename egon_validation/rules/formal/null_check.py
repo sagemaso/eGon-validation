@@ -36,3 +36,14 @@ class NotNullAndNotNaN(SqlRule):
     def postprocess(self, row, ctx):
         n_bad = int(row.get("n_bad") or 0)
         ok = n_bad == 0
+        col = self.params.get("column", "unknown")
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            success=ok,
+            observed=n_bad,
+            expected=0,
+            message=f"Column '{col}' has {n_bad} NULL/NaN values" if not ok else f"Column '{col}' has no NULL/NaN values",
+            severity=Severity.ERROR if not ok else Severity.INFO,
+        )

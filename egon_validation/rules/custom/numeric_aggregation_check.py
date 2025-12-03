@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult
+from egon_validation.rules.base import SqlRule, RuleResult, Severity
 from egon_validation.rules.registry import register
 from egon_validation.config import (
     ELECTRICAL_LOAD_EXPECTED_VALUES,
@@ -210,4 +210,15 @@ class DisaggregatedDemandSumValidation(SqlRule):
             f"Scenario {scenario}: Disaggregated sum {disagg_sum:.2f}, "
             f"Original sum {orig_sum:.2f}, Rel. diff {rel_diff:.4f} "
             f"(tolerance {tolerance})"
+        )
+
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            success=ok,
+            observed=rel_diff,
+            expected=tolerance,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
         )

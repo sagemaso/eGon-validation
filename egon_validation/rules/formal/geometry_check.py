@@ -61,3 +61,14 @@ class GeometryContainmentValidation(SqlRule):
             if self.rule_id == "WIND_PLANTS_IN_GERMANY" and points_outside > 0:
                 message += f" | To get coordinates: SELECT * FROM supply.egon_power_plants_wind WHERE site_type = 'Windkraft an Land'"
                 message += f" | AND NOT ST_Contains((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
+
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            success=ok,
+            observed=points_outside,
+            expected=0,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+        )

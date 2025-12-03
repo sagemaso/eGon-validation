@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, POSTGRES_TYPE_MAPPINGS
+from egon_validation.rules.base import SqlRule, RuleResult, POSTGRES_TYPE_MAPPINGS, Severity
 from egon_validation.rules.registry import register
 
 
@@ -160,3 +160,14 @@ class MultipleColumnsDataTypeValidation(SqlRule):
 
         ok = len(problems) == 0
         message = "All column types valid" if ok else "; ".join(problems)
+
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            success=ok,
+            observed=len(problems),
+            expected=0,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+        )
