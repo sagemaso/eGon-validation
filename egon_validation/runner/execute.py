@@ -178,6 +178,24 @@ def run_validations(
     task_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", task_name)
     _ensure_dir(task_dir, check_collision=False)
 
+    # Save expected rules for this task before execution
+    expected_rules_file = os.path.join(task_dir, "expected_rules.json")
+    expected_rules = [
+        {
+            "rule_id": v.rule_id,
+            "table": v.table,
+            "kind": getattr(v, "kind", "unknown")
+        }
+        for v in validations
+    ]
+    with open(expected_rules_file, "w") as f:
+        json.dump(expected_rules, f, indent=2)
+
+    logger.debug(
+        f"Saved {len(expected_rules)} expected rules to {expected_rules_file}",
+        extra={"task": task_name, "expected_rules_count": len(expected_rules)}
+    )
+
     logger.info(
         f"Executing {len(validations)} validations for task '{task_name}' (max_workers={max_workers})",
         extra={"task": task_name, "rule_count": len(validations), "max_workers": max_workers},

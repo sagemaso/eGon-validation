@@ -116,10 +116,25 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         }
     )
 
-    # Get all registered rules and count unique rule_ids
-    all_rules = list_registered()
-    unique_rule_ids = set(rule["rule_id"] for rule in all_rules)
-    total_rules = len(unique_rule_ids)
+    # Get expected rules from pipeline execution or fallback to registry
+    expected_rules_data = collected_data.get("expected_rules", {})
+
+    if expected_rules_data:
+        # NEW APPROACH: Count expected rules from what was submitted to pipeline
+        logger.debug(f"Using expected rules from {len(expected_rules_data)} tasks")
+        expected_rule_ids = set()
+        for task_name, rules in expected_rules_data.items():
+            for rule in rules:
+                expected_rule_ids.add(rule["rule_id"])
+        total_rules = len(expected_rule_ids)
+        logger.info(f"Rule coverage based on expected pipeline rules: {total_rules} total rules")
+    else:
+        # Fallback for backward compatibility with standalone mode
+        logger.debug("No expected rules found, falling back to registry")
+        all_rules = list_registered()
+        unique_rule_ids = set(rule["rule_id"] for rule in all_rules)
+        total_rules = len(unique_rule_ids)
+        logger.info(f"Rule coverage based on registry: {total_rules} registered rules")
 
     # Count unique applied rules
     applied_rules = set()
