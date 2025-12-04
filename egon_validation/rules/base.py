@@ -40,6 +40,7 @@ class RuleResult:
     severity: Severity = None
     execution_time: Optional[float] = None
     executed_at: Optional[str] = None  # ISO timestamp when rule was executed
+    rule_class: Optional[str] = None  # Class name of the rule (e.g., "ArrayCardinalityValidation")
     # Debug fields
     schema: Optional[str] = None
     table_name: Optional[str] = None

@@ -50,6 +50,9 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
         execution_time = time.time() - start_time
         res.execution_time = execution_time
         res.executed_at = datetime.now().isoformat()
+        # Set rule class name if not already set
+        if not res.rule_class:
+            res.rule_class = rule.__class__.__name__
         logger.info(
             f"Rule {rule.rule_id} completed in {execution_time:.2f}s",
             extra={
@@ -98,6 +101,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
             kind=getattr(rule, "kind", "unknown"),
+            rule_class=rule.__class__.__name__,
         )
     except RuleExecutionError as e:
         execution_time = time.time() - start_time
@@ -123,6 +127,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
             kind=getattr(rule, "kind", "unknown"),
+            rule_class=rule.__class__.__name__,
         )
     except Exception as e:
         execution_time = time.time() - start_time
@@ -149,6 +154,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
             kind=getattr(rule, "kind", "unknown"),
+            rule_class=rule.__class__.__name__,
         )
 
 

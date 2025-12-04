@@ -136,24 +136,24 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         total_rules = len(unique_rule_ids)
         logger.info(f"Rule coverage based on registry: {total_rules} registered rules")
 
-    # Count unique applied rules
-    applied_rules = set()
-    rule_application_count = {}
+    # Count unique applied rules by rule_class (not rule_id)
+    applied_rule_classes = set()
+    rule_class_application_count = {}
     successful_applications = 0
     failed_applications = 0
 
     for item in items:
-        rule_id = item.get("rule_id")
-        if rule_id:
-            applied_rules.add(rule_id)
-            rule_application_count[rule_id] = rule_application_count.get(rule_id, 0) + 1
+        rule_class = item.get("rule_class")
+        if rule_class:
+            applied_rule_classes.add(rule_class)
+            rule_class_application_count[rule_class] = rule_class_application_count.get(rule_class, 0) + 1
 
             if item.get("success", False):
                 successful_applications += 1
             else:
                 failed_applications += 1
 
-    applied_rules_count = len(applied_rules)
+    applied_rules_count = len(applied_rule_classes)
     rule_coverage_percent = (
         (applied_rules_count / total_rules * 100) if total_rules > 0 else 0
     )
@@ -165,11 +165,11 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         else 0
     )
 
-    # Rule application statistics
+    # Rule application statistics - grouped by rule_class
     rule_stats = []
-    for rule_id in sorted(applied_rules):
+    for rule_class in sorted(applied_rule_classes):
         rule_stats.append(
-            {"rule_id": rule_id, "applications": rule_application_count[rule_id]}
+            {"rule_class": rule_class, "applications": rule_class_application_count[rule_class]}
         )
 
     coverage_stats = {
