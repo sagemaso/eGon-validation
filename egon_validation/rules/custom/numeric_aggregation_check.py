@@ -142,6 +142,7 @@ class ElectricalLoadAggregationValidation(SqlRule):
             message=message,
             schema=self.schema,
             table_name=self.table_name,
+            kind=self.kind,
         )
 
 
@@ -219,4 +220,5 @@ class DisaggregatedDemandSumValidation(SqlRule):
             expected=tolerance,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind
         )
