@@ -6,7 +6,6 @@ from egon_validation.rules.registry import register
     task="validation-test",
     table="demand.egon_demandregio_hh",
     rule_id="adhoc_NOT_NULL_NAN",
-    kind="formal",
     column="demand",
 )
 class NotNullAndNotNaN(SqlRule):
@@ -17,7 +16,6 @@ class NotNullAndNotNaN(SqlRule):
         task: Task identifier
         table: Full table name including schema
         column: Column name to check for NULL/NaN (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = NotNullAndNotNaN(
@@ -46,4 +44,5 @@ class NotNullAndNotNaN(SqlRule):
             expected=0,
             message=f"Column '{col}' has {n_bad} NULL/NaN values" if not ok else f"Column '{col}' has no NULL/NaN values",
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

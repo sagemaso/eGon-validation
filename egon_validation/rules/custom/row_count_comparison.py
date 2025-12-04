@@ -8,7 +8,6 @@ from egon_validation.rules.registry import register
     task="validation-test",
     table="demand.egon_demandregio_cts_ind",
     rule_id="CTS_IND_ROW_COUNT_MATCH",
-    kind="custom",
     scenario_col="scenario",
     economic_sector_col="wz",
     reference_dataset="boundaries.vg250_krs",
@@ -29,7 +28,6 @@ class RowCountComparisonValidation(SqlRule):
         reference_filter: SQL WHERE clause for reference table (passed in params, default: "TRUE")
         scenario_col: Column name for scenario grouping (passed in params)
         economic_sector_col: Column name for economic sector grouping (passed in params)
-        kind: Validation kind (passed in params, default: "custom")
 
     Example:
         >>> validation = RowCountComparisonValidation(
@@ -100,4 +98,5 @@ class RowCountComparisonValidation(SqlRule):
             message=message,
             schema=self.schema,
             table_name=self.table_name,
+            kind=self.kind,
         )

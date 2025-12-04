@@ -12,7 +12,6 @@ class ReferentialIntegrityValidation(SqlRule):
         foreign_column: Foreign key column name in child table (passed in params)
         reference_dataset: Referenced parent table (passed in params)
         reference_column: Primary/unique key column in parent table (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = ReferentialIntegrityValidation(
@@ -69,4 +68,5 @@ class ReferentialIntegrityValidation(SqlRule):
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

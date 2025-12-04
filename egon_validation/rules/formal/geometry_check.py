@@ -6,7 +6,6 @@ from egon_validation.rules.registry import register
     task="validation-test",
     table="supply.egon_power_plants_wind",
     rule_id="WIND_PLANTS_IN_GERMANY",
-    kind="formal",
     geometry_column="geom",
     reference_dataset="boundaries.vg250_sta",
     reference_geometry="geometry",
@@ -71,4 +70,5 @@ class GeometryContainmentValidation(SqlRule):
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

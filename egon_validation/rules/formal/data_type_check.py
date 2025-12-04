@@ -6,7 +6,6 @@ from egon_validation.rules.registry import register
     task="validation-test",
     table="demand.egon_demandregio_hh",
     rule_id="COLUMN_DATA_TYPE_CHECK",
-    kind="formal",
     column="year",
     expected_type="integer",
 )
@@ -19,7 +18,6 @@ class DataTypeValidation(SqlRule):
         table: Full table name including schema
         column: Column name to check (passed in params)
         expected_type: Expected PostgreSQL data type (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = DataTypeValidation(
@@ -72,6 +70,7 @@ class DataTypeValidation(SqlRule):
             schema=self.schema,
             table_name=self.table_name,
             column=column_name,
+            kind=self.kind,
         )
 
 
@@ -79,7 +78,6 @@ class DataTypeValidation(SqlRule):
     task="validation-test",
     table="demand.egon_demandregio_hh",
     rule_id="MULTIPLE_COLUMNS_TYPE_CHECK",
-    kind="formal",
     column_types={"year": "integer", "scenario": "text", "demand": "numeric"},
 )
 class MultipleColumnsDataTypeValidation(SqlRule):
@@ -90,7 +88,6 @@ class MultipleColumnsDataTypeValidation(SqlRule):
         task: Task identifier
         table: Full table name including schema
         column_types: Dict mapping column names to expected types (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = MultipleColumnsDataTypeValidation(
@@ -170,4 +167,5 @@ class MultipleColumnsDataTypeValidation(SqlRule):
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

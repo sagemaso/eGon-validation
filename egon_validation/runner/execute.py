@@ -97,6 +97,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
+            kind=getattr(rule, "kind", "unknown"),
         )
     except RuleExecutionError as e:
         execution_time = time.time() - start_time
@@ -121,6 +122,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
+            kind=getattr(rule, "kind", "unknown"),
         )
     except Exception as e:
         execution_time = time.time() - start_time
@@ -146,6 +148,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
             executed_at=datetime.now().isoformat(),
             schema=getattr(rule, "schema", None),
             table_name=getattr(rule, "table_name", None),
+            kind=getattr(rule, "kind", "unknown"),
         )
 
 

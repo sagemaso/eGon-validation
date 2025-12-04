@@ -7,7 +7,6 @@ from egon_validation.config import MV_GRID_DISTRICTS_COUNT
     task="validation-test",
     table="grid.egon_mv_grid_district",
     rule_id="MV_GRID_DISTRICT_COUNT",
-    kind="formal",
     expected_count=3854,
 )
 class RowCountValidation(SqlRule):
@@ -18,7 +17,6 @@ class RowCountValidation(SqlRule):
         task: Task identifier
         table: Full table name including schema (e.g., "schema.table")
         expected_count: Expected number of rows in the table (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = RowCountValidation(
@@ -49,4 +47,5 @@ class RowCountValidation(SqlRule):
             message=message,
             schema=self.schema,
             table_name=self.table_name,
+            kind=self.kind,
         )

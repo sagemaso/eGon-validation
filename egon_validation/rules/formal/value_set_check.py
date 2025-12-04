@@ -6,7 +6,6 @@ from egon_validation.rules.registry import register, register_map
     task="validation-test",
     table="demand.egon_demandregio_hh",
     rule_id="SCENARIO_VALUES_VALID",
-    kind="formal",
     column="scenario",
     expected_values=["eGon2035", "eGon2021", "eGon100RE"],
 )
@@ -19,7 +18,6 @@ class ValueSetValidation(SqlRule):
         table: Full table name including schema
         column: Column name to check (passed in params)
         expected_values: List of valid values (passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = ValueSetValidation(
@@ -71,4 +69,5 @@ class ValueSetValidation(SqlRule):
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

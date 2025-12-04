@@ -32,6 +32,7 @@ class RuleResult:
     rule_id: str
     task: str
     table: str
+    kind: str
     success: bool
     message: str = ""
     observed: Optional[float] = None
@@ -66,6 +67,7 @@ class Rule:
     ) -> None:
         self.rule_id = rule_id
         self.task = task or ""  # Can be set later by run_validations
+        self.kind = self._infer_kind_from_module()
         self.table = table  # "<schema>.<table>" or view
         self.params: Dict[str, Any] = params
         # derive schema/table_name for debug (best-effort)
@@ -74,6 +76,22 @@ class Rule:
         else:
             self.schema, self.table_name = None, table
 
+    def _infer_kind_from_module(self) -> str:
+        """
+        Gets kind from module name.
+        Expects pattern like: '...rules.custom.meine_regel'
+        oder '...rules.formal.meine_regel'.
+        """
+        module_name = self.__class__.__module__
+        marker = ".rules."
+        if marker in module_name:
+            after_rules = module_name.split(marker, 1)[1]
+            subpackage = after_rules.split(".", 1)[0]
+
+            if subpackage in {"custom", "formal"}:
+                return subpackage
+
+        return "unknown"
 
 
 class SqlRule(Rule):

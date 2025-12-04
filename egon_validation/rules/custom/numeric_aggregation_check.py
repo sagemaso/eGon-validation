@@ -10,7 +10,6 @@ from egon_validation.config import (
     task="validation-test",
     table="grid.egon_etrago_load",
     rule_id="ELECTRICAL_LOAD_AGGREGATION",
-    kind="custom",
     tolerance=0.05,
 )
 class ElectricalLoadAggregationValidation(SqlRule):
@@ -150,7 +149,6 @@ class ElectricalLoadAggregationValidation(SqlRule):
     task="validation-test",
     table="demand.egon_demandregio_zensus_electricity",
     rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
-    kind="formal",
     sector="residential",
     tolerance=0.01,
 )

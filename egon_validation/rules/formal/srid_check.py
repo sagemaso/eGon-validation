@@ -7,7 +7,6 @@ from egon_validation.config import DEFAULT_SRID
     task="validation-test",
     table="supply.egon_power_plants_pv",
     rule_id="SRID_UNIQUE_NONZERO",
-    kind="formal",
     geom="geom",
 )
 class SRIDUniqueNonZero(SqlRule):
@@ -34,11 +33,12 @@ class SRIDUniqueNonZero(SqlRule):
             schema=self.schema,
             table_name=self.table_name,
             column=self.params.get("geom", "geom"),
+            kind=self.kind,
         )
 
 
 # @register(task="validation-test", table="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
-#          kind="formal", geom="geom", expected_srid=3035)
+# geom="geom", expected_srid=3035)
 class SRIDSpecificValidation(SqlRule):
     """Validates that geometry column has a specific expected SRID."""
 
@@ -97,4 +97,5 @@ class SRIDSpecificValidation(SqlRule):
             expected=total_geometries,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )

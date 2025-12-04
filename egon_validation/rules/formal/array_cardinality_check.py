@@ -7,7 +7,6 @@ from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
     task="validation-test",
     table="grid.egon_etrago_load_timeseries",
     rule_id="LOAD_TIMESERIES_LENGTH",
-    kind="formal",
     array_column="p_set",
     expected_length=8760,
 )
@@ -20,7 +19,6 @@ class ArrayCardinalityValidation(SqlRule):
         table: Full table name including schema
         array_column: Name of the array column to validate (passed in params)
         expected_length: Expected array length (cardinality, passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = ArrayCardinalityValidation(
@@ -98,6 +96,7 @@ class ArrayCardinalityValidation(SqlRule):
             schema=self.schema,
             table_name=self.table_name,
             column=self.params.get("array_column"),
+            kind=self.kind,
         )
 
 
@@ -106,7 +105,6 @@ register_map(
     task="validation-test",
     rule_cls=ArrayCardinalityValidation,
     rule_id="ARRAY_CARDINALITY_CHECK",
-    kind="formal",
     tables_params={
         "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries": {
             "array_column": "p_set",
