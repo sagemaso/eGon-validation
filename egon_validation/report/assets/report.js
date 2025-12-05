@@ -14,8 +14,8 @@
   const passed = items.filter(x => x.success).length;
   const failed = total - passed;
 
-  // Applied Rule Types: unique rule_ids that were applied
-  const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_id)).size;
+  // Applied Rule Types: unique rule_classes that were applied
+  const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_class)).size;
   $("#kpi-total-rules").textContent = String(appliedRuleTypes);
 
   // Rules in Scope: total unique rules available in registry (for coverage calculation)
@@ -104,7 +104,7 @@
 
   // Matrix
   const datasets = coverage.datasets && coverage.datasets.length ? coverage.datasets : [...new Set(items.map(x => x.dataset))];
-  const rules = coverage.rules_formal && coverage.rules_formal.length ? coverage.rules_formal : [...new Set(items.map(x => x.rule_id))];
+  const rules = coverage.rules_formal && coverage.rules_formal.length ? coverage.rules_formal : [...new Set(items.map(x => x.rule_class))];
 
   // Build a map of (dataset, rule) -> {status, title}
   const cellMap = new Map();
