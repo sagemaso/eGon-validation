@@ -64,20 +64,20 @@
       table.innerHTML = `
         <thead>
           <tr>
-            <th>Rule ID</th>
+            <th>Rule</th>
             <th>Applications</th>
           </tr>
         </thead>
         <tbody></tbody>
       `;
-      
+
       const tbody = table.querySelector('tbody');
-      // Sort by applications ascending
+      // Sort by applications descending
       const sortedStats = [...coverageStats.rule_application_stats].sort((a, b) => b.applications - a.applications);
       sortedStats.forEach(stat => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${stat.rule_id}</td>
+          <td>${stat.rule_class}</td>
           <td><span class="application-count">${stat.applications}</span></td>
         `;
         tbody.appendChild(tr);
@@ -119,48 +119,72 @@
     }
   }
 
+  // Create a simple lookup: (table, rule_class) -> rule_id from results.json
+  // This is needed because matrix uses rule_class but details use rule_id
+  const tableRuleClassToRuleId = new Map();
+  for (const item of items) {
+    const key = `${item.table}::${item.rule_class || item.rule_id}`;
+    // Store first matching rule_id for this combination
+    if (!tableRuleClassToRuleId.has(key)) {
+      tableRuleClassToRuleId.set(key, item.rule_id);
+    }
+  }
+
   const mwrap = document.createElement('div'); mwrap.className = 'matrix-wrapper';
   const tbl = document.createElement('table'); tbl.className = 'matrix';
   
   // Set CSS variable for actual column count
   document.documentElement.style.setProperty('--column-count', rules.length);
 
-  // Function to create meaningful abbreviations
+  // Function to create meaningful abbreviations from rule class names
   function createAbbreviation(ruleName) {
     const abbreviations = {
-      'ARRAY_CARDINALITY_CHECK': 'ARC',
-      'REFERENTIAL_INTEGRITY_CHECK': 'RIC', 
-      'COLUMN_DATA_TYPE_CHECK': 'DTC',
-      'MULTIPLE_COLUMNS_TYPE_CHECK': 'MCTC',
-      'VALUE_SET_VALIDATION': 'VSV',
-      'SRID_VALIDATION': 'SRID',
-      'SRID_UNIQUE_NONZERO': 'SRID-UNZ',
-      'SPECIAL_SRID_VALIDATION': 'SRID-SP',
-      'SCENARIO_VALUES_VALID': 'SVV',
-      'LOAD_TIMESERIES_LENGTH': 'TSL',
-      'TS_LENGTH_CHECK': 'TSC',
-      'WIND_PLANTS_IN_GERMANY': 'WPG',
-      'MV_GRID_DISTRICT_COUNT': 'MGDC',
-      'CTS_IND_ROW_COUNT_MATCH': 'CTS-RC',
-      'DISAGGREGATED_DEMAND_SUM_MATCH': 'DDSM',
-      'ELECTRICAL_LOAD_AGGREGATION': 'ELA',
-      'LP_RANGE': 'LPR',
-      'BAL_DIFF': 'BAL'
+      // Rule class names (CamelCase)
+      'ArrayCardinalityValidation': 'ArrayCard',
+      'DataTypeValidation': 'DataType',
+      'MultipleColumnsDataTypeValidation': 'MultiColType',
+      'GeometryContainmentValidation': 'GeomContain',
+      'NotNullAndNotNaN': 'NotNull',
+      'NullCheckValidation': 'NullCheck',
+      'ReferentialIntegrityValidation': 'RefIntegrity',
+      'RowCountValidation': 'RowCount',
+      'RowCountComparisonValidation': 'RowCountComp',
+      'SRIDValidation': 'SRID',
+      'SRIDUniqueNonZero': 'SRID-Uniq',
+      'ValueSetValidation': 'ValueSet',
+      'DisaggregatedDemandSumValidation': 'DemandSum',
+      'ElectricalLoadAggregationValidation': 'LoadAggr',
     };
-    
+
     // Custom abbreviation exists
     if (abbreviations[ruleName]) {
       return abbreviations[ruleName];
     }
-    
-    // Auto-generate: take first letter of each word, max 4 chars
+
+    // Auto-generate from CamelCase: extract capital letters and some context
+    // E.g., "SomeValidationRule" -> "SomeValid"
+    if (/^[A-Z][a-z]/.test(ruleName)) {
+      // CamelCase detected
+      const parts = ruleName.match(/[A-Z][a-z]+/g) || [];
+      if (parts.length >= 2) {
+        // Take first word + part of second word
+        return parts[0] + parts[1].substring(0, Math.min(4, parts[1].length));
+      }
+      return ruleName.substring(0, 10);
+    }
+
+    // Fallback for SNAKE_CASE: take first letter of each word
     const words = ruleName.split('_');
-    let abbr = words.map(w => w[0]).join('').substring(0, 4);
-    return abbr;
+    if (words.length > 1) {
+      let abbr = words.map(w => w[0]).join('').substring(0, 6);
+      return abbr;
+    }
+
+    return ruleName.substring(0, 10);
   }
 
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
-  hr.innerHTML = '<th>Dataset \\\\ Rule</th>' + 
+  hr.innerHTML = '<th>Schema.Table \\\\ Rule</th>' +
     rules.map(r => `<th title="${r}">${createAbbreviation(r)}</th>`).join('') + 
     '<th>Custom checks</th>';
   thead.appendChild(hr); tbl.appendChild(thead);
@@ -172,14 +196,16 @@
     for (const r of rules) {
       const { status, title } = cellMap.get(d+'::'+r);
       const clickable = status !== 'na' ? 'clickable' : '';
-      const dataAttrs = status !== 'na' ? `data-dataset="${d}" data-rule="${r}"` : '';
+      // Look up the actual rule_id for this (table, rule_class) combination
+      const ruleIdForNav = tableRuleClassToRuleId.get(`${d}::${r}`) || r;
+      const dataAttrs = status !== 'na' ? `data-dataset="${d}" data-rule="${ruleIdForNav}"` : '';
       const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${title}" ${dataAttrs}>✅</span>` :
                     status==='fail' ? `<span class="icon fail ${clickable}" title="${title}" ${dataAttrs}>❌</span>` :
                                       `<span class="icon na" title="${title}">●</span>`;
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
-    const customHtml = customs.length ? customs.map(name => `<span class="tag" title="custom">${name}</span>`).join('') : '<span class="badge empty">—</span>';
+    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip" title="Custom check: ${name}">${name}</span>`).join('') : '<span class="badge empty">—</span>';
     rowHtml += `<td class="custom-cell">${customHtml}</td>`;
     tr.innerHTML = rowHtml; tbody.appendChild(tr);
   }
@@ -234,19 +260,30 @@
       }
     }
 
-    tr.id = `detail-${r.dataset}-${r.rule_id}`;
+    // Extract schema and table name from table field if needed
+    let schema = r.schema;
+    let tableName = r.table;
+    if (r.table && r.table.includes('.')) {
+      const parts = r.table.split('.');
+      if (!schema) {
+        schema = parts[0];
+      }
+      tableName = parts[1];
+    }
+
+    tr.id = `detail-${r.table}-${r.rule_id}`;
     tr.innerHTML = `
-      <td>${r.task ?? ''}</td>
-      <td>${r.schema ?? ''}</td>
-      <td title="${r.table ?? ''}">${r.table ?? ''}</td>
-      <td title="${r.column ?? ''}">${r.column ?? ''}</td>
-      <td title="${r.rule_id}">${r.rule_id}</td>
-      <td>${r.severity}</td>
-      <td>${badge}</td>
-      <td>${observedDisplay}</td>
-      <td>${r.expected ?? ''}</td>
-      <td>${executedAt}</td>
-      <td>${r.message ?? ''}</td>`;
+      <td class="has-tooltip" title="${r.task ?? ''}">${r.task ?? ''}</td>
+      <td class="has-tooltip" title="${schema ?? ''}">${schema ?? ''}</td>
+      <td class="has-tooltip" title="${r.table ?? ''}">${tableName ?? ''}</td>
+      <td class="has-tooltip" title="${r.column ?? ''}">${r.column ?? ''}</td>
+      <td class="has-tooltip" title="${r.rule_id}">${r.rule_id}</td>
+      <td class="has-tooltip" title="${r.severity ?? ''}">${r.severity}</td>
+      <td class="has-tooltip" title="Validation ${r.success ? 'passed' : 'failed'}">${badge}</td>
+      <td class="has-tooltip" title="Observed value: ${observedDisplay}">${observedDisplay}</td>
+      <td class="has-tooltip" title="Expected value: ${r.expected ?? ''}">${r.expected ?? ''}</td>
+      <td class="has-tooltip" title="${executedAt}">${executedAt}</td>
+      <td class="has-tooltip" title="${r.message ?? ''}">${r.message ?? ''}</td>`;
     detBody.appendChild(tr);
   }
   document.querySelector('#results-table').appendChild(det);

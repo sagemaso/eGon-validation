@@ -45,4 +45,7 @@ class NotNullAndNotNaN(SqlRule):
             message=f"Column '{col}' has {n_bad} NULL/NaN values" if not ok else f"Column '{col}' has no NULL/NaN values",
             severity=Severity.ERROR if not ok else Severity.INFO,
             kind=self.kind,
+            schema=self.schema,
+            table_name=self.table_name,
+            column=col,
         )
