@@ -206,7 +206,7 @@
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
-    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip" title="Custom check: ${name}">${name}</span>`).join('') : '<span class="badge empty">—</span>';
+    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip clickable" title="Custom check: ${name}" data-dataset="${d}" data-rule="${name}">${name}</span>`).join('') : '<span class="badge empty">—</span>';
     rowHtml += `<td class="custom-cell">${customHtml}</td>`;
     tr.innerHTML = rowHtml; tbody.appendChild(tr);
   }
