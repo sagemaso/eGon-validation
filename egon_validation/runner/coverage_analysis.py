@@ -120,14 +120,14 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     expected_rules_data = collected_data.get("expected_rules", {})
 
     if expected_rules_data:
-        # NEW APPROACH: Count expected rules from what was submitted to pipeline
+        # NEW APPROACH: Count expected rule classes from what was submitted to pipeline
         logger.debug(f"Using expected rules from {len(expected_rules_data)} tasks")
-        expected_rule_ids = set()
+        expected_rule_classes = set()
         for task_name, rules in expected_rules_data.items():
             for rule in rules:
-                expected_rule_ids.add(rule["rule_id"])
-        total_rules = len(expected_rule_ids)
-        logger.info(f"Rule coverage based on expected pipeline rules: {total_rules} total rules")
+                expected_rule_classes.add(rule["rule_class"])
+        total_rules = len(expected_rule_classes)
+        logger.info(f"Rule coverage based on expected pipeline rules: {total_rules} total rule classes")
     else:
         # Fallback for backward compatibility with standalone mode
         logger.debug("No expected rules found, falling back to registry")
