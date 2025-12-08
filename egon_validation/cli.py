@@ -15,7 +15,7 @@ import egon_validation.rules.custom  # noqa: F401
 
 
 def _save_table_count(ctx, total_tables):
-    """Save table count to metadata file for use in final report"""
+    """Save table count to metadata file for use in final reporter"""
     tasks_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
     os.makedirs(tasks_dir, exist_ok=True)
     metadata_file = os.path.join(tasks_dir, "db_metadata.json")
@@ -69,7 +69,7 @@ def _final_report(args):
     coverage = build_coverage(ctx, collected)
     out_dir = write_outputs(ctx, collected, coverage)
     generate(ctx)
-    print(f"Final report at: {os.path.join(out_dir, 'report.html')}")
+    print(f"Final reporter at: {os.path.join(out_dir, 'reporter.html')}")
 
 
 def main():
@@ -99,14 +99,14 @@ def main():
     p1.set_defaults(func=_run_task)
 
     p2 = subs.add_parser(
-        "final-report", help="Aggregate results and write final report"
+        "final-reporter", help="Aggregate results and write final reporter"
     )
     p2.add_argument("--run-id", required=True, type=str)
     p2.add_argument("--out", type=str, default=DEFAULT_OUT_DIR)
     p2.add_argument(
         "--list-rules",
         action="store_true",
-        help="Print registered rules before building report",
+        help="Print registered rules before building reporter",
     )
     p2.set_defaults(func=_final_report)
 
