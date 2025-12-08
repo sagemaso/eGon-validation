@@ -16,11 +16,11 @@
 
   // Applied Rule Types: unique rule_classes that were applied
   const appliedRuleTypes = coverage.coverage_statistics?.rule_coverage?.applied_rules ?? new Set(items.map(x => x.rule_class)).size;
-  $("#kpi-total-rules").textContent = String(appliedRuleTypes);
+  $("#kpi-rule-classes-applied").textContent = String(appliedRuleTypes);
 
   // Rules in Scope: total unique rules available in registry (for coverage calculation)
   const totalUniqueRulesInRegistry = coverage.coverage_statistics?.rule_coverage?.total_rules ?? appliedRuleTypes;
-  $("#kpi-total-rules-registry").textContent = String(totalUniqueRulesInRegistry);
+  $("#kpi-rule-classes-total").textContent = String(totalUniqueRulesInRegistry);
 
   // Total Rules: all registered rule instances (sum of passed + failed)
   const totalRuleInstances = coverage.coverage_statistics?.validation_results?.total_applications ?? total;
@@ -89,15 +89,16 @@
       // Add toggle functionality for rule stats section
       const h3 = ruleStatsSection.querySelector('h3');
       const tableContainer = ruleStatsTable;
+      const baseHeading = h3.textContent.trim(); // Use heading from HTML
       let isExpanded = false;
-      
+
       h3.addEventListener('click', function() {
         isExpanded = !isExpanded;
         tableContainer.style.display = isExpanded ? 'block' : 'none';
-        h3.textContent = `Rule Application Statistics ${isExpanded ? '▼' : '▶'}`;
+        h3.textContent = `${baseHeading} ${isExpanded ? '▼' : '▶'}`;
       });
-      
-      h3.textContent = 'Rule Application Statistics ▶';
+
+      h3.textContent = `${baseHeading} ▶`;
       tableContainer.style.display = 'none';
     }
   }
