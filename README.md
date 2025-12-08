@@ -105,12 +105,22 @@ egon_validation/
 ### Environment Variables
 
 ```bash
-# Set in your environment or .env file
-export DB_HOST="your-database-host"
-export DB_PORT="5432"
-export DB_NAME="your-database-name"
-export DB_USER="your-username"
-export DB_PASSWORD="your-password"
+# Database connection
+DB_HOST="localhost"                    # Database host
+DB_PORT="5432"                        # Database port
+DB_NAME="egon-data"                   # Database name
+DB_USER="username"                    # Database user
+DB_PASS="password"                    # Database password
+DB_URL="postgresql://..."             # Alternative: full connection string
+
+# SSH tunnel (for secure remote access)
+SSH_HOST="ssh-gateway"                # SSH host
+SSH_USER="ssh-username"               # SSH user
+
+# Validation behavior
+MAX_WORKERS="6"                       # Parallel rule execution threads
+OUTPUT_DIR="./validation_runs"        # Results directory
+DEFAULT_TOLERANCE="0.0"               # Default acceptance threshold
 ```
 
 ## Rule Development
