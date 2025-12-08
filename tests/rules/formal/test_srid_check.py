@@ -47,11 +47,11 @@ class TestSRIDUniqueNonZero:
         assert result.message == "Exactly one SRID and none equals 0"
         assert result.rule_id == "pv_srid_consistency"
         assert result.task == "geometry_validation"
-        assert result.dataset == "supply.egon_power_plants_pv"
+        assert result.table == "supply.egon_power_plants_pv"
         assert result.column == "geom"
         assert result.observed == 1.0
         assert result.expected == 1.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_multiple_srids(self):
         """Test with realistic mock data: mixed SRIDs in wind plant data"""
@@ -74,7 +74,7 @@ class TestSRIDUniqueNonZero:
         assert result.success is False
         assert result.observed == 3.0
         assert result.rule_id == "wind_srid_consistency"
-        assert result.dataset == "supply.egon_power_plants_wind"
+        assert result.table == "supply.egon_power_plants_wind"
 
     def test_postprocess_zero_srids_present(self):
         """Test with realistic mock data: some geometries have SRID=0"""
@@ -173,11 +173,11 @@ class TestSRIDSpecificValidation:
         assert result.message == "All 3854 geometries have correct SRID 3035"
         assert result.rule_id == "mv_grid_srid_validation"
         assert result.task == "geometry_validation"
-        assert result.dataset == "grid.egon_mv_grid_district"
+        assert result.table == "grid.egon_mv_grid_district"
         assert result.column == "geom"
         assert result.observed == 1.0
         assert result.expected == 1.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_wrong_srid(self):
         """Test with realistic mock data: wind plants have wrong SRID"""
@@ -206,7 +206,7 @@ class TestSRIDSpecificValidation:
         assert "Only 14800/15000 have expected SRID 4326" in result.message
         assert result.observed == 2.0
         assert result.rule_id == "wind_srid_validation"
-        assert result.dataset == "supply.egon_power_plants_wind"
+        assert result.table == "supply.egon_power_plants_wind"
 
     def test_postprocess_zero_srid_issue(self):
         """Test with realistic mock data: boundary data has undefined SRID"""

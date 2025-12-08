@@ -7,22 +7,23 @@ name = "egon-validation"
 version = "1.0.0"
 description = "Validation library for eGon data pipeline (rules hard-coded, SQL-first, Airflow-friendly)"
 readme = "README.md"
-requires-python = ">=3.8,<3.9"
+requires-python = ">=3.10,<3.11"
 license = {text = "AGPL-3.0-only"}
 authors = [{name="sagemaso", email="sarah.sommer@rl-institut.de"}]
 dependencies = [
-    "SQLAlchemy>=1.4",
-    "psycopg2-binary>=2.9",
+    "SQLAlchemy>=1.4.36,<2.0",
+    "psycopg2-binary",
     "pandas>=2.0,<2.1",
-    "geopandas>=0.13,<0.14",
-    "shapely>=2",
-    "geoalchemy2>=0.14"
+    "geopandas>=0.10.0",
+    "geoalchemy2<0.7.0",
+    "numpy<=1.26.4"
 ]
 
 [project.optional-dependencies]
 test = [
     "pytest>=7.0",
-    "pytest-mock>=3.0"
+    "pytest-mock>=3.0",
+    "pytest-cov>=4.0"
 ]
 dev = [
     "black>=24.0.0",
@@ -32,12 +33,15 @@ dev = [
 [tool.setuptools.packages.find]
 include = ["egon_validation*"]
 
+[tool.setuptools.package-data]
+egon_validation = ["report/assets/*"]
+
 [project.scripts]
 egon-validation = "egon_validation.cli:main"
 
 [tool.black]
 line-length = 79
-target-version = ["py38"]
+target-version = ["py310"]
 include = '\.pyi?$'
 exclude = '''
 /(

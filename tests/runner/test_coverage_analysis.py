@@ -532,13 +532,13 @@ class TestCoverageAnalysisEdgeCases:
                     result = load_saved_table_count(mock_ctx)
                     assert result == 0
 
-        # Test string number case separately - this actually works due to dict.get() behavior
+        # Test string number case separately - with improved error handling this now returns 0
+        # because the TypeError when comparing string to 0 is caught
         with patch("builtins.open", mock_open(read_data='{"total_tables": "not_a_number"}')):
             with patch("os.path.exists", return_value=True):
                 result = load_saved_table_count(mock_ctx)
-                # This returns "not_a_number" as the function doesn't validate the type
-                # The test should reflect actual behavior, not expected behavior
-                assert result == "not_a_number"
+                # With improved error handling, this returns 0 instead of propagating the type error
+                assert result == 0
 
     @patch("egon_validation.runner.coverage_analysis.make_engine")
     def test_discover_total_tables_engine_disposal(self, mock_make_engine):

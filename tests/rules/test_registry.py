@@ -12,7 +12,7 @@ from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
 
 class MockRule(Rule):
     def evaluate(self, engine, ctx):
-        return RuleResult(self.rule_id, self.task, self.dataset, True)
+        return RuleResult(self.rule_id, self.task, self.table, True)
 
 
 class MockSqlRule(SqlRule):
@@ -20,7 +20,7 @@ class MockSqlRule(SqlRule):
         return "SELECT 1"
 
     def postprocess(self, row, ctx):
-        return RuleResult(self.rule_id, self.task, self.dataset, True)
+        return RuleResult(self.rule_id, self.task, self.table, True)
 
 
 class TestRegistry:
@@ -33,7 +33,7 @@ class TestRegistry:
         _REGISTRY.clear()
 
     def test_register_decorator_basic(self):
-        @register(task="test_task", dataset="test.table")
+        @register(task="test_task", table="test.table")
         class TestValidationRule(MockRule):
             pass
 
@@ -48,7 +48,7 @@ class TestRegistry:
         assert kind == "formal"  # Default
 
     def test_register_decorator_with_rule_id(self):
-        @register(task="test_task", dataset="test.table", rule_id="CUSTOM_RULE_ID")
+        @register(task="test_task", table="test.table", rule_id="CUSTOM_RULE_ID")
         class AnotherRule(MockRule):
             pass
 
@@ -58,7 +58,7 @@ class TestRegistry:
     def test_register_decorator_with_params(self):
         @register(
             task="test_task",
-            dataset="test.table",
+            table="test.table",
             kind="custom",
             column="test_col",
             threshold=0.5,
@@ -75,11 +75,11 @@ class TestRegistry:
         assert params["threshold"] == 0.5
 
     def test_register_multiple_rules(self):
-        @register(task="task1", dataset="table1")
+        @register(task="task1", table="table1")
         class Rule1(MockRule):
             pass
 
-        @register(task="task2", dataset="table2")
+        @register(task="task2", table="table2")
         class Rule2(MockRule):
             pass
 
@@ -140,15 +140,15 @@ class TestRegistry:
         assert rule_id == "MockSqlRule"  # Should default to class name
 
     def test_rules_for_task(self):
-        @register(task="task1", dataset="table1", param1="value1")
+        @register(task="task1", table="table1", param1="value1")
         class Rule1(MockRule):
             pass
 
-        @register(task="task2", dataset="table2", param2="value2")
+        @register(task="task2", table="table2", param2="value2")
         class Rule2(MockRule):
             pass
 
-        @register(task="task1", dataset="table3", param3="value3")
+        @register(task="task1", table="table3", param3="value3")
         class Rule3(MockRule):
             pass
 
@@ -167,7 +167,7 @@ class TestRegistry:
         assert "kind" in rule1.params  # kind should be added automatically
 
     def test_rules_for_nonexistent_task(self):
-        @register(task="existing_task", dataset="table1")
+        @register(task="existing_task", table="table1")
         class SomeRule(MockRule):
             pass
 
@@ -185,7 +185,7 @@ class TestRegistry:
     def test_list_registered_with_rules(self):
         @register(
             task="task1",
-            dataset="table1",
+            table="table1",
             rule_id="RULE1",
             kind="custom",
             column="col1",
@@ -194,7 +194,7 @@ class TestRegistry:
         class Rule1(MockRule):
             pass
 
-        @register(task="task2", dataset="table2")
+        @register(task="task2", table="table2")
         class Rule2(MockRule):
             pass
 
@@ -217,7 +217,7 @@ class TestRegistry:
         assert "scenario" not in rule2_info["params"]
 
     def test_register_preserves_original_class(self):
-        @register(task="test_task", dataset="test.table")
+        @register(task="test_task", table="test.table")
         class OriginalRule(MockRule):
             custom_method = lambda self: "test"
 
@@ -246,7 +246,7 @@ class TestRegistry:
 
     def test_rules_for_instantiation(self):
         @register(
-            task="test_task", dataset="schema.table", kind="custom", param="value"
+            task="test_task", table="schema.table", kind="custom", param="value"
         )
         class TestRuleForInstantiation(MockRule):
             pass
@@ -258,7 +258,7 @@ class TestRegistry:
         assert isinstance(rule, TestRuleForInstantiation)
         assert rule.rule_id == "TestRuleForInstantiation"
         assert rule.task == "test_task"
-        assert rule.dataset == "schema.table"
+        assert rule.table == "schema.table"
         assert rule.schema == "schema"
         assert rule.table == "table"
         assert rule.params["param"] == "value"
@@ -270,7 +270,7 @@ class TestRegistry:
 
         initial_count = len(_REGISTRY)
 
-        @register(task="concurrent_task", dataset="test.table")
+        @register(task="concurrent_task", table="test.table")
         class ConcurrentRule(MockRule):
             pass
 

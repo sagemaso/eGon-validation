@@ -5,9 +5,8 @@ from egon_validation.config import DEFAULT_SRID
 
 @register(
     task="validation-test",
-    dataset="supply.egon_power_plants_pv",
+    table="supply.egon_power_plants_pv",
     rule_id="SRID_UNIQUE_NONZERO",
-    kind="formal",
     geom="geom",
 )
 class SRIDUniqueNonZero(SqlRule):
@@ -16,7 +15,7 @@ class SRIDUniqueNonZero(SqlRule):
         return f"""
         SELECT COUNT(DISTINCT ST_SRID({geom})) AS srids,
                SUM(CASE WHEN ST_SRID({geom}) = 0 THEN 1 ELSE 0 END) AS srid_zero
-        FROM {self.dataset}
+        FROM {self.table}
         """
 
     def postprocess(self, row, ctx):
@@ -26,20 +25,20 @@ class SRIDUniqueNonZero(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=ok,
             observed=srids,
             expected=1.0,
             message="Exactly one SRID and none equals 0",
-            severity=Severity.WARNING,
             schema=self.schema,
-            table=self.table,
+            table_name=self.table_name,
             column=self.params.get("geom", "geom"),
+            kind=self.kind,
         )
 
 
-# @register(task="validation-test", dataset="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
-#          kind="formal", geom="geom", expected_srid=3035)
+# @register(task="validation-test", table="supply.egon_power_plants_pv", rule_id="PV_PLANTS_SRID_VALIDATION",
+# geom="geom", expected_srid=3035)
 class SRIDSpecificValidation(SqlRule):
     """Validates that geometry column has a specific expected SRID."""
 
@@ -54,7 +53,7 @@ class SRIDSpecificValidation(SqlRule):
             SUM(CASE WHEN ST_SRID({geom}) = {expected_srid} THEN 1 ELSE 0 END) AS correct_srid_count,
             SUM(CASE WHEN ST_SRID({geom}) = 0 THEN 1 ELSE 0 END) AS zero_srid_count,
             array_agg(DISTINCT ST_SRID({geom})) AS found_srids
-        FROM {self.dataset}
+        FROM {self.table}
         """
 
         return base_query
@@ -92,40 +91,11 @@ class SRIDSpecificValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=float(unique_srids),
-            expected=1.0,
-            message=message,
-            severity=Severity.WARNING,
-            schema=self.schema,
             table=self.table,
-            column=self.params.get("geom"),
+            success=ok,
+            observed=correct_srid_count,
+            expected=total_geometries,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )
-
-
-# Register SRID validation for multiple geometry datasets
-register_map(
-    task="validation-test",
-    rule_cls=SRIDSpecificValidation,
-    rule_id="SPECIAL_SRID_VALIDATION",
-    kind="formal",
-    datasets_params={
-        "supply.egon_power_plants_wind": {"geom": "geom", "expected_srid": 4326},
-        "boundaries.vg250_sta": {"geom": "geometry", "expected_srid": 4326},
-        "grid.egon_mv_grid_district": {"geom": "geom", "expected_srid": 3035},
-    },
-)
-
-# Register SRID validation for multiple geometry datasets
-register_map(
-    task="validation-test",
-    rule_cls=SRIDUniqueNonZero,
-    rule_id="SRID_VALIDATION",
-    kind="formal",
-    datasets_params={
-        "supply.egon_power_plants_wind": {"geom": "geom"},
-        "boundaries.vg250_sta": {"geom": "geometry"},
-        "grid.egon_mv_grid_district": {"geom": "geom"},
-    },
-)

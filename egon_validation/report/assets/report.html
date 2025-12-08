@@ -21,17 +21,17 @@
       <div class="cards">
         <div class="card"><div class="kpi" id="kpi-passed">--</div><div class="kpi-label">Passed</div></div>
         <div class="card"><div class="kpi" id="kpi-failed">--</div><div class="kpi-label">Failed</div></div>
-        <div class="card"><div class="kpi" id="kpi-total-rule-instances">--</div><div class="kpi-label">Total rules</div></div>
+        <div class="card"><div class="kpi" id="kpi-total-rule-instances">--</div><div class="kpi-label">Total Rule Instances</div></div>
         <div class="card"><div class="kpi" id="kpi-success-rate">--</div><div class="kpi-label">Success Rate</div></div>
-        <div class="card"><div class="kpi" id="kpi-total-rules">--</div><div class="kpi-label">Applied rule types</div></div>
-        <div class="card"><div class="kpi" id="kpi-total-rules-registry">--</div><div class="kpi-label">Available rule types</div></div>
-        <div class="card"><div class="kpi" id="kpi-rule-coverage">--</div><div class="kpi-label">Rule Coverage</div></div>
-        <div class="card"><div class="kpi" id="kpi-tables-validated">--</div><div class="kpi-label">Tables validated</div></div>
-        <div class="card"><div class="kpi" id="kpi-tables-total">--</div><div class="kpi-label">Tables in scope</div></div>
+        <div class="card"><div class="kpi" id="kpi-rule-classes-applied">--</div><div class="kpi-label">Applied Rule Classes</div></div>
+        <div class="card"><div class="kpi" id="kpi-rule-classes-total">--</div><div class="kpi-label">Total Rule Classes</div></div>
+        <div class="card"><div class="kpi" id="kpi-rule-coverage">--</div><div class="kpi-label">Rule Class Coverage</div></div>
+        <div class="card"><div class="kpi" id="kpi-tables-validated">--</div><div class="kpi-label">Validated Tables</div></div>
+        <div class="card"><div class="kpi" id="kpi-tables-total">--</div><div class="kpi-label">Tables in Database</div></div>
         <div class="card"><div class="kpi" id="kpi-table-coverage">--</div><div class="kpi-label">Table Coverage</div></div>
       </div>
       <div id="rule-application-stats" class="rule-stats-section" style="display: none;">
-        <h3>Rule Application Statistics</h3>
+        <h3>Rule Class Application Statistics</h3>
         <div id="rule-stats-table"></div>
       </div>
     </section>
@@ -43,7 +43,6 @@
 
     <section id="details">
       <h2>Details</h2>
-      <p>For failed rules, the table shows <strong>schema</strong>, <strong>table</strong> and <strong>column</strong> to speed up debugging.</p>
       <div id="results-table"></div>
     </section>
   </main>

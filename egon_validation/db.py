@@ -18,7 +18,6 @@ def make_engine(db_url: str, echo: bool = False) -> Engine:
     """Create SQLAlchemy engine with connection pooling."""
     return create_engine(
         db_url,
-        future=True,
         echo=echo,
         pool_size=7,
         max_overflow=3,

@@ -12,7 +12,9 @@
 }
 * { box-sizing: border-box; }
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--fg); margin: 0; }
-.container { max-width: 1300px; margin: 0 auto; padding: 24px; }
+.container { max-width: 1300px; margin: 0 auto; padding: 0; }
+main.container { max-width: none; }
+header.container { padding: 24px; }
 header h1 { margin: 0; font-weight: 700; }
 .meta { display: flex; gap: 16px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
 h2 { margin: 24px 0 8px; }
@@ -79,9 +81,11 @@ tr:hover td { background: #111418; }
 .icon.clickable:hover { transform: scale(1.1); transition: transform 0.2s; }
 
 .custom-cell { text-align: left; color: var(--fg); font-size: 12px; }
+.custom-cell .tag.clickable { cursor: pointer; }
+.custom-cell .tag.clickable:hover { background: #1f2633; transition: background 0.2s; }
 .custom-cell .tag { display: inline-block; background: #151922; border: 1px solid var(--line); color: var(--fg); border-radius: 8px; padding: 2px 8px; margin: 2px; }
 
-footer { color: var(--muted); padding-bottom: 24px; }
+footer { color: var(--muted); padding: 24px; }
 
 /* Coverage Statistics Styling */
 .coverage-card { 
@@ -129,4 +133,58 @@ footer { color: var(--muted); padding-bottom: 24px; }
 }
 #coverage-stats .cards {
   margin-bottom: 16px;
+}
+
+/* Summary and coverage sections - constrained width */
+#summary, #coverage {
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Details section - full width */
+#details {
+  max-width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2.5vw;
+  padding-right: 2.5vw;
+}
+
+/* Make details table fit without horizontal scrolling */
+#results-table table {
+  table-layout: fixed;
+  font-size: 13px;
+}
+#results-table th,
+#results-table td {
+  padding: 8px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Responsive column widths using percentages */
+#results-table th:nth-child(1), #results-table td:nth-child(1) { width: 7%; }  /* Task */
+#results-table th:nth-child(2), #results-table td:nth-child(2) { width: 6%; }  /* Schema */
+#results-table th:nth-child(3), #results-table td:nth-child(3) { width: 10%; }  /* Table */
+#results-table th:nth-child(4), #results-table td:nth-child(4) { width: 7.5%; }  /* Column */
+#results-table th:nth-child(5), #results-table td:nth-child(5) { width: 10%; }  /* Rule */
+#results-table th:nth-child(6), #results-table td:nth-child(6) { width: 5%; }  /* Severity */
+#results-table th:nth-child(7), #results-table td:nth-child(7) { width: 4%; }  /* Status */
+#results-table th:nth-child(8), #results-table td:nth-child(8) { width: 4%; }  /* Observed */
+#results-table th:nth-child(9), #results-table td:nth-child(9) { width: 4%; }  /* Expected */
+#results-table th:nth-child(10), #results-table td:nth-child(10) { width: 10%; } /* Executed At */
+#results-table th:nth-child(11), #results-table td:nth-child(11) { width: 20%; } /* Message */
+/* Message column can wrap */
+#results-table td:nth-child(11) {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Cells and elements with tooltips show help cursor (except clickable ones) */
+#results-table td.has-tooltip,
+.tag.has-tooltip:not(.clickable) {
+  cursor: help;
 }
