@@ -70,7 +70,7 @@ class TestGeometryContainmentValidation:
         assert result.message == "All 15000 points are within reference boundary (filter: site_type = 'Windkraft an Land')"
         assert result.rule_id == "wind_plants_germany"
         assert result.task == "geometry_validation"
-        assert result.dataset == "supply.egon_power_plants_wind"
+        assert result.table == "supply.egon_power_plants_wind"
         assert result.column == "geom"
         assert result.observed == 0.0
         assert result.expected == 0.0
@@ -200,7 +200,7 @@ class TestGeometryContainmentValidation:
         assert result.message == "All 8500 points are within reference boundary (filter: site_type = 'Photovoltaik')"
         assert result.rule_id == "solar_plants_nrw"
         assert result.task == "regional_validation"
-        assert result.dataset == "supply.egon_power_plants_pv"
+        assert result.table == "supply.egon_power_plants_pv"
 
     def test_with_mock_data_failure_cross_border_plants(self):
         """Test with realistic mock data: plants incorrectly assigned to wrong region"""

@@ -67,7 +67,7 @@ class TestNotNullAndNotNaN:
         assert result.message == "0 offending rows (NULL or NaN)"
         assert result.rule_id == "test_null_check"
         assert result.task == "data_quality"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.column == "demand"
         assert result.severity == Severity.INFO  # Success results in INFO severity
 
@@ -90,5 +90,5 @@ class TestNotNullAndNotNaN:
         assert result.success is False
         assert result.message == "127 offending rows (NULL or NaN)"
         assert result.rule_id == "demand_null_check"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.column == "demand"

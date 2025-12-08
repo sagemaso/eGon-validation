@@ -10,69 +10,135 @@ def collect(ctx) -> Dict:
     base = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
     items: List[Dict] = []
     datasets_set = set()
+    expected_rules: Dict[str, List[Dict]] = {}
+
     if os.path.isdir(base):
-        for path in glob.glob(os.path.join(base, "*", "results.jsonl")):
+        # structure: tasks/<task_name>/<rule_id>/results.jsonl
+        for path in glob.glob(os.path.join(base, "*", "*", "results.jsonl")):
             with open(path, "r", encoding="utf-8") as f:
-                for line in f:
+                lines = f.readlines()
+                # Take only the last line (most recent result)
+                if lines:
                     try:
-                        obj = json.loads(line)
+                        obj = json.loads(lines[-1])
                         items.append(obj)
-                        datasets_set.add(obj.get("dataset"))
+                        table = obj.get("table")
+                        datasets_set.add(table)
                     except Exception:
                         pass
-    return {"items": items, "datasets": sorted(d for d in datasets_set if d)}
+
+        # Collect expected rules for each task
+        # structure: tasks/<task_name>/expected_rules.json
+        for task_dir_path in glob.glob(os.path.join(base, "*")):
+            if os.path.isdir(task_dir_path):
+                task_name = os.path.basename(task_dir_path)
+                expected_file = os.path.join(task_dir_path, "expected_rules.json")
+                if os.path.exists(expected_file):
+                    try:
+                        with open(expected_file, "r", encoding="utf-8") as f:
+                            expected_rules[task_name] = json.load(f)
+                    except Exception:
+                        pass
+
+    return {
+        "items": items,
+        "datasets": sorted(d for d in datasets_set if d),
+        "expected_rules": expected_rules
+    }
 
 
-def _build_formal_rules_index() -> List[str]:
-    # Determine all formal rule_ids from registry
-    reg = list_registered()
-    return sorted({r["rule_id"] for r in reg if r.get("kind") == "formal"})
+def _build_formal_rules_index(collected_items: List[Dict]) -> List[str]:
+    """
+    Determine formal rule classes to display in coverage matrix.
+
+    Extracts unique rule_class names from collected validation results.
+
+    Parameters:
+    -----------
+    collected_items: List of validation result items with rule_class field
+
+    Returns:
+    --------
+    Sorted list of formal rule class names
+    """
+    rule_classes = set()
+    for item in collected_items:
+        if item.get("kind") == "formal" and item.get("rule_class"):
+            rule_classes.add(item["rule_class"])
+    return sorted(rule_classes)
 
 
-def _build_custom_checks_map(items: List[Dict]) -> Dict[str, List[str]]:
-    # dataset -> list of custom rule names
-    reg = list_registered()
+def _build_custom_checks_map(items: List[Dict], expected_rules: Dict[str, List[Dict]] = None) -> Dict[str, List[str]]:
+    """
+    Build map of table -> list of custom/sanity rule names.
+
+    If expected_rules is provided, uses those to filter.
+    Otherwise falls back to registry.
+
+    Parameters:
+    -----------
+    items: List of execution result items
+    expected_rules: Dict mapping task_name -> list of expected rule dicts
+
+    Returns:
+    --------
+    Dict mapping table name -> list of custom/sanity rule_ids
+    """
+    # table -> list of custom rule names
     tag_kinds = {"custom", "sanity"}
-    tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
+
+    if expected_rules:
+        # NEW: Use expected rules from pipeline execution
+        tag_ids = set()
+        for task_name, rules in expected_rules.items():
+            for rule in rules:
+                if rule.get("kind") in tag_kinds:
+                    tag_ids.add(rule["rule_id"])
+    else:
+        # Fallback: Use registry
+        reg = list_registered()
+        tag_ids = {r["rule_id"] for r in reg if r.get("kind") in tag_kinds}
+
     m: Dict[str, List[str]] = {}
     for it in items:
         if it.get("rule_id") in tag_ids:
-            ds = it.get("dataset")
-            if not ds:
+            tbl = it.get("table")
+            if not tbl:
                 continue
-            m.setdefault(ds, [])
+            m.setdefault(tbl, [])
             name = it.get("rule_id")
-            if name not in m[ds]:
-                m[ds].append(name)
+            if name not in m[tbl]:
+                m[tbl].append(name)
     # sort rule names for stable output
-    for ds in m:
-        m[ds].sort()
+    for tbl in m:
+        m[tbl].sort()
     return m
 
 
 def build_coverage(ctx, collected: Dict) -> Dict:
     items = collected.get("items", [])
     datasets = collected.get("datasets", [])
+    expected_rules = collected.get("expected_rules", {})
 
-    # All formal rules from registry (stable column set)
-    rules_formal = _build_formal_rules_index()
+    # All formal rule classes - from collected items
+    rules_formal = _build_formal_rules_index(items)
 
     # default status/title for every pair
-    status = {}  # (dataset, rule_id) -> "na" | "ok" | "fail"
-    titles = {}  # (dataset, rule_id) -> tooltip text
+    status = {}  # (dataset, rule_class) -> "na" | "ok" | "fail"
+    titles = {}  # (dataset, rule_class) -> tooltip text
     for ds in datasets:
-        for rid in rules_formal:
-            status[(ds, rid)] = "na"
-            titles[(ds, rid)] = "Not applied"
+        for rule_class in rules_formal:
+            status[(ds, rule_class)] = "na"
+            titles[(ds, rule_class)] = "Not applied"
 
     # apply results
     for it in items:
-        rid = it.get("rule_id")
-        ds = it.get("dataset")
-        if ds and rid in rules_formal:
+        rule_class = it.get("rule_class")
+        tbl = it.get("table")
+        if tbl and rule_class in rules_formal:
             ok = bool(it.get("success", False))
             msg = it.get("message") or ""
-            key = (ds, rid)
+            key = (tbl, rule_class)
             # if multiple results for same pair exist: any fail dominates
             if not ok:
                 status[key] = "fail"
@@ -86,15 +152,15 @@ def build_coverage(ctx, collected: Dict) -> Dict:
     cells = [
         {
             "dataset": ds,
-            "rule_id": rid,
-            "status": status[(ds, rid)],
-            "title": titles[(ds, rid)],
+            "rule_id": rule_class,  # Keep field name for compatibility with JS
+            "status": status[(ds, rule_class)],
+            "title": titles[(ds, rule_class)],
         }
         for ds in datasets
-        for rid in rules_formal
+        for rule_class in rules_formal
     ]
 
-    custom_checks = _build_custom_checks_map(items)
+    custom_checks = _build_custom_checks_map(items, expected_rules)
 
     # Calculate comprehensive coverage statistics
     coverage_stats = calculate_coverage_stats(collected, ctx)

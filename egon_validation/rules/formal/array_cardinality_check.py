@@ -5,9 +5,8 @@ from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
 
 @register(
     task="validation-test",
-    dataset="grid.egon_etrago_load_timeseries",
+    table="grid.egon_etrago_load_timeseries",
     rule_id="LOAD_TIMESERIES_LENGTH",
-    kind="formal",
     array_column="p_set",
     expected_length=8760,
 )
@@ -17,16 +16,15 @@ class ArrayCardinalityValidation(SqlRule):
     Args:
         rule_id: Unique identifier
         task: Task identifier
-        dataset: Full table name including schema
+        table: Full table name including schema
         array_column: Name of the array column to validate (passed in params)
         expected_length: Expected array length (cardinality, passed in params)
-        kind: Validation kind (passed in params, default: "formal")
 
     Example:
         >>> validation = ArrayCardinalityValidation(
         ...     rule_id="TS_VALUES_LEN_8760",
         ...     task="validation-test",
-        ...     dataset="facts.timeseries",
+        ...     table="facts.timeseries",
         ...     array_column="values",
         ...     expected_length=8760
         ... )
@@ -48,7 +46,7 @@ class ArrayCardinalityValidation(SqlRule):
             MIN(cardinality({array_col})) as min_length,
             MAX(cardinality({array_col})) as max_length,
             AVG(cardinality({array_col})) as avg_length
-        FROM {self.dataset}
+        FROM {self.table}
         """
 
         return base_query
@@ -90,14 +88,15 @@ class ArrayCardinalityValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=ok,
             observed=float(wrong_length),
             expected=0.0,
             message=message,
             schema=self.schema,
-            table=self.table,
+            table_name=self.table_name,
             column=self.params.get("array_column"),
+            kind=self.kind,
         )
 
 
@@ -106,8 +105,7 @@ register_map(
     task="validation-test",
     rule_cls=ArrayCardinalityValidation,
     rule_id="ARRAY_CARDINALITY_CHECK",
-    kind="formal",
-    datasets_params={
+    tables_params={
         "demand.egon_demandregio_sites_ind_electricity_dsm_timeseries": {
             "array_column": "p_set",
             "expected_length": 8760,
