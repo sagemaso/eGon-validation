@@ -193,7 +193,8 @@ def run_validations(
         {
             "rule_id": v.rule_id,
             "table": v.table,
-            "kind": getattr(v, "kind", "unknown")
+            "kind": getattr(v, "kind", "unknown"),
+            "rule_class": v.__class__.__name__
         }
         for v in validations
     ]
