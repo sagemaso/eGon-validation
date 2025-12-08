@@ -8,9 +8,8 @@ from egon_validation.config import (
 
 @register(
     task="validation-test",
-    dataset="grid.egon_etrago_load",
+    table="grid.egon_etrago_load",
     rule_id="ELECTRICAL_LOAD_AGGREGATION",
-    kind="custom",
     tolerance=0.05,
 )
 class ElectricalLoadAggregationValidation(SqlRule):
@@ -67,37 +66,13 @@ class ElectricalLoadAggregationValidation(SqlRule):
         return base_query
 
     def postprocess(self, row, ctx):
-        import json
-
         scenarios_data_json = row.get("scenarios_data")
         if not scenarios_data_json:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                dataset=self.dataset,
-                success=False,
-                message="No scenario data found",
-                severity=Severity.ERROR,
-                schema=self.schema,
-                table=self.table,
-            )
+            return self.error_result("No scenario data found")
 
-        scenarios_data = (
-            json.loads(scenarios_data_json)
-            if isinstance(scenarios_data_json, str)
-            else scenarios_data_json
-        )
+        scenarios_data = self.parse_json_result(scenarios_data_json)
         if not scenarios_data:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                dataset=self.dataset,
-                success=False,
-                message="No scenario data found",
-                severity=Severity.ERROR,
-                schema=self.schema,
-                table=self.table,
-            )
+            return self.error_result("No scenario data found")
 
         tolerance = float(self.params.get("tolerance", 0.05))
 
@@ -160,22 +135,21 @@ class ElectricalLoadAggregationValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=all_scenarios_ok,
             observed=total_observed,
             expected=total_expected,
             message=message,
-            severity=Severity.WARNING,
             schema=self.schema,
-            table=self.table,
+            table_name=self.table_name,
+            kind=self.kind,
         )
 
 
 @register(
     task="validation-test",
-    dataset="demand.egon_demandregio_zensus_electricity",
+    table="demand.egon_demandregio_zensus_electricity",
     rule_id="DISAGGREGATED_DEMAND_SUM_MATCH",
-    kind="formal",
     sector="residential",
     tolerance=0.01,
 )
@@ -191,7 +165,7 @@ class DisaggregatedDemandSumValidation(SqlRule):
                 scenario,
                 sum(demand) as disagg_sum
             FROM
-                {self.dataset}
+                {self.table}
             WHERE
                 sector = '{sector}'
         """
@@ -240,12 +214,11 @@ class DisaggregatedDemandSumValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
+            table=self.table,
             success=ok,
             observed=rel_diff,
-            expected=0.0,
+            expected=tolerance,
             message=message,
-            severity=Severity.WARNING,
-            schema=self.schema,
-            table=self.table,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind
         )

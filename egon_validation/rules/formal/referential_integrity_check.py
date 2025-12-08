@@ -3,7 +3,26 @@ from egon_validation.rules.registry import register, register_map
 
 
 class ReferentialIntegrityValidation(SqlRule):
-    """Validates referential integrity between tables without foreign key constraints."""
+    """Validates referential integrity between tables without foreign key constraints.
+
+    Args:
+        rule_id: Unique identifier
+        task: Task identifier
+        table: Table containing the foreign key (child table)
+        foreign_column: Foreign key column name in child table (passed in params)
+        reference_dataset: Referenced parent table (passed in params)
+        reference_column: Primary/unique key column in parent table (passed in params)
+
+    Example:
+        >>> validation = ReferentialIntegrityValidation(
+        ...     rule_id="FK_TS_SCENARIO",
+        ...     task="validation-test",
+        ...     table="facts.timeseries",
+        ...     foreign_column="scenario_id",
+        ...     reference_dataset="dim.scenarios",
+        ...     reference_column="scenario_id"
+        ... )
+    """
 
     def sql(self, ctx):
         foreign_col = self.params.get("foreign_column", "id")
@@ -16,7 +35,7 @@ class ReferentialIntegrityValidation(SqlRule):
             COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NOT NULL) AS valid_references,
             COUNT(*) FILTER (WHERE child.{foreign_col} IS NOT NULL AND parent.{reference_col} IS NULL) AS orphaned_references
         FROM
-            {self.dataset} as child
+            {self.table} as child
         LEFT JOIN
             {reference_dataset} as parent
         ON child.{foreign_col} = parent.{reference_col}
@@ -43,34 +62,11 @@ class ReferentialIntegrityValidation(SqlRule):
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=float(orphaned_references),
-            expected=0.0,
-            message=message,
-            severity=Severity.WARNING,
-            schema=self.schema,
             table=self.table,
-            column=foreign_col,
+            success=ok,
+            observed=orphaned_references,
+            expected=0,
+            message=message,
+            severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )
-
-
-# Register multiple referential integrity checks
-register_map(
-    task="validation-test",
-    rule_cls=ReferentialIntegrityValidation,
-    rule_id="REFERENTIAL_INTEGRITY_CHECK",
-    kind="formal",
-    datasets_params={
-        "grid.egon_etrago_load_timeseries": {
-            "foreign_column": "load_id",
-            "reference_dataset": "grid.egon_etrago_load",
-            "reference_column": "load_id",
-        },
-        "grid.egon_etrago_load": {
-            "foreign_column": "bus",
-            "reference_dataset": "grid.egon_etrago_bus",
-            "reference_column": "bus_id",
-        },
-    },
-)

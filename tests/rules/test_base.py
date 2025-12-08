@@ -8,13 +8,13 @@ class TestRuleResult:
         result = RuleResult(
             rule_id="test_rule",
             task="test_task",
-            dataset="test.table",
+            table="test.table",
             success=True,
             message="Test passed",
         )
         assert result.rule_id == "test_rule"
         assert result.task == "test_task"
-        assert result.dataset == "test.table"
+        assert result.table == "test.table"
         assert result.success is True
         assert result.message == "Test passed"
         assert result.severity == Severity.WARNING  # default
@@ -25,7 +25,7 @@ class TestRuleResult:
         result = RuleResult(
             rule_id="test_rule",
             task="test_task",
-            dataset="test.table",
+            table="test.table",
             success=False,
             message="Test failed",
             severity=Severity.ERROR,
@@ -44,7 +44,7 @@ class TestRuleResult:
         result = RuleResult(
             rule_id="test",
             task="test",
-            dataset="test.table",
+            table="test.table",
             success=True,
             severity=Severity.INFO,
         )
@@ -58,7 +58,7 @@ class TestRule:
 
         assert rule.rule_id == "test_rule"
         assert rule.task == "test_task"
-        assert rule.dataset == "schema.table"
+        assert rule.table == "schema.table"
         assert rule.params == {"param1": "value1"}
         assert rule.schema == "schema"
         assert rule.table == "table"
@@ -66,15 +66,9 @@ class TestRule:
     def test_rule_initialization_no_schema(self):
         rule = Rule("test_rule", "test_task", "table_only")
 
-        assert rule.dataset == "table_only"
+        assert rule.table == "table_only"
         assert rule.schema is None
         assert rule.table == "table_only"
-
-    def test_rule_evaluate_not_implemented(self):
-        rule = Rule("test_rule", "test_task", "test.table")
-
-        with pytest.raises(NotImplementedError):
-            rule.evaluate(None, None)
 
 
 class TestSqlRule:
@@ -84,7 +78,7 @@ class TestSqlRule:
                 return "SELECT 1"
 
             def postprocess(self, row, ctx):
-                return RuleResult(self.rule_id, self.task, self.dataset, True)
+                return RuleResult(self.rule_id, self.task, self.table, True)
 
         rule = TestSqlRule("test_rule", "test_task", "test.table")
         assert isinstance(rule, SqlRule)

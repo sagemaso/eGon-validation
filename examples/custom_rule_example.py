@@ -15,7 +15,6 @@ from egon_validation import db
     task="data_quality",
     dataset="public.example_table",
     rule_id="ENERGY_BALANCE_CHECK",
-    kind="custom",
     tolerance=0.05,  # 5% tolerance
 )
 class EnergyBalanceRule(SqlRule):
@@ -60,7 +59,6 @@ class EnergyBalanceRule(SqlRule):
     task="data_integrity",
     dataset="public.coordinates",
     rule_id="COORDINATE_BOUNDS_CHECK",
-    kind="custom",
 )
 class CoordinateBoundsRule(Rule):
     """Check that coordinates are within Germany's bounding box."""
@@ -122,7 +120,6 @@ register_map(
     task="data_completeness",
     rule_cls=NotNullCheck,
     rule_id="CRITICAL_NULLS",
-    kind="formal",
     datasets_params={
         "public.generators": {"column": "p_nom"},
         "public.loads": {"column": "annual_consumption"},

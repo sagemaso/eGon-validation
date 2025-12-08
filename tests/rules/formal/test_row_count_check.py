@@ -1,12 +1,13 @@
 import pytest
-from egon_validation.rules.formal.row_count_check import RowCountValidation, RowCountComparisonValidation
+from egon_validation.rules.formal.row_count_check import RowCountValidation
+from egon_validation.rules.custom.row_count_comparison import RowCountComparisonValidation
 from egon_validation.rules.base import Severity
 
 
 class TestRowCountValidation:
     def test_sql_generation(self):
         rule = RowCountValidation(
-            "test_rule", "test_task", "grid.egon_mv_grid_district"
+            "test_rule", "grid.egon_mv_grid_district", task="test_task"
         )
         sql = rule.sql(None)
 
@@ -16,8 +17,8 @@ class TestRowCountValidation:
         """Test with realistic mock data: table has expected row count"""
         rule = RowCountValidation(
             "mv_grid_count_check",
-            "data_integrity",
             "grid.egon_mv_grid_district",
+            task="data_integrity",
             expected_count=3854
         )
 
@@ -31,17 +32,17 @@ class TestRowCountValidation:
         assert result.message == "Expected 3854 rows, found 3854"
         assert result.rule_id == "mv_grid_count_check"
         assert result.task == "data_integrity"
-        assert result.dataset == "grid.egon_mv_grid_district"
+        assert result.table == "grid.egon_mv_grid_district"
         assert result.observed == 3854.0
         assert result.expected == 3854.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_incorrect_count(self):
         """Test with realistic mock data: table has wrong row count"""
         rule = RowCountValidation(
             "mv_grid_count_check",
-            "data_integrity",
             "grid.egon_mv_grid_district",
+            task="data_integrity",
             expected_count=3854
         )
 
@@ -59,8 +60,7 @@ class TestRowCountValidation:
 
     def test_postprocess_none_value_handling(self):
         """Test handling of None value in database result"""
-        rule = RowCountValidation(
-            "test_rule", "test_task", "test.table", expected_count=100
+        rule = RowCountValidation("test_rule", "test.table", task="test_task", expected_count=100
         )
 
         mock_db_row = {"actual_count": None}
@@ -76,8 +76,8 @@ class TestRowCountValidation:
         """Test with realistic mock data: boundary table with correct count"""
         rule = RowCountValidation(
             "german_states_count",
-            "boundary_validation",
             "boundaries.vg250_lan",
+            task="boundary_validation",
             expected_count=16
         )
 
@@ -96,8 +96,8 @@ class TestRowCountValidation:
         """Test with realistic mock data: data import incomplete"""
         rule = RowCountValidation(
             "power_plants_count",
-            "import_validation",
             "supply.egon_power_plants_wind",
+            task="import_validation",
             expected_count=25000
         )
 
@@ -117,8 +117,8 @@ class TestRowCountComparisonValidation:
     def test_sql_generation(self):
         rule = RowCountComparisonValidation(
             "test_rule",
-            "test_task",
             "demand.egon_demandregio_cts_ind",
+            task="test_task",
             scenario_col="scenario",
             economic_sector_col="wz",
             reference_dataset="boundaries.vg250_krs",
@@ -137,8 +137,8 @@ class TestRowCountComparisonValidation:
         """Test with realistic mock data: all scenario-sector groups have correct count"""
         rule = RowCountComparisonValidation(
             "cts_ind_coverage_check",
-            "data_completeness",
             "demand.egon_demandregio_cts_ind",
+            task="data_completeness",
             scenario_col="scenario",
             economic_sector_col="wz",
             reference_dataset="boundaries.vg250_krs",
@@ -161,17 +161,17 @@ class TestRowCountComparisonValidation:
         assert result.message == "All 20 groups have expected count 401"
         assert result.rule_id == "cts_ind_coverage_check"
         assert result.task == "data_completeness"
-        assert result.dataset == "demand.egon_demandregio_cts_ind"
+        assert result.table == "demand.egon_demandregio_cts_ind"
         assert result.observed == 0.0
         assert result.expected == 0.0
-        assert result.severity == Severity.WARNING
+        assert result.severity == Severity.INFO  # Success results in INFO severity
 
     def test_postprocess_some_groups_mismatch(self):
         """Test with realistic mock data: some groups have incomplete data"""
         rule = RowCountComparisonValidation(
             "cts_ind_coverage_check",
-            "data_completeness",
             "demand.egon_demandregio_cts_ind",
+            task="data_completeness",
             scenario_col="scenario",
             economic_sector_col="wz"
         )
@@ -197,8 +197,7 @@ class TestRowCountComparisonValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = RowCountComparisonValidation(
-            "test_rule", "test_task", "test.table"
+        rule = RowCountComparisonValidation("test_rule", "test.table", task="test_task"
         )
 
         mock_db_row = {
@@ -220,8 +219,8 @@ class TestRowCountComparisonValidation:
         """Test with realistic mock data: demand data complete for all sectors"""
         rule = RowCountComparisonValidation(
             "residential_demand_coverage",
-            "sector_validation",
             "demand.egon_demandregio_hh",
+            task="sector_validation",
             scenario_col="scenario",
             economic_sector_col="sector",
             reference_dataset="boundaries.vg250_gem",
@@ -249,8 +248,8 @@ class TestRowCountComparisonValidation:
         """Test with realistic mock data: some municipalities missing demand data"""
         rule = RowCountComparisonValidation(
             "commercial_demand_coverage",
-            "sector_validation",
             "demand.egon_demandregio_cts",
+            task="sector_validation",
             scenario_col="scenario",
             economic_sector_col="sector"
         )

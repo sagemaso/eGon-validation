@@ -22,6 +22,7 @@ class TestDataTypeValidation:
         assert "column_name = 'year'" in sql
 
     def test_sql_generation_without_schema(self):
+        """Test that datasets without schema raise an error in get_schema_and_table()"""
         rule = DataTypeValidation(
             "test_rule",
             "test_task",
@@ -29,10 +30,11 @@ class TestDataTypeValidation:
             column="year",
             expected_type="integer",
         )
-        sql = rule.sql(None)
-
-        assert "table_schema = 'public'" in sql
-        assert "table_name = 'table_only'" in sql
+        # The rule should be created, but calling sql() should fail because
+        # get_schema_and_table() requires a schema
+        import pytest
+        with pytest.raises(ValueError, match="must include schema"):
+            sql = rule.sql(None)
 
     def test_postprocess_column_not_found(self):
         rule = DataTypeValidation("test_rule", "test_task", "test.table")
@@ -114,7 +116,7 @@ class TestDataTypeValidation:
         assert "Column 'year' has type 'integer'" in result.message
         assert result.rule_id == "year_type_check"
         assert result.task == "data_validation"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.column == "year"
 
     def test_with_mock_data_failure_wrong_type(self):
@@ -142,7 +144,7 @@ class TestDataTypeValidation:
         assert "has type 'text'" in result.message
         assert "expected: integer" in result.message
         assert result.rule_id == "bus_id_type_check"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
         assert result.column == "bus_id"
         assert result.severity == Severity.WARNING
 
@@ -262,7 +264,7 @@ class TestMultipleColumnsDataTypeValidation:
         assert result.observed == 0.0
         assert result.rule_id == "grid_schema_check"
         assert result.task == "schema_validation"
-        assert result.dataset == "grid.egon_etrago_load"
+        assert result.table == "grid.egon_etrago_load"
 
     def test_with_mock_data_failure_wrong_types(self):
         """Test with realistic mock data: some columns have wrong types"""
@@ -296,5 +298,5 @@ class TestMultipleColumnsDataTypeValidation:
         assert "demand: got 'text'" in result.message
         assert result.observed == 2.0  # 2 columns with wrong types
         assert result.rule_id == "demand_schema_check"
-        assert result.dataset == "demand.egon_demandregio_hh"
+        assert result.table == "demand.egon_demandregio_hh"
         assert result.severity == Severity.WARNING

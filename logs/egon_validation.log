@@ -1381,3 +1381,1809 @@ egon_validation.exceptions.DatabaseConnectionError: Circuit breaker is OPEN for 
 2025-09-24 10:06:33,104 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.87s [execute.py:47]
 2025-09-24 10:09:23,907 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 194.95s [execute.py:47]
 2025-09-24 10:09:23,908 - egon_validation.runner - INFO - Completed 35 rules in 206.70s (avg: 5.91s per rule) [execute.py:177]
+2025-11-03 11:22:57,269 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-03 11:23:00,486 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.21s [execute.py:47]
+2025-11-03 11:23:00,527 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.25s [execute.py:47]
+2025-11-03 11:23:00,528 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.25s [execute.py:47]
+2025-11-03 11:23:00,631 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.35s [execute.py:47]
+2025-11-03 11:23:01,876 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.35s [execute.py:47]
+2025-11-03 11:23:02,078 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.55s [execute.py:47]
+2025-11-03 11:23:02,392 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.90s [execute.py:47]
+2025-11-03 11:23:02,630 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.55s [execute.py:47]
+2025-11-03 11:23:02,866 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.15s [execute.py:47]
+2025-11-03 11:23:02,934 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 5.66s [execute.py:47]
+2025-11-03 11:23:03,119 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.25s [execute.py:47]
+2025-11-03 11:23:03,806 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.41s [execute.py:47]
+2025-11-03 11:23:03,948 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.14s [execute.py:47]
+2025-11-03 11:23:04,090 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.84s [execute.py:47]
+2025-11-03 11:23:04,126 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.18s [execute.py:47]
+2025-11-03 11:23:04,350 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.26s [execute.py:47]
+2025-11-03 11:23:04,367 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.24s [execute.py:47]
+2025-11-03 11:23:04,570 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.22s [execute.py:47]
+2025-11-03 11:23:04,775 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.21s [execute.py:47]
+2025-11-03 11:23:04,921 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.14s [execute.py:47]
+2025-11-03 11:23:05,078 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.16s [execute.py:47]
+2025-11-03 11:23:05,229 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.15s [execute.py:47]
+2025-11-03 11:23:05,347 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.47s [execute.py:47]
+2025-11-03 11:23:05,429 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.20s [execute.py:47]
+2025-11-03 11:23:05,496 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.13s [execute.py:47]
+2025-11-03 11:23:05,631 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.28s [execute.py:47]
+2025-11-03 11:23:05,680 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.25s [execute.py:47]
+2025-11-03 11:23:05,781 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.28s [execute.py:47]
+2025-11-03 11:23:06,424 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.74s [execute.py:47]
+2025-11-03 11:23:07,226 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.29s [execute.py:47]
+2025-11-03 11:23:25,741 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.11s [execute.py:47]
+2025-11-03 11:23:28,298 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.02s [execute.py:47]
+2025-11-03 11:26:16,901 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 193.78s [execute.py:47]
+2025-11-03 11:26:16,902 - egon_validation.runner - INFO - Completed 35 rules in 199.63s (avg: 5.70s per rule) [execute.py:177]
+2025-11-06 09:42:42,783 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 09:42:48,695 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 09:42:48,696 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 09:42:48,696 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 09:42:49,104 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.32s [execute.py:47]
+2025-11-06 09:42:51,357 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.57s [execute.py:47]
+2025-11-06 09:42:51,767 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 09:42:51,972 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.27s [execute.py:47]
+2025-11-06 09:42:52,180 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:47]
+2025-11-06 09:42:54,318 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.55s [execute.py:47]
+2025-11-06 09:42:54,839 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:47]
+2025-11-06 09:42:55,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:47]
+2025-11-06 09:42:56,303 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.90s [execute.py:47]
+2025-11-06 09:42:56,375 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.02s [execute.py:47]
+2025-11-06 09:42:57,092 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.77s [execute.py:47]
+2025-11-06 09:42:59,140 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.84s [execute.py:47]
+2025-11-06 09:42:59,345 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.97s [execute.py:47]
+2025-11-06 09:43:00,164 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 09:43:01,803 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.96s [execute.py:47]
+2025-11-06 09:43:02,213 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:47]
+2025-11-06 09:43:02,318 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.97s [execute.py:47]
+2025-11-06 09:43:04,260 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.10s [execute.py:47]
+2025-11-06 09:43:04,389 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.59s [execute.py:47]
+2025-11-06 09:43:04,671 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.46s [execute.py:47]
+2025-11-06 09:43:05,080 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.76s [execute.py:47]
+2025-11-06 09:43:06,718 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.46s [execute.py:47]
+2025-11-06 09:43:07,333 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.94s [execute.py:47]
+2025-11-06 09:43:07,742 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 09:43:08,152 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.07s [execute.py:47]
+2025-11-06 09:43:09,791 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 09:43:10,610 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.87s [execute.py:47]
+2025-11-06 09:43:16,447 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.66s [execute.py:47]
+2025-11-06 09:43:28,223 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.89s [execute.py:47]
+2025-11-06 09:46:12,380 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 196.72s [execute.py:47]
+2025-11-06 09:46:12,382 - egon_validation.runner - INFO - Completed 35 rules in 209.60s (avg: 5.99s per rule) [execute.py:177]
+2025-11-06 09:57:28,541 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 09:57:34,418 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.88s [execute.py:47]
+2025-11-06 09:57:34,623 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.08s [execute.py:47]
+2025-11-06 09:57:34,623 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.08s [execute.py:47]
+2025-11-06 09:57:35,034 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.49s [execute.py:47]
+2025-11-06 09:57:36,875 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.33s [execute.py:47]
+2025-11-06 09:57:37,285 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 09:57:37,490 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 09:57:37,900 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:47]
+2025-11-06 09:57:40,152 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 09:57:40,562 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.20s [execute.py:47]
+2025-11-06 09:57:41,382 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:47]
+2025-11-06 09:57:41,791 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.91s [execute.py:47]
+2025-11-06 09:57:42,201 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 09:57:43,020 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 09:57:44,376 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.58s [execute.py:47]
+2025-11-06 09:57:44,453 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.25s [execute.py:47]
+2025-11-06 09:57:45,273 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.25s [execute.py:47]
+2025-11-06 09:57:46,503 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.13s [execute.py:47]
+2025-11-06 09:57:46,706 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.25s [execute.py:47]
+2025-11-06 09:57:47,525 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.96s [execute.py:47]
+2025-11-06 09:57:48,549 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.28s [execute.py:47]
+2025-11-06 09:57:49,573 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 09:57:49,778 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 09:57:50,393 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 09:57:51,621 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 09:57:52,337 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.76s [execute.py:47]
+2025-11-06 09:57:52,440 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.66s [execute.py:47]
+2025-11-06 09:57:53,260 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:47]
+2025-11-06 09:57:54,386 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 2.76s [execute.py:47]
+2025-11-06 09:57:55,512 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:47]
+2025-11-06 09:58:01,861 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.32s [execute.py:47]
+2025-11-06 09:58:12,510 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.17s [execute.py:47]
+2025-11-06 10:00:55,943 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 194.56s [execute.py:47]
+2025-11-06 10:00:55,944 - egon_validation.runner - INFO - Completed 35 rules in 207.40s (avg: 5.93s per rule) [execute.py:177]
+2025-11-06 10:11:54,136 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 10:11:59,714 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.58s [execute.py:47]
+2025-11-06 10:11:59,715 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.58s [execute.py:47]
+2025-11-06 10:11:59,715 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.58s [execute.py:47]
+2025-11-06 10:11:59,919 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.78s [execute.py:47]
+2025-11-06 10:12:01,763 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.63s [execute.py:47]
+2025-11-06 10:12:02,788 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 10:12:03,196 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:47]
+2025-11-06 10:12:03,401 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:47]
+2025-11-06 10:12:05,448 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 10:12:06,063 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:47]
+2025-11-06 10:12:06,473 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-11-06 10:12:06,882 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:47]
+2025-11-06 10:12:07,293 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 10:12:08,303 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.85s [execute.py:47]
+2025-11-06 10:12:09,954 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 3.07s [execute.py:47]
+2025-11-06 10:12:10,287 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.99s [execute.py:47]
+2025-11-06 10:12:11,183 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.88s [execute.py:47]
+2025-11-06 10:12:12,617 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.55s [execute.py:47]
+2025-11-06 10:12:12,822 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.87s [execute.py:47]
+2025-11-06 10:12:13,232 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.94s [execute.py:47]
+2025-11-06 10:12:15,279 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.10s [execute.py:47]
+2025-11-06 10:12:15,484 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 10:12:15,689 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 10:12:16,099 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 10:12:18,173 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.89s [execute.py:47]
+2025-11-06 10:12:18,288 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.80s [execute.py:47]
+2025-11-06 10:12:18,351 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.66s [execute.py:47]
+2025-11-06 10:12:18,762 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.66s [execute.py:47]
+2025-11-06 10:12:20,604 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 2.43s [execute.py:47]
+2025-11-06 10:12:21,218 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.87s [execute.py:47]
+2025-11-06 10:12:27,772 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.63s [execute.py:47]
+2025-11-06 10:12:39,036 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.75s [execute.py:47]
+2025-11-06 10:15:22,061 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 195.59s [execute.py:47]
+2025-11-06 10:15:22,063 - egon_validation.runner - INFO - Completed 35 rules in 207.93s (avg: 5.94s per rule) [execute.py:177]
+2025-11-06 11:10:19,770 - egon_validation.runner - INFO - Executing 35 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 11:10:25,461 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.69s [execute.py:47]
+2025-11-06 11:10:25,666 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.89s [execute.py:47]
+2025-11-06 11:10:25,666 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.89s [execute.py:47]
+2025-11-06 11:10:25,871 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.10s [execute.py:47]
+2025-11-06 11:10:28,122 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.35s [execute.py:47]
+2025-11-06 11:10:28,532 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:47]
+2025-11-06 11:10:28,737 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:10:29,146 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:47]
+2025-11-06 11:10:31,604 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:10:32,013 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.71s [execute.py:47]
+2025-11-06 11:10:32,423 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:47]
+2025-11-06 11:10:33,446 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:47]
+2025-11-06 11:10:33,472 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.89s [execute.py:47]
+2025-11-06 11:10:34,265 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:10:34,514 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 1.07s [execute.py:47]
+2025-11-06 11:10:34,538 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.06s [execute.py:47]
+2025-11-06 11:10:34,685 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 0.42s [execute.py:47]
+2025-11-06 11:10:34,909 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.39s [execute.py:47]
+2025-11-06 11:10:34,933 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.40s [execute.py:47]
+2025-11-06 11:10:35,311 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-11-06 11:10:35,337 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-11-06 11:10:35,706 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.39s [execute.py:47]
+2025-11-06 11:10:35,731 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.39s [execute.py:47]
+2025-11-06 11:10:36,108 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-11-06 11:10:36,133 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-11-06 11:10:36,282 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.60s [execute.py:47]
+2025-11-06 11:10:36,517 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.41s [execute.py:47]
+2025-11-06 11:10:36,567 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.43s [execute.py:47]
+2025-11-06 11:10:37,373 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.86s [execute.py:47]
+2025-11-06 11:10:38,096 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.08s [execute.py:47]
+2025-11-06 11:10:53,513 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.74s [execute.py:47]
+2025-11-06 11:10:56,175 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.89s [execute.py:47]
+2025-11-06 11:13:46,337 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY_ORIGINAL completed in 193.91s [execute.py:47]
+2025-11-06 11:13:46,338 - egon_validation.runner - INFO - Completed 35 rules in 206.57s (avg: 5.90s per rule) [execute.py:177]
+2025-11-06 11:17:07,446 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 11:17:13,162 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.71s [execute.py:47]
+2025-11-06 11:17:13,162 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.71s [execute.py:47]
+2025-11-06 11:17:13,162 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.71s [execute.py:47]
+2025-11-06 11:17:13,365 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.92s [execute.py:47]
+2025-11-06 11:17:15,618 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.17s [execute.py:47]
+2025-11-06 11:17:16,028 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:47]
+2025-11-06 11:17:16,028 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:47]
+2025-11-06 11:17:16,438 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-11-06 11:17:18,690 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:17:19,304 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.71s [execute.py:47]
+2025-11-06 11:17:19,756 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.73s [execute.py:47]
+2025-11-06 11:17:20,534 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.46s [execute.py:47]
+2025-11-06 11:17:20,942 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:47]
+2025-11-06 11:17:21,557 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 11:17:22,581 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.82s [execute.py:47]
+2025-11-06 11:17:23,605 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:17:24,014 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:17:24,321 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.76s [execute.py:47]
+2025-11-06 11:17:25,038 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:47]
+2025-11-06 11:17:26,319 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.30s [execute.py:47]
+2025-11-06 11:17:26,320 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 7.02s [execute.py:47]
+2025-11-06 11:17:26,471 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 2.87s [execute.py:47]
+2025-11-06 11:17:26,676 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.35s [execute.py:47]
+2025-11-06 11:17:27,905 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 11:17:29,133 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.81s [execute.py:47]
+2025-11-06 11:17:29,134 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.81s [execute.py:47]
+2025-11-06 11:17:29,544 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 11:17:29,749 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.07s [execute.py:47]
+2025-11-06 11:17:30,567 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 2.66s [execute.py:47]
+2025-11-06 11:17:31,796 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.66s [execute.py:47]
+2025-11-06 11:17:41,421 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.97s [execute.py:47]
+2025-11-06 11:17:49,202 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.07s [execute.py:47]
+2025-11-06 11:17:49,206 - egon_validation.runner - INFO - Completed 34 rules in 41.76s (avg: 1.23s per rule) [execute.py:177]
+2025-11-06 11:22:36,076 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 11:22:41,631 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.55s [execute.py:47]
+2025-11-06 11:22:41,836 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.76s [execute.py:47]
+2025-11-06 11:22:41,836 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.76s [execute.py:47]
+2025-11-06 11:22:42,041 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.96s [execute.py:47]
+2025-11-06 11:22:44,292 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.22s [execute.py:47]
+2025-11-06 11:22:44,395 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.56s [execute.py:47]
+2025-11-06 11:22:44,396 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.56s [execute.py:47]
+2025-11-06 11:22:44,908 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-11-06 11:22:47,364 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:47]
+2025-11-06 11:22:47,774 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.51s [execute.py:47]
+2025-11-06 11:22:48,183 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.78s [execute.py:47]
+2025-11-06 11:22:49,412 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:47]
+2025-11-06 11:22:49,412 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.97s [execute.py:47]
+2025-11-06 11:22:50,287 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.92s [execute.py:47]
+2025-11-06 11:22:50,641 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.46s [execute.py:47]
+2025-11-06 11:22:51,908 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.50s [execute.py:47]
+2025-11-06 11:22:51,909 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.50s [execute.py:47]
+2025-11-06 11:22:52,334 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.05s [execute.py:47]
+2025-11-06 11:22:52,689 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.05s [execute.py:47]
+2025-11-06 11:22:53,713 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 1.80s [execute.py:47]
+2025-11-06 11:22:54,429 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 2.52s [execute.py:47]
+2025-11-06 11:22:54,531 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.20s [execute.py:47]
+2025-11-06 11:22:54,532 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.76s [execute.py:47]
+2025-11-06 11:22:54,926 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.24s [execute.py:47]
+2025-11-06 11:22:55,350 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 1.64s [execute.py:47]
+2025-11-06 11:22:55,759 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 1.33s [execute.py:47]
+2025-11-06 11:22:55,944 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 1.41s [execute.py:47]
+2025-11-06 11:22:55,944 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 1.41s [execute.py:47]
+2025-11-06 11:22:56,366 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 1.44s [execute.py:47]
+2025-11-06 11:22:57,030 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 1.27s [execute.py:47]
+2025-11-06 11:23:09,507 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.43s [execute.py:47]
+2025-11-06 11:23:14,968 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.62s [execute.py:47]
+2025-11-06 11:23:14,969 - egon_validation.runner - INFO - Completed 34 rules in 38.89s (avg: 1.14s per rule) [execute.py:177]
+2025-11-06 11:30:59,542 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 11:31:05,193 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.65s [execute.py:47]
+2025-11-06 11:31:05,194 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.65s [execute.py:47]
+2025-11-06 11:31:05,194 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.65s [execute.py:47]
+2025-11-06 11:31:05,400 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.85s [execute.py:47]
+2025-11-06 11:31:07,651 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.11s [execute.py:47]
+2025-11-06 11:31:07,856 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:31:08,060 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:47]
+2025-11-06 11:31:08,265 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:31:10,108 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:47]
+2025-11-06 11:31:10,517 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:47]
+2025-11-06 11:31:11,337 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:47]
+2025-11-06 11:31:11,951 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.46s [execute.py:47]
+2025-11-06 11:31:12,360 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.71s [execute.py:47]
+2025-11-06 11:31:12,771 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:31:13,794 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.46s [execute.py:47]
+2025-11-06 11:31:14,408 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.46s [execute.py:47]
+2025-11-06 11:31:15,023 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:31:15,432 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.66s [execute.py:47]
+2025-11-06 11:31:16,661 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.87s [execute.py:47]
+2025-11-06 11:31:16,868 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.35s [execute.py:47]
+2025-11-06 11:31:18,094 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 11:31:18,401 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.99s [execute.py:47]
+2025-11-06 11:31:18,402 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.97s [execute.py:47]
+2025-11-06 11:31:19,733 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 11:31:19,938 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 3.07s [execute.py:47]
+2025-11-06 11:31:20,962 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.87s [execute.py:47]
+2025-11-06 11:31:21,372 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.97s [execute.py:47]
+2025-11-06 11:31:21,372 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.97s [execute.py:47]
+2025-11-06 11:31:21,654 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 1.92s [execute.py:47]
+2025-11-06 11:31:22,424 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 1.46s [execute.py:47]
+2025-11-06 11:31:32,430 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.88s [execute.py:47]
+2025-11-06 11:31:40,335 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.40s [execute.py:47]
+2025-11-06 11:31:40,336 - egon_validation.runner - INFO - Completed 34 rules in 40.79s (avg: 1.20s per rule) [execute.py:177]
+2025-11-06 11:36:38,525 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-06 11:36:44,434 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 11:36:44,434 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 11:36:44,435 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.91s [execute.py:47]
+2025-11-06 11:36:44,536 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.01s [execute.py:47]
+2025-11-06 11:36:46,405 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.88s [execute.py:47]
+2025-11-06 11:36:47,200 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.76s [execute.py:47]
+2025-11-06 11:36:47,405 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:47]
+2025-11-06 11:36:47,815 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.38s [execute.py:47]
+2025-11-06 11:36:50,273 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:47]
+2025-11-06 11:36:50,376 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.20s [execute.py:47]
+2025-11-06 11:36:51,297 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:47]
+2025-11-06 11:36:51,707 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.30s [execute.py:47]
+2025-11-06 11:36:52,117 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.87s [execute.py:47]
+2025-11-06 11:36:52,936 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.66s [execute.py:47]
+2025-11-06 11:36:53,377 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.08s [execute.py:47]
+2025-11-06 11:36:53,430 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.72s [execute.py:47]
+2025-11-06 11:36:53,564 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.45s [execute.py:47]
+2025-11-06 11:36:53,755 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.82s [execute.py:47]
+2025-11-06 11:36:54,191 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.81s [execute.py:47]
+2025-11-06 11:36:54,477 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.91s [execute.py:47]
+2025-11-06 11:36:54,579 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.82s [execute.py:47]
+2025-11-06 11:36:54,727 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 0.54s [execute.py:47]
+2025-11-06 11:36:54,876 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.40s [execute.py:47]
+2025-11-06 11:36:54,950 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.37s [execute.py:47]
+2025-11-06 11:36:55,150 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 0.42s [execute.py:47]
+2025-11-06 11:36:55,300 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.42s [execute.py:47]
+2025-11-06 11:36:55,425 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 0.47s [execute.py:47]
+2025-11-06 11:36:55,502 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 2.07s [execute.py:47]
+2025-11-06 11:36:56,188 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.89s [execute.py:47]
+2025-11-06 11:36:56,394 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.02s [execute.py:47]
+2025-11-06 11:37:12,058 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.53s [execute.py:47]
+2025-11-06 11:37:13,713 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 18.56s [execute.py:47]
+2025-11-06 11:37:13,714 - egon_validation.runner - INFO - Completed 34 rules in 35.19s (avg: 1.04s per rule) [execute.py:177]
+2025-11-07 17:32:28,508 - egon_validation.runner - INFO - Executing 34 rules in parallel (max_workers=6) [execute.py:148]
+2025-11-07 17:32:50,335 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.47s [execute.py:47]
+2025-11-07 17:32:51,566 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 3.50s [execute.py:47]
+2025-11-07 17:32:52,016 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.36s [execute.py:47]
+2025-11-07 17:32:53,239 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.43s [execute.py:47]
+2025-11-07 17:32:54,609 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.63s [execute.py:47]
+2025-11-07 17:32:56,783 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.75s [execute.py:47]
+2025-11-07 17:32:57,248 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.21s [execute.py:47]
+2025-11-07 17:32:59,429 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.33s [execute.py:47]
+2025-11-07 17:33:03,628 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.57s [execute.py:47]
+2025-11-07 17:33:04,881 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.75s [execute.py:47]
+2025-11-07 17:33:05,382 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.14s [execute.py:47]
+2025-11-07 17:33:06,904 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 1.73s [execute.py:47]
+2025-11-07 17:33:07,126 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:47]
+2025-11-07 17:33:08,126 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 1.95s [execute.py:47]
+2025-11-07 17:33:09,772 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 1.39s [execute.py:47]
+2025-11-07 17:33:10,796 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.31s [execute.py:47]
+2025-11-07 17:33:11,972 - egon_validation.runner - INFO - Rule REFERENTIAL_INTEGRITY_CHECK completed in 1.15s [execute.py:47]
+2025-11-07 17:33:12,352 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 5.08s [execute.py:47]
+2025-11-07 17:33:13,868 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 1.73s [execute.py:47]
+2025-11-07 17:33:15,097 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 1.84s [execute.py:47]
+2025-11-07 17:33:18,578 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 1.99s [execute.py:47]
+2025-11-07 17:33:18,783 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.19s [execute.py:47]
+2025-11-07 17:33:18,784 - egon_validation.runner - INFO - Rule SPECIAL_SRID_VALIDATION completed in 2.19s [execute.py:47]
+2025-11-07 17:33:19,809 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.22s [execute.py:47]
+2025-11-07 17:33:20,012 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 3.42s [execute.py:47]
+2025-11-07 17:33:21,241 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.66s [execute.py:47]
+2025-11-07 17:33:21,382 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.60s [execute.py:47]
+2025-11-07 17:33:21,384 - egon_validation.runner - INFO - Rule SRID_VALIDATION completed in 2.60s [execute.py:47]
+2025-11-07 17:33:22,265 - egon_validation.runner - INFO - Rule VALUE_SET_VALIDATION completed in 2.46s [execute.py:47]
+2025-11-07 17:33:23,112 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 1.87s [execute.py:47]
+2025-11-07 17:33:23,316 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.18s [execute.py:47]
+2025-11-07 17:33:39,673 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.66s [execute.py:47]
+2025-11-07 17:34:32,203 - egon_validation.runner - INFO - Completed 34 rules in 773.60s (avg: 22.75s per rule) [execute.py:177]
+2025-12-03 09:38:26,841 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 09:38:32,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,659 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 09:38:32,796 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:53]
+2025-12-03 09:38:34,781 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.94s [execute.py:53]
+2025-12-03 09:38:35,526 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 09:38:35,730 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 09:38:35,935 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:53]
+2025-12-03 09:38:38,392 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 09:38:38,748 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.45s [execute.py:53]
+2025-12-03 09:38:39,826 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:53]
+2025-12-03 09:38:40,031 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.25s [execute.py:53]
+2025-12-03 09:38:40,095 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.73s [execute.py:53]
+2025-12-03 09:38:40,850 - egon_validation.runner - ERROR - Rule MULTIPLE_COLUMNS_TYPE_CHECK unexpected error in 2.46s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:42,538 - egon_validation.runner - ERROR - Rule adhoc_NOT_NULL_NAN unexpected error in 2.71s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:42,660 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.63s [execute.py:53]
+2025-12-03 09:38:43,102 - egon_validation.runner - ERROR - Rule SCENARIO_VALUES_VALID unexpected error in 2.25s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:43,644 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.55s [execute.py:53]
+2025-12-03 09:38:44,843 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 2.18s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:44,945 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 1.84s [execute.py:53]
+2025-12-03 09:38:45,150 - egon_validation.runner - ERROR - Rule WIND_PLANTS_IN_GERMANY unexpected error in 6.40s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 09:38:59,281 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.43s [execute.py:53]
+2025-12-03 09:39:02,354 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.81s [execute.py:53]
+2025-12-03 09:39:02,355 - egon_validation.runner - INFO - Completed 25 validations in 35.51s (avg: 1.42s per rule) [execute.py:234]
+2025-12-03 09:39:02,356 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 09:39:05,220 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 09:39:05,228 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 09:39:05,229 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 10:16:37,597 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 10:16:38,944 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.34s [execute.py:53]
+2025-12-03 10:16:38,985 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.39s [execute.py:53]
+2025-12-03 10:16:39,153 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.55s [execute.py:53]
+2025-12-03 10:16:39,283 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.68s [execute.py:53]
+2025-12-03 10:16:39,674 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.69s [execute.py:53]
+2025-12-03 10:16:39,967 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.81s [execute.py:53]
+2025-12-03 10:16:40,334 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.39s [execute.py:53]
+2025-12-03 10:16:40,627 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.66s [execute.py:53]
+2025-12-03 10:16:41,262 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.34s [execute.py:53]
+2025-12-03 10:16:41,642 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 4.04s [execute.py:53]
+2025-12-03 10:16:41,683 - egon_validation.runner - ERROR - Rule MULTIPLE_COLUMNS_TYPE_CHECK unexpected error in 0.42s: 'NoneType' object has no attribute 'execution_time' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 51, in _execute_single_rule
+    res.execution_time = execution_time
+AttributeError: 'NoneType' object has no attribute 'execution_time'
+2025-12-03 10:16:41,725 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.09s [execute.py:53]
+2025-12-03 10:16:42,007 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.67s [execute.py:53]
+2025-12-03 10:16:42,332 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.65s [execute.py:53]
+2025-12-03 10:16:42,372 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.65s [execute.py:53]
+2025-12-03 10:16:42,945 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.61s [execute.py:53]
+2025-12-03 10:16:43,108 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.43s [execute.py:53]
+2025-12-03 10:16:43,618 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.51s [execute.py:53]
+2025-12-03 10:16:43,775 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.77s [execute.py:53]
+2025-12-03 10:16:43,942 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 1.00s: name 'Severity' is not defined [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 223, in postprocess
+    severity=Severity.ERROR if not ok else Severity.INFO,
+NameError: name 'Severity' is not defined
+2025-12-03 10:16:46,207 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.56s [execute.py:53]
+2025-12-03 10:17:02,182 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.81s [execute.py:53]
+2025-12-03 10:17:06,482 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.88s [execute.py:53]
+2025-12-03 10:17:06,484 - egon_validation.runner - INFO - Completed 25 validations in 28.89s (avg: 1.16s per rule) [execute.py:234]
+2025-12-03 10:17:06,484 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 10:17:08,941 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 10:17:08,953 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 10:17:08,954 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 10:24:41,844 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 10:24:44,624 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.78s [execute.py:53]
+2025-12-03 10:24:44,625 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.78s [execute.py:53]
+2025-12-03 10:24:44,711 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:53]
+2025-12-03 10:24:44,764 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.92s [execute.py:53]
+2025-12-03 10:24:46,877 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 5.03s [execute.py:53]
+2025-12-03 10:24:47,082 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 10:24:47,697 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.98s [execute.py:53]
+2025-12-03 10:24:48,106 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:53]
+2025-12-03 10:24:49,949 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 10:24:50,871 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.61s [execute.py:53]
+2025-12-03 10:24:51,383 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:53]
+2025-12-03 10:24:52,202 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:53]
+2025-12-03 10:24:52,407 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 10:24:52,816 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 10:24:54,455 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 3.07s [execute.py:53]
+2025-12-03 10:24:54,864 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.66s [execute.py:53]
+2025-12-03 10:24:55,683 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:53]
+2025-12-03 10:24:56,094 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.69s [execute.py:53]
+2025-12-03 10:24:57,731 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.86s [execute.py:53]
+2025-12-03 10:24:57,936 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:53]
+2025-12-03 10:24:58,346 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:53]
+2025-12-03 10:25:10,812 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.96s [execute.py:53]
+2025-12-03 10:25:15,140 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.68s [execute.py:53]
+2025-12-03 10:25:15,142 - egon_validation.runner - INFO - Completed 25 validations in 33.30s (avg: 1.33s per rule) [execute.py:234]
+2025-12-03 10:25:15,142 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 10:25:18,212 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 10:25:18,225 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 10:25:18,226 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 11:29:01,914 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 11:29:07,315 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.40s [execute.py:53]
+2025-12-03 11:29:07,315 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.40s [execute.py:53]
+2025-12-03 11:29:07,407 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.49s [execute.py:53]
+2025-12-03 11:29:07,408 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.49s [execute.py:53]
+2025-12-03 11:29:09,772 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.86s [execute.py:53]
+2025-12-03 11:29:09,773 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 11:29:10,388 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:29:10,388 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.98s [execute.py:53]
+2025-12-03 11:29:12,640 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:29:12,796 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.97s [execute.py:53]
+2025-12-03 11:29:13,254 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 1.43s [execute.py:53]
+2025-12-03 11:29:13,417 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.78s [execute.py:53]
+2025-12-03 11:29:13,458 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:29:13,884 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.63s [execute.py:53]
+2025-12-03 11:29:14,084 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.67s [execute.py:53]
+2025-12-03 11:29:14,415 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.64s [execute.py:53]
+2025-12-03 11:29:14,546 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.66s [execute.py:53]
+2025-12-03 11:29:15,088 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.54s [execute.py:53]
+2025-12-03 11:29:15,171 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.71s [execute.py:53]
+2025-12-03 11:29:15,591 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 1.17s [execute.py:53]
+2025-12-03 11:29:17,760 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.96s [execute.py:53]
+2025-12-03 11:29:33,530 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.45s [execute.py:53]
+2025-12-03 11:29:33,939 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.02s [execute.py:53]
+2025-12-03 11:29:33,940 - egon_validation.runner - INFO - Completed 25 validations in 32.03s (avg: 1.28s per rule) [execute.py:234]
+2025-12-03 11:29:33,940 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 11:29:37,012 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 11:29:37,025 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 11:29:37,026 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 11:29:37,026 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-03 11:29:37,026 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 11:42:42,621 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 11:42:48,363 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:53]
+2025-12-03 11:42:48,364 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:53]
+2025-12-03 11:42:48,364 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:53]
+2025-12-03 11:42:48,568 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.94s [execute.py:53]
+2025-12-03 11:42:50,780 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.16s [execute.py:53]
+2025-12-03 11:42:51,231 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:42:51,435 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:42:51,435 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:42:51,640 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:53]
+2025-12-03 11:42:54,507 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:42:54,712 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:42:54,917 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.14s [execute.py:53]
+2025-12-03 11:42:55,736 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:53]
+2025-12-03 11:42:56,802 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.57s [execute.py:53]
+2025-12-03 11:42:56,966 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 11:42:57,170 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 11:42:58,604 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:53]
+2025-12-03 11:42:59,740 - egon_validation.runner - ERROR - Rule MV_GRID_DISTRICT_COUNT unexpected error in 2.94s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/row_count_check.py", line 40, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:42:59,743 - egon_validation.runner - ERROR - Failed to get result for rule MV_GRID_DISTRICT_COUNT: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/row_count_check.py", line 40, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:00,242 - egon_validation.runner - ERROR - Rule SCENARIO_VALUES_VALID unexpected error in 3.07s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/value_set_check.py", line 63, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:00,243 - egon_validation.runner - ERROR - Failed to get result for rule SCENARIO_VALUES_VALID: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/value_set_check.py", line 63, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:00,856 - egon_validation.runner - ERROR - Rule SRID_UNIQUE_NONZERO unexpected error in 3.89s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/srid_check.py", line 25, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:00,857 - egon_validation.runner - ERROR - Failed to get result for rule SRID_UNIQUE_NONZERO: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/srid_check.py", line 25, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:01,675 - egon_validation.runner - ERROR - Rule WIND_PLANTS_IN_GERMANY unexpected error in 6.76s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/geometry_check.py", line 64, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:01,677 - egon_validation.runner - ERROR - Failed to get result for rule WIND_PLANTS_IN_GERMANY: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/formal/geometry_check.py", line 64, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:02,699 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 2.96s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:02,704 - egon_validation.runner - ERROR - Failed to get result for rule DISAGGREGATED_DEMAND_SUM_MATCH: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:02,812 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.57s [execute.py:53]
+2025-12-03 11:43:15,196 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.57s [execute.py:53]
+2025-12-03 11:43:19,493 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 20.89s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:19,493 - egon_validation.runner - ERROR - Failed to get result for rule ELECTRICAL_LOAD_AGGREGATION: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:43:19,494 - egon_validation.runner - INFO - Completed 19 validations in 36.87s (avg: 1.94s per rule) [execute.py:234]
+2025-12-03 11:43:19,495 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 11:43:22,771 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 11:43:22,784 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 11:43:22,785 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 11:43:22,785 - egon_validation.coverage_analysis - INFO - Table coverage: 4/200 tables validated (2.0%) [coverage_analysis.py:110]
+2025-12-03 11:43:22,785 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 11:44:06,585 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 11:44:12,537 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:53]
+2025-12-03 11:44:12,537 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:53]
+2025-12-03 11:44:12,539 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:53]
+2025-12-03 11:44:12,658 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.07s [execute.py:53]
+2025-12-03 11:44:14,892 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.31s [execute.py:53]
+2025-12-03 11:44:14,994 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.45s [execute.py:53]
+2025-12-03 11:44:15,180 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.52s [execute.py:53]
+2025-12-03 11:44:15,404 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:53]
+2025-12-03 11:44:16,019 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:53]
+2025-12-03 11:44:18,067 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.89s [execute.py:53]
+2025-12-03 11:44:18,885 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:44:19,500 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.61s [execute.py:53]
+2025-12-03 11:44:19,705 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:53]
+2025-12-03 11:44:20,729 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.73s [execute.py:53]
+2025-12-03 11:44:20,831 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.76s [execute.py:53]
+2025-12-03 11:44:21,753 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:44:22,572 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:53]
+2025-12-03 11:44:23,186 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.46s [execute.py:53]
+2025-12-03 11:44:24,620 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:53]
+2025-12-03 11:44:24,620 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.79s [execute.py:53]
+2025-12-03 11:44:26,259 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.76s [execute.py:53]
+2025-12-03 11:44:26,668 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 3.48s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:44:26,670 - egon_validation.runner - ERROR - Failed to get result for rule DISAGGREGATED_DEMAND_SUM_MATCH: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:44:27,078 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:53]
+2025-12-03 11:44:39,408 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.82s [execute.py:53]
+2025-12-03 11:44:43,257 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 20.68s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:44:43,258 - egon_validation.runner - ERROR - Failed to get result for rule ELECTRICAL_LOAD_AGGREGATION: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:44:43,259 - egon_validation.runner - INFO - Completed 23 validations in 36.67s (avg: 1.59s per rule) [execute.py:234]
+2025-12-03 11:44:43,259 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 11:44:46,534 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 11:44:46,547 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 11:44:46,550 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 11:44:46,551 - egon_validation.coverage_analysis - INFO - Table coverage: 7/200 tables validated (3.5%) [coverage_analysis.py:110]
+2025-12-03 11:44:46,551 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 11:46:05,790 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 11:47:07,261 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 61.46s [execute.py:53]
+2025-12-03 11:49:17,019 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 191.23s [execute.py:53]
+2025-12-03 11:49:17,025 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 191.23s [execute.py:53]
+2025-12-03 11:49:17,029 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 191.23s [execute.py:53]
+2025-12-03 11:49:17,030 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 191.23s [execute.py:53]
+2025-12-03 11:49:17,031 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 125.05s [execute.py:53]
+2025-12-03 11:49:17,032 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 191.23s [execute.py:53]
+2025-12-03 11:55:00,582 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 11:55:29,948 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.36s [execute.py:53]
+2025-12-03 11:55:29,955 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.37s [execute.py:53]
+2025-12-03 11:55:29,957 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 29.37s [execute.py:53]
+2025-12-03 11:55:29,958 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.37s [execute.py:53]
+2025-12-03 11:55:29,960 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.37s [execute.py:53]
+2025-12-03 11:55:32,477 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.51s [execute.py:53]
+2025-12-03 11:55:32,681 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.72s [execute.py:53]
+2025-12-03 11:55:32,764 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.80s [execute.py:53]
+2025-12-03 11:55:32,765 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.82s [execute.py:53]
+2025-12-03 11:55:33,705 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.11s [execute.py:53]
+2025-12-03 11:55:34,524 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.56s [execute.py:53]
+2025-12-03 11:55:35,548 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 11:55:35,753 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.99s [execute.py:53]
+2025-12-03 11:55:36,572 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.81s [execute.py:53]
+2025-12-03 11:55:36,778 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 11:55:37,186 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.66s [execute.py:53]
+2025-12-03 11:55:37,800 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:53]
+2025-12-03 11:55:38,415 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.66s [execute.py:53]
+2025-12-03 11:55:39,030 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.46s [execute.py:53]
+2025-12-03 11:55:40,054 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:53]
+2025-12-03 11:55:40,055 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.28s [execute.py:53]
+2025-12-03 11:55:41,282 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 2.87s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:55:41,285 - egon_validation.runner - ERROR - Failed to get result for rule DISAGGREGATED_DEMAND_SUM_MATCH: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 11:55:41,692 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:53]
+2025-12-03 11:55:41,897 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.35s [execute.py:53]
+2025-12-03 11:55:45,965 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            json_agg(
+                json_build_object(
+                    'scn_name', agg.scn_name,
+                    'load_sum_twh', agg.load_sum_twh,
+                    'load_max_gw', agg.load_max_gw,
+                    'load_min_gw', agg.load_min_gw
+                )
+            ) as scenarios_data
+        FROM (
+            SELECT
+                s.scn_name,
+                SUM(s.sum_value)/1e6 AS load_sum_twh,
+                MAX(s.sum_value)/1e3 AS load_max_gw,
+                MIN(s.sum_value)/1e3 AS load_min_gw
+            FROM (
+                SELECT
+                    load.scn_name,
+                    time_index,
+                    SUM(value) AS sum_value
+                FROM
+                    grid.egon_etrago_load AS load
+                JOIN
+                    grid.egon_etrago_load_timeseries AS load_ts
+                USING
+                    (scn_name, load_id)
+                JOIN
+                    grid.egon_etrago_bus as bus
+                ON (load.scn_name = bus.scn_name AND bus.bus_id = load.bus)
+                JOIN
+                    unnest(load_ts.p_set) WITH ORDINALITY AS u(value, time_index)
+                ON TRUE
+                WHERE
+                    load.carrier = 'AC' AND
+                    bus.country = 'DE'
+        
+                GROUP BY
+                    load.scn_name, time_index
+            ) s
+            GROUP BY
+                s.scn_name
+        ) agg
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:42]
+2025-12-03 11:55:45,966 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 1/3), retrying in 1.03s: Failed to fetch data: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        SELECT
+            json_agg(
+                json_build_object(
+                    'scn_name', agg.scn_name,
+                    'load_sum_twh', agg.load_sum_twh,
+                    'load_max_gw', agg.load_max_gw,
+                    'load_min_gw', agg.load_min_gw
+                )
+            ) as scenarios_data
+        FROM (
+            SELECT
+                s.scn_name,
+                SUM(s.sum_value)/1e6 AS load_sum_twh,
+                MAX(s.sum_value)/1e3 AS load_max_gw,
+                MIN(s.sum_value)/1e3 AS load_min_gw
+            FROM (
+                SELECT
+                    load.scn_name,
+                    time_index,
+                    SUM(value) AS sum_value
+                FROM
+                    grid.egon_etrago_load AS load
+                JOIN
+                    grid.egon_etrago_load_timeseries AS load_ts
+                USING
+                    (scn_name, load_id)
+                JOIN
+                    grid.egon_etrago_bus as bus
+                ON (load.scn_name = bus.scn_name AND bus.bus_id = load.bus)
+                JOIN
+                    unnest(load_ts.p_set) WITH ORDINALITY AS u(value, time_index)
+                ON TRUE
+                WHERE
+                    load.carrier = 'AC' AND
+                    bus.country = 'DE'
+        
+                GROUP BY
+                    load.scn_name, time_index
+            ) s
+            GROUP BY
+                s.scn_name
+        ) agg
+        ]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-12-03 11:55:46,997 - egon_validation.db - ERROR - Database error in fetch_one: (psycopg2.OperationalError) connection to server at "127.0.0.1", port 59763 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [db.py:42]
+2025-12-03 11:55:46,998 - egon_validation.retry - WARNING - Function fetch_one failed (attempt 2/3), retrying in 2.17s: Failed to fetch data: (psycopg2.OperationalError) connection to server at "127.0.0.1", port 59763 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [retry.py:82]
+2025-12-03 12:45:09,100 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 12:45:14,271 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.17s [execute.py:53]
+2025-12-03 12:45:14,374 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.27s [execute.py:53]
+2025-12-03 12:45:14,376 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.27s [execute.py:53]
+2025-12-03 12:45:14,404 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.30s [execute.py:53]
+2025-12-03 12:45:16,831 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.45s [execute.py:53]
+2025-12-03 12:45:17,036 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.93s [execute.py:53]
+2025-12-03 12:45:17,037 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.63s [execute.py:53]
+2025-12-03 12:45:17,242 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:53]
+2025-12-03 12:45:17,243 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:53]
+2025-12-03 12:45:19,289 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:53]
+2025-12-03 12:45:19,494 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:53]
+2025-12-03 12:45:20,313 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-03 12:45:20,722 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:53]
+2025-12-03 12:45:21,542 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:53]
+2025-12-03 12:45:22,258 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.97s [execute.py:53]
+2025-12-03 12:45:22,360 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:53]
+2025-12-03 12:45:23,268 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.54s [execute.py:53]
+2025-12-03 12:45:23,378 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 1.83s [execute.py:53]
+2025-12-03 12:45:23,643 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 1.28s [execute.py:53]
+2025-12-03 12:45:24,322 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.68s [execute.py:53]
+2025-12-03 12:45:24,397 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 2.14s [execute.py:53]
+2025-12-03 12:45:24,623 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 1.24s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:45:24,628 - egon_validation.runner - ERROR - Failed to get result for rule DISAGGREGATED_DEMAND_SUM_MATCH: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:45:26,742 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.43s [execute.py:53]
+2025-12-03 12:45:40,762 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.65s [execute.py:53]
+2025-12-03 12:45:42,648 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 19.38s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:45:42,650 - egon_validation.runner - ERROR - Failed to get result for rule ELECTRICAL_LOAD_AGGREGATION: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:45:42,653 - egon_validation.runner - INFO - Completed 23 validations in 33.57s (avg: 1.46s per rule) [execute.py:234]
+2025-12-03 12:45:42,653 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 12:45:43,143 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 12:45:43,161 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 12:45:43,162 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 12:45:43,162 - egon_validation.coverage_analysis - INFO - Table coverage: 7/200 tables validated (3.5%) [coverage_analysis.py:110]
+2025-12-03 12:45:43,162 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-03 12:55:07,393 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:199]
+2025-12-03 12:55:12,315 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.92s [execute.py:53]
+2025-12-03 12:55:12,315 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.92s [execute.py:53]
+2025-12-03 12:55:12,390 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.99s [execute.py:53]
+2025-12-03 12:55:13,210 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.81s [execute.py:53]
+2025-12-03 12:55:15,103 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.71s [execute.py:53]
+2025-12-03 12:55:15,103 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.79s [execute.py:53]
+2025-12-03 12:55:15,156 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.77s [execute.py:53]
+2025-12-03 12:55:15,667 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:53]
+2025-12-03 12:55:15,872 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.56s [execute.py:53]
+2025-12-03 12:55:17,412 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.26s [execute.py:53]
+2025-12-03 12:55:17,534 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.66s [execute.py:53]
+2025-12-03 12:55:18,152 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.74s [execute.py:53]
+2025-12-03 12:55:18,256 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.72s [execute.py:53]
+2025-12-03 12:55:18,541 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.44s [execute.py:53]
+2025-12-03 12:55:18,620 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.95s [execute.py:53]
+2025-12-03 12:55:18,673 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.42s [execute.py:53]
+2025-12-03 12:55:18,962 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.42s [execute.py:53]
+2025-12-03 12:55:19,092 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.42s [execute.py:53]
+2025-12-03 12:55:19,877 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 0.79s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:55:19,880 - egon_validation.runner - ERROR - Failed to get result for rule DISAGGREGATED_DEMAND_SUM_MATCH: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:55:20,012 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.39s [execute.py:53]
+2025-12-03 12:55:20,207 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.33s [execute.py:53]
+2025-12-03 12:55:20,301 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.20s [execute.py:53]
+2025-12-03 12:55:22,955 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.80s [execute.py:53]
+2025-12-03 12:55:38,781 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.39s [execute.py:53]
+2025-12-03 12:55:38,871 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 19.91s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:127]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:55:38,872 - egon_validation.runner - ERROR - Failed to get result for rule ELECTRICAL_LOAD_AGGREGATION: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:226]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 215, in run_validations
+    res = future.result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 136, in _execute_single_rule
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-03 12:55:38,873 - egon_validation.runner - INFO - Completed 23 validations in 31.48s (avg: 1.37s per rule) [execute.py:234]
+2025-12-03 12:55:38,874 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-03 12:55:39,368 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-03 12:55:39,383 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-03 12:55:39,384 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-03 12:55:39,384 - egon_validation.coverage_analysis - INFO - Table coverage: 7/200 tables validated (3.5%) [coverage_analysis.py:110]
+2025-12-03 12:55:39,384 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-04 13:16:38,390 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:202]
+2025-12-04 13:16:39,720 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.33s [execute.py:53]
+2025-12-04 13:16:39,761 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.37s [execute.py:53]
+2025-12-04 13:16:39,883 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.49s [execute.py:53]
+2025-12-04 13:16:40,088 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.70s [execute.py:53]
+2025-12-04 13:16:40,421 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.66s [execute.py:53]
+2025-12-04 13:16:40,749 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.66s [execute.py:53]
+2025-12-04 13:16:40,750 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.87s [execute.py:53]
+2025-12-04 13:16:41,118 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.40s [execute.py:53]
+2025-12-04 13:16:41,323 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.57s [execute.py:53]
+2025-12-04 13:16:41,816 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.49s [execute.py:53]
+2025-12-04 13:16:42,153 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.34s [execute.py:53]
+2025-12-04 13:16:42,392 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 4.00s [execute.py:53]
+2025-12-04 13:16:42,777 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.62s [execute.py:53]
+2025-12-04 13:16:42,824 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.70s [execute.py:53]
+2025-12-04 13:16:43,133 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.71s [execute.py:53]
+2025-12-04 13:16:43,473 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.70s [execute.py:53]
+2025-12-04 13:16:43,520 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.69s [execute.py:53]
+2025-12-04 13:16:43,983 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.23s [execute.py:53]
+2025-12-04 13:16:44,146 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.67s [execute.py:53]
+2025-12-04 13:16:44,604 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.47s [execute.py:53]
+2025-12-04 13:16:44,736 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.59s [execute.py:53]
+2025-12-04 13:16:44,981 - egon_validation.runner - ERROR - Rule DISAGGREGATED_DEMAND_SUM_MATCH unexpected error in 1.00s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:129]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 213, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-04 13:16:47,257 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.86s [execute.py:53]
+2025-12-04 13:17:03,383 - egon_validation.runner - ERROR - Rule ELECTRICAL_LOAD_AGGREGATION unexpected error in 19.86s: RuleResult.__init__() missing 1 required positional argument: 'kind' [execute.py:129]
+Traceback (most recent call last):
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/runner/execute.py", line 47, in _execute_single_rule
+    res = rule.postprocess(row, ctx)
+  File "/home/sarah/PycharmProjects/egon-validation/egon_validation/rules/custom/numeric_aggregation_check.py", line 135, in postprocess
+    return RuleResult(
+TypeError: RuleResult.__init__() missing 1 required positional argument: 'kind'
+2025-12-04 13:17:07,017 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.62s [execute.py:53]
+2025-12-04 13:17:07,019 - egon_validation.runner - INFO - Completed 25 validations in 28.63s (avg: 1.15s per rule) [execute.py:237]
+2025-12-04 13:17:07,019 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-04 13:17:09,271 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-04 13:17:09,281 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-04 13:17:09,281 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-04 13:17:09,281 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-04 13:17:09,281 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-04 13:32:15,882 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:202]
+2025-12-04 13:32:21,462 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.58s [execute.py:53]
+2025-12-04 13:32:21,708 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.82s [execute.py:53]
+2025-12-04 13:32:21,708 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.82s [execute.py:53]
+2025-12-04 13:32:21,749 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.86s [execute.py:53]
+2025-12-04 13:32:23,958 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.07s [execute.py:53]
+2025-12-04 13:32:24,571 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:53]
+2025-12-04 13:32:24,776 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:53]
+2025-12-04 13:32:24,777 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.03s [execute.py:53]
+2025-12-04 13:32:24,982 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.52s [execute.py:53]
+2025-12-04 13:32:27,644 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-04 13:32:27,848 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:53]
+2025-12-04 13:32:28,053 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.09s [execute.py:53]
+2025-12-04 13:32:28,667 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:53]
+2025-12-04 13:32:29,896 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:53]
+2025-12-04 13:32:30,920 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.28s [execute.py:53]
+2025-12-04 13:32:31,125 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 3.28s [execute.py:53]
+2025-12-04 13:32:31,740 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 3.07s [execute.py:53]
+2025-12-04 13:32:32,968 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:53]
+2025-12-04 13:32:33,582 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.46s [execute.py:53]
+2025-12-04 13:32:35,016 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.96s [execute.py:53]
+2025-12-04 13:32:35,016 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.10s [execute.py:53]
+2025-12-04 13:32:35,630 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.66s [execute.py:53]
+2025-12-04 13:32:36,040 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:53]
+2025-12-04 13:32:48,215 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.33s [execute.py:53]
+2025-12-04 13:32:52,834 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 21.09s [execute.py:53]
+2025-12-04 13:32:52,836 - egon_validation.runner - INFO - Completed 25 validations in 36.95s (avg: 1.48s per rule) [execute.py:237]
+2025-12-04 13:32:52,836 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-04 13:32:55,907 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-04 13:32:55,920 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-04 13:32:55,920 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-04 13:32:55,920 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-04 13:32:55,921 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-04 14:03:09,994 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-04 14:03:11,786 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.79s [execute.py:56]
+2025-12-04 14:03:11,828 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.83s [execute.py:56]
+2025-12-04 14:03:11,952 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.96s [execute.py:56]
+2025-12-04 14:03:12,157 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.16s [execute.py:56]
+2025-12-04 14:03:12,494 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.67s [execute.py:56]
+2025-12-04 14:03:12,787 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.63s [execute.py:56]
+2025-12-04 14:03:12,829 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.88s [execute.py:56]
+2025-12-04 14:03:13,169 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.38s [execute.py:56]
+2025-12-04 14:03:13,464 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.63s [execute.py:56]
+2025-12-04 14:03:13,932 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.47s [execute.py:56]
+2025-12-04 14:03:14,279 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.35s [execute.py:56]
+2025-12-04 14:03:14,578 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.08s [execute.py:56]
+2025-12-04 14:03:14,619 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 4.62s [execute.py:56]
+2025-12-04 14:03:14,786 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.51s [execute.py:56]
+2025-12-04 14:03:14,909 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.74s [execute.py:56]
+2025-12-04 14:03:15,295 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.68s [execute.py:56]
+2025-12-04 14:03:15,423 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.64s [execute.py:56]
+2025-12-04 14:03:15,957 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.66s [execute.py:56]
+2025-12-04 14:03:16,123 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.34s [execute.py:56]
+2025-12-04 14:03:16,340 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.43s [execute.py:56]
+2025-12-04 14:03:16,656 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.53s [execute.py:56]
+2025-12-04 14:03:16,893 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.93s [execute.py:56]
+2025-12-04 14:03:19,037 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.46s [execute.py:56]
+2025-12-04 14:03:35,437 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.01s [execute.py:56]
+2025-12-04 14:03:39,328 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 29.33s [execute.py:56]
+2025-12-04 14:03:39,330 - egon_validation.runner - INFO - Completed 25 validations in 29.34s (avg: 1.17s per rule) [execute.py:243]
+2025-12-04 14:03:39,330 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-04 14:03:41,463 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-04 14:03:41,475 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-04 14:03:41,476 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-04 14:03:41,476 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-04 14:03:41,476 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-04 14:05:36,404 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-04 14:05:42,208 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.80s [execute.py:56]
+2025-12-04 14:05:42,209 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.80s [execute.py:56]
+2025-12-04 14:05:42,413 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.01s [execute.py:56]
+2025-12-04 14:05:42,619 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.21s [execute.py:56]
+2025-12-04 14:05:44,871 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.47s [execute.py:56]
+2025-12-04 14:05:45,076 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:56]
+2025-12-04 14:05:45,485 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-04 14:05:45,485 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:56]
+2025-12-04 14:05:45,690 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:56]
+2025-12-04 14:05:48,761 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-04 14:05:48,966 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-04 14:05:49,376 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:56]
+2025-12-04 14:05:49,581 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.09s [execute.py:56]
+2025-12-04 14:05:51,012 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.94s [execute.py:56]
+2025-12-04 14:05:51,834 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-04 14:05:52,039 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-04 14:05:52,858 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 3.28s [execute.py:56]
+2025-12-04 14:05:54,087 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:56]
+2025-12-04 14:05:55,315 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.28s [execute.py:56]
+2025-12-04 14:05:56,134 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.30s [execute.py:56]
+2025-12-04 14:05:56,339 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.96s [execute.py:56]
+2025-12-04 14:05:57,364 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.28s [execute.py:56]
+2025-12-04 14:05:57,773 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:56]
+2025-12-04 14:06:08,832 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.42s [execute.py:56]
+2025-12-04 14:06:13,952 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 21.09s [execute.py:56]
+2025-12-04 14:06:13,954 - egon_validation.runner - INFO - Completed 25 validations in 37.55s (avg: 1.50s per rule) [execute.py:243]
+2025-12-04 14:06:13,954 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-04 14:06:17,430 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-04 14:06:17,439 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-04 14:06:17,439 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-04 14:06:17,440 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-04 14:06:17,440 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-04 14:12:29,900 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-04 14:12:35,597 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.70s [execute.py:56]
+2025-12-04 14:12:35,598 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.70s [execute.py:56]
+2025-12-04 14:12:35,598 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.70s [execute.py:56]
+2025-12-04 14:12:35,700 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.80s [execute.py:56]
+2025-12-04 14:12:37,748 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.85s [execute.py:56]
+2025-12-04 14:12:38,567 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:56]
+2025-12-04 14:12:38,773 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-04 14:12:38,774 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.17s [execute.py:56]
+2025-12-04 14:12:39,182 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.58s [execute.py:56]
+2025-12-04 14:12:41,537 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.76s [execute.py:56]
+2025-12-04 14:12:41,639 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-04 14:12:41,844 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:56]
+2025-12-04 14:12:42,663 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:56]
+2025-12-04 14:12:43,687 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:56]
+2025-12-04 14:12:44,302 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.76s [execute.py:56]
+2025-12-04 14:12:44,506 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:56]
+2025-12-04 14:12:45,462 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.80s [execute.py:56]
+2025-12-04 14:12:46,554 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.87s [execute.py:56]
+2025-12-04 14:12:47,373 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-04 14:12:48,193 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.89s [execute.py:56]
+2025-12-04 14:12:48,602 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.76s [execute.py:56]
+2025-12-04 14:12:49,831 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.28s [execute.py:56]
+2025-12-04 14:12:50,036 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:56]
+2025-12-04 14:13:01,710 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.81s [execute.py:56]
+2025-12-04 14:13:06,215 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.75s [execute.py:56]
+2025-12-04 14:13:06,217 - egon_validation.runner - INFO - Completed 25 validations in 36.32s (avg: 1.45s per rule) [execute.py:243]
+2025-12-04 14:13:06,217 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-04 14:13:09,463 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-04 14:13:09,476 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-04 14:13:09,477 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-04 14:13:09,477 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-04 14:13:09,477 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 09:45:17,528 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 09:45:21,759 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.23s [execute.py:56]
+2025-12-05 09:45:21,964 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.43s [execute.py:56]
+2025-12-05 09:45:21,964 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.43s [execute.py:56]
+2025-12-05 09:45:22,400 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.87s [execute.py:56]
+2025-12-05 09:45:24,420 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 09:45:24,604 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.64s [execute.py:56]
+2025-12-05 09:45:24,830 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.30s [execute.py:56]
+2025-12-05 09:45:24,831 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 09:45:25,035 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.63s [execute.py:56]
+2025-12-05 09:45:27,615 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.78s [execute.py:56]
+2025-12-05 09:45:27,697 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 09:45:28,515 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.68s [execute.py:56]
+2025-12-05 09:45:28,719 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:56]
+2025-12-05 09:45:29,947 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.34s [execute.py:56]
+2025-12-05 09:45:30,357 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.74s [execute.py:56]
+2025-12-05 09:45:30,562 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.86s [execute.py:56]
+2025-12-05 09:45:31,646 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.93s [execute.py:56]
+2025-12-05 09:45:32,813 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.86s [execute.py:56]
+2025-12-05 09:45:33,428 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-05 09:45:33,734 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.38s [execute.py:56]
+2025-12-05 09:45:35,271 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.75s [execute.py:56]
+2025-12-05 09:45:35,615 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.80s [execute.py:56]
+2025-12-05 09:45:36,089 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:56]
+2025-12-05 09:45:48,409 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 30.88s [execute.py:56]
+2025-12-05 09:45:52,263 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.62s [execute.py:56]
+2025-12-05 09:45:52,264 - egon_validation.runner - INFO - Completed 25 validations in 34.74s (avg: 1.39s per rule) [execute.py:243]
+2025-12-05 09:45:52,265 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 09:45:54,723 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 09:45:54,732 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 09:45:54,732 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 09:45:54,732 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 09:45:54,733 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 10:28:50,723 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 10:28:55,676 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.95s [execute.py:56]
+2025-12-05 10:28:55,677 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.95s [execute.py:56]
+2025-12-05 10:28:55,677 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.95s [execute.py:56]
+2025-12-05 10:28:56,085 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.36s [execute.py:56]
+2025-12-05 10:28:57,927 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:56]
+2025-12-05 10:28:58,133 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.41s [execute.py:56]
+2025-12-05 10:28:58,337 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 10:28:58,338 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:56]
+2025-12-05 10:28:58,747 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 10:29:00,983 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.64s [execute.py:56]
+2025-12-05 10:29:01,012 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.26s [execute.py:56]
+2025-12-05 10:29:01,716 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.38s [execute.py:56]
+2025-12-05 10:29:02,433 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.51s [execute.py:56]
+2025-12-05 10:29:03,252 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:56]
+2025-12-05 10:29:03,615 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.63s [execute.py:56]
+2025-12-05 10:29:03,661 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.65s [execute.py:56]
+2025-12-05 10:29:05,301 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:56]
+2025-12-05 10:29:05,915 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.66s [execute.py:56]
+2025-12-05 10:29:06,529 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-05 10:29:07,349 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.73s [execute.py:56]
+2025-12-05 10:29:08,167 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.45s [execute.py:56]
+2025-12-05 10:29:08,987 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:56]
+2025-12-05 10:29:09,193 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:56]
+2025-12-05 10:29:21,890 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.16s [execute.py:56]
+2025-12-05 10:29:25,987 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.69s [execute.py:56]
+2025-12-05 10:29:25,988 - egon_validation.runner - INFO - Completed 25 validations in 35.27s (avg: 1.41s per rule) [execute.py:243]
+2025-12-05 10:29:25,988 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 10:29:29,001 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 10:29:29,009 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 10:29:29,009 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 10:29:29,010 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 10:29:29,010 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 10:34:14,967 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 10:34:20,380 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.41s [execute.py:56]
+2025-12-05 10:34:20,585 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.62s [execute.py:56]
+2025-12-05 10:34:20,589 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.62s [execute.py:56]
+2025-12-05 10:34:20,792 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.82s [execute.py:56]
+2025-12-05 10:34:22,454 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.87s [execute.py:56]
+2025-12-05 10:34:22,541 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.75s [execute.py:56]
+2025-12-05 10:34:22,632 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.66s [execute.py:56]
+2025-12-05 10:34:22,632 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.04s [execute.py:56]
+2025-12-05 10:34:23,246 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 10:34:23,873 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.24s [execute.py:56]
+2025-12-05 10:34:23,950 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.70s [execute.py:56]
+2025-12-05 10:34:24,291 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.42s [execute.py:56]
+2025-12-05 10:34:24,371 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.42s [execute.py:56]
+2025-12-05 10:34:24,713 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.34s [execute.py:56]
+2025-12-05 10:34:24,947 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.31s [execute.py:56]
+2025-12-05 10:34:24,975 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.26s [execute.py:56]
+2025-12-05 10:34:25,314 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.34s [execute.py:56]
+2025-12-05 10:34:25,579 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.12s [execute.py:56]
+2025-12-05 10:34:26,200 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.25s [execute.py:56]
+2025-12-05 10:34:26,364 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.78s [execute.py:56]
+2025-12-05 10:34:26,489 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.95s [execute.py:56]
+2025-12-05 10:34:26,582 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.38s [execute.py:56]
+2025-12-05 10:34:28,979 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.69s [execute.py:56]
+2025-12-05 10:34:44,745 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.43s [execute.py:56]
+2025-12-05 10:34:46,997 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.03s [execute.py:56]
+2025-12-05 10:34:46,999 - egon_validation.runner - INFO - Completed 25 validations in 32.03s (avg: 1.28s per rule) [execute.py:243]
+2025-12-05 10:34:47,000 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 10:34:50,069 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 10:34:50,079 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 10:34:50,079 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 10:34:50,079 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 10:34:50,079 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 10:49:51,490 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 10:49:57,217 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.73s [execute.py:56]
+2025-12-05 10:49:57,422 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.93s [execute.py:56]
+2025-12-05 10:49:57,422 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.93s [execute.py:56]
+2025-12-05 10:49:57,627 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.13s [execute.py:56]
+2025-12-05 10:49:59,615 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.12s [execute.py:56]
+2025-12-05 10:49:59,879 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 10:50:00,085 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 10:50:00,290 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 10:50:00,494 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-05 10:50:02,952 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 10:50:03,566 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 10:50:03,647 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.03s [execute.py:56]
+2025-12-05 10:50:04,386 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:56]
+2025-12-05 10:50:04,791 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 1.84s [execute.py:56]
+2025-12-05 10:50:04,821 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.94s [execute.py:56]
+2025-12-05 10:50:05,205 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 1.64s [execute.py:56]
+2025-12-05 10:50:05,566 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 1.18s [execute.py:56]
+2025-12-05 10:50:05,775 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.98s [execute.py:56]
+2025-12-05 10:50:05,855 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.65s [execute.py:56]
+2025-12-05 10:50:06,181 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.32s [execute.py:56]
+2025-12-05 10:50:06,571 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.75s [execute.py:56]
+2025-12-05 10:50:06,678 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.90s [execute.py:56]
+2025-12-05 10:50:08,785 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 5.14s [execute.py:56]
+2025-12-05 10:50:24,869 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.30s [execute.py:56]
+2025-12-05 10:50:26,917 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 35.42s [execute.py:56]
+2025-12-05 10:50:26,918 - egon_validation.runner - INFO - Completed 25 validations in 35.43s (avg: 1.42s per rule) [execute.py:243]
+2025-12-05 10:50:26,919 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 10:50:28,014 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 10:50:28,028 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 10:50:28,028 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 10:50:28,029 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 10:50:28,029 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:12:01,145 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:12:06,028 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.88s [execute.py:56]
+2025-12-05 11:12:06,233 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.09s [execute.py:56]
+2025-12-05 11:12:06,331 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.18s [execute.py:56]
+2025-12-05 11:12:06,332 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.18s [execute.py:56]
+2025-12-05 11:12:08,895 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.75s [execute.py:56]
+2025-12-05 11:12:09,100 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 11:12:09,305 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:56]
+2025-12-05 11:12:09,306 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-05 11:12:09,306 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:56]
+2025-12-05 11:12:11,966 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:12:12,171 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:56]
+2025-12-05 11:12:13,195 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:56]
+2025-12-05 11:12:13,400 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:56]
+2025-12-05 11:12:14,424 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 11:12:14,424 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:56]
+2025-12-05 11:12:14,628 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 11:12:15,857 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.46s [execute.py:56]
+2025-12-05 11:12:17,291 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.87s [execute.py:56]
+2025-12-05 11:12:17,495 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-05 11:12:17,905 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.48s [execute.py:56]
+2025-12-05 11:12:19,648 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.45s [execute.py:56]
+2025-12-05 11:12:19,953 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:56]
+2025-12-05 11:12:20,362 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:56]
+2025-12-05 11:12:34,286 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.14s [execute.py:56]
+2025-12-05 11:12:36,539 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.68s [execute.py:56]
+2025-12-05 11:12:36,540 - egon_validation.runner - INFO - Completed 25 validations in 35.40s (avg: 1.42s per rule) [execute.py:243]
+2025-12-05 11:12:36,541 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:12:39,406 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:12:39,419 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:12:39,420 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:12:39,420 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:12:39,420 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:15:11,692 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:15:17,630 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.94s [execute.py:56]
+2025-12-05 11:15:17,631 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.94s [execute.py:56]
+2025-12-05 11:15:17,631 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.94s [execute.py:56]
+2025-12-05 11:15:17,673 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.98s [execute.py:56]
+2025-12-05 11:15:19,824 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.13s [execute.py:56]
+2025-12-05 11:15:20,381 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.75s [execute.py:56]
+2025-12-05 11:15:20,440 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.81s [execute.py:56]
+2025-12-05 11:15:20,440 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.77s [execute.py:56]
+2025-12-05 11:15:21,054 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.42s [execute.py:56]
+2025-12-05 11:15:23,309 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 11:15:23,623 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.57s [execute.py:56]
+2025-12-05 11:15:23,651 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.83s [execute.py:56]
+2025-12-05 11:15:23,924 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:56]
+2025-12-05 11:15:25,630 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.25s [execute.py:56]
+2025-12-05 11:15:25,665 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.36s [execute.py:56]
+2025-12-05 11:15:26,177 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.55s [execute.py:56]
+2025-12-05 11:15:26,792 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:56]
+2025-12-05 11:15:28,431 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.80s [execute.py:56]
+2025-12-05 11:15:29,251 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.07s [execute.py:56]
+2025-12-05 11:15:29,455 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.79s [execute.py:56]
+2025-12-05 11:15:29,865 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.21s [execute.py:56]
+2025-12-05 11:15:31,647 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.22s [execute.py:56]
+2025-12-05 11:15:31,915 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.66s [execute.py:56]
+2025-12-05 11:15:43,594 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.90s [execute.py:56]
+2025-12-05 11:15:47,488 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.70s [execute.py:56]
+2025-12-05 11:15:47,489 - egon_validation.runner - INFO - Completed 25 validations in 35.80s (avg: 1.43s per rule) [execute.py:243]
+2025-12-05 11:15:47,490 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:15:50,560 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:15:50,573 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:15:50,574 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:15:50,574 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:15:50,574 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:21:56,092 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:22:02,121 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.03s [execute.py:56]
+2025-12-05 11:22:02,121 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.03s [execute.py:56]
+2025-12-05 11:22:02,122 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.03s [execute.py:56]
+2025-12-05 11:22:02,325 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.23s [execute.py:56]
+2025-12-05 11:22:04,579 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.49s [execute.py:56]
+2025-12-05 11:22:05,193 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:22:05,193 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:22:05,399 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-05 11:22:05,400 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:22:07,855 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:22:08,060 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:22:08,879 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:56]
+2025-12-05 11:22:09,084 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.68s [execute.py:56]
+2025-12-05 11:22:10,928 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.73s [execute.py:56]
+2025-12-05 11:22:10,928 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:22:11,132 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:22:11,951 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:56]
+2025-12-05 11:22:13,631 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.70s [execute.py:56]
+2025-12-05 11:22:13,692 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.56s [execute.py:56]
+2025-12-05 11:22:14,614 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.68s [execute.py:56]
+2025-12-05 11:22:15,614 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.73s [execute.py:56]
+2025-12-05 11:22:16,047 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.35s [execute.py:56]
+2025-12-05 11:22:16,457 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 2.83s [execute.py:56]
+2025-12-05 11:22:28,013 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.92s [execute.py:56]
+2025-12-05 11:22:32,227 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.27s [execute.py:56]
+2025-12-05 11:22:32,228 - egon_validation.runner - INFO - Completed 25 validations in 36.14s (avg: 1.45s per rule) [execute.py:243]
+2025-12-05 11:22:32,229 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:22:35,505 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:22:35,517 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:22:35,518 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:22:35,518 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:22:35,518 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:26:30,670 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:26:35,735 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.06s [execute.py:56]
+2025-12-05 11:26:35,736 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.06s [execute.py:56]
+2025-12-05 11:26:35,940 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.27s [execute.py:56]
+2025-12-05 11:26:36,350 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.68s [execute.py:56]
+2025-12-05 11:26:38,194 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 11:26:38,603 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.93s [execute.py:56]
+2025-12-05 11:26:38,604 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:26:38,807 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-05 11:26:39,013 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-05 11:26:41,663 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.06s [execute.py:56]
+2025-12-05 11:26:41,777 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.76s [execute.py:56]
+2025-12-05 11:26:42,903 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.71s [execute.py:56]
+2025-12-05 11:26:43,108 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:56]
+2025-12-05 11:26:43,722 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:56]
+2025-12-05 11:26:44,542 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.88s [execute.py:56]
+2025-12-05 11:26:44,747 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.97s [execute.py:56]
+2025-12-05 11:26:45,770 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.66s [execute.py:56]
+2025-12-05 11:26:46,590 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.87s [execute.py:56]
+2025-12-05 11:26:47,614 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-05 11:26:48,024 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.48s [execute.py:56]
+2025-12-05 11:26:49,764 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.17s [execute.py:56]
+2025-12-05 11:26:49,764 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.86s [execute.py:56]
+2025-12-05 11:26:50,071 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:56]
+2025-12-05 11:27:02,155 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.48s [execute.py:56]
+2025-12-05 11:27:06,688 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.92s [execute.py:56]
+2025-12-05 11:27:06,690 - egon_validation.runner - INFO - Completed 25 validations in 36.02s (avg: 1.44s per rule) [execute.py:243]
+2025-12-05 11:27:06,690 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:27:09,632 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:27:09,641 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:27:09,641 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:27:09,641 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:27:09,641 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:28:10,400 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:28:15,678 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.28s [execute.py:56]
+2025-12-05 11:28:15,680 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.28s [execute.py:56]
+2025-12-05 11:28:15,680 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.28s [execute.py:56]
+2025-12-05 11:28:15,883 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.48s [execute.py:56]
+2025-12-05 11:28:18,136 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.74s [execute.py:56]
+2025-12-05 11:28:18,750 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:28:18,955 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:28:18,955 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.27s [execute.py:56]
+2025-12-05 11:28:19,162 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.48s [execute.py:56]
+2025-12-05 11:28:21,822 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-05 11:28:22,027 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.86s [execute.py:56]
+2025-12-05 11:28:22,641 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.50s [execute.py:56]
+2025-12-05 11:28:23,052 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:56]
+2025-12-05 11:28:24,076 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.32s [execute.py:56]
+2025-12-05 11:28:24,484 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:28:24,690 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:28:25,662 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.61s [execute.py:56]
+2025-12-05 11:28:27,147 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:56]
+2025-12-05 11:28:27,646 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.96s [execute.py:56]
+2025-12-05 11:28:28,580 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.09s [execute.py:56]
+2025-12-05 11:28:28,990 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.35s [execute.py:56]
+2025-12-05 11:28:29,809 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.16s [execute.py:56]
+2025-12-05 11:28:30,219 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:56]
+2025-12-05 11:28:43,735 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 33.33s [execute.py:56]
+2025-12-05 11:28:46,193 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.53s [execute.py:56]
+2025-12-05 11:28:46,195 - egon_validation.runner - INFO - Completed 25 validations in 35.80s (avg: 1.43s per rule) [execute.py:243]
+2025-12-05 11:28:46,195 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:28:49,470 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:28:49,484 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:28:49,484 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:28:49,485 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:28:49,485 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:32:32,375 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:32:37,720 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.34s [execute.py:56]
+2025-12-05 11:32:37,721 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.34s [execute.py:56]
+2025-12-05 11:32:37,823 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.45s [execute.py:56]
+2025-12-05 11:32:37,823 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.45s [execute.py:56]
+2025-12-05 11:32:39,769 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.39s [execute.py:56]
+2025-12-05 11:32:40,690 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:56]
+2025-12-05 11:32:40,895 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-05 11:32:41,100 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-05 11:32:41,304 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.58s [execute.py:56]
+2025-12-05 11:32:43,557 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.79s [execute.py:56]
+2025-12-05 11:32:43,646 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.75s [execute.py:56]
+2025-12-05 11:32:43,967 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:32:44,991 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.89s [execute.py:56]
+2025-12-05 11:32:45,810 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.12s [execute.py:56]
+2025-12-05 11:32:46,219 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:32:46,424 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.78s [execute.py:56]
+2025-12-05 11:32:47,653 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.66s [execute.py:56]
+2025-12-05 11:32:48,882 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:56]
+2025-12-05 11:32:49,496 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.07s [execute.py:56]
+2025-12-05 11:32:49,701 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.48s [execute.py:56]
+2025-12-05 11:32:50,316 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.35s [execute.py:56]
+2025-12-05 11:32:51,749 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.25s [execute.py:56]
+2025-12-05 11:32:51,954 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:56]
+2025-12-05 11:33:04,037 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.66s [execute.py:56]
+2025-12-05 11:33:08,338 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.68s [execute.py:56]
+2025-12-05 11:33:08,339 - egon_validation.runner - INFO - Completed 25 validations in 35.96s (avg: 1.44s per rule) [execute.py:243]
+2025-12-05 11:33:08,340 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:33:11,411 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:33:11,424 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:33:11,425 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:33:11,425 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:33:11,425 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:37:56,041 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:38:01,407 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.36s [execute.py:56]
+2025-12-05 11:38:01,407 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.37s [execute.py:56]
+2025-12-05 11:38:01,408 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.36s [execute.py:56]
+2025-12-05 11:38:01,611 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.57s [execute.py:56]
+2025-12-05 11:38:03,250 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.21s [execute.py:56]
+2025-12-05 11:38:03,455 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.04s [execute.py:56]
+2025-12-05 11:38:03,647 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.04s [execute.py:56]
+2025-12-05 11:38:03,762 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.35s [execute.py:56]
+2025-12-05 11:38:04,069 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-05 11:38:06,527 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.88s [execute.py:56]
+2025-12-05 11:38:06,965 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.89s [execute.py:56]
+2025-12-05 11:38:07,550 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.30s [execute.py:56]
+2025-12-05 11:38:07,615 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.85s [execute.py:56]
+2025-12-05 11:38:08,911 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.45s [execute.py:56]
+2025-12-05 11:38:08,938 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.41s [execute.py:56]
+2025-12-05 11:38:09,394 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.43s [execute.py:56]
+2025-12-05 11:38:09,701 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.09s [execute.py:56]
+2025-12-05 11:38:11,442 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.53s [execute.py:56]
+2025-12-05 11:38:12,056 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.66s [execute.py:56]
+2025-12-05 11:38:12,876 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.94s [execute.py:56]
+2025-12-05 11:38:13,631 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.08s [execute.py:56]
+2025-12-05 11:38:14,514 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.46s [execute.py:56]
+2025-12-05 11:38:14,719 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.28s [execute.py:56]
+2025-12-05 11:38:27,826 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.78s [execute.py:56]
+2025-12-05 11:38:30,285 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 20.58s [execute.py:56]
+2025-12-05 11:38:30,286 - egon_validation.runner - INFO - Completed 25 validations in 34.25s (avg: 1.37s per rule) [execute.py:243]
+2025-12-05 11:38:30,286 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:38:33,560 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:38:33,571 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:38:33,572 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:38:33,572 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:38:33,572 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 11:52:09,589 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 11:52:13,884 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.29s [execute.py:56]
+2025-12-05 11:52:13,909 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.32s [execute.py:56]
+2025-12-05 11:52:14,040 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.45s [execute.py:56]
+2025-12-05 11:52:14,145 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.55s [execute.py:56]
+2025-12-05 11:52:14,337 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.43s [execute.py:56]
+2025-12-05 11:52:14,584 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.44s [execute.py:56]
+2025-12-05 11:52:14,696 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.65s [execute.py:56]
+2025-12-05 11:52:15,043 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.16s [execute.py:56]
+2025-12-05 11:52:15,071 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.37s [execute.py:56]
+2025-12-05 11:52:15,436 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.36s [execute.py:56]
+2025-12-05 11:52:15,659 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.22s [execute.py:56]
+2025-12-05 11:52:15,881 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.22s [execute.py:56]
+2025-12-05 11:52:16,375 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.04s [execute.py:56]
+2025-12-05 11:52:16,457 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 6.87s [execute.py:56]
+2025-12-05 11:52:16,538 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.49s [execute.py:56]
+2025-12-05 11:52:16,803 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.43s [execute.py:56]
+2025-12-05 11:52:16,881 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.42s [execute.py:56]
+2025-12-05 11:52:17,236 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.43s [execute.py:56]
+2025-12-05 11:52:17,551 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.97s [execute.py:56]
+2025-12-05 11:52:17,797 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.26s [execute.py:56]
+2025-12-05 11:52:17,864 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.31s [execute.py:56]
+2025-12-05 11:52:17,962 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.73s [execute.py:56]
+2025-12-05 11:52:20,325 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.44s [execute.py:56]
+2025-12-05 11:52:36,709 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.83s [execute.py:56]
+2025-12-05 11:52:41,215 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 31.62s [execute.py:56]
+2025-12-05 11:52:41,216 - egon_validation.runner - INFO - Completed 25 validations in 31.63s (avg: 1.27s per rule) [execute.py:243]
+2025-12-05 11:52:41,216 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 11:52:44,287 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 11:52:44,301 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 11:52:44,301 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 11:52:44,302 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 11:52:44,302 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-05 13:25:39,485 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:208]
+2025-12-05 13:25:40,367 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.88s [execute.py:56]
+2025-12-05 13:25:40,395 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.91s [execute.py:56]
+2025-12-05 13:25:40,526 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.04s [execute.py:56]
+2025-12-05 13:25:40,732 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.24s [execute.py:56]
+2025-12-05 13:25:40,815 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.42s [execute.py:56]
+2025-12-05 13:25:41,146 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.41s [execute.py:56]
+2025-12-05 13:25:41,275 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.75s [execute.py:56]
+2025-12-05 13:25:41,584 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.22s [execute.py:56]
+2025-12-05 13:25:41,690 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.41s [execute.py:56]
+2025-12-05 13:25:42,007 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 0.32s [execute.py:56]
+2025-12-05 13:25:42,228 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 0.22s [execute.py:56]
+2025-12-05 13:25:42,447 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 0.22s [execute.py:56]
+2025-12-05 13:25:42,968 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 1.38s [execute.py:56]
+2025-12-05 13:25:43,189 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 0.22s [execute.py:56]
+2025-12-05 13:25:43,265 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.45s [execute.py:56]
+2025-12-05 13:25:43,341 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 3.86s [execute.py:56]
+2025-12-05 13:25:43,598 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 0.41s [execute.py:56]
+2025-12-05 13:25:43,723 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 0.38s [execute.py:56]
+2025-12-05 13:25:44,060 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.91s [execute.py:56]
+2025-12-05 13:25:44,361 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 0.30s [execute.py:56]
+2025-12-05 13:25:44,457 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 1.19s [execute.py:56]
+2025-12-05 13:25:44,638 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 0.91s [execute.py:56]
+2025-12-05 13:25:46,903 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 4.46s [execute.py:56]
+2025-12-05 13:26:02,829 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 19.23s [execute.py:56]
+2025-12-05 13:26:07,566 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 28.08s [execute.py:56]
+2025-12-05 13:26:07,568 - egon_validation.runner - INFO - Completed 25 validations in 28.08s (avg: 1.12s per rule) [execute.py:243]
+2025-12-05 13:26:07,568 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-05 13:26:08,797 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-05 13:26:08,810 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-05 13:26:08,810 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-05 13:26:08,810 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-05 13:26:08,811 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 12 total rules [coverage_analysis.py:130]
+2025-12-08 13:30:53,492 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:209]
+2025-12-08 13:30:59,028 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.53s [execute.py:56]
+2025-12-08 13:30:59,233 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:56]
+2025-12-08 13:30:59,643 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.15s [execute.py:56]
+2025-12-08 13:30:59,849 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 6.35s [execute.py:56]
+2025-12-08 13:31:01,895 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 8.40s [execute.py:56]
+2025-12-08 13:31:02,100 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-08 13:31:02,715 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:56]
+2025-12-08 13:31:02,715 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-08 13:31:02,715 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.87s [execute.py:56]
+2025-12-08 13:31:04,865 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.15s [execute.py:56]
+2025-12-08 13:31:04,967 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.25s [execute.py:56]
+2025-12-08 13:31:06,401 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.51s [execute.py:56]
+2025-12-08 13:31:06,402 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:56]
+2025-12-08 13:31:07,630 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 2.76s [execute.py:56]
+2025-12-08 13:31:07,835 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 2.87s [execute.py:56]
+2025-12-08 13:31:07,835 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.73s [execute.py:56]
+2025-12-08 13:31:09,064 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.66s [execute.py:56]
+2025-12-08 13:31:10,702 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 3.07s [execute.py:56]
+2025-12-08 13:31:10,836 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 3.00s [execute.py:56]
+2025-12-08 13:31:11,521 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 3.68s [execute.py:56]
+2025-12-08 13:31:12,954 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.55s [execute.py:56]
+2025-12-08 13:31:13,364 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.53s [execute.py:56]
+2025-12-08 13:31:13,774 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.07s [execute.py:56]
+2025-12-08 13:31:25,652 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.15s [execute.py:56]
+2025-12-08 13:31:30,868 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 21.80s [execute.py:56]
+2025-12-08 13:31:30,870 - egon_validation.runner - INFO - Completed 25 validations in 37.38s (avg: 1.50s per rule) [execute.py:244]
+2025-12-08 13:31:30,870 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-08 13:31:33,845 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-08 13:31:33,859 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-08 13:31:33,859 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-08 13:31:33,859 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-08 13:31:33,860 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 11 total rule classes [coverage_analysis.py:130]
+2025-12-08 13:42:01,320 - egon_validation.runner - INFO - Executing 25 validations for task 'validation-test' (max_workers=6) [execute.py:209]
+2025-12-08 13:42:07,066 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:56]
+2025-12-08 13:42:07,066 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.74s [execute.py:56]
+2025-12-08 13:42:07,067 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.75s [execute.py:56]
+2025-12-08 13:42:07,270 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.95s [execute.py:56]
+2025-12-08 13:42:09,115 - egon_validation.runner - INFO - Rule LOAD_TIMESERIES_LENGTH completed in 7.79s [execute.py:56]
+2025-12-08 13:42:10,140 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-08 13:42:10,346 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.07s [execute.py:56]
+2025-12-08 13:42:10,346 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.28s [execute.py:56]
+2025-12-08 13:42:10,755 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 3.69s [execute.py:56]
+2025-12-08 13:42:13,008 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.66s [execute.py:56]
+2025-12-08 13:42:13,213 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 2.46s [execute.py:56]
+2025-12-08 13:42:13,214 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:56]
+2025-12-08 13:42:14,444 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 4.10s [execute.py:56]
+2025-12-08 13:42:15,468 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 5.33s [execute.py:56]
+2025-12-08 13:42:16,082 - egon_validation.runner - INFO - Rule COLUMN_DATA_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-08 13:42:16,287 - egon_validation.runner - INFO - Rule MULTIPLE_COLUMNS_TYPE_CHECK completed in 3.07s [execute.py:56]
+2025-12-08 13:42:17,312 - egon_validation.runner - INFO - Rule adhoc_NOT_NULL_NAN completed in 2.87s [execute.py:56]
+2025-12-08 13:42:18,337 - egon_validation.runner - INFO - Rule MV_GRID_DISTRICT_COUNT completed in 2.87s [execute.py:56]
+2025-12-08 13:42:19,156 - egon_validation.runner - INFO - Rule SCENARIO_VALUES_VALID completed in 2.87s [execute.py:56]
+2025-12-08 13:42:20,180 - egon_validation.runner - INFO - Rule WIND_PLANTS_IN_GERMANY completed in 6.97s [execute.py:56]
+2025-12-08 13:42:20,181 - egon_validation.runner - INFO - Rule SRID_UNIQUE_NONZERO completed in 4.10s [execute.py:56]
+2025-12-08 13:42:21,410 - egon_validation.runner - INFO - Rule CTS_IND_ROW_COUNT_MATCH completed in 2.25s [execute.py:56]
+2025-12-08 13:42:21,615 - egon_validation.runner - INFO - Rule DISAGGREGATED_DEMAND_SUM_MATCH completed in 3.28s [execute.py:56]
+2025-12-08 13:42:33,408 - egon_validation.runner - INFO - Rule ARRAY_CARDINALITY_CHECK completed in 32.08s [execute.py:56]
+2025-12-08 13:42:38,620 - egon_validation.runner - INFO - Rule ELECTRICAL_LOAD_AGGREGATION completed in 21.31s [execute.py:56]
+2025-12-08 13:42:38,622 - egon_validation.runner - INFO - Completed 25 validations in 37.30s (avg: 1.49s per rule) [execute.py:244]
+2025-12-08 13:42:38,622 - egon_validation.coverage_analysis - INFO - Attempting to discover total tables in database [coverage_analysis.py:25]
+2025-12-08 13:42:41,694 - egon_validation.coverage_analysis - INFO - Successfully discovered 200 tables in database [coverage_analysis.py:42]
+2025-12-08 13:42:41,703 - egon_validation.coverage_analysis - INFO - Calculating coverage statistics [coverage_analysis.py:90]
+2025-12-08 13:42:41,704 - egon_validation.coverage_analysis - INFO - Loaded saved table count: 200 tables [coverage_analysis.py:64]
+2025-12-08 13:42:41,704 - egon_validation.coverage_analysis - INFO - Table coverage: 9/200 tables validated (4.5%) [coverage_analysis.py:110]
+2025-12-08 13:42:41,704 - egon_validation.coverage_analysis - INFO - Rule coverage based on expected pipeline rules: 11 total rule classes [coverage_analysis.py:130]

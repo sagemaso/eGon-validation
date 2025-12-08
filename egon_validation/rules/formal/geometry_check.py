@@ -4,9 +4,8 @@ from egon_validation.rules.registry import register
 
 @register(
     task="validation-test",
-    dataset="supply.egon_power_plants_wind",
+    table="supply.egon_power_plants_wind",
     rule_id="WIND_PLANTS_IN_GERMANY",
-    kind="formal",
     geometry_column="geom",
     reference_dataset="boundaries.vg250_sta",
     reference_geometry="geometry",
@@ -35,7 +34,7 @@ class GeometryContainmentValidation(SqlRule):
             COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_outside
         FROM 
             reference_geom,
-            {self.dataset} AS points
+            {self.table} AS points
         WHERE 
             points.{filter_condition}
         """
@@ -60,68 +59,16 @@ class GeometryContainmentValidation(SqlRule):
             # Add debugging information for wind plants specifically
             if self.rule_id == "WIND_PLANTS_IN_GERMANY" and points_outside > 0:
                 message += f" | To get coordinates: SELECT * FROM supply.egon_power_plants_wind WHERE site_type = 'Windkraft an Land'"
-                message += f" | AND NOT ST_Covers((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
+                message += f" | AND NOT ST_Contains((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
 
         return RuleResult(
             rule_id=self.rule_id,
             task=self.task,
-            dataset=self.dataset,
-            success=ok,
-            observed=float(points_outside),
-            expected=0.0,
-            message=message,
-            severity=Severity.WARNING,
-            schema=self.schema,
             table=self.table,
-            column=self.params.get("geometry_column"),
-        )
-
-
-@register(
-    task="validation-test",
-    dataset="supply.egon_power_plants_wind",
-    rule_id="WIND_PLANTS_IN_GERMANY_ORIGINAL",
-    kind="formal",
-)
-class GeometryContainmentValidation_Original(SqlRule):
-    """Validates that wind plants are within Germany using original SQL query with ST_Disjoint."""
-
-    def sql(self, ctx):
-        return """
-        SELECT
-            count(*) as points_outside
-        FROM
-            boundaries.vg250_sta AS germany,
-            supply.egon_power_plants_wind AS wind
-        WHERE
-            wind.site_type = 'Windkraft an Land' AND
-            germany.nuts = 'DE' AND
-            germany.gf = 4 AND
-            ST_Disjoint(
-              ST_Transform(wind.geom, 3035),
-              ST_Transform(germany.geometry, 3035)
-            )
-        """
-
-    def postprocess(self, row, ctx):
-        points_outside = int(row.get("points_outside") or 0)
-        ok = points_outside == 0
-
-        if ok:
-            message = f"All wind plants are within Germany boundaries (original SQL)"
-        else:
-            message = f"{points_outside} wind plants are outside Germany boundaries (original SQL)"
-
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            dataset=self.dataset,
             success=ok,
-            observed=float(points_outside),
-            expected=0.0,
+            observed=points_outside,
+            expected=0,
             message=message,
-            severity=Severity.WARNING,
-            schema=self.schema,
-            table=self.table,
-            column="geom",
+            severity=Severity.ERROR if not ok else Severity.INFO,
+            kind=self.kind,
         )
