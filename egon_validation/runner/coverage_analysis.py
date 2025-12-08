@@ -4,13 +4,65 @@ Coverage analysis for validation monitoring
 
 import os
 import json
-from typing import Dict
+import inspect
+import importlib
+import pkgutil
+from pathlib import Path
+from typing import Dict, Set
 from egon_validation.db import make_engine, fetch_one
 from egon_validation.config import get_env, ENV_DB_URL, build_db_url
 from egon_validation.rules.registry import list_registered
+from egon_validation.rules.base import Rule
 from egon_validation.logging_config import get_logger
 
 logger = get_logger("coverage_analysis")
+
+
+def discover_all_rule_classes() -> Set[str]:
+    """
+    Discover all rule classes in the codebase by introspecting rules/formal and rules/custom.
+
+    Returns:
+    --------
+    Set[str]: Set of all rule class names (e.g., 'RowCountValidation', 'ArrayCardinalityValidation')
+    """
+    rule_classes = set()
+
+    try:
+        # Import rules modules to ensure all rules are loaded
+        import egon_validation.rules.formal
+        import egon_validation.rules.custom
+
+        # Discover rule classes in formal and custom modules
+        for module_name in ['egon_validation.rules.formal', 'egon_validation.rules.custom']:
+            try:
+                module = importlib.import_module(module_name)
+                module_path = Path(module.__file__).parent
+
+                # Iterate through all Python files in the module
+                for submodule_info in pkgutil.iter_modules([str(module_path)]):
+                    if submodule_info.ispkg or submodule_info.name.startswith('_'):
+                        continue
+
+                    # Import the submodule
+                    submodule = importlib.import_module(f"{module_name}.{submodule_info.name}")
+
+                    # Find all Rule subclasses in the module
+                    for name, obj in inspect.getmembers(submodule, inspect.isclass):
+                        # Check if it's a Rule subclass and not the base Rule class itself
+                        if issubclass(obj, Rule) and obj is not Rule and obj.__module__ == submodule.__name__:
+                            rule_classes.add(obj.__name__)
+                            logger.debug(f"Discovered rule class: {obj.__name__} in {submodule.__name__}")
+
+            except Exception as e:
+                logger.warning(f"Failed to discover rules in {module_name}: {e}")
+
+        logger.info(f"Discovered {len(rule_classes)} total rule classes: {sorted(rule_classes)}")
+
+    except Exception as e:
+        logger.error(f"Failed to discover rule classes: {e}", exc_info=True)
+
+    return rule_classes
 
 
 def discover_total_tables() -> int:
@@ -116,25 +168,11 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         }
     )
 
-    # Get expected rules from pipeline execution or fallback to registry
-    expected_rules_data = collected_data.get("expected_rules", {})
-
-    if expected_rules_data:
-        # NEW APPROACH: Count expected rule classes from what was submitted to pipeline
-        logger.debug(f"Using expected rules from {len(expected_rules_data)} tasks")
-        expected_rule_classes = set()
-        for task_name, rules in expected_rules_data.items():
-            for rule in rules:
-                expected_rule_classes.add(rule["rule_class"])
-        total_rules = len(expected_rule_classes)
-        logger.info(f"Rule coverage based on expected pipeline rules: {total_rules} total rule classes")
-    else:
-        # Fallback for backward compatibility with standalone mode
-        logger.debug("No expected rules found, falling back to registry")
-        all_rules = list_registered()
-        unique_rule_ids = set(rule["rule_id"] for rule in all_rules)
-        total_rules = len(unique_rule_ids)
-        logger.info(f"Rule coverage based on registry: {total_rules} registered rules")
+    # Discover all available rule classes in the codebase
+    # This gives us the total number of rule classes available (e.g., 13)
+    all_rule_classes = discover_all_rule_classes()
+    total_rules = len(all_rule_classes)
+    logger.info(f"Total available rule classes in codebase: {total_rules}")
 
     # Count unique applied rules by rule_class (not rule_id)
     applied_rule_classes = set()
