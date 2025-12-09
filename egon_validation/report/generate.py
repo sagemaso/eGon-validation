@@ -1,6 +1,7 @@
 import os
 import shutil
 import datetime
+from egon_validation import __version__
 
 
 def _replace_tokens(s: str, **tokens) -> str:
@@ -9,7 +10,7 @@ def _replace_tokens(s: str, **tokens) -> str:
     return s
 
 
-def generate(ctx, version: str = "0.1.0", base_dir: str = None):
+def generate(ctx, base_dir: str = None):
     base = base_dir
     os.makedirs(base, exist_ok=True)
     assets = os.path.join(os.path.dirname(__file__), "assets")
@@ -27,7 +28,7 @@ def generate(ctx, version: str = "0.1.0", base_dir: str = None):
         TITLE="eGon Validation — Report",
         RUN_ID=ctx.run_id,
         GENERATED_AT=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        VERSION=version,
+        VERSION=__version__,
     )
 
     with open(os.path.join(base, "report.html"), "w", encoding="utf-8") as f:
