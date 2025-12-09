@@ -1,6 +1,7 @@
 import os
 import json
 import glob
+from datetime import datetime
 from typing import Dict, List
 from egon_validation.rules.registry import list_registered
 from egon_validation.runner.coverage_analysis import calculate_coverage_stats
@@ -178,7 +179,8 @@ def build_coverage(ctx, collected: Dict) -> Dict:
 
 
 def write_outputs(ctx, results: Dict, coverage: Dict) -> str:
-    out_dir = os.path.join(ctx.out_dir, ctx.run_id, "final")
+    task_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    out_dir = os.path.join(ctx.out_dir, ctx.run_id, f"final.{task_timestamp}")
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "results.json"), "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)

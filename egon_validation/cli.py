@@ -57,10 +57,7 @@ def _run_task(args):
         finally:
             engine.dispose()
 
-    print(
-        f"Written task results for '{args.task}' -> "
-        f"{os.path.join(ctx.out_dir, ctx.run_id, 'tasks', args.task)}"
-    )
+    print(f"Task '{args.task}' completed successfully")
 
 
 def _final_report(args):
@@ -68,8 +65,8 @@ def _final_report(args):
     collected = collect(ctx)
     coverage = build_coverage(ctx, collected)
     out_dir = write_outputs(ctx, collected, coverage)
-    generate(ctx)
-    print(f"Final reporter at: {os.path.join(out_dir, 'reporter.html')}")
+    generate(ctx, base_dir=out_dir)
+    print(f"Final report at: {os.path.join(out_dir, 'report.html')}")
 
 
 def main():
