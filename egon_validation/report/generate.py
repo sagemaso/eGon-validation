@@ -30,7 +30,7 @@ def generate(ctx, version: str = "0.1.0", base_dir: str = None):
         VERSION=version,
     )
 
-    with open(os.path.join(base, "reporter.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(base, "report.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
     return base

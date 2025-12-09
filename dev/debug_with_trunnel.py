@@ -25,10 +25,10 @@ main()
 #]
 #main()
 
-# 3) final-reporter
+# 3) final-report
 sys.argv = [
     "egon-validation",
-    "final-reporter",
+    "final-report",
     "--run-id", run_id,
     # Optional: "--out", "./validation_runs",
 ]
