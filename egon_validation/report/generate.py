@@ -15,11 +15,11 @@ def generate(ctx, version: str = "0.1.0"):
     assets = os.path.join(os.path.dirname(__file__), "assets")
 
     # Copy css/js as-is
-    for name in ["reporter.css", "reporter.js"]:
+    for name in ["report.css", "report.js"]:
         shutil.copy2(os.path.join(assets, name), os.path.join(base, name))
 
     # Prepare HTML with a few tokens
-    with open(os.path.join(assets, "reporter.html"), "r", encoding="utf-8") as f:
+    with open(os.path.join(assets, "report.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
     html = _replace_tokens(
@@ -30,7 +30,7 @@ def generate(ctx, version: str = "0.1.0"):
         VERSION=version,
     )
 
-    with open(os.path.join(base, "reporter.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(base, "report.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
     return base
