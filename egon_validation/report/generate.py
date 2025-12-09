@@ -11,7 +11,18 @@ def _replace_tokens(s: str, **tokens) -> str:
 
 
 def generate(ctx, base_dir: str = None):
-    base = base_dir
+    if base_dir is not None:
+        base = base_dir
+    else:
+        # Generate timestamp for output directory
+        task_timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        # Handle case when ctx.out_dir is None
+        out_dir = ctx.out_dir if ctx.out_dir is not None else "validation_runs"
+
+        # Create timestamped final directory
+        base = os.path.join(out_dir, ctx.run_id, f"final.{task_timestamp}")
+
     os.makedirs(base, exist_ok=True)
     assets = os.path.join(os.path.dirname(__file__), "assets")
 
