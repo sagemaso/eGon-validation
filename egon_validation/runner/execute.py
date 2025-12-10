@@ -185,7 +185,7 @@ def run_validations(
 
     # Create base task directory with timestamp
     task_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    task_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", f"{task_name}.{task_timestamp}")
+    task_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", f"{task_name}")
     _ensure_dir(task_dir, check_collision=False)
 
     # Save expected rules for this task before execution
