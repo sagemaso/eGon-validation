@@ -5,83 +5,11 @@ from egon_validation.rules.registry import register
 @register(
     task="validation-test",
     table="demand.egon_demandregio_hh",
-    rule_id="COLUMN_DATA_TYPE_CHECK",
-    column="year",
-    expected_type="integer",
-)
-class DataTypeValidation(SqlRule):
-    """Validates that a column has the expected PostgreSQL data type.
-
-    Args:
-        rule_id: Unique identifier
-        task: Task identifier
-        table: Full table name including schema
-        column: Column name to check (passed in params)
-        expected_type: Expected PostgreSQL data type (passed in params)
-
-    Example:
-        >>> validation = DataTypeValidation(
-        ...     rule_id="YEAR_TYPE_CHECK",
-        ...     task="validation-test",
-        ...     table="demand.egon_demandregio_hh",
-        ...     column="year",
-        ...     expected_type="integer"
-        ... )
-    """
-
-    def sql(self, ctx):
-        column = self.params.get("column", "id")
-        schema, table = self.get_schema_and_table()
-
-        return f"""
-        SELECT 
-            column_name,
-            data_type,
-            udt_name,
-            is_nullable,
-            column_default
-        FROM information_schema.columns
-        WHERE 
-            table_schema = '{schema}' AND
-            table_name = '{table}' AND
-            column_name = '{column}'
-        """
-
-    def postprocess(self, row, ctx):
-        if not row:
-            return self.error_result("Column not found", column=self.params.get("column"))
-
-        column_name = row.get("column_name")
-        actual_type = row.get("data_type", "").lower()
-        udt_name = row.get("udt_name", "").lower()
-        expected_type = self.params.get("expected_type", "integer").lower()
-
-        expected_types = POSTGRES_TYPE_MAPPINGS.get(expected_type, [expected_type])
-        ok = actual_type in expected_types or udt_name in expected_types
-
-        message = f"Column '{column_name}' has type '{actual_type}' (udt: '{udt_name}'), expected: {expected_type}"
-
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
-            success=ok,
-            message=message,
-            schema=self.schema,
-            table_name=self.table_name,
-            column=column_name,
-            kind=self.kind,
-        )
-
-
-@register(
-    task="validation-test",
-    table="demand.egon_demandregio_hh",
-    rule_id="MULTIPLE_COLUMNS_TYPE_CHECK",
+    rule_id="DATA_TYPE_CHECK",
     column_types={"year": "integer", "scenario": "text", "demand": "numeric"},
 )
-class MultipleColumnsDataTypeValidation(SqlRule):
-    """Validates data types for multiple columns in a table.
+class DataTypeValidation(SqlRule):
+    """Validates data types for one or more columns in a table.
 
     Args:
         rule_id: Unique identifier
@@ -89,8 +17,16 @@ class MultipleColumnsDataTypeValidation(SqlRule):
         table: Full table name including schema
         column_types: Dict mapping column names to expected types (passed in params)
 
-    Example:
-        >>> validation = MultipleColumnsDataTypeValidation(
+    Example (single column):
+        >>> validation = DataTypeValidation(
+        ...     rule_id="YEAR_TYPE_CHECK",
+        ...     task="validation-test",
+        ...     table="demand.egon_demandregio_hh",
+        ...     column_types={"year": "integer"}
+        ... )
+
+    Example (multiple columns):
+        >>> validation = DataTypeValidation(
         ...     rule_id="HH_TYPES_CHECK",
         ...     task="validation-test",
         ...     table="demand.egon_demandregio_hh",
