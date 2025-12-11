@@ -8,7 +8,7 @@ from egon_validation.rules.registry import register
     rule_id="adhoc_NOT_NULL_NAN",
     columns=["demand", "year"],
 )
-class NotNullAndNotNaN(SqlRule):
+class NotNullAndNotNaNValidation(SqlRule):
     """Validates that one or more columns contain no NULL or NaN values.
 
     Args:
@@ -123,7 +123,7 @@ class NotNullAndNotNaN(SqlRule):
     table="demand.egon_demandregio_hh",
     rule_id="WHOLE_TABLE_NOT_NULL_NAN",
 )
-class WholeTableNotNullAndNotNaN(Rule):
+class WholeTableNotNullAndNotNaNValidation(Rule):
     """Validates that all columns in a table contain no NULL or NaN values.
 
     This rule automatically discovers all columns in the table and checks each one.
