@@ -1,6 +1,7 @@
 import os
 import shutil
 import datetime
+from egon_validation import __version__
 
 
 def _replace_tokens(s: str, **tokens) -> str:
@@ -9,8 +10,19 @@ def _replace_tokens(s: str, **tokens) -> str:
     return s
 
 
-def generate(ctx, version: str = "0.1.0"):
-    base = os.path.join(ctx.out_dir, ctx.run_id, "final")
+def generate(ctx, base_dir: str = None):
+    if base_dir is not None:
+        base = base_dir
+    else:
+        # Generate timestamp for output directory
+        task_timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        # Handle case when ctx.out_dir is None
+        out_dir = ctx.out_dir if ctx.out_dir is not None else "validation_runs"
+
+        # Create timestamped final directory
+        base = os.path.join(out_dir, ctx.run_id, f"final.{task_timestamp}")
+
     os.makedirs(base, exist_ok=True)
     assets = os.path.join(os.path.dirname(__file__), "assets")
 
@@ -27,7 +39,7 @@ def generate(ctx, version: str = "0.1.0"):
         TITLE="eGon Validation — Report",
         RUN_ID=ctx.run_id,
         GENERATED_AT=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        VERSION=version,
+        VERSION=__version__,
     )
 
     with open(os.path.join(base, "report.html"), "w", encoding="utf-8") as f:

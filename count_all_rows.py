@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Count all rows in all tables of the database.
-This script will connect to your database and provide a comprehensive row count reporter.
+This script will connect to your database and provide a comprehensive row count report.
 """
 
 import sys

@@ -11,6 +11,7 @@ gas_data/
 
 # Log files
 logs/
+*.log
 
 # Python
 __pycache__/
