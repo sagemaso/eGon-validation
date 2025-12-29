@@ -161,14 +161,6 @@ class Rule:
             **kwargs
         )
 
-
-class SqlRule(Rule):
-    def sql(self, ctx) -> str:
-        raise NotImplementedError
-
-    def postprocess(self, row: Dict[str, Any], ctx) -> RuleResult:
-        raise NotImplementedError
-
     def get_schema_and_table(self) -> tuple[str, str]:
         """Parse table into schema and table name.
 
@@ -182,7 +174,43 @@ class SqlRule(Rule):
             raise ValueError(
                 f"Table '{self.table}' must include schema in format 'schema.table'"
             )
-        return self.table.split(".", 1)
+        return tuple(self.table.split(".", 1))
+
+
+    @staticmethod
+    def severity_from_success(success: bool, error_severity: Severity = Severity.ERROR) -> Severity:
+        """Determine severity based on validation success.
+
+        Args:
+            success: Whether validation passed
+            error_severity: Severity to use on failure (default: ERROR)
+
+        Returns:
+            Severity.INFO if success, otherwise error_severity
+        """
+        return Severity.INFO if success else error_severity
+
+    @staticmethod
+    def within_tolerance(actual: float, expected: float, tolerance: float = 0.0) -> bool:
+        """Check if actual value is within tolerance of expected value.
+
+        Args:
+            actual: The observed/actual value
+            expected: The expected value
+            tolerance: Relative tolerance (e.g., 0.01 for 1%)
+
+        Returns:
+            True if |actual - expected| <= expected * tolerance
+        """
+        return abs(actual - expected) <= (expected * tolerance)
+
+
+class SqlRule(Rule):
+    def sql(self, ctx) -> str:
+        raise NotImplementedError
+
+    def postprocess(self, row: Dict[str, Any], ctx) -> RuleResult:
+        raise NotImplementedError
 
     @staticmethod
     def parse_json_result(json_data):

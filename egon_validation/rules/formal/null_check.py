@@ -136,21 +136,6 @@ class WholeTableNotNullAndNotNaNValidation(Rule):
         ... )
     """
 
-    def get_schema_and_table(self):
-        """Parse table into schema and table name.
-
-        Returns:
-            tuple: (schema, table)
-
-        Raises:
-            ValueError: If table does not contain a schema (missing '.')
-        """
-        if "." not in self.table:
-            raise ValueError(
-                f"Table '{self.table}' must include schema in format 'schema.table'"
-            )
-        return self.table.split(".", 1)
-
     def evaluate(self, engine, ctx):
         """Execute rule by querying all columns and checking each one."""
         from egon_validation import db
