@@ -103,18 +103,12 @@ class NotNullAndNotNaNValidation(SqlRule):
                 else "; ".join(problems)
             )
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=total_bad,
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
-            schema=self.schema,
-            table_name=self.table_name,
         )
 
 
@@ -175,25 +169,13 @@ class WholeTableNotNullAndNotNaNValidation(Rule):
         try:
             columns_result = db.fetch_all(engine, columns_query)
         except Exception as e:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                table=self.table,
-                success=False,
-                message=f"Failed to fetch column information: {str(e)}",
-                severity=Severity.ERROR,
-                kind=self.kind,
+            return self.error_result(
+                message=f"Failed to fetch column information: {str(e)}"
             )
 
         if not columns_result:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                table=self.table,
-                success=False,
-                message="No columns found in table",
-                severity=Severity.ERROR,
-                kind=self.kind,
+            return self.error_result(
+                message="No columns found in table"
             )
 
         # Step 2: Check each column for NULL/NaN values
@@ -242,14 +224,10 @@ class WholeTableNotNullAndNotNaNValidation(Rule):
             else f"{columns_with_issues}/{total_columns} columns have issues: {'; '.join(problems)}"
         )
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=total_bad,
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
         )

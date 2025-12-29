@@ -132,17 +132,11 @@ class ElectricalLoadAggregationValidation(SqlRule):
 
         message = "; ".join(scenario_results)
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=all_scenarios_ok,
             observed=total_observed,
             expected=total_expected,
             message=message,
-            schema=self.schema,
-            table_name=self.table_name,
-            kind=self.kind,
         )
 
 
@@ -211,14 +205,10 @@ class DisaggregatedDemandSumValidation(SqlRule):
             f"(tolerance {tolerance})"
         )
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=rel_diff,
             expected=tolerance,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind
         )

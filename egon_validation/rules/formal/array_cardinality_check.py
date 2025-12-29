@@ -85,18 +85,12 @@ class ArrayCardinalityValidation(SqlRule):
 
             message = "; ".join(problems) + f" ({details})"
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=float(wrong_length),
             expected=0.0,
             message=message,
-            schema=self.schema,
-            table_name=self.table_name,
             column=self.params.get("array_column"),
-            kind=self.kind,
         )
 
 

@@ -88,15 +88,9 @@ class RowCountComparisonValidation(SqlRule):
         else:
             message = f"{mismatching_groups}/{total_groups} groups have wrong count. Expected: {ref_count}, Found: {found_counts}"
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=float(mismatching_groups),
             expected=0.0,
             message=message,
-            schema=self.schema,
-            table_name=self.table_name,
-            kind=self.kind,
         )

@@ -94,14 +94,10 @@ class DataTypeValidation(SqlRule):
         ok = len(problems) == 0
         message = "All column types valid" if ok else "; ".join(problems)
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=len(problems),
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
         )

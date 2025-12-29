@@ -94,6 +94,73 @@ class Rule:
 
         return "unknown"
 
+    def create_result(
+        self,
+        success: bool,
+        message: str = "",
+        observed: Optional[float] = None,
+        expected: Optional[Any] = None,
+        severity: Optional[Severity] = None,
+        **kwargs
+    ) -> RuleResult:
+        """Factory method for RuleResult with common fields pre-filled.
+
+        Args:
+            success: Whether the validation passed
+            message: Validation message
+            observed: Observed value
+            expected: Expected value
+            severity: Result severity (auto-set if None)
+            **kwargs: Additional fields for RuleResult
+
+        Returns:
+            RuleResult with all common fields populated
+        """
+        return RuleResult(
+            rule_id=self.rule_id,
+            task=self.task,
+            table=self.table,
+            kind=self.kind,
+            success=success,
+            message=message,
+            observed=observed,
+            expected=expected,
+            severity=severity,
+            schema=self.schema,
+            table_name=self.table_name,
+            **kwargs
+        )
+
+    def empty_table_result(self) -> RuleResult:
+        """Standard result for empty tables.
+
+        Returns:
+            RuleResult indicating table is empty
+        """
+        return self.create_result(
+            success=False,
+            observed=0,
+            expected=">0",
+            message=f"🚨 EMPTY TABLE: {self.table} has no data to validate"
+        )
+
+    def error_result(self, message: str, **kwargs) -> RuleResult:
+        """Create an error RuleResult with ERROR severity.
+
+        Args:
+            message: Error message
+            **kwargs: Additional fields to pass to RuleResult
+
+        Returns:
+            RuleResult with success=False and severity=ERROR
+        """
+        return self.create_result(
+            success=False,
+            message=message,
+            severity=Severity.ERROR,
+            **kwargs
+        )
+
 
 class SqlRule(Rule):
     def sql(self, ctx) -> str:
@@ -132,28 +199,6 @@ class SqlRule(Rule):
             return json.loads(json_data)
         return json_data
 
-    def error_result(self, message: str, **kwargs) -> RuleResult:
-        """Create an error RuleResult with ERROR severity.
-
-        Args:
-            message: Error message
-            **kwargs: Additional fields to pass to RuleResult
-
-        Returns:
-            RuleResult with success=False and severity=ERROR
-        """
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
-            success=False,
-            message=message,
-            severity=Severity.ERROR,
-            schema=self.schema,
-            table_name=self.table_name,
-            **kwargs
-        )
-
     def _check_table_empty(self, engine, ctx) -> Optional[RuleResult]:
         """Check if the table is empty and return failure result if so."""
         try:
@@ -166,18 +211,7 @@ class SqlRule(Rule):
             total_count = int(count_row.get("total_count", 0))
 
             if total_count == 0:
-                return RuleResult(
-                    rule_id=self.rule_id,
-                    task=self.task,
-                    table=self.table,
-                    kind=self.kind,
-                    success=False,
-                    observed=0,
-                    expected=">0",
-                    message=f"🚨 EMPTY TABLE: {self.table} has no data to validate",
-                    schema=self.schema,
-                    table_name=self.table_name,
-                )
+                return self.empty_table_result()
 
             return None  # Table has data, continue normal validation
 
@@ -207,33 +241,12 @@ class DataFrameRule(Rule):
 
             # Check if table is empty
             if df.empty:
-                return RuleResult(
-                    rule_id=self.rule_id,
-                    task=self.task,
-                    table=self.table,
-                    kind=self.kind,
-                    success=False,
-                    observed=0,
-                    expected=">0",
-                    message=f"🚨 EMPTY TABLE: {self.table} has no data to validate",
-                    schema=self.schema,
-                    table_name=self.table_name,
-                )
+                return self.empty_table_result()
 
             # Delegate to DataFrame-specific evaluation
             return self.evaluate_df(df, ctx)
 
         except Exception as e:
-            return RuleResult(
-                rule_id=self.rule_id,
-                task=self.task,
-                table=self.table,
-                kind=self.kind,
-                success=False,
-                observed=None,
-                expected=None,
-                message=f"DataFrame rule execution failed: {str(e)}",
-                severity=Severity.ERROR,
-                schema=self.schema,
-                table_name=self.table_name,
+            return self.error_result(
+                message=f"DataFrame rule execution failed: {str(e)}"
             )

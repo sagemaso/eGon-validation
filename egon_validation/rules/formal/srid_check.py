@@ -22,18 +22,12 @@ class SRIDUniqueNonZero(SqlRule):
         srids = int(row.get("srids") or 0)
         srid_zero = int(row.get("srid_zero") or 0)
         ok = (srids == 1) and (srid_zero == 0)
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=srids,
             expected=1.0,
             message="Exactly one SRID and none equals 0",
-            schema=self.schema,
-            table_name=self.table_name,
             column=self.params.get("geom", "geom"),
-            kind=self.kind,
         )
 
 
@@ -88,14 +82,10 @@ class SRIDSpecificValidation(SqlRule):
                 problems.append(f"{zero_srid_count} geometries with SRID=0")
             message = "; ".join(problems)
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=correct_srid_count,
             expected=total_geometries,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
         )
