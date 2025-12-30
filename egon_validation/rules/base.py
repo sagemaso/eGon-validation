@@ -71,11 +71,8 @@ class Rule:
         self.kind = self._infer_kind_from_module()
         self.table = table  # "<schema>.<table>" or view
         self.params: Dict[str, Any] = params
-        # derive schema/table_name for debug (best-effort)
-        if "." in table:
-            self.schema, self.table_name = table.split(".", 1)
-        else:
-            self.schema, self.table_name = None, table
+        # Parse schema and table_name for debug/filtering
+        self.schema, self.table_name = self._parse_table_name(table)
 
     def _infer_kind_from_module(self) -> str:
         """
@@ -93,6 +90,27 @@ class Rule:
                 return subpackage
 
         return "unknown"
+
+    @staticmethod
+    def _parse_table_name(table: str) -> tuple[Optional[str], str]:
+        """Parse table string into (schema, table_name).
+
+        Args:
+            table: Table identifier, either "table" or "schema.table"
+
+        Returns:
+            Tuple of (schema, table_name). Schema is None if not provided.
+
+        Example:
+            >>> Rule._parse_table_name("myschema.mytable")
+            ("myschema", "mytable")
+            >>> Rule._parse_table_name("mytable")
+            (None, "mytable")
+        """
+        if "." in table:
+            parts = table.split(".", 1)
+            return parts[0], parts[1]
+        return None, table
 
     def create_result(
         self,
