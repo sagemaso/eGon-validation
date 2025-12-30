@@ -184,6 +184,17 @@
     return ruleName.substring(0, 10);
   }
 
+  // Function to create abbreviation for custom check names (underscore-separated)
+  function createCustomCheckAbbreviation(name) {
+    const words = name.split('_');
+    if (words.length > 1) {
+      // Take first letter of each word part
+      return words.map(w => w[0]).join('').toUpperCase();
+    }
+    // If no underscores, take first 4 characters
+    return name.substring(0, 4).toUpperCase();
+  }
+
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
   hr.innerHTML = '<th>Schema.Table \\\\ Rule</th>' +
     rules.map(r => `<th title="${r}">${createAbbreviation(r)}</th>`).join('') + 
@@ -206,7 +217,7 @@
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
-    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip clickable" title="Custom check: ${name}" data-dataset="${d}" data-rule="${name}">${name}</span>`).join('') : '<span class="badge empty">—</span>';
+    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip clickable" title="${name}" data-dataset="${d}" data-rule="${name}">${createCustomCheckAbbreviation(name)}</span>`).join('') : '<span class="badge empty">—</span>';
     rowHtml += `<td class="custom-cell">${customHtml}</td>`;
     tr.innerHTML = rowHtml; tbody.appendChild(tr);
   }
