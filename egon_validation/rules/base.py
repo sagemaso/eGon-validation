@@ -149,17 +149,33 @@ class Rule:
             **kwargs
         )
 
-    def empty_table_result(self) -> RuleResult:
-        """Standard result for empty tables.
+    def empty_table_result(self, query: str = None) -> RuleResult:
+        """Standard result for empty tables or query results.
+
+        Args:
+            query: Optional SQL query that returned no results
 
         Returns:
-            RuleResult indicating table is empty
+            RuleResult indicating table/query is empty
         """
+        if query:
+            # Extract WHERE clause to show filters
+            where_clause = ""
+            if "WHERE" in query.upper():
+                where_clause = query.upper().split("WHERE", 1)[1].split("ORDER BY")[0].split("GROUP BY")[0].strip()
+
+            if where_clause:
+                message = f"⚠️ NO DATA FOUND: No rows in {self.table} match query filters\n   Query: {query[:200]}..."
+            else:
+                message = f"⚠️ EMPTY TABLE: {self.table} has no data"
+        else:
+            message = f"⚠️ EMPTY TABLE: {self.table} has no data to validate"
+
         return self.create_result(
             success=False,
             observed=0,
             expected=">0",
-            message=f"🚨 EMPTY TABLE: {self.table} has no data to validate"
+            message=message
         )
 
     def error_result(self, message: str, **kwargs) -> RuleResult:
@@ -283,11 +299,12 @@ class DataFrameRule(Rule):
             from egon_validation.db import fetch_dataframe
 
             # Get DataFrame
-            df = fetch_dataframe(engine, self.get_query(ctx))
+            query = self.get_query(ctx)
+            df = fetch_dataframe(engine, query)
 
-            # Check if table is empty
+            # Check if query returned no results
             if df.empty:
-                return self.empty_table_result()
+                return self.empty_table_result(query=query)
 
             # Delegate to DataFrame-specific evaluation
             return self.evaluate_df(df, ctx)

@@ -169,10 +169,8 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     )
 
     # Discover all available rule classes in the codebase
-    # This gives us the total number of rule classes available (e.g., 13)
     all_rule_classes = discover_all_rule_classes()
-    total_rules = len(all_rule_classes)
-    logger.info(f"Total available rule classes in codebase: {total_rules}")
+    logger.info(f"Discovered {len(all_rule_classes)} rule classes in codebase: {sorted(all_rule_classes)}")
 
     # Count unique applied rules by rule_class (not rule_id)
     applied_rule_classes = set()
@@ -191,7 +189,19 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
             else:
                 failed_applications += 1
 
+    # Total rules = union of discovered rules + applied rules (to include external/pipeline rules)
+    total_rule_classes = all_rule_classes.union(applied_rule_classes)
+    total_rules = len(total_rule_classes)
+
     applied_rules_count = len(applied_rule_classes)
+
+    # Log any external rule classes (not discovered in codebase)
+    external_rules = applied_rule_classes - all_rule_classes
+    if external_rules:
+        logger.info(f"Detected {len(external_rules)} external rule classes from pipeline projects: {sorted(external_rules)}")
+
+    logger.info(f"Total available rule classes: {total_rules} (codebase: {len(all_rule_classes)}, applied: {applied_rules_count})")
+
     rule_coverage_percent = (
         (applied_rules_count / total_rules * 100) if total_rules > 0 else 0
     )
