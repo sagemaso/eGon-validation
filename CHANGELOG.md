@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-01-16
+
 ### Changed
 - Renamed rule classes to follow `*Validation` naming convention (e.g., `NotNullAndNotNaNValidation`)
 - Added `_parse_table_name()` helper for table name parsing
@@ -178,5 +180,6 @@ All notable changes to this project will be documented in this file.
 - Add sanity rules
 - Initial project skeleton
 
+[1.2.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.0
 [1.1.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.1.1
 [1.0.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.0.0
