@@ -53,7 +53,6 @@ class ArrayCardinalityValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         total_rows = int(row.get("total_rows") or 0)
-        correct_length = int(row.get("correct_length") or 0)
         wrong_length = int(row.get("wrong_length") or 0)
         null_arrays = int(row.get("null_arrays") or 0)
         found_lengths = row.get("found_lengths", [])
