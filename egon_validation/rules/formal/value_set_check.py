@@ -60,14 +60,10 @@ class ValueSetValidation(SqlRule):
         else:
             message = f"{invalid_values} invalid values found. Invalid values: {invalid_distinct}"
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=invalid_values,
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
         )

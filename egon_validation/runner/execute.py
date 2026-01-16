@@ -19,6 +19,11 @@ import egon_validation.rules.custom  # noqa: F401
 
 logger = get_logger("runner")
 
+# Parallel execution configuration
+# Default number of concurrent validation workers
+# Matches database connection pool size (DEFAULT_POOL_SIZE - 1)
+DEFAULT_MAX_WORKERS = 6
+
 
 def _ensure_dir(path: str, check_collision: bool = True) -> None:
     """Create directory, optionally checking for run_id collisions."""
@@ -159,7 +164,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
 
 
 def run_validations(
-    engine, ctx, validations: List, task_name: str, max_workers: int = 6
+    engine, ctx, validations: List, task_name: str, max_workers: int = DEFAULT_MAX_WORKERS
 ) -> List[RuleResult]:
     """Execute a list of validation rule instances.
 
@@ -255,7 +260,7 @@ def run_validations(
     return results
 
 
-def run_for_task(engine, ctx, task: str, max_workers: int = 6) -> List[RuleResult]:
+def run_for_task(engine, ctx, task: str, max_workers: int = DEFAULT_MAX_WORKERS) -> List[RuleResult]:
     """Execute rules registered for a task (legacy registry-based approach).
 
     This function uses the decorator-based registry to look up rules.

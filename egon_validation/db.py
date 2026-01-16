@@ -13,16 +13,32 @@ from egon_validation.exceptions import DatabaseConnectionError
 
 logger = get_logger("db")
 
+# Database connection pool configuration
+# Pool size matches default ThreadPoolExecutor max_workers (6) + 1 for main thread
+DEFAULT_POOL_SIZE = 7
+# Allow temporary bursts up to 10 total connections (7 + 3)
+DEFAULT_MAX_OVERFLOW = 3
+# Recycle connections after 30 minutes to prevent stale connections
+POOL_RECYCLE_SECONDS = 1800
+
 
 def make_engine(db_url: str, echo: bool = False) -> Engine:
-    """Create SQLAlchemy engine with connection pooling."""
+    """Create SQLAlchemy engine with connection pooling.
+
+    Args:
+        db_url: Database connection URL
+        echo: If True, log all SQL statements
+
+    Returns:
+        Configured SQLAlchemy Engine with connection pooling
+    """
     return create_engine(
         db_url,
         echo=echo,
-        pool_size=7,
-        max_overflow=3,
-        pool_pre_ping=True,
-        pool_recycle=1800,
+        pool_size=DEFAULT_POOL_SIZE,
+        max_overflow=DEFAULT_MAX_OVERFLOW,
+        pool_pre_ping=True,  # Verify connection health before using
+        pool_recycle=POOL_RECYCLE_SECONDS,
     )
 
 

@@ -101,15 +101,16 @@ class CapacityRangeCheck(SqlRule):
 
 | Rule | Purpose |
 |------|---------|
-| `NotNullAndNotNaN` | Validates no NULL/NaN values in one or more specified columns |
-| `WholeTableNotNullAndNotNaN` | Validates no NULL/NaN values in all table columns (auto-discovery) |
+| `NotNullAndNotNaNValidation` | Validates no NULL/NaN values in one or more specified columns |
+| `WholeTableNotNullAndNotNaNValidation` | Validates no NULL/NaN values in all table columns (auto-discovery) |
 | `DataTypeValidation` | Verifies data types for one or more columns |
-| `GeometryCheck` | PostGIS geometry validity |
-| `SRIDUniqueNonZero` | PostGIS SRID consistency |
-| `ReferentialIntegrityCheck` | Foreign key validation |
-| `RowCountCheck` | Row count boundaries |
-| `ValueSetCheck` | Enum/allowed values |
-| `ArrayCardinalityCheck` | Array length constraints |
+| `GeometryContainmentValidation` | PostGIS geometry validity and containment |
+| `SRIDUniqueNonZero` | PostGIS SRID consistency (unique, non-zero) |
+| `SRIDSpecificValidation` | PostGIS SRID validation against expected value |
+| `ReferentialIntegrityValidation` | Foreign key validation |
+| `RowCountValidation` | Row count boundaries |
+| `ValueSetValidation` | Enum/allowed values |
+| `ArrayCardinalityValidation` | Array length constraints |
 
 ## Configuration
 

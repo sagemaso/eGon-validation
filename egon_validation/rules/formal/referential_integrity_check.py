@@ -59,14 +59,10 @@ class ReferentialIntegrityValidation(SqlRule):
         else:
             message = f"{orphaned_references} orphaned references found in {foreign_col} (out of {total_non_null_references} total non-null references)"
 
-        return RuleResult(
-            rule_id=self.rule_id,
-            task=self.task,
-            table=self.table,
+        return self.create_result(
             success=ok,
             observed=orphaned_references,
             expected=0,
             message=message,
             severity=Severity.ERROR if not ok else Severity.INFO,
-            kind=self.kind,
         )
