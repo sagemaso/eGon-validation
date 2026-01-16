@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+- Renamed rule classes to follow `*Validation` naming convention (e.g., `NotNullAndNotNaNValidation`)
+- Added `_parse_table_name()` helper for table name parsing
+- Moved `get_schema_and_table()` to base.py for reuse
+- Added `create_result()` factory method in base rule class
+- Added default values for database connection parameters
+- Updated custom rule names in HTML matrix display
+- Updated empty tables message in reports
+
+### Added
+- `WholeTableNotNullAndNotNaNValidation` rule for validating all columns automatically
+- Dynamic version display in HTML reports
+- Automatic rule initialization
+
+### Fixed
+- Directory handling for validation runs
+- Report generation issues
+
+## [1.1.1] - 2025-11-21
+
+### Changed
+- Upgraded to Python 3.10
+- Renamed `dataset` parameter to `table` in rule definitions
+- Refactored rule initialization with centralized code
+- Updated dependencies for egon-data compatibility
+- Improved Details section in HTML report
+
+### Added
+- Inline validation declaration support
+- Execution time tracking for rules
+- `__init__` methods to all validation classes
+- Logging for table count during validation
+- Report assets included in package distribution
+
+### Fixed
+- Test bugs and rule discovery issues
+- GeoAlchemy compatibility
+- Coverage test calculations
+- Return statement handling in rules
+
 ## [1.0.0] - 2025-09-29
 
 ### Added
@@ -40,11 +82,6 @@ All notable changes to this project will be documented in this file.
 - HTML report generation and table ordering
 - Coverage analysis for missing tables
 - Rule registration and discovery
-
-## [Unreleased]
-
-### Changed
-- Updated README.md structure and documentation
 
 ---
 
@@ -141,4 +178,5 @@ All notable changes to this project will be documented in this file.
 - Add sanity rules
 - Initial project skeleton
 
+[1.1.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.1.1
 [1.0.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.0.0
