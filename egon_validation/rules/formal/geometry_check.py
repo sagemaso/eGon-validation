@@ -66,5 +66,6 @@ class GeometryContainmentValidation(SqlRule):
             observed=points_outside,
             expected=0,
             message=message,
+            column=self.params.get("geometry_column", "geom"),
             severity=Severity.ERROR if not ok else Severity.INFO,
         )

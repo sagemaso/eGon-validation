@@ -7,7 +7,9 @@ from egon_validation.rules.base import RuleResult, Severity
 class TestDisaggregatedDemandSumValidation:
     def test_sql_generation_default_sector(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
         )
         sql = rule.sql(None)
 
@@ -18,9 +20,9 @@ class TestDisaggregatedDemandSumValidation:
 
     def test_sql_generation_custom_sector(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule",
-            "test_task",
-            "demand.egon_demandregio_zensus_electricity",
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
             sector="commercial",
         )
         sql = rule.sql(None)
@@ -29,9 +31,9 @@ class TestDisaggregatedDemandSumValidation:
 
     def test_postprocess_within_tolerance(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule",
-            "test_task",
-            "demand.egon_demandregio_zensus_electricity",
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
             tolerance=0.05,
         )
 
@@ -49,13 +51,13 @@ class TestDisaggregatedDemandSumValidation:
         assert "Scenario eGon2035" in result.message
         assert "Rel. diff 0.0196" in result.message
         assert result.observed == 0.0196
-        assert result.expected == 0.0
+        assert result.expected == 0.05  # expected is the tolerance
 
     def test_postprocess_outside_tolerance(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule",
-            "test_task",
-            "demand.egon_demandregio_zensus_electricity",
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
             tolerance=0.01,
         )
 
@@ -75,7 +77,9 @@ class TestDisaggregatedDemandSumValidation:
     def test_postprocess_default_tolerance(self):
         # Use actual config default tolerance: DISAGGREGATED_DEMAND_TOLERANCE = 0.01
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
         )
 
         row = {
@@ -93,7 +97,9 @@ class TestDisaggregatedDemandSumValidation:
 
     def test_postprocess_none_values(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
         )
 
         row = {
@@ -112,7 +118,9 @@ class TestDisaggregatedDemandSumValidation:
 
     def test_postprocess_zero_original_sum(self):
         rule = DisaggregatedDemandSumValidation(
-            "test_rule", "test_task", "demand.egon_demandregio_zensus_electricity"
+            rule_id="test_rule",
+            table="demand.egon_demandregio_zensus_electricity",
+            task="test_task",
         )
 
         row = {

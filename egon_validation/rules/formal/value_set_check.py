@@ -65,5 +65,6 @@ class ValueSetValidation(SqlRule):
             observed=invalid_values,
             expected=0,
             message=message,
+            column=self.params.get("column", "value"),
             severity=Severity.ERROR if not ok else Severity.INFO,
         )

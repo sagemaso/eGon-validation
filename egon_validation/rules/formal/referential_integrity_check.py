@@ -64,5 +64,6 @@ class ReferentialIntegrityValidation(SqlRule):
             observed=orphaned_references,
             expected=0,
             message=message,
+            column=foreign_col,
             severity=Severity.ERROR if not ok else Severity.INFO,
         )
