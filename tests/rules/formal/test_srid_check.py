@@ -5,8 +5,7 @@ from egon_validation.rules.base import Severity
 
 class TestSRIDUniqueNonZero:
     def test_sql_generation_default_geom_column(self):
-        rule = SRIDUniqueNonZero(
-            "test_rule", "test_task", "supply.egon_power_plants_pv"
+        rule = SRIDUniqueNonZero(rule_id="test_rule", table="supply.egon_power_plants_pv"
         )
         sql = rule.sql(None)
 
@@ -17,8 +16,7 @@ class TestSRIDUniqueNonZero:
         assert "srid_zero" in sql
 
     def test_sql_generation_custom_geom_column(self):
-        rule = SRIDUniqueNonZero(
-            "test_rule", "test_task", "boundaries.vg250_sta", geom="geometry"
+        rule = SRIDUniqueNonZero(rule_id="test_rule", table="boundaries.vg250_sta", geom="geometry"
         )
         sql = rule.sql(None)
 
@@ -27,10 +25,7 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_single_srid_no_zeros(self):
         """Test with realistic mock data: all PV plants have consistent SRID"""
-        rule = SRIDUniqueNonZero(
-            "pv_srid_consistency",
-            "geometry_validation",
-            "supply.egon_power_plants_pv",
+        rule = SRIDUniqueNonZero(rule_id="pv_srid_consistency", table="supply.egon_power_plants_pv", task="geometry_validation",
             geom="geom"
         )
 
@@ -55,10 +50,7 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_multiple_srids(self):
         """Test with realistic mock data: mixed SRIDs in wind plant data"""
-        rule = SRIDUniqueNonZero(
-            "wind_srid_consistency",
-            "geometry_validation",
-            "supply.egon_power_plants_wind",
+        rule = SRIDUniqueNonZero(rule_id="wind_srid_consistency", table="supply.egon_power_plants_wind",
             geom="geom"
         )
 
@@ -78,10 +70,7 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_zero_srids_present(self):
         """Test with realistic mock data: some geometries have SRID=0"""
-        rule = SRIDUniqueNonZero(
-            "boundary_srid_check",
-            "geometry_validation",
-            "boundaries.vg250_sta",
+        rule = SRIDUniqueNonZero(rule_id="boundary_srid_check", table="boundaries.vg250_sta",
             geom="geometry"
         )
 
@@ -101,8 +90,7 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = SRIDUniqueNonZero(
-            "test_rule", "test_task", "test.table"
+        rule = SRIDUniqueNonZero(rule_id="test_rule", table="test.table"
         )
 
         mock_db_row = {
@@ -120,8 +108,7 @@ class TestSRIDUniqueNonZero:
 
 class TestSRIDSpecificValidation:
     def test_sql_generation_default_parameters(self):
-        rule = SRIDSpecificValidation(
-            "test_rule", "test_task", "grid.egon_mv_grid_district"
+        rule = SRIDSpecificValidation(rule_id="test_rule", table="grid.egon_mv_grid_district"
         )
         sql = rule.sql(None)
 
@@ -134,10 +121,7 @@ class TestSRIDSpecificValidation:
         assert "grid.egon_mv_grid_district" in sql
 
     def test_sql_generation_custom_parameters(self):
-        rule = SRIDSpecificValidation(
-            "test_rule",
-            "test_task",
-            "boundaries.vg250_sta",
+        rule = SRIDSpecificValidation(rule_id="test_rule", table="boundaries.vg250_sta",
             geom="geometry",
             expected_srid=4326
         )
@@ -149,10 +133,7 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_all_correct_srid(self):
         """Test with realistic mock data: all MV grid districts have correct SRID 3035"""
-        rule = SRIDSpecificValidation(
-            "mv_grid_srid_validation",
-            "geometry_validation",
-            "grid.egon_mv_grid_district",
+        rule = SRIDSpecificValidation(rule_id="mv_grid_srid_validation", table="grid.egon_mv_grid_district", task="geometry_validation",
             geom="geom",
             expected_srid=3035
         )
@@ -175,16 +156,13 @@ class TestSRIDSpecificValidation:
         assert result.task == "geometry_validation"
         assert result.table == "grid.egon_mv_grid_district"
         assert result.column == "geom"
-        assert result.observed == 1.0
-        assert result.expected == 1.0
-        assert result.severity == Severity.INFO  # Success results in INFO severity
+        assert result.observed == 3854  # correct_srid_count
+        assert result.expected == 3854  # total_geometries
+        assert result.severity == Severity.INFO
 
     def test_postprocess_wrong_srid(self):
         """Test with realistic mock data: wind plants have wrong SRID"""
-        rule = SRIDSpecificValidation(
-            "wind_srid_validation",
-            "geometry_validation",
-            "supply.egon_power_plants_wind",
+        rule = SRIDSpecificValidation(rule_id="wind_srid_validation", table="supply.egon_power_plants_wind",
             geom="geom",
             expected_srid=4326
         )
@@ -204,16 +182,13 @@ class TestSRIDSpecificValidation:
         assert result.success is False
         assert "Multiple SRIDs found: [4326, 3035]" in result.message
         assert "Only 14800/15000 have expected SRID 4326" in result.message
-        assert result.observed == 2.0
+        assert result.observed == 14800  # correct_srid_count
         assert result.rule_id == "wind_srid_validation"
         assert result.table == "supply.egon_power_plants_wind"
 
     def test_postprocess_zero_srid_issue(self):
         """Test with realistic mock data: boundary data has undefined SRID"""
-        rule = SRIDSpecificValidation(
-            "boundary_srid_validation",
-            "geometry_validation",
-            "boundaries.vg250_sta",
+        rule = SRIDSpecificValidation(rule_id="boundary_srid_validation", table="boundaries.vg250_sta",
             geom="geometry",
             expected_srid=4326
         )
@@ -234,15 +209,12 @@ class TestSRIDSpecificValidation:
         assert "Multiple SRIDs found: [4326, 0]" in result.message
         assert "Only 15/16 have expected SRID 4326" in result.message
         assert "1 geometries with SRID=0" in result.message
-        assert result.observed == 2.0
+        assert result.observed == 15  # correct_srid_count
         assert result.rule_id == "boundary_srid_validation"
 
     def test_postprocess_multiple_problems(self):
         """Test with multiple SRID problems combined"""
-        rule = SRIDSpecificValidation(
-            "test_rule",
-            "test_task",
-            "test.table",
+        rule = SRIDSpecificValidation(rule_id="test_rule", table="test.table",
             expected_srid=3035
         )
 
@@ -261,12 +233,11 @@ class TestSRIDSpecificValidation:
         assert "Multiple SRIDs found: [3035, 4326, 0]" in result.message
         assert "Only 800/1000 have expected SRID 3035" in result.message
         assert "50 geometries with SRID=0" in result.message
-        assert result.observed == 3.0
+        assert result.observed == 800  # correct_srid_count
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = SRIDSpecificValidation(
-            "test_rule", "test_task", "test.table", expected_srid=4326
+        rule = SRIDSpecificValidation(rule_id="test_rule", table="test.table", expected_srid=4326
         )
 
         mock_db_row = {
@@ -286,10 +257,7 @@ class TestSRIDSpecificValidation:
 
     def test_with_mock_data_success_perfect_boundaries(self):
         """Test with realistic mock data: German states with perfect SRID"""
-        rule = SRIDSpecificValidation(
-            "german_states_srid",
-            "boundary_validation",
-            "boundaries.vg250_lan",
+        rule = SRIDSpecificValidation(rule_id="german_states_srid", table="boundaries.vg250_lan", task="boundary_validation",
             geom="geometry",
             expected_srid=4326
         )
@@ -313,10 +281,7 @@ class TestSRIDSpecificValidation:
 
     def test_with_mock_data_failure_mixed_projections(self):
         """Test with realistic mock data: power plants with mixed projections"""
-        rule = SRIDSpecificValidation(
-            "pv_plants_srid",
-            "geometry_validation",
-            "supply.egon_power_plants_pv",
+        rule = SRIDSpecificValidation(rule_id="pv_plants_srid", table="supply.egon_power_plants_pv",
             geom="geom",
             expected_srid=4326
         )
@@ -336,5 +301,5 @@ class TestSRIDSpecificValidation:
         assert result.success is False
         assert "Multiple SRIDs found: [4326, 31467]" in result.message
         assert "Only 24500/25000 have expected SRID 4326" in result.message
-        assert result.observed == 2.0
+        assert result.observed == 24500  # correct_srid_count
         assert result.rule_id == "pv_plants_srid"

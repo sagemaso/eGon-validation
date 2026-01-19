@@ -87,5 +87,6 @@ class SRIDSpecificValidation(SqlRule):
             observed=correct_srid_count,
             expected=total_geometries,
             message=message,
+            column=self.params.get("geom", "geom"),
             severity=Severity.ERROR if not ok else Severity.INFO,
         )

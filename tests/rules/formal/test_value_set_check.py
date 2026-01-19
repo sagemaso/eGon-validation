@@ -5,10 +5,7 @@ from egon_validation.rules.base import Severity
 
 class TestValueSetValidation:
     def test_sql_generation(self):
-        rule = ValueSetValidation(
-            "test_rule",
-            "test_task",
-            "test.table",
+        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
             column="status",
             expected_values=["active", "inactive"],
         )
@@ -19,16 +16,13 @@ class TestValueSetValidation:
         assert "COUNT(CASE WHEN status = ANY" in sql
 
     def test_sql_generation_empty_values(self):
-        rule = ValueSetValidation("test_rule", "test_task", "test.table")
+        rule = ValueSetValidation(rule_id="test_rule", table="test.table")
         sql = rule.sql(None)
 
         assert "ARRAY[]" in sql
 
     def test_postprocess_all_valid(self):
-        rule = ValueSetValidation(
-            "test_rule",
-            "test_task",
-            "test.table",
+        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
             expected_values=["active", "inactive"],
         )
         row = {
@@ -46,10 +40,7 @@ class TestValueSetValidation:
         assert result.expected == 0.0
 
     def test_postprocess_invalid_values(self):
-        rule = ValueSetValidation(
-            "test_rule",
-            "test_task",
-            "test.table",
+        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
             expected_values=["active", "inactive"],
         )
         row = {
@@ -67,7 +58,7 @@ class TestValueSetValidation:
         assert result.observed == 5
 
     def test_postprocess_none_values(self):
-        rule = ValueSetValidation("test_rule", "test_task", "test.table")
+        rule = ValueSetValidation(rule_id="test_rule", table="test.table")
         row = {
             "total_rows": None,
             "valid_values": None,
@@ -83,10 +74,7 @@ class TestValueSetValidation:
     def test_with_mock_data_success_all_values_valid(self):
         """Test with realistic mock data: all values are in expected set"""
         # Mock validating scenario column with valid scenario names
-        rule = ValueSetValidation(
-            "scenario_value_check",
-            "data_validation",
-            "demand.egon_demandregio_hh",
+        rule = ValueSetValidation(rule_id="scenario_value_check", table="demand.egon_demandregio_hh", task="data_validation",
             column="scenario",
             expected_values=["eGon2035", "eGon100RE", "eGon2021"]
         )
@@ -114,10 +102,7 @@ class TestValueSetValidation:
     def test_with_mock_data_failure_invalid_values_found(self):
         """Test with realistic mock data: some values are not in expected set"""
         # Mock validating carrier column with unexpected carrier types
-        rule = ValueSetValidation(
-            "carrier_value_check",
-            "data_validation",
-            "grid.egon_etrago_load",
+        rule = ValueSetValidation(rule_id="carrier_value_check", table="grid.egon_etrago_load",
             column="carrier",
             expected_values=["AC", "heat", "CH4", "H2"]
         )

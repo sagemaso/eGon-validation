@@ -5,10 +5,7 @@ from egon_validation.rules.base import Severity
 
 class TestReferentialIntegrityValidation:
     def test_sql_generation_default_parameters(self):
-        rule = ReferentialIntegrityValidation(
-            "test_rule",
-            "test_task",
-            "grid.egon_etrago_load_timeseries",
+        rule = ReferentialIntegrityValidation(rule_id="test_rule", table="grid.egon_etrago_load_timeseries",
             reference_dataset="grid.egon_etrago_load"
         )
         sql = rule.sql(None)
@@ -22,10 +19,7 @@ class TestReferentialIntegrityValidation:
         assert "child.id = parent.id" in sql  # default columns
 
     def test_sql_generation_custom_parameters(self):
-        rule = ReferentialIntegrityValidation(
-            "test_rule",
-            "test_task",
-            "grid.egon_etrago_load_timeseries",
+        rule = ReferentialIntegrityValidation(rule_id="test_rule", table="grid.egon_etrago_load_timeseries",
             foreign_column="load_id",
             reference_dataset="grid.egon_etrago_load",
             reference_column="load_id"
@@ -38,10 +32,7 @@ class TestReferentialIntegrityValidation:
 
     def test_postprocess_all_references_valid(self):
         """Test with realistic mock data: all load timeseries have valid load references"""
-        rule = ReferentialIntegrityValidation(
-            "load_timeseries_integrity",
-            "data_integrity",
-            "grid.egon_etrago_load_timeseries",
+        rule = ReferentialIntegrityValidation(rule_id="load_timeseries_integrity", table="grid.egon_etrago_load_timeseries", task="data_integrity",
             foreign_column="load_id",
             reference_dataset="grid.egon_etrago_load",
             reference_column="load_id"
@@ -69,10 +60,7 @@ class TestReferentialIntegrityValidation:
 
     def test_postprocess_orphaned_references(self):
         """Test with realistic mock data: some timeseries reference non-existent loads"""
-        rule = ReferentialIntegrityValidation(
-            "load_timeseries_integrity",
-            "data_integrity",
-            "grid.egon_etrago_load_timeseries",
+        rule = ReferentialIntegrityValidation(rule_id="load_timeseries_integrity", table="grid.egon_etrago_load_timeseries",
             foreign_column="load_id",
             reference_dataset="grid.egon_etrago_load",
             reference_column="load_id"
@@ -96,10 +84,7 @@ class TestReferentialIntegrityValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = ReferentialIntegrityValidation(
-            "test_rule",
-            "test_task",
-            "test.table",
+        rule = ReferentialIntegrityValidation(rule_id="test_rule", table="test.table",
             reference_dataset="test.reference"
         )
 
@@ -118,10 +103,7 @@ class TestReferentialIntegrityValidation:
 
     def test_with_mock_data_success_bus_references(self):
         """Test with realistic mock data: all loads reference valid buses"""
-        rule = ReferentialIntegrityValidation(
-            "load_bus_integrity",
-            "grid_validation",
-            "grid.egon_etrago_load",
+        rule = ReferentialIntegrityValidation(rule_id="load_bus_integrity", table="grid.egon_etrago_load", task="grid_validation",
             foreign_column="bus",
             reference_dataset="grid.egon_etrago_bus",
             reference_column="bus_id"
@@ -146,10 +128,7 @@ class TestReferentialIntegrityValidation:
 
     def test_with_mock_data_failure_missing_buses(self):
         """Test with realistic mock data: some loads reference deleted buses"""
-        rule = ReferentialIntegrityValidation(
-            "generator_bus_integrity",
-            "grid_validation",
-            "grid.egon_etrago_generator",
+        rule = ReferentialIntegrityValidation(rule_id="generator_bus_integrity", table="grid.egon_etrago_generator",
             foreign_column="bus",
             reference_dataset="grid.egon_etrago_bus",
             reference_column="bus_id"
@@ -174,10 +153,7 @@ class TestReferentialIntegrityValidation:
 
     def test_with_mock_data_success_demand_region_references(self):
         """Test with realistic mock data: demand data references valid regions"""
-        rule = ReferentialIntegrityValidation(
-            "demand_region_integrity",
-            "demand_validation",
-            "demand.egon_demandregio_hh",
+        rule = ReferentialIntegrityValidation(rule_id="demand_region_integrity", table="demand.egon_demandregio_hh", task="demand_validation",
             foreign_column="nuts3",
             reference_dataset="boundaries.vg250_krs",
             reference_column="nuts"
@@ -201,10 +177,7 @@ class TestReferentialIntegrityValidation:
 
     def test_with_mock_data_failure_outdated_region_codes(self):
         """Test with realistic mock data: demand uses outdated region codes"""
-        rule = ReferentialIntegrityValidation(
-            "cts_region_integrity",
-            "demand_validation",
-            "demand.egon_demandregio_cts",
+        rule = ReferentialIntegrityValidation(rule_id="cts_region_integrity", table="demand.egon_demandregio_cts",
             foreign_column="nuts3",
             reference_dataset="boundaries.vg250_krs",
             reference_column="nuts"

@@ -6,7 +6,8 @@ from egon_validation.rules.base import Severity
 class TestArrayCardinalityValidation:
     def test_sql_generation_default_parameters(self):
         rule = ArrayCardinalityValidation(
-            "test_rule", "test_task", "grid.egon_etrago_load_timeseries"
+            rule_id="test_rule",
+            table="grid.egon_etrago_load_timeseries"
         )
         sql = rule.sql(None)
 
@@ -20,9 +21,8 @@ class TestArrayCardinalityValidation:
 
     def test_sql_generation_custom_parameters(self):
         rule = ArrayCardinalityValidation(
-            "test_rule",
-            "test_task",
-            "demand.egon_heat_timeseries_selected_profiles",
+            rule_id="test_rule",
+            table="demand.egon_heat_timeseries_selected_profiles",
             array_column="selected_idp_profiles",
             expected_length=365
         )
@@ -34,10 +34,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_all_arrays_correct_length(self):
         """Test with realistic mock data: all arrays have correct length"""
-        rule = ArrayCardinalityValidation(
-            "load_timeseries_validation",
-            "data_quality",
-            "grid.egon_etrago_load_timeseries",
+        rule = ArrayCardinalityValidation(rule_id="load_timeseries_validation", table="grid.egon_etrago_load_timeseries", task="data_quality",
             array_column="p_set",
             expected_length=8760
         )
@@ -69,10 +66,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_some_arrays_wrong_length(self):
         """Test with realistic mock data: some arrays have wrong length"""
-        rule = ArrayCardinalityValidation(
-            "heat_profiles_validation",
-            "data_quality",
-            "demand.egon_heat_timeseries_selected_profiles",
+        rule = ArrayCardinalityValidation(rule_id="heat_profiles_validation", table="demand.egon_heat_timeseries_selected_profiles",
             array_column="selected_idp_profiles",
             expected_length=365
         )
@@ -105,8 +99,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_only_wrong_length_no_nulls(self):
         """Test with only wrong length arrays, no NULL arrays"""
-        rule = ArrayCardinalityValidation(
-            "test_rule", "test_task", "test.table", expected_length=8760
+        rule = ArrayCardinalityValidation(rule_id="test_rule", table="test.table", expected_length=8760
         )
 
         mock_db_row = {
@@ -129,8 +122,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_only_null_arrays_no_wrong_length(self):
         """Test with only NULL arrays, no wrong length arrays"""
-        rule = ArrayCardinalityValidation(
-            "test_rule", "test_task", "test.table", expected_length=8760
+        rule = ArrayCardinalityValidation(rule_id="test_rule", table="test.table", expected_length=8760
         )
 
         mock_db_row = {
@@ -153,8 +145,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = ArrayCardinalityValidation(
-            "test_rule", "test_task", "test.table", expected_length=8760
+        rule = ArrayCardinalityValidation(rule_id="test_rule", table="test.table", expected_length=8760
         )
 
         mock_db_row = {
@@ -177,8 +168,7 @@ class TestArrayCardinalityValidation:
 
     def test_postprocess_empty_found_lengths(self):
         """Test when found_lengths is empty or None"""
-        rule = ArrayCardinalityValidation(
-            "test_rule", "test_task", "test.table", expected_length=8760
+        rule = ArrayCardinalityValidation(rule_id="test_rule", table="test.table", expected_length=8760
         )
 
         mock_db_row = {
@@ -200,10 +190,7 @@ class TestArrayCardinalityValidation:
 
     def test_with_mock_data_success_annual_timeseries(self):
         """Test with realistic mock data: annual timeseries with 8760 hours"""
-        rule = ArrayCardinalityValidation(
-            "generator_timeseries_check",
-            "timeseries_validation",
-            "grid.egon_etrago_generator_timeseries",
+        rule = ArrayCardinalityValidation(rule_id="generator_timeseries_check", table="grid.egon_etrago_generator_timeseries", task="timeseries_validation",
             array_column="p_max_pu",
             expected_length=8760
         )
@@ -232,10 +219,7 @@ class TestArrayCardinalityValidation:
 
     def test_with_mock_data_failure_corrupted_timeseries(self):
         """Test with realistic mock data: corrupted timeseries with inconsistent lengths"""
-        rule = ArrayCardinalityValidation(
-            "bus_timeseries_check",
-            "timeseries_validation",
-            "grid.egon_etrago_bus_timeseries",
+        rule = ArrayCardinalityValidation(rule_id="bus_timeseries_check", table="grid.egon_etrago_bus_timeseries",
             array_column="v_mag_pu_set",
             expected_length=8760
         )

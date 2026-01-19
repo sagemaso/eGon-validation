@@ -9,15 +9,17 @@ class TestRuleResult:
             rule_id="test_rule",
             task="test_task",
             table="test.table",
+            kind="formal",
             success=True,
             message="Test passed",
         )
         assert result.rule_id == "test_rule"
         assert result.task == "test_task"
         assert result.table == "test.table"
+        assert result.kind == "formal"
         assert result.success is True
         assert result.message == "Test passed"
-        assert result.severity == Severity.WARNING  # default
+        assert result.severity == Severity.INFO  # auto-set based on success=True
         assert result.observed is None
         assert result.expected is None
 
@@ -26,6 +28,7 @@ class TestRuleResult:
             rule_id="test_rule",
             task="test_task",
             table="test.table",
+            kind="formal",
             success=False,
             message="Test failed",
             severity=Severity.ERROR,
@@ -45,6 +48,7 @@ class TestRuleResult:
             rule_id="test",
             task="test",
             table="test.table",
+            kind="formal",
             success=True,
             severity=Severity.INFO,
         )
@@ -54,44 +58,44 @@ class TestRuleResult:
 
 class TestRule:
     def test_rule_initialization(self):
-        rule = Rule("test_rule", "test_task", "schema.table", param1="value1")
+        rule = Rule(rule_id="test_rule", table="schema.table", task="test_task", param1="value1")
 
         assert rule.rule_id == "test_rule"
         assert rule.task == "test_task"
         assert rule.table == "schema.table"
         assert rule.params == {"param1": "value1"}
         assert rule.schema == "schema"
-        assert rule.table == "table"
+        assert rule.table_name == "table"
 
     def test_rule_initialization_no_schema(self):
-        rule = Rule("test_rule", "test_task", "table_only")
+        rule = Rule(rule_id="test_rule", table="table_only", task="test_task")
 
         assert rule.table == "table_only"
         assert rule.schema is None
-        assert rule.table == "table_only"
+        assert rule.table_name == "table_only"
 
 
 class TestSqlRule:
     def test_sql_rule_inheritance(self):
-        class TestSqlRule(SqlRule):
+        class TestSqlRuleImpl(SqlRule):
             def sql(self, ctx):
                 return "SELECT 1"
 
             def postprocess(self, row, ctx):
-                return RuleResult(self.rule_id, self.task, self.table, True)
+                return self.create_result(success=True)
 
-        rule = TestSqlRule("test_rule", "test_task", "test.table")
+        rule = TestSqlRuleImpl(rule_id="test_rule", table="test.table", task="test_task")
         assert isinstance(rule, SqlRule)
         assert isinstance(rule, Rule)
 
     def test_sql_not_implemented(self):
-        rule = SqlRule("test_rule", "test_task", "test.table")
+        rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
 
         with pytest.raises(NotImplementedError):
             rule.sql(None)
 
     def test_postprocess_not_implemented(self):
-        rule = SqlRule("test_rule", "test_task", "test.table")
+        rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
 
         with pytest.raises(NotImplementedError):
             rule.postprocess({}, None)
@@ -102,7 +106,7 @@ class TestSqlRule:
     ):
         mock_fetch_one.return_value = {"total_count": 100}
 
-        rule = SqlRule("test_rule", "test_task", "test.table")
+        rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
         result = rule._check_table_empty(mock_engine, mock_context)
 
         assert result is None  # Table has data, continue validation
@@ -112,7 +116,7 @@ class TestSqlRule:
     def test_check_table_empty_no_data(self, mock_fetch_one, mock_engine, mock_context):
         mock_fetch_one.return_value = {"total_count": 0}
 
-        rule = SqlRule("test_rule", "test_task", "test.table")
+        rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
         result = rule._check_table_empty(mock_engine, mock_context)
 
         assert result is not None
@@ -120,16 +124,16 @@ class TestSqlRule:
         assert result.observed == 0
         assert result.expected == ">0"
         assert "EMPTY TABLE" in result.message
-        assert result.severity == Severity.INFO
+        assert result.severity == Severity.WARNING  # auto-set from success=False
 
     @patch("egon_validation.db.fetch_one")
     def test_check_empty_table(self, mock_fetch_one, mock_engine, mock_context):
         mock_fetch_one.return_value = {"total_count": 0}
 
         rule = SqlRule(
-            "test_rule",
-            "test_task",
-            "test.table",
+            rule_id="test_rule",
+            table="test.table",
+            task="test_task",
             scenario_col="scenario",
             scenario="test_scenario",
         )
@@ -149,7 +153,7 @@ class TestSqlRule:
     ):
         mock_fetch_one.side_effect = Exception("Database error")
 
-        rule = SqlRule("test_rule", "test_task", "test.table")
+        rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
         result = rule._check_table_empty(mock_engine, mock_context)
 
         # Should return None when exception occurs, let main query handle it
