@@ -6,26 +6,26 @@ from egon_validation.rules.registry import register
     task="validation-test",
     table="supply.egon_power_plants_wind",
     rule_id="WIND_PLANTS_IN_GERMANY",
-    geometry_column="geom",
-    reference_dataset="boundaries.vg250_sta",
-    reference_geometry="geometry",
-    reference_filter="nuts = 'DE' AND gf = 4",
+    geom="geom",
+    ref_table="boundaries.vg250_sta",
+    ref_geom="geometry",
+    ref_filter="nuts = 'DE' AND gf = 4",
     filter_condition="site_type = 'Windkraft an Land'",
 )
 class GeometryContainmentValidation(SqlRule):
     """Validates that point geometries are contained within reference polygon geometries."""
 
     def sql(self, ctx):
-        geom_col = self.params.get("geometry_column", "geom")
-        ref_dataset = self.params.get("reference_dataset")
-        ref_geom_col = self.params.get("reference_geometry", "geometry")
-        ref_filter = self.params.get("reference_filter", "TRUE")
+        geom_col = self.params.get("geom", "geom")
+        ref_table = self.params.get("ref_table")
+        ref_geom_col = self.params.get("ref_geom", "geometry")
+        ref_filter = self.params.get("ref_filter", "TRUE")
         filter_condition = self.params.get("filter_condition", "TRUE")
 
         base_query = f"""
         WITH reference_geom AS (
             SELECT ST_Union(ST_Transform({ref_geom_col}, 3035)) as unified_geom
-            FROM {ref_dataset}
+            FROM {ref_table}
             WHERE {ref_filter}
         )
         SELECT 
@@ -56,16 +56,11 @@ class GeometryContainmentValidation(SqlRule):
             message = f"{points_outside} points are outside reference boundary ({points_inside} inside)"
             message += f" [Filter: {filter_condition}, Ref: {ref_filter}]"
 
-            # Add debugging information for wind plants specifically
-            if self.rule_id == "WIND_PLANTS_IN_GERMANY" and points_outside > 0:
-                message += f" | To get coordinates: SELECT * FROM supply.egon_power_plants_wind WHERE site_type = 'Windkraft an Land'"
-                message += f" | AND NOT ST_Contains((SELECT ST_Union(ST_Transform(geometry, 3035)) FROM boundaries.vg250_sta WHERE nuts = 'DE' AND gf = 4), ST_Transform(geom, 3035))"
-
         return self.create_result(
             success=ok,
             observed=points_outside,
             expected=0,
             message=message,
-            column=self.params.get("geometry_column", "geom"),
+            column=self.params.get("geom", "geom"),
             severity=Severity.ERROR if not ok else Severity.INFO,
         )

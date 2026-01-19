@@ -9,25 +9,25 @@ class ReferentialIntegrityValidation(SqlRule):
         rule_id: Unique identifier
         task: Task identifier
         table: Table containing the foreign key (child table)
-        foreign_column: Foreign key column name in child table (passed in params)
-        reference_dataset: Referenced parent table (passed in params)
-        reference_column: Primary/unique key column in parent table (passed in params)
+        fk_column: Foreign key column name in child table (passed in params)
+        ref_table: Referenced parent table (passed in params)
+        ref_column: Primary/unique key column in parent table (passed in params)
 
     Example:
         >>> validation = ReferentialIntegrityValidation(
         ...     rule_id="FK_TS_SCENARIO",
         ...     task="validation-test",
         ...     table="facts.timeseries",
-        ...     foreign_column="scenario_id",
-        ...     reference_dataset="dim.scenarios",
-        ...     reference_column="scenario_id"
+        ...     fk_column="scenario_id",
+        ...     ref_table="dim.scenarios",
+        ...     ref_column="scenario_id"
         ... )
     """
 
     def sql(self, ctx):
-        foreign_col = self.params.get("foreign_column", "id")
-        reference_dataset = self.params.get("reference_dataset")
-        reference_col = self.params.get("reference_column", "id")
+        foreign_col = self.params.get("fk_column", "id")
+        ref_table = self.params.get("ref_table")
+        reference_col = self.params.get("ref_column", "id")
 
         base_query = f"""
         SELECT
@@ -37,7 +37,7 @@ class ReferentialIntegrityValidation(SqlRule):
         FROM
             {self.table} as child
         LEFT JOIN
-            {reference_dataset} as parent
+            {ref_table} as parent
         ON child.{foreign_col} = parent.{reference_col}
         """
 
@@ -50,12 +50,12 @@ class ReferentialIntegrityValidation(SqlRule):
 
         ok = orphaned_references == 0
 
-        foreign_col = self.params.get("foreign_column", "id")
-        reference_dataset = self.params.get("reference_dataset")
-        reference_col = self.params.get("reference_column", "id")
+        foreign_col = self.params.get("fk_column", "id")
+        ref_table = self.params.get("ref_table")
+        reference_col = self.params.get("ref_column", "id")
 
         if ok:
-            message = f"All {total_non_null_references} references in {foreign_col} have valid matches in {reference_dataset}.{reference_col}"
+            message = f"All {total_non_null_references} references in {foreign_col} have valid matches in {ref_table}.{reference_col}"
         else:
             message = f"{orphaned_references} orphaned references found in {foreign_col} (out of {total_non_null_references} total non-null references)"
 
