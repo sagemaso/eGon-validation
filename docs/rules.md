@@ -2,14 +2,14 @@
 
 ## Data Quality Rules
 
-| Rule | Purpose | Key Parameters |
-|------|---------|----------------|
-| `NotNullAndNotNaNValidation` | No NULL/NaN in specified columns | `columns` |
-| `WholeTableNotNullAndNotNaNValidation` | No NULL/NaN in any column | - |
-| `DataTypeValidation` | Verify column data types | `columns`, `expected_types` |
-| `ValueSetValidation` | Values in allowed set | `column`, `allowed_values` |
-| `RowCountValidation` | Row count within bounds | `min_rows`, `max_rows` |
-| `ArrayCardinalityValidation` | Array length constraints | `column`, `min_length`, `max_length` |
+| Rule | Purpose | Key Parameters              |
+|------|---------|-----------------------------|
+| `NotNullAndNotNaNValidation` | No NULL/NaN in specified columns | `columns`                   |
+| `WholeTableNotNullAndNotNaNValidation` | No NULL/NaN in any column | -                           |
+| `DataTypeValidation` | Verify column data types | `column_types` |
+| `ValueSetValidation` | Values in allowed set | `column`, `expected_values` |
+| `RowCountValidation` | Row count within bounds | `expected_count`            |
+| `ArrayCardinalityValidation` | Array length constraints | `array_column`, `expected_length` |
 
 ## Referential Integrity
 
@@ -21,9 +21,9 @@
 
 | Rule | Purpose | Key Parameters |
 |------|---------|----------------|
-| `GeometryContainmentValidation` | Geometry validity & containment | `geom_column`, `boundary_wkt` |
-| `SRIDUniqueNonZero` | SRID is unique and non-zero | `geom_column` |
-| `SRIDSpecificValidation` | SRID matches expected value | `geom_column`, `expected_srid` |
+| `GeometryContainmentValidation` | Geometry validity & containment | `geom`, `ref_table`, `ref_geom` |
+| `SRIDUniqueNonZero` | SRID is unique and non-zero | `geom` |
+| `SRIDSpecificValidation` | SRID matches expected value | `geom`, `expected_srid` |
 
 ## Rule Registration
 
