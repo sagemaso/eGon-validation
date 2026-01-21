@@ -40,7 +40,7 @@ egon_validation = ["report/assets/*"]
 egon-validation = "egon_validation.cli:main"
 
 [tool.black]
-line-length = 79
+line-length = 88
 target-version = ["py310"]
 include = '\.pyi?$'
 exclude = '''
@@ -59,7 +59,7 @@ exclude = '''
 '''
 
 [tool.flake8]
-max-line-length = 79
+max-line-length = 88
 extend-ignore = ["E203", "W503"]
 exclude = [
     ".git",

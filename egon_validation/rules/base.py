@@ -7,11 +7,30 @@ from typing import Any, Dict, Optional
 
 # PostgreSQL type mappings for data type validation
 POSTGRES_TYPE_MAPPINGS = {
-    "integer": ["integer", "int4", "int", "bigint", "int8", "smallint", "int2"],
+    "integer": [
+        "integer",
+        "int4",
+        "int",
+        "bigint",
+        "int8",
+        "smallint",
+        "int2",
+    ],
     "text": ["text", "character varying", "varchar", "character", "char"],
-    "numeric": ["numeric", "decimal", "real", "double precision", "float4", "float8"],
+    "numeric": [
+        "numeric",
+        "decimal",
+        "real",
+        "double precision",
+        "float4",
+        "float8",
+    ],
     "boolean": ["boolean", "bool"],
-    "timestamp": ["timestamp without time zone", "timestamp with time zone", "timestamptz"],
+    "timestamp": [
+        "timestamp without time zone",
+        "timestamp with time zone",
+        "timestamptz",
+    ],
     "date": ["date"],
     "uuid": ["uuid"],
     "geometry": ["geometry", "geography"],
@@ -40,7 +59,9 @@ class RuleResult:
     severity: Severity = None
     execution_time: Optional[float] = None
     executed_at: Optional[str] = None  # ISO timestamp when rule was executed
-    rule_class: Optional[str] = None  # Class name of the rule (e.g., "ArrayCardinalityValidation")
+    rule_class: Optional[str] = (
+        None  # Class name of the rule (e.g., "ArrayCardinalityValidation")
+    )
     # Debug fields
     schema: Optional[str] = None
     table_name: Optional[str] = None
@@ -64,7 +85,7 @@ class Rule:
         rule_id: str,
         table: str,
         task: Optional[str] = None,
-        **params: Any
+        **params: Any,
     ) -> None:
         self.rule_id = rule_id
         self.task = task or ""  # Can be set later by run_validations
@@ -119,7 +140,7 @@ class Rule:
         observed: Optional[float] = None,
         expected: Optional[Any] = None,
         severity: Optional[Severity] = None,
-        **kwargs
+        **kwargs,
     ) -> RuleResult:
         """Factory method for RuleResult with common fields pre-filled.
 
@@ -146,7 +167,7 @@ class Rule:
             severity=severity,
             schema=self.schema,
             table_name=self.table_name,
-            **kwargs
+            **kwargs,
         )
 
     def empty_table_result(self, query: str = None) -> RuleResult:
@@ -162,7 +183,13 @@ class Rule:
             # Extract WHERE clause to show filters
             where_clause = ""
             if "WHERE" in query.upper():
-                where_clause = query.upper().split("WHERE", 1)[1].split("ORDER BY")[0].split("GROUP BY")[0].strip()
+                where_clause = (
+                    query.upper()
+                    .split("WHERE", 1)[1]
+                    .split("ORDER BY")[0]
+                    .split("GROUP BY")[0]
+                    .strip()
+                )
 
             if where_clause:
                 message = f"⚠️ NO DATA FOUND: No rows in {self.table} match query filters\n   Query: {query[:200]}..."
@@ -172,10 +199,7 @@ class Rule:
             message = f"⚠️ EMPTY TABLE: {self.table} has no data to validate"
 
         return self.create_result(
-            success=False,
-            observed=0,
-            expected=">0",
-            message=message
+            success=False, observed=0, expected=">0", message=message
         )
 
     def error_result(self, message: str, **kwargs) -> RuleResult:
@@ -189,10 +213,7 @@ class Rule:
             RuleResult with success=False and severity=ERROR
         """
         return self.create_result(
-            success=False,
-            message=message,
-            severity=Severity.ERROR,
-            **kwargs
+            success=False, message=message, severity=Severity.ERROR, **kwargs
         )
 
     def get_schema_and_table(self) -> tuple[str, str]:
@@ -210,9 +231,10 @@ class Rule:
             )
         return tuple(self.table.split(".", 1))
 
-
     @staticmethod
-    def severity_from_success(success: bool, error_severity: Severity = Severity.ERROR) -> Severity:
+    def severity_from_success(
+        success: bool, error_severity: Severity = Severity.ERROR
+    ) -> Severity:
         """Determine severity based on validation success.
 
         Args:
@@ -225,7 +247,9 @@ class Rule:
         return Severity.INFO if success else error_severity
 
     @staticmethod
-    def within_tolerance(actual: float, expected: float, tolerance: float = 0.0) -> bool:
+    def within_tolerance(
+        actual: float, expected: float, tolerance: float = 0.0
+    ) -> bool:
         """Check if actual value is within tolerance of expected value.
 
         Args:
@@ -257,6 +281,7 @@ class SqlRule(Rule):
             Parsed JSON data (dict or list)
         """
         import json
+
         if isinstance(json_data, str):
             return json.loads(json_data)
         return json_data

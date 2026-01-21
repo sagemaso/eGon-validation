@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
+from egon_validation.rules.base import SqlRule
 from egon_validation.rules.registry import register, register_map
 from egon_validation.config import ARRAY_CARDINALITY_ANNUAL_HOURS
 
@@ -37,7 +37,7 @@ class ArrayCardinalityValidation(SqlRule):
         )
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) as total_rows,
             COUNT(CASE WHEN cardinality({array_col}) = {expected_length} THEN 1 END) as correct_length,
             COUNT(CASE WHEN cardinality({array_col}) != {expected_length} THEN 1 END) as wrong_length,

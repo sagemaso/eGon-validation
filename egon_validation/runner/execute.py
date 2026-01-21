@@ -164,7 +164,11 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
 
 
 def run_validations(
-    engine, ctx, validations: List, task_name: str, max_workers: int = DEFAULT_MAX_WORKERS
+    engine,
+    ctx,
+    validations: List,
+    task_name: str,
+    max_workers: int = DEFAULT_MAX_WORKERS,
 ) -> List[RuleResult]:
     """Execute a list of validation rule instances.
 
@@ -188,8 +192,7 @@ def run_validations(
     for validation in validations:
         validation.task = task_name
 
-    # Create base task directory with timestamp
-    task_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # Create base task directory
     task_dir = os.path.join(ctx.out_dir, ctx.run_id, "tasks", f"{task_name}")
     _ensure_dir(task_dir, check_collision=False)
 
@@ -200,7 +203,7 @@ def run_validations(
             "rule_id": v.rule_id,
             "table": v.table,
             "kind": getattr(v, "kind", "unknown"),
-            "rule_class": v.__class__.__name__
+            "rule_class": v.__class__.__name__,
         }
         for v in validations
     ]
@@ -209,12 +212,16 @@ def run_validations(
 
     logger.debug(
         f"Saved {len(expected_rules)} expected rules to {expected_rules_file}",
-        extra={"task": task_name, "expected_rules_count": len(expected_rules)}
+        extra={"task": task_name, "expected_rules_count": len(expected_rules)},
     )
 
     logger.info(
         f"Executing {len(validations)} validations for task '{task_name}' (max_workers={max_workers})",
-        extra={"task": task_name, "rule_count": len(validations), "max_workers": max_workers},
+        extra={
+            "task": task_name,
+            "rule_count": len(validations),
+            "max_workers": max_workers,
+        },
     )
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -241,7 +248,11 @@ def run_validations(
             except Exception as e:
                 logger.error(
                     f"Failed to get result for rule {rule.rule_id}: {e}",
-                    extra={"rule_id": rule.rule_id, "task": task_name, "error": str(e)},
+                    extra={
+                        "rule_id": rule.rule_id,
+                        "task": task_name,
+                        "error": str(e),
+                    },
                     exc_info=True,
                 )
 
@@ -260,7 +271,9 @@ def run_validations(
     return results
 
 
-def run_for_task(engine, ctx, task: str, max_workers: int = DEFAULT_MAX_WORKERS) -> List[RuleResult]:
+def run_for_task(
+    engine, ctx, task: str, max_workers: int = DEFAULT_MAX_WORKERS
+) -> List[RuleResult]:
     """Execute rules registered for a task (legacy registry-based approach).
 
     This function uses the decorator-based registry to look up rules.

@@ -1,6 +1,6 @@
 """Custom validation for grouped row count comparisons against reference tables."""
 
-from egon_validation.rules.base import SqlRule, RuleResult
+from egon_validation.rules.base import SqlRule
 from egon_validation.rules.registry import register
 
 
@@ -77,7 +77,6 @@ class RowCountComparisonValidation(SqlRule):
     def postprocess(self, row, ctx):
         ref_count = int(row.get("ref_count") or 0)
         total_groups = int(row.get("total_groups") or 0)
-        matching_groups = int(row.get("matching_groups") or 0)
         mismatching_groups = int(row.get("mismatching_groups") or 0)
         found_counts = row.get("found_counts", [])
 

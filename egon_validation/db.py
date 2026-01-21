@@ -114,7 +114,8 @@ def fetch_dataframe(
             )
         else:
             logger.debug(
-                "Successfully created DataFrame iterator", extra={"sql": sql[:100]}
+                "Successfully created DataFrame iterator",
+                extra={"sql": sql[:100]},
             )
         return df
     except (OperationalError, DisconnectionError) as e:
