@@ -1,12 +1,21 @@
 import argparse
 import json
 import os
-from egon_validation.config import DEFAULT_OUT_DIR, ENV_DB_URL, get_env, build_db_url
+from egon_validation.config import (
+    DEFAULT_OUT_DIR,
+    ENV_DB_URL,
+    get_env,
+    build_db_url,
+)
 from egon_validation.context import RunContext
 from egon_validation.db import make_engine
 from egon_validation.runner.execute import run_for_task
 from egon_validation.runner.coverage_analysis import discover_total_tables
-from egon_validation.runner.aggregate import collect, build_coverage, write_outputs
+from egon_validation.runner.aggregate import (
+    collect,
+    build_coverage,
+    write_outputs,
+)
 from egon_validation.report.generate import generate
 from egon_validation.ssh_tunnel import create_tunnel_from_env
 from egon_validation.logging_config import setup_logging
@@ -91,7 +100,9 @@ def main():
         help="Use SSH tunnel (requires SSH config in .env)",
     )
     p1.add_argument(
-        "--echo-sql", action="store_true", help="Echo SQLAlchemy SQL for debugging"
+        "--echo-sql",
+        action="store_true",
+        help="Echo SQLAlchemy SQL for debugging",
     )
     p1.set_defaults(func=_run_task)
 

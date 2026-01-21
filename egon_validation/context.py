@@ -131,7 +131,10 @@ class RunContextFactory:
             run_id=run_id,
             out_dir=output_dir,
             source="api",
-            extra={"created_by": "RunContextFactory.create_unique", "uuid": unique_id},
+            extra={
+                "created_by": "RunContextFactory.create_unique",
+                "uuid": unique_id,
+            },
         )
 
     @staticmethod

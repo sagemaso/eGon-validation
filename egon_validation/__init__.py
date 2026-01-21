@@ -8,10 +8,19 @@ from pathlib import Path
 
 __version__ = "1.1.1"
 
-# Core components
-from egon_validation.context import RunContext, RunContextFactory
-from egon_validation.rules.base import Rule, SqlRule, DataFrameRule, RuleResult, Severity
-from egon_validation.runner.execute import run_validations, run_for_task
+# Core components (exported as public API)
+from egon_validation.context import RunContext, RunContextFactory  # noqa: F401
+from egon_validation.rules.base import (  # noqa: F401
+    Rule,
+    SqlRule,
+    DataFrameRule,
+    RuleResult,
+    Severity,
+)
+from egon_validation.runner.execute import (  # noqa: F401
+    run_validations,
+    run_for_task,
+)
 
 
 # Auto-discover and import all validation rules
@@ -30,7 +39,7 @@ def _load_rules():
         package_module = f"egon_validation.rules.{package_name}"
 
         try:
-            package = importlib.import_module(package_module)
+            importlib.import_module(package_module)
         except ImportError:
             continue
 
@@ -46,12 +55,14 @@ def _load_rules():
 
                 # Find all classes that inherit from Rule
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if (issubclass(obj, (Rule, SqlRule, DataFrameRule)) and
-                        obj not in (Rule, SqlRule, DataFrameRule) and
-                        obj.__module__ == full_module_name):
+                    if (
+                        issubclass(obj, (Rule, SqlRule, DataFrameRule))
+                        and obj not in (Rule, SqlRule, DataFrameRule)
+                        and obj.__module__ == full_module_name
+                    ):
                         rule_classes[name] = obj
 
-            except Exception as e:
+            except Exception:
                 # Skip modules that fail to import
                 continue
 
@@ -79,4 +90,6 @@ __all__ = [
     # Execution
     "run_validations",
     "run_for_task",
-] + list(_discovered_rules.keys())  # Add all discovered rule classes
+] + list(
+    _discovered_rules.keys()
+)  # Add all discovered rule classes

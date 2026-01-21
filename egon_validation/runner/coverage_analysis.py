@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Dict, Set
 from egon_validation.db import make_engine, fetch_one
 from egon_validation.config import get_env, ENV_DB_URL, build_db_url
-from egon_validation.rules.registry import list_registered
 from egon_validation.rules.base import Rule
 from egon_validation.logging_config import get_logger
 
@@ -30,34 +29,47 @@ def discover_all_rule_classes() -> Set[str]:
 
     try:
         # Import rules modules to ensure all rules are loaded
-        import egon_validation.rules.formal
-        import egon_validation.rules.custom
+        import egon_validation.rules.formal  # noqa: F401
+        import egon_validation.rules.custom  # noqa: F401
 
         # Discover rule classes in formal and custom modules
-        for module_name in ['egon_validation.rules.formal', 'egon_validation.rules.custom']:
+        for module_name in [
+            "egon_validation.rules.formal",
+            "egon_validation.rules.custom",
+        ]:
             try:
                 module = importlib.import_module(module_name)
                 module_path = Path(module.__file__).parent
 
                 # Iterate through all Python files in the module
                 for submodule_info in pkgutil.iter_modules([str(module_path)]):
-                    if submodule_info.ispkg or submodule_info.name.startswith('_'):
+                    if submodule_info.ispkg or submodule_info.name.startswith("_"):
                         continue
 
                     # Import the submodule
-                    submodule = importlib.import_module(f"{module_name}.{submodule_info.name}")
+                    submodule = importlib.import_module(
+                        f"{module_name}.{submodule_info.name}"
+                    )
 
                     # Find all Rule subclasses in the module
                     for name, obj in inspect.getmembers(submodule, inspect.isclass):
                         # Check if it's a Rule subclass and not the base Rule class itself
-                        if issubclass(obj, Rule) and obj is not Rule and obj.__module__ == submodule.__name__:
+                        if (
+                            issubclass(obj, Rule)
+                            and obj is not Rule
+                            and obj.__module__ == submodule.__name__
+                        ):
                             rule_classes.add(obj.__name__)
-                            logger.debug(f"Discovered rule class: {obj.__name__} in {submodule.__name__}")
+                            logger.debug(
+                                f"Discovered rule class: {obj.__name__} in {submodule.__name__}"
+                            )
 
             except Exception as e:
                 logger.warning(f"Failed to discover rules in {module_name}: {e}")
 
-        logger.info(f"Discovered {len(rule_classes)} total rule classes: {sorted(rule_classes)}")
+        logger.info(
+            f"Discovered {len(rule_classes)} total rule classes: {sorted(rule_classes)}"
+        )
 
     except Exception as e:
         logger.error(f"Failed to discover rule classes: {e}", exc_info=True)
@@ -80,7 +92,7 @@ def discover_total_tables() -> int:
             logger.warning("No database URL available - cannot count tables")
             return 0
 
-        logger.debug(f"Connecting to database to count tables")
+        logger.debug("Connecting to database to count tables")
         engine = make_engine(db_url)
         query = """
         SELECT COUNT(*) as total_tables
@@ -96,7 +108,7 @@ def discover_total_tables() -> int:
     except Exception as e:
         logger.error(
             f"Failed to discover total tables from database: {type(e).__name__}: {str(e)}",
-            extra={"error_type": type(e).__name__, "error": str(e)}
+            extra={"error_type": type(e).__name__, "error": str(e)},
         )
         return 0
 
@@ -115,14 +127,14 @@ def load_saved_table_count(ctx) -> int:
                 if count > 0:
                     logger.info(f"Loaded saved table count: {count} tables")
                 else:
-                    logger.warning(f"Saved metadata file exists but contains 0 tables")
+                    logger.warning("Saved metadata file exists but contains 0 tables")
                 return count
         else:
             logger.debug(f"No saved table count found at {metadata_file}")
     except Exception as e:
         logger.warning(
             f"Failed to load saved table count: {type(e).__name__}: {str(e)}",
-            extra={"error_type": type(e).__name__, "error": str(e)}
+            extra={"error_type": type(e).__name__, "error": str(e)},
         )
     return 0
 
@@ -164,13 +176,15 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         extra={
             "validated_tables": validated_tables_count,
             "total_tables": total_tables,
-            "coverage_percent": round(table_coverage_percent, 1)
-        }
+            "coverage_percent": round(table_coverage_percent, 1),
+        },
     )
 
     # Discover all available rule classes in the codebase
     all_rule_classes = discover_all_rule_classes()
-    logger.info(f"Discovered {len(all_rule_classes)} rule classes in codebase: {sorted(all_rule_classes)}")
+    logger.info(
+        f"Discovered {len(all_rule_classes)} rule classes in codebase: {sorted(all_rule_classes)}"
+    )
 
     # Count unique applied rules by rule_class (not rule_id)
     applied_rule_classes = set()
@@ -182,7 +196,9 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
         rule_class = item.get("rule_class")
         if rule_class:
             applied_rule_classes.add(rule_class)
-            rule_class_application_count[rule_class] = rule_class_application_count.get(rule_class, 0) + 1
+            rule_class_application_count[rule_class] = (
+                rule_class_application_count.get(rule_class, 0) + 1
+            )
 
             if item.get("success", False):
                 successful_applications += 1
@@ -198,9 +214,13 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     # Log any external rule classes (not discovered in codebase)
     external_rules = applied_rule_classes - all_rule_classes
     if external_rules:
-        logger.info(f"Detected {len(external_rules)} external rule classes from pipeline projects: {sorted(external_rules)}")
+        logger.info(
+            f"Detected {len(external_rules)} external rule classes from pipeline projects: {sorted(external_rules)}"
+        )
 
-    logger.info(f"Total available rule classes: {total_rules} (codebase: {len(all_rule_classes)}, applied: {applied_rules_count})")
+    logger.info(
+        f"Total available rule classes: {total_rules} (codebase: {len(all_rule_classes)}, applied: {applied_rules_count})"
+    )
 
     rule_coverage_percent = (
         (applied_rules_count / total_rules * 100) if total_rules > 0 else 0
@@ -217,7 +237,10 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     rule_stats = []
     for rule_class in sorted(applied_rule_classes):
         rule_stats.append(
-            {"rule_class": rule_class, "applications": rule_class_application_count[rule_class]}
+            {
+                "rule_class": rule_class,
+                "applications": rule_class_application_count[rule_class],
+            }
         )
 
     coverage_stats = {

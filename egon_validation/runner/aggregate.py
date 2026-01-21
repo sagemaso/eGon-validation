@@ -44,7 +44,7 @@ def collect(ctx) -> Dict:
     return {
         "items": items,
         "datasets": sorted(d for d in datasets_set if d),
-        "expected_rules": expected_rules
+        "expected_rules": expected_rules,
     }
 
 
@@ -69,7 +69,9 @@ def _build_formal_rules_index(collected_items: List[Dict]) -> List[str]:
     return sorted(rule_classes)
 
 
-def _build_custom_checks_map(items: List[Dict], expected_rules: Dict[str, List[Dict]] = None) -> Dict[str, List[str]]:
+def _build_custom_checks_map(
+    items: List[Dict], expected_rules: Dict[str, List[Dict]] = None
+) -> Dict[str, List[str]]:
     """
     Build map of table -> list of custom/sanity rule names.
 

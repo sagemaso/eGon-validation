@@ -1,4 +1,4 @@
-from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
+from egon_validation.rules.base import Rule, SqlRule, Severity
 from egon_validation.rules.registry import register
 
 
@@ -92,9 +92,7 @@ class NotNullAndNotNaNValidation(SqlRule):
         columns = self.params.get("columns", [])
         if len(columns) == 1:
             message = (
-                f"Column '{columns[0]}' has no NULL/NaN values"
-                if ok
-                else problems[0]
+                f"Column '{columns[0]}' has no NULL/NaN values" if ok else problems[0]
             )
         else:
             message = (
@@ -159,9 +157,7 @@ class WholeTableNotNullAndNotNaNValidation(Rule):
             )
 
         if not columns_result:
-            return self.error_result(
-                message="No columns found in table"
-            )
+            return self.error_result(message="No columns found in table")
 
         # Step 2: Check each column for NULL/NaN values
         problems = []
@@ -176,7 +172,9 @@ class WholeTableNotNullAndNotNaNValidation(Rule):
             # Build WHERE condition based on data type
             if col_type in ("double precision", "real", "numeric"):
                 # Check for NULL or NaN (NaN != NaN)
-                where_condition = f'"{col_name}" IS NULL OR "{col_name}" <> "{col_name}"'
+                where_condition = (
+                    f'"{col_name}" IS NULL OR "{col_name}" <> "{col_name}"'
+                )
             else:
                 # Just check for NULL
                 where_condition = f'"{col_name}" IS NULL'

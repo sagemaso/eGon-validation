@@ -1,5 +1,5 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
+from egon_validation.rules.base import SqlRule, Severity
+from egon_validation.rules.registry import register
 from egon_validation.config import DEFAULT_SRID
 
 
@@ -41,7 +41,7 @@ class SRIDSpecificValidation(SqlRule):
         expected_srid = self.params.get("expected_srid", DEFAULT_SRID)
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) AS total_geometries,
             COUNT(DISTINCT ST_SRID({geom})) AS unique_srids,
             SUM(CASE WHEN ST_SRID({geom}) = {expected_srid} THEN 1 ELSE 0 END) AS correct_srid_count,

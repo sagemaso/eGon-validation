@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
+from egon_validation.rules.base import SqlRule
 from egon_validation.rules.registry import register
 from egon_validation.config import MV_GRID_DISTRICTS_COUNT
 

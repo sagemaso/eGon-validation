@@ -1,5 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
+from egon_validation.rules.base import SqlRule, Severity
 
 
 class ReferentialIntegrityValidation(SqlRule):
@@ -45,7 +44,6 @@ class ReferentialIntegrityValidation(SqlRule):
 
     def postprocess(self, row, ctx):
         total_non_null_references = int(row.get("total_non_null_references") or 0)
-        valid_references = int(row.get("valid_references") or 0)
         orphaned_references = int(row.get("orphaned_references") or 0)
 
         ok = orphaned_references == 0

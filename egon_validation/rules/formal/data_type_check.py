@@ -1,4 +1,8 @@
-from egon_validation.rules.base import SqlRule, RuleResult, POSTGRES_TYPE_MAPPINGS, Severity
+from egon_validation.rules.base import (
+    SqlRule,
+    POSTGRES_TYPE_MAPPINGS,
+    Severity,
+)
 from egon_validation.rules.registry import register
 
 
@@ -42,7 +46,7 @@ class DataTypeValidation(SqlRule):
         columns_list = "', '".join(columns)
 
         return f"""
-        SELECT 
+        SELECT
             json_agg(
                 json_build_object(
                     'column_name', column_name,
@@ -51,7 +55,7 @@ class DataTypeValidation(SqlRule):
                 )
             ) as columns_info
         FROM information_schema.columns
-        WHERE 
+        WHERE
             table_schema = '{schema}' AND
             table_name = '{table}' AND
             column_name IN ('{columns_list}')
@@ -79,7 +83,9 @@ class DataTypeValidation(SqlRule):
 
             if column_name in column_types:
                 expected_type = column_types[column_name].lower()
-                expected_types = POSTGRES_TYPE_MAPPINGS.get(expected_type, [expected_type])
+                expected_types = POSTGRES_TYPE_MAPPINGS.get(
+                    expected_type, [expected_type]
+                )
 
                 if actual_type not in expected_types and udt_name not in expected_types:
                     problems.append(

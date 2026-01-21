@@ -3,7 +3,10 @@
 from typing import Dict, List, Tuple
 from sqlalchemy.engine import Engine
 from egon_validation.logging_config import get_logger
-from egon_validation.exceptions import PermissionDeniedError, DatabaseConnectionError
+from egon_validation.exceptions import (
+    PermissionDeniedError,
+    DatabaseConnectionError,
+)
 from egon_validation.retry import database_retry
 from egon_validation import db
 
@@ -104,7 +107,9 @@ class PermissionValidator:
             """
 
             result = db.fetch_one(
-                self.engine, schema_query, {"schema": schema, "privilege": privilege}
+                self.engine,
+                schema_query,
+                {"schema": schema, "privilege": privilege},
             )
             has_permission = result.get("has_privilege", False)
 
@@ -120,7 +125,11 @@ class PermissionValidator:
         except Exception as e:
             logger.error(
                 f"Failed to check schema permission: {str(e)}",
-                extra={"schema": schema, "privilege": privilege, "error": str(e)},
+                extra={
+                    "schema": schema,
+                    "privilege": privilege,
+                    "error": str(e),
+                },
             )
             raise DatabaseConnectionError(
                 f"Unable to check schema permissions: {str(e)}"
@@ -159,7 +168,9 @@ class PermissionValidator:
         return results
 
     def validate_required_permissions(
-        self, required_tables: List[Tuple[str, str]], fail_on_missing: bool = True
+        self,
+        required_tables: List[Tuple[str, str]],
+        fail_on_missing: bool = True,
     ) -> Dict[str, bool]:
         """
         Validate permissions for a list of required tables.

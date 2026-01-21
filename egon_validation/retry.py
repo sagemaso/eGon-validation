@@ -67,7 +67,10 @@ def exponential_backoff(
                         logger.error(
                             f"Function {func.__name__} failed after "
                             f"{max_attempts} attempts: {str(e)}",
-                            extra={"attempts": max_attempts, "final_error": str(e)},
+                            extra={
+                                "attempts": max_attempts,
+                                "final_error": str(e),
+                            },
                             exc_info=True,
                         )
                         raise e
@@ -236,7 +239,10 @@ class RetryableOperation:
                 logger.error(
                     f"Operation {self.operation_name} failed after "
                     f"{self.max_attempts} attempts: {str(exc_val)}",
-                    extra={"attempts": self.max_attempts, "final_error": str(exc_val)},
+                    extra={
+                        "attempts": self.max_attempts,
+                        "final_error": str(exc_val),
+                    },
                 )
 
         return False  # Don't suppress other exceptions

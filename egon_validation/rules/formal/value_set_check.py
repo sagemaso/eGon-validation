@@ -1,5 +1,5 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
-from egon_validation.rules.registry import register, register_map
+from egon_validation.rules.base import SqlRule, Severity
+from egon_validation.rules.registry import register
 
 
 @register(
@@ -37,7 +37,7 @@ class ValueSetValidation(SqlRule):
         expected_array = "ARRAY[" + ",".join([f"'{v}'" for v in expected_values]) + "]"
 
         base_query = f"""
-        SELECT 
+        SELECT
             COUNT(*) as total_rows,
             COUNT(CASE WHEN {col} = ANY({expected_array}) THEN 1 END) as valid_values,
             COUNT(CASE WHEN {col} NOT IN (SELECT unnest({expected_array})) OR {col} IS NULL THEN 1 END) as invalid_values,

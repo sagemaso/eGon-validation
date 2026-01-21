@@ -1,4 +1,4 @@
-from egon_validation.rules.base import SqlRule, RuleResult, Severity
+from egon_validation.rules.base import SqlRule, Severity
 from egon_validation.rules.registry import register
 
 
@@ -28,14 +28,14 @@ class GeometryContainmentValidation(SqlRule):
             FROM {ref_table}
             WHERE {ref_filter}
         )
-        SELECT 
+        SELECT
             COUNT(*) as total_points,
             COUNT(CASE WHEN ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_inside,
             COUNT(CASE WHEN NOT ST_Contains(reference_geom.unified_geom, ST_Transform(points.{geom_col}, 3035)) THEN 1 END) as points_outside
-        FROM 
+        FROM
             reference_geom,
             {self.table} AS points
-        WHERE 
+        WHERE
             points.{filter_condition}
         """
 
