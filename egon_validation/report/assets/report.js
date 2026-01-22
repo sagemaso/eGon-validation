@@ -131,6 +131,17 @@
     }
   }
 
+  // Build map: rule_id -> { success: boolean, table: string } for custom/sanity checks
+  const customRuleStatus = new Map();
+  for (const item of items) {
+    if (item.kind === 'custom' || item.kind === 'sanity') {
+      customRuleStatus.set(`${item.table}::${item.rule_id}`, {
+        success: item.success,
+        table: item.table
+      });
+    }
+  }
+
   const mwrap = document.createElement('div'); mwrap.className = 'matrix-wrapper';
   const tbl = document.createElement('table'); tbl.className = 'matrix';
   
@@ -217,7 +228,44 @@
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
-    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip clickable" title="${name}" data-dataset="${d}" data-rule="${name}">${createCustomCheckAbbreviation(name)}</span>`).join('') : '<span class="badge empty">—</span>';
+    let customHtml;
+    if (customs.length === 0) {
+      customHtml = '<span class="badge empty">—</span>';
+    } else {
+      // Get pass/fail status for each custom rule
+      const customResults = customs.map(name => {
+        const key = `${d}::${name}`;
+        const status = customRuleStatus.get(key);
+        return { name, success: status?.success ?? null };
+      });
+
+      const passed = customResults.filter(r => r.success === true).length;
+      const failed = customResults.filter(r => r.success === false).length;
+
+      // Build count display
+      let countText = '';
+      if (passed > 0) countText += `${passed} ✓`;
+      if (passed > 0 && failed > 0) countText += ' ';
+      if (failed > 0) countText += `${failed} ✗`;
+
+      // Generate expandable structure
+      const tagsHtml = customResults.map(r => {
+        const statusClass = r.success === true ? 'ok' : r.success === false ? 'fail' : '';
+        return `<span class="tag has-tooltip clickable ${statusClass}" title="${r.name}" data-dataset="${d}" data-rule="${r.name}">${r.name}</span>`;
+      }).join('');
+
+      customHtml = `
+        <div class="custom-expandable" data-dataset="${d}">
+          <span class="custom-summary clickable">
+            <span class="custom-count ${failed > 0 ? 'has-failures' : ''}">${countText}</span>
+            <span class="expand-indicator">▶</span>
+          </span>
+          <div class="custom-tags" style="display: none;">
+            ${tagsHtml}
+          </div>
+        </div>
+      `;
+    }
     rowHtml += `<td class="custom-cell">${customHtml}</td>`;
     tr.innerHTML = rowHtml; tbody.appendChild(tr);
   }
@@ -302,6 +350,19 @@
 
   // Add click handlers for matrix icons
   document.addEventListener('click', function(e) {
+    // Handle custom checks expand/collapse
+    if (e.target.closest('.custom-summary')) {
+      const container = e.target.closest('.custom-expandable');
+      const tagsDiv = container.querySelector('.custom-tags');
+      const indicator = container.querySelector('.expand-indicator');
+      const isExpanded = tagsDiv.style.display !== 'none';
+
+      tagsDiv.style.display = isExpanded ? 'none' : 'block';
+      indicator.textContent = isExpanded ? '▶' : '▼';
+      e.stopPropagation();
+      return;
+    }
+
     if (e.target.classList.contains('clickable')) {
       const dataset = e.target.getAttribute('data-dataset');
       const rule = e.target.getAttribute('data-rule');

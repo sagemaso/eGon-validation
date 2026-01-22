@@ -188,3 +188,52 @@ footer { color: var(--muted); padding: 24px; }
 .tag.has-tooltip:not(.clickable) {
   cursor: help;
 }
+
+/* Expandable Custom Checks */
+.custom-expandable {
+  display: inline-block;
+}
+
+.custom-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: #151922;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.custom-summary:hover {
+  background: #1f2633;
+}
+
+.custom-count {
+  color: var(--ok);
+}
+
+.custom-count.has-failures {
+  color: var(--fg);
+}
+
+.expand-indicator {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.custom-tags {
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+.custom-tags .tag.ok {
+  border-color: rgba(82, 196, 26, 0.3);
+}
+
+.custom-tags .tag.fail {
+  border-color: rgba(255, 107, 107, 0.3);
+  color: var(--error);
+}
