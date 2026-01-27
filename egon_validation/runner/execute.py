@@ -46,6 +46,9 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
                 execution_time = time.time() - start_time
                 empty_result.execution_time = execution_time
                 empty_result.executed_at = datetime.now().isoformat()
+                # Ensure rule_class is set (backup in case create_result didn't set it)
+                if not empty_result.rule_class:
+                    empty_result.rule_class = rule.__class__.__name__
                 return empty_result
 
             row = db.fetch_one(engine, rule.sql(ctx))

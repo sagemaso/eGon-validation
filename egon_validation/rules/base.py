@@ -182,6 +182,7 @@ class Rule:
             severity=severity,
             schema=self.schema,
             table_name=self.table_name,
+            rule_class=self.__class__.__name__,
             **kwargs,
         )
 
