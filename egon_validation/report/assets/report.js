@@ -248,10 +248,10 @@
       if (passed > 0 && failed > 0) countText += ' ';
       if (failed > 0) countText += `${failed} ✗`;
 
-      // Generate expandable structure
+      // Generate expandable structure with tooltip popup
       const tagsHtml = customResults.map(r => {
         const statusClass = r.success === true ? 'ok' : r.success === false ? 'fail' : '';
-        return `<span class="tag has-tooltip clickable ${statusClass}" title="${r.name}" data-dataset="${d}" data-rule="${r.name}">${r.name}</span>`;
+        return `<div class="tag has-tooltip clickable ${statusClass}" data-dataset="${d}" data-rule="${r.name}">${r.name}</div>`;
       }).join('');
 
       customHtml = `
@@ -260,7 +260,7 @@
             <span class="custom-count ${failed > 0 ? 'has-failures' : ''}">${countText}</span>
             <span class="expand-indicator">▶</span>
           </span>
-          <div class="custom-tags" style="display: none;">
+          <div class="custom-tooltip-box">
             ${tagsHtml}
           </div>
         </div>
@@ -353,14 +353,30 @@
     // Handle custom checks expand/collapse
     if (e.target.closest('.custom-summary')) {
       const container = e.target.closest('.custom-expandable');
-      const tagsDiv = container.querySelector('.custom-tags');
+      const tooltipBox = container.querySelector('.custom-tooltip-box');
       const indicator = container.querySelector('.expand-indicator');
-      const isExpanded = tagsDiv.style.display !== 'none';
+      const isExpanded = tooltipBox.classList.contains('visible');
 
-      tagsDiv.style.display = isExpanded ? 'none' : 'block';
-      indicator.textContent = isExpanded ? '▶' : '▼';
+      // Close any other open tooltip boxes first
+      document.querySelectorAll('.custom-tooltip-box.visible').forEach(box => {
+        box.classList.remove('visible');
+        box.closest('.custom-expandable').querySelector('.expand-indicator').textContent = '▶';
+      });
+
+      if (!isExpanded) {
+        tooltipBox.classList.add('visible');
+        indicator.textContent = '▼';
+      }
       e.stopPropagation();
       return;
+    }
+
+    // Close tooltip boxes when clicking outside
+    if (!e.target.closest('.custom-tooltip-box')) {
+      document.querySelectorAll('.custom-tooltip-box.visible').forEach(box => {
+        box.classList.remove('visible');
+        box.closest('.custom-expandable').querySelector('.expand-indicator').textContent = '▶';
+      });
     }
 
     if (e.target.classList.contains('clickable')) {

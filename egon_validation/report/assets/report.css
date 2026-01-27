@@ -192,6 +192,7 @@ footer { color: var(--muted); padding: 24px; }
 /* Expandable Custom Checks */
 .custom-expandable {
   display: inline-block;
+  position: relative;
 }
 
 .custom-summary {
@@ -224,16 +225,53 @@ footer { color: var(--muted); padding: 24px; }
   color: var(--muted);
 }
 
-.custom-tags {
-  margin-top: 4px;
-  padding-left: 4px;
+/* Custom tooltip box - popup beside the arrow */
+.custom-tooltip-box {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 180px;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.custom-tags .tag.ok {
+.custom-tooltip-box.visible {
+  display: flex;
+}
+
+.custom-tooltip-box .tag {
+  display: block;
+  background: #151922;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-tooltip-box .tag.ok {
   border-color: rgba(82, 196, 26, 0.3);
 }
 
-.custom-tags .tag.fail {
+.custom-tooltip-box .tag.fail {
   border-color: rgba(255, 107, 107, 0.3);
   color: var(--error);
+}
+
+.custom-tooltip-box .tag.clickable:hover {
+  background: #1f2633;
 }
