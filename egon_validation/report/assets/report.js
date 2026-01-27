@@ -2,6 +2,17 @@
 (async function () {
   const $ = (sel) => document.querySelector(sel);
 
+  // Escape HTML special characters for safe insertion into attributes
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   async function loadJson(url, fallback) {
     try { return await fetch(url).then(r => r.json()); }
     catch (e) { return fallback; }
@@ -222,9 +233,10 @@
       // Look up the actual rule_id for this (table, rule_class) combination
       const ruleIdForNav = tableRuleClassToRuleId.get(`${d}::${r}`) || r;
       const dataAttrs = status !== 'na' ? `data-dataset="${d}" data-rule="${ruleIdForNav}"` : '';
-      const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${title}" ${dataAttrs}>✅</span>` :
-                    status==='fail' ? `<span class="icon fail ${clickable}" title="${title}" ${dataAttrs}>❌</span>` :
-                                      `<span class="icon na" title="${title}">●</span>`;
+      const safeTitle = escapeHtml(title);
+      const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${safeTitle}" ${dataAttrs}>✅</span>` :
+                    status==='fail' ? `<span class="icon fail ${clickable}" title="${safeTitle}" ${dataAttrs}>❌</span>` :
+                                      `<span class="icon na" title="${safeTitle}">●</span>`;
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
@@ -332,18 +344,19 @@
     }
 
     tr.id = `detail-${r.table}-${r.rule_id}`;
+    const safeMessage = escapeHtml(r.message ?? '');
     tr.innerHTML = `
-      <td class="has-tooltip" title="${r.task ?? ''}">${r.task ?? ''}</td>
-      <td class="has-tooltip" title="${schema ?? ''}">${schema ?? ''}</td>
-      <td class="has-tooltip" title="${r.table ?? ''}">${tableName ?? ''}</td>
-      <td class="has-tooltip" title="${r.column ?? ''}">${r.column ?? ''}</td>
-      <td class="has-tooltip" title="${r.rule_id}">${r.rule_id}</td>
-      <td class="has-tooltip" title="${r.severity ?? ''}">${r.severity}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.task ?? '')}">${escapeHtml(r.task ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(schema ?? '')}">${escapeHtml(schema ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.table ?? '')}">${escapeHtml(tableName ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.column ?? '')}">${escapeHtml(r.column ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.rule_id)}">${escapeHtml(r.rule_id)}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.severity ?? '')}">${escapeHtml(r.severity)}</td>
       <td class="has-tooltip" title="Validation ${r.success ? 'passed' : 'failed'}">${badge}</td>
-      <td class="has-tooltip" title="Observed value: ${observedDisplay}">${observedDisplay}</td>
-      <td class="has-tooltip" title="Expected value: ${r.expected ?? ''}">${r.expected ?? ''}</td>
-      <td class="has-tooltip" title="${executedAt}">${executedAt}</td>
-      <td class="has-tooltip" title="${r.message ?? ''}">${r.message ?? ''}</td>`;
+      <td class="has-tooltip" title="Observed value: ${escapeHtml(observedDisplay)}">${escapeHtml(observedDisplay)}</td>
+      <td class="has-tooltip" title="Expected value: ${escapeHtml(r.expected ?? '')}">${escapeHtml(r.expected ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(executedAt)}">${escapeHtml(executedAt)}</td>
+      <td class="has-tooltip" title="${safeMessage}">${safeMessage}</td>`;
     detBody.appendChild(tr);
   }
   document.querySelector('#results-table').appendChild(det);
