@@ -292,7 +292,7 @@
       <tr>
         <th>Task</th><th>Schema</th><th>Table</th><th>Column</th>
         <th>Rule</th><th>Severity</th>
-        <th>Status</th><th>Observed</th><th>Expected</th><th>Executed At</th><th>Message</th>
+        <th>Status</th><th>Observed</th><th>Expected</th><th>Last Executed At</th><th>Message</th>
       </tr>
     </thead>
     <tbody></tbody>`;
