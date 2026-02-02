@@ -188,3 +188,90 @@ footer { color: var(--muted); padding: 24px; }
 .tag.has-tooltip:not(.clickable) {
   cursor: help;
 }
+
+/* Expandable Custom Checks */
+.custom-expandable {
+  display: inline-block;
+  position: relative;
+}
+
+.custom-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: #151922;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.custom-summary:hover {
+  background: #1f2633;
+}
+
+.custom-count {
+  color: var(--ok);
+}
+
+.custom-count.has-failures {
+  color: var(--fg);
+}
+
+.expand-indicator {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* Custom tooltip box - popup beside the arrow */
+.custom-tooltip-box {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 180px;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-tooltip-box.visible {
+  display: flex;
+}
+
+.custom-tooltip-box .tag {
+  display: block;
+  background: #151922;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-tooltip-box .tag.ok {
+  border-color: rgba(82, 196, 26, 0.3);
+}
+
+.custom-tooltip-box .tag.fail {
+  border-color: rgba(255, 107, 107, 0.3);
+  color: var(--error);
+}
+
+.custom-tooltip-box .tag.clickable:hover {
+  background: #1f2633;
+}

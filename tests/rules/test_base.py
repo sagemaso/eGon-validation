@@ -74,6 +74,37 @@ class TestRule:
         assert rule.schema is None
         assert rule.table_name == "table_only"
 
+    def test_rule_message_suffix(self):
+        rule = Rule(
+            rule_id="test_rule",
+            table="schema.table",
+            task="test_task",
+            message_suffix="Includes home batteries and pumped hydro",
+        )
+
+        assert rule.message_suffix == "Includes home batteries and pumped hydro"
+        result = rule.create_result(success=True, message="Validation passed")
+        assert result.message == "Validation passed | Includes home batteries and pumped hydro"
+
+    def test_rule_message_suffix_none(self):
+        rule = Rule(rule_id="test_rule", table="schema.table", task="test_task")
+
+        assert rule.message_suffix is None
+        result = rule.create_result(success=True, message="Validation passed")
+        assert result.message == "Validation passed"
+
+    def test_build_message_with_suffix(self):
+        rule = Rule(
+            rule_id="test_rule",
+            table="schema.table",
+            message_suffix="Custom context",
+        )
+        assert rule._build_message("Base message") == "Base message | Custom context"
+
+    def test_build_message_without_suffix(self):
+        rule = Rule(rule_id="test_rule", table="schema.table")
+        assert rule._build_message("Base message") == "Base message"
+
 
 class TestSqlRule:
     def test_sql_rule_inheritance(self):

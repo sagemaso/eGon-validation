@@ -85,12 +85,14 @@ class Rule:
         rule_id: str,
         table: str,
         task: Optional[str] = None,
+        message_suffix: Optional[str] = None,
         **params: Any,
     ) -> None:
         self.rule_id = rule_id
         self.task = task or ""  # Can be set later by run_validations
         self.kind = self._infer_kind_from_module()
         self.table = table  # "<schema>.<table>" or view
+        self.message_suffix = message_suffix
         self.params: Dict[str, Any] = params
         # Parse schema and table_name for debug/filtering
         self.schema, self.table_name = self._parse_table_name(table)
@@ -133,6 +135,19 @@ class Rule:
             return parts[0], parts[1]
         return None, table
 
+    def _build_message(self, base_message: str) -> str:
+        """Append message_suffix to base message if configured.
+
+        Args:
+            base_message: The original validation message
+
+        Returns:
+            Message with suffix appended if message_suffix is set
+        """
+        if self.message_suffix:
+            return f"{base_message} | {self.message_suffix}"
+        return base_message
+
     def create_result(
         self,
         success: bool,
@@ -161,12 +176,13 @@ class Rule:
             table=self.table,
             kind=self.kind,
             success=success,
-            message=message,
+            message=self._build_message(message),
             observed=observed,
             expected=expected,
             severity=severity,
             schema=self.schema,
             table_name=self.table_name,
+            rule_class=self.__class__.__name__,
             **kwargs,
         )
 

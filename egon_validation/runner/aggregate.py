@@ -8,36 +8,90 @@ from egon_validation.runner.coverage_analysis import calculate_coverage_stats
 
 
 def collect(ctx) -> Dict:
-    base = os.path.join(ctx.out_dir, ctx.run_id, "tasks")
+    """
+    Collect validation results, backfilling from previous runs for rules
+    that didn't execute in the current run.
+
+    Deduplication is done at the rule_id level: for each unique rule_id,
+    only the most recent result is kept. This ensures that re-running
+    a validation replaces the old result rather than duplicating it.
+    """
     items: List[Dict] = []
     datasets_set = set()
     expected_rules: Dict[str, List[Dict]] = {}
+    seen_rule_ids = set()  # Track seen rule_ids for deduplication
+    seen_expected_tasks = set()  # Track tasks for expected_rules (without timestamp)
 
-    if os.path.isdir(base):
+    # Get all run directories, sorted alphabetically descending (newest first)
+    # Run IDs are ISO timestamps, so alphabetical order = chronological order
+    if os.path.isdir(ctx.out_dir):
+        run_dirs = sorted(
+            [d for d in os.listdir(ctx.out_dir)
+             if os.path.isdir(os.path.join(ctx.out_dir, d))],
+            reverse=True
+        )
+
+        # Ensure current run is processed first
+        if ctx.run_id in run_dirs:
+            run_dirs.remove(ctx.run_id)
+            run_dirs.insert(0, ctx.run_id)
+    else:
+        run_dirs = []
+
+    for run_id in run_dirs:
+        base = os.path.join(ctx.out_dir, run_id, "tasks")
+
+        if not os.path.isdir(base):
+            continue
+
         # structure: tasks/<task_name>/<rule_id>/results.jsonl
-        for path in glob.glob(os.path.join(base, "*", "*", "results.jsonl")):
-            with open(path, "r", encoding="utf-8") as f:
-                lines = f.readlines()
-                # Take only the last line (most recent result)
-                if lines:
-                    try:
-                        obj = json.loads(lines[-1])
-                        items.append(obj)
-                        table = obj.get("table")
-                        datasets_set.add(table)
-                    except Exception:
-                        pass
-
-        # Collect expected rules for each task
-        # structure: tasks/<task_name>/expected_rules.json
         for task_dir_path in glob.glob(os.path.join(base, "*")):
-            if os.path.isdir(task_dir_path):
-                task_name = os.path.basename(task_dir_path)
+            if not os.path.isdir(task_dir_path):
+                continue
+
+            task_name = os.path.basename(task_dir_path)
+
+            # Extract base task name without timestamp for expected_rules dedup
+            # Task names are like: FinalValidations.gas_links.20260127T121919
+            # Base name would be: FinalValidations.gas_links
+            parts = task_name.rsplit(".", 1)
+            if len(parts) == 2 and len(parts[1]) == 15 and parts[1][8] == "T":
+                # Looks like a timestamp suffix (YYYYMMDDTHHMMSS)
+                base_task_name = parts[0]
+            else:
+                base_task_name = task_name
+
+            # Collect results for this task, deduplicating by rule_id
+            for path in glob.glob(os.path.join(task_dir_path, "*", "results.jsonl")):
+                with open(path, "r", encoding="utf-8") as f:
+                    lines = f.readlines()
+                    if lines:
+                        try:
+                            obj = json.loads(lines[-1])
+                            rule_id = obj.get("rule_id")
+
+                            # Skip if we already have a result for this rule_id
+                            # from a more recent run
+                            if rule_id and rule_id in seen_rule_ids:
+                                continue
+
+                            if rule_id:
+                                seen_rule_ids.add(rule_id)
+
+                            items.append(obj)
+                            table = obj.get("table")
+                            datasets_set.add(table)
+                        except Exception:
+                            pass
+
+            # Collect expected rules for this task (deduplicate by base task name)
+            if base_task_name not in seen_expected_tasks:
                 expected_file = os.path.join(task_dir_path, "expected_rules.json")
                 if os.path.exists(expected_file):
                     try:
                         with open(expected_file, "r", encoding="utf-8") as f:
-                            expected_rules[task_name] = json.load(f)
+                            expected_rules[base_task_name] = json.load(f)
+                            seen_expected_tasks.add(base_task_name)
                     except Exception:
                         pass
 
@@ -145,7 +199,13 @@ def build_coverage(ctx, collected: Dict) -> Dict:
             # if multiple results for same pair exist: any fail dominates
             if not ok:
                 status[key] = "fail"
-                titles[key] = msg or "Applied: failed"
+                # Truncate long error messages for tooltip display
+                if msg:
+                    # Extract first line or first 100 chars for tooltip
+                    first_line = msg.split('\n')[0]
+                    titles[key] = first_line[:100] + ('...' if len(first_line) > 100 else '')
+                else:
+                    titles[key] = "Applied: failed"
             else:
                 # only set OK if we don't already have a fail
                 if status.get(key) != "fail":

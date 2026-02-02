@@ -2,6 +2,17 @@
 (async function () {
   const $ = (sel) => document.querySelector(sel);
 
+  // Escape HTML special characters for safe insertion into attributes
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   async function loadJson(url, fallback) {
     try { return await fetch(url).then(r => r.json()); }
     catch (e) { return fallback; }
@@ -131,6 +142,17 @@
     }
   }
 
+  // Build map: rule_id -> { success: boolean, table: string } for custom/sanity checks
+  const customRuleStatus = new Map();
+  for (const item of items) {
+    if (item.kind === 'custom' || item.kind === 'sanity') {
+      customRuleStatus.set(`${item.table}::${item.rule_id}`, {
+        success: item.success,
+        table: item.table
+      });
+    }
+  }
+
   const mwrap = document.createElement('div'); mwrap.className = 'matrix-wrapper';
   const tbl = document.createElement('table'); tbl.className = 'matrix';
   
@@ -211,13 +233,51 @@
       // Look up the actual rule_id for this (table, rule_class) combination
       const ruleIdForNav = tableRuleClassToRuleId.get(`${d}::${r}`) || r;
       const dataAttrs = status !== 'na' ? `data-dataset="${d}" data-rule="${ruleIdForNav}"` : '';
-      const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${title}" ${dataAttrs}>✅</span>` :
-                    status==='fail' ? `<span class="icon fail ${clickable}" title="${title}" ${dataAttrs}>❌</span>` :
-                                      `<span class="icon na" title="${title}">●</span>`;
+      const safeTitle = escapeHtml(title);
+      const icon = status==='ok'   ? `<span class="icon ok ${clickable}" title="${safeTitle}" ${dataAttrs}>✅</span>` :
+                    status==='fail' ? `<span class="icon fail ${clickable}" title="${safeTitle}" ${dataAttrs}>❌</span>` :
+                                      `<span class="icon na" title="${safeTitle}">●</span>`;
       rowHtml += `<td>${icon}</td>`;
     }
     const customs = (coverage.custom_checks && coverage.custom_checks[d]) ? coverage.custom_checks[d] : [];
-    const customHtml = customs.length ? customs.map(name => `<span class="tag has-tooltip clickable" title="${name}" data-dataset="${d}" data-rule="${name}">${createCustomCheckAbbreviation(name)}</span>`).join('') : '<span class="badge empty">—</span>';
+    let customHtml;
+    if (customs.length === 0) {
+      customHtml = '<span class="badge empty">—</span>';
+    } else {
+      // Get pass/fail status for each custom rule
+      const customResults = customs.map(name => {
+        const key = `${d}::${name}`;
+        const status = customRuleStatus.get(key);
+        return { name, success: status?.success ?? null };
+      });
+
+      const passed = customResults.filter(r => r.success === true).length;
+      const failed = customResults.filter(r => r.success === false).length;
+
+      // Build count display
+      let countText = '';
+      if (passed > 0) countText += `${passed} ✓`;
+      if (passed > 0 && failed > 0) countText += ' ';
+      if (failed > 0) countText += `${failed} ✗`;
+
+      // Generate expandable structure with tooltip popup
+      const tagsHtml = customResults.map(r => {
+        const statusClass = r.success === true ? 'ok' : r.success === false ? 'fail' : '';
+        return `<div class="tag has-tooltip clickable ${statusClass}" data-dataset="${d}" data-rule="${r.name}">${r.name}</div>`;
+      }).join('');
+
+      customHtml = `
+        <div class="custom-expandable" data-dataset="${d}">
+          <span class="custom-summary clickable">
+            <span class="custom-count ${failed > 0 ? 'has-failures' : ''}">${countText}</span>
+            <span class="expand-indicator">▶</span>
+          </span>
+          <div class="custom-tooltip-box">
+            ${tagsHtml}
+          </div>
+        </div>
+      `;
+    }
     rowHtml += `<td class="custom-cell">${customHtml}</td>`;
     tr.innerHTML = rowHtml; tbody.appendChild(tr);
   }
@@ -232,7 +292,7 @@
       <tr>
         <th>Task</th><th>Schema</th><th>Table</th><th>Column</th>
         <th>Rule</th><th>Severity</th>
-        <th>Status</th><th>Observed</th><th>Expected</th><th>Executed At</th><th>Message</th>
+        <th>Status</th><th>Observed</th><th>Expected</th><th>Last Executed At</th><th>Message</th>
       </tr>
     </thead>
     <tbody></tbody>`;
@@ -284,24 +344,54 @@
     }
 
     tr.id = `detail-${r.table}-${r.rule_id}`;
+    const safeMessage = escapeHtml(r.message ?? '');
     tr.innerHTML = `
-      <td class="has-tooltip" title="${r.task ?? ''}">${r.task ?? ''}</td>
-      <td class="has-tooltip" title="${schema ?? ''}">${schema ?? ''}</td>
-      <td class="has-tooltip" title="${r.table ?? ''}">${tableName ?? ''}</td>
-      <td class="has-tooltip" title="${r.column ?? ''}">${r.column ?? ''}</td>
-      <td class="has-tooltip" title="${r.rule_id}">${r.rule_id}</td>
-      <td class="has-tooltip" title="${r.severity ?? ''}">${r.severity}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.task ?? '')}">${escapeHtml(r.task ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(schema ?? '')}">${escapeHtml(schema ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.table ?? '')}">${escapeHtml(tableName ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.column ?? '')}">${escapeHtml(r.column ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.rule_id)}">${escapeHtml(r.rule_id)}</td>
+      <td class="has-tooltip" title="${escapeHtml(r.severity ?? '')}">${escapeHtml(r.severity)}</td>
       <td class="has-tooltip" title="Validation ${r.success ? 'passed' : 'failed'}">${badge}</td>
-      <td class="has-tooltip" title="Observed value: ${observedDisplay}">${observedDisplay}</td>
-      <td class="has-tooltip" title="Expected value: ${r.expected ?? ''}">${r.expected ?? ''}</td>
-      <td class="has-tooltip" title="${executedAt}">${executedAt}</td>
-      <td class="has-tooltip" title="${r.message ?? ''}">${r.message ?? ''}</td>`;
+      <td class="has-tooltip" title="Observed value: ${escapeHtml(observedDisplay)}">${escapeHtml(observedDisplay)}</td>
+      <td class="has-tooltip" title="Expected value: ${escapeHtml(r.expected ?? '')}">${escapeHtml(r.expected ?? '')}</td>
+      <td class="has-tooltip" title="${escapeHtml(executedAt)}">${escapeHtml(executedAt)}</td>
+      <td class="has-tooltip" title="${safeMessage}">${safeMessage}</td>`;
     detBody.appendChild(tr);
   }
   document.querySelector('#results-table').appendChild(det);
 
   // Add click handlers for matrix icons
   document.addEventListener('click', function(e) {
+    // Handle custom checks expand/collapse
+    if (e.target.closest('.custom-summary')) {
+      const container = e.target.closest('.custom-expandable');
+      const tooltipBox = container.querySelector('.custom-tooltip-box');
+      const indicator = container.querySelector('.expand-indicator');
+      const isExpanded = tooltipBox.classList.contains('visible');
+
+      // Close any other open tooltip boxes first
+      document.querySelectorAll('.custom-tooltip-box.visible').forEach(box => {
+        box.classList.remove('visible');
+        box.closest('.custom-expandable').querySelector('.expand-indicator').textContent = '▶';
+      });
+
+      if (!isExpanded) {
+        tooltipBox.classList.add('visible');
+        indicator.textContent = '▼';
+      }
+      e.stopPropagation();
+      return;
+    }
+
+    // Close tooltip boxes when clicking outside
+    if (!e.target.closest('.custom-tooltip-box')) {
+      document.querySelectorAll('.custom-tooltip-box.visible').forEach(box => {
+        box.classList.remove('visible');
+        box.closest('.custom-expandable').querySelector('.expand-indicator').textContent = '▶';
+      });
+    }
+
     if (e.target.classList.contains('clickable')) {
       const dataset = e.target.getAttribute('data-dataset');
       const rule = e.target.getAttribute('data-rule');

@@ -193,17 +193,19 @@ def calculate_coverage_stats(collected_data: Dict, ctx=None) -> Dict:
     failed_applications = 0
 
     for item in items:
+        # Count all items for pass/fail statistics
+        if item.get("success", False):
+            successful_applications += 1
+        else:
+            failed_applications += 1
+
+        # Track rule_class for coverage analysis
         rule_class = item.get("rule_class")
         if rule_class:
             applied_rule_classes.add(rule_class)
             rule_class_application_count[rule_class] = (
                 rule_class_application_count.get(rule_class, 0) + 1
             )
-
-            if item.get("success", False):
-                successful_applications += 1
-            else:
-                failed_applications += 1
 
     # Total rules = union of discovered rules + applied rules (to include external/pipeline rules)
     total_rule_classes = all_rule_classes.union(applied_rule_classes)
