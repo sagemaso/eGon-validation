@@ -235,7 +235,7 @@ def create_validation_tasks(validation_dict, dataset_name, on_failure="continue"
 Usage:
 ```python
 validation_dict = {
-    "data_quality": [RowCountValidation(...), NullCheckValidation(...)],
+    "data_quality": [RowCountValidation(...), NotNullAndNotNaNValidation(...)],
     "geometry": [SRIDValidation(...), GeometryValidation(...)],
 }
 

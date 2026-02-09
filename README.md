@@ -4,7 +4,7 @@
 
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%203.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/version-1.1.1-green.svg)](https://github.com/yourusername/egon-validation)
+[![Version](https://img.shields.io/badge/version-1.2.2-green.svg)](https://github.com/yourusername/egon-validation)
 
 SQL-first validation framework for PostgreSQL/PostGIS databases. Execute validation rules directly in the database, generate interactive reports, and integrate with Airflow workflows.
 

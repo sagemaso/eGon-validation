@@ -50,7 +50,7 @@ class ComplexCheck(DataFrameRule):
     def sql(self, ctx):
         return f"SELECT * FROM {self.table}"
 
-    def validate(self, df, ctx):
+    def evaluate_df(self, df, ctx):
         # Custom pandas logic
         invalid = df[df["value"] < df["threshold"]].shape[0]
         return self.create_result(
