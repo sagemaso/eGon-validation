@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.2.2] - 2025-12-20
 
 ### Changed
 - Renamed rule classes to follow `*Validation` naming convention (e.g., `NotNullAndNotNaNValidation`)
@@ -178,5 +178,6 @@ All notable changes to this project will be documented in this file.
 - Add sanity rules
 - Initial project skeleton
 
+[1.2.2]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.2
 [1.1.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.1.1
 [1.0.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.0.0
