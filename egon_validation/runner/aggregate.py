@@ -26,9 +26,12 @@ def collect(ctx) -> Dict:
     # Run IDs are ISO timestamps, so alphabetical order = chronological order
     if os.path.isdir(ctx.out_dir):
         run_dirs = sorted(
-            [d for d in os.listdir(ctx.out_dir)
-             if os.path.isdir(os.path.join(ctx.out_dir, d))],
-            reverse=True
+            [
+                d
+                for d in os.listdir(ctx.out_dir)
+                if os.path.isdir(os.path.join(ctx.out_dir, d))
+            ],
+            reverse=True,
         )
 
         # Ensure current run is processed first
@@ -202,8 +205,10 @@ def build_coverage(ctx, collected: Dict) -> Dict:
                 # Truncate long error messages for tooltip display
                 if msg:
                     # Extract first line or first 100 chars for tooltip
-                    first_line = msg.split('\n')[0]
-                    titles[key] = first_line[:100] + ('...' if len(first_line) > 100 else '')
+                    first_line = msg.split("\n")[0]
+                    titles[key] = first_line[:100] + (
+                        "..." if len(first_line) > 100 else ""
+                    )
                 else:
                     titles[key] = "Applied: failed"
             else:
