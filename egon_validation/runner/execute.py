@@ -292,4 +292,7 @@ def run_for_task(
         List of RuleResult objects
     """
     rules = list(rules_for(task))
+    if not rules:
+        logger.warning(f"No task '{task}' found. Check task name or rule registrations.")
+        return []
     return run_validations(engine, ctx, rules, task, max_workers)
