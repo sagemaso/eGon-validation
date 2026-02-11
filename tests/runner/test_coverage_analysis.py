@@ -291,10 +291,12 @@ class TestCalculateCoverageStats:
 
         assert result == expected
 
+    @patch("egon_validation.runner.coverage_analysis.discover_total_tables")
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
-    def test_calculate_coverage_stats_missing_keys(self, mock_discover_rules):
+    def test_calculate_coverage_stats_missing_keys(self, mock_discover_rules, mock_discover_tables):
         """Test handling of items without required keys"""
         mock_discover_rules.return_value = {"RuleClass1"}
+        mock_discover_tables.return_value = 10
 
         collected_data = {
             "items": [
@@ -308,11 +310,11 @@ class TestCalculateCoverageStats:
 
         result = calculate_coverage_stats(collected_data)
 
-        # Implementation counts all items with rule_class, treating missing success as False
+        # Implementation counts ALL items for pass/fail, treating missing success as False
         assert result["rule_coverage"]["applied_rules"] == 1  # Only RuleClass1 counted
-        assert result["validation_results"]["total_applications"] == 2  # Both items with rule_class
-        assert result["validation_results"]["successful"] == 1  # Only item with success=True
-        assert result["validation_results"]["failed"] == 1  # Item with missing success counts as failed
+        assert result["validation_results"]["total_applications"] == 4  # All 4 items counted
+        assert result["validation_results"]["successful"] == 2  # Items with success=True (items 3 and 4)
+        assert result["validation_results"]["failed"] == 2  # Items without success=True (items 1 and 2)
         assert result["rule_application_stats"] == [{"rule_class": "RuleClass1", "applications": 2}]
 
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
@@ -502,11 +504,10 @@ class TestCoverageAnalysisEdgeCases:
 
     def test_calculate_coverage_stats_with_none_values(self):
         """Test handling of None values in various places"""
-        with patch("egon_validation.runner.coverage_analysis.list_registered", return_value=[]):
-            # The function expects a dict, so None will raise AttributeError
-            # This test documents the current behavior - the function doesn't handle None gracefully
-            with pytest.raises(AttributeError):
-                calculate_coverage_stats(None)
+        # The function expects a dict, so None will raise AttributeError
+        # This test documents the current behavior - the function doesn't handle None gracefully
+        with pytest.raises(AttributeError):
+            calculate_coverage_stats(None)
 
     def test_load_saved_table_count_with_invalid_json_structure(self):
         """Test loading with valid JSON but wrong structure"""

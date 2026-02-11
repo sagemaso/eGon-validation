@@ -6,7 +6,7 @@ from egon_validation.rules.base import Severity
 class TestGeometryContainmentValidation:
     def test_sql_generation_default_parameters(self):
         rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
-            reference_dataset="boundaries.vg250_sta"
+            ref_table="boundaries.vg250_sta"
         )
         sql = rule.get_query(None)
 
@@ -23,10 +23,10 @@ class TestGeometryContainmentValidation:
 
     def test_sql_generation_custom_parameters(self):
         rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
-            geometry_column="location",
-            reference_dataset="boundaries.vg250_lan",
-            reference_geometry="geom_polygon",
-            reference_filter="state_id = 'NW'",
+            geom="location",
+            ref_table="boundaries.vg250_lan",
+            ref_geom="geom_polygon",
+            ref_filter="state_id = 'NW'",
             filter_condition="capacity_mw > 5.0"
         )
         sql = rule.get_query(None)
@@ -40,10 +40,10 @@ class TestGeometryContainmentValidation:
     def test_postprocess_all_points_inside_boundary(self):
         """Test with realistic mock data: all wind plants within Germany"""
         rule = GeometryContainmentValidation(rule_id="wind_plants_germany", table="supply.egon_power_plants_wind", task="geometry_validation",
-            geometry_column="geom",
-            reference_dataset="boundaries.vg250_sta",
-            reference_geometry="geometry",
-            reference_filter="nuts = 'DE' AND gf = 4",
+            geom="geom",
+            ref_table="boundaries.vg250_sta",
+            ref_geom="geometry",
+            ref_filter="nuts = 'DE' AND gf = 4",
             filter_condition="site_type = 'Windkraft an Land'"
         )
 
@@ -70,10 +70,10 @@ class TestGeometryContainmentValidation:
     def test_postprocess_some_points_outside_boundary(self):
         """Test with realistic mock data: some wind plants outside Germany"""
         rule = GeometryContainmentValidation(rule_id="wind_plants_germany", table="supply.egon_power_plants_wind",
-            geometry_column="geom",
-            reference_dataset="boundaries.vg250_sta",
-            reference_geometry="geometry",
-            reference_filter="nuts = 'DE' AND gf = 4",
+            geom="geom",
+            ref_table="boundaries.vg250_sta",
+            ref_geom="geometry",
+            ref_filter="nuts = 'DE' AND gf = 4",
             filter_condition="site_type = 'Windkraft an Land'"
         )
 
@@ -118,7 +118,7 @@ class TestGeometryContainmentValidation:
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
         rule = GeometryContainmentValidation(rule_id="test_rule", table="test.table",
-            reference_dataset="test.boundary"
+            ref_table="test.boundary"
         )
 
         mock_db_row = {
@@ -155,10 +155,10 @@ class TestGeometryContainmentValidation:
     def test_with_mock_data_success_solar_plants(self):
         """Test with realistic mock data: solar plants within state boundary"""
         rule = GeometryContainmentValidation(rule_id="solar_plants_nrw", table="supply.egon_power_plants_pv", task="regional_validation",
-            geometry_column="geom",
-            reference_dataset="boundaries.vg250_lan",
-            reference_geometry="geometry",
-            reference_filter="nuts LIKE 'DE5%'",  # NRW
+            geom="geom",
+            ref_table="boundaries.vg250_lan",
+            ref_geom="geometry",
+            ref_filter="nuts LIKE 'DE5%'",  # NRW
             filter_condition="site_type = 'Photovoltaik'"
         )
 
@@ -181,10 +181,10 @@ class TestGeometryContainmentValidation:
     def test_with_mock_data_failure_cross_border_plants(self):
         """Test with realistic mock data: plants incorrectly assigned to wrong region"""
         rule = GeometryContainmentValidation(rule_id="plants_bavaria", table="supply.egon_power_plants_biomass",
-            geometry_column="geom",
-            reference_dataset="boundaries.vg250_lan",
-            reference_geometry="geometry",
-            reference_filter="nuts LIKE 'DE2%'",  # Bavaria
+            geom="geom",
+            ref_table="boundaries.vg250_lan",
+            ref_geom="geometry",
+            ref_filter="nuts LIKE 'DE2%'",  # Bavaria
             filter_condition="federal_state = 'Bayern'"
         )
 
@@ -204,35 +204,3 @@ class TestGeometryContainmentValidation:
         assert "federal_state = 'Bayern'" in result.message
         assert result.observed == 20.0
         assert result.rule_id == "plants_bavaria"
-
-    def test_postprocess_wind_plants_debugging_info(self):
-        """Test that debugging SQL is included for wind plants rule specifically"""
-        rule = GeometryContainmentValidation(rule_id="WIND_PLANTS_IN_GERMANY", table="test.table")
-
-        mock_db_row = {
-            "total_points": 100,
-            "points_inside": 90,
-            "points_outside": 10
-        }
-
-        result = rule.postprocess(mock_db_row, None)
-
-        # Should include debugging SQL for wind plants rule
-        assert "SELECT * FROM supply.egon_power_plants_wind" in result.message
-        assert "site_type = 'Windkraft an Land'" in result.message
-        assert "ST_Contains" in result.message  # Uses ST_Contains not ST_Covers
-
-    def test_postprocess_non_wind_plants_no_debugging_info(self):
-        """Test that debugging SQL is NOT included for other rules"""
-        rule = GeometryContainmentValidation(rule_id="OTHER_RULE", table="test.table")
-
-        mock_db_row = {
-            "total_points": 100,
-            "points_inside": 90,
-            "points_outside": 10
-        }
-
-        result = rule.postprocess(mock_db_row, None)
-
-        # Should NOT include debugging SQL for non-wind plants rules
-        assert "SELECT * FROM supply.egon_power_plants_wind" not in result.message

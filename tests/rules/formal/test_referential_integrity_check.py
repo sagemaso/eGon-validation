@@ -6,7 +6,7 @@ from egon_validation.rules.base import Severity
 class TestReferentialIntegrityValidation:
     def test_sql_generation_default_parameters(self):
         rule = ReferentialIntegrityValidation(rule_id="test_rule", table="grid.egon_etrago_load_timeseries",
-            reference_dataset="grid.egon_etrago_load"
+            ref_table="grid.egon_etrago_load"
         )
         sql = rule.get_query(None)
 
@@ -20,9 +20,9 @@ class TestReferentialIntegrityValidation:
 
     def test_sql_generation_custom_parameters(self):
         rule = ReferentialIntegrityValidation(rule_id="test_rule", table="grid.egon_etrago_load_timeseries",
-            foreign_column="load_id",
-            reference_dataset="grid.egon_etrago_load",
-            reference_column="load_id"
+            fk_column="load_id",
+            ref_table="grid.egon_etrago_load",
+            ref_column="load_id"
         )
         sql = rule.get_query(None)
 
@@ -33,9 +33,9 @@ class TestReferentialIntegrityValidation:
     def test_postprocess_all_references_valid(self):
         """Test with realistic mock data: all load timeseries have valid load references"""
         rule = ReferentialIntegrityValidation(rule_id="load_timeseries_integrity", table="grid.egon_etrago_load_timeseries", task="data_integrity",
-            foreign_column="load_id",
-            reference_dataset="grid.egon_etrago_load",
-            reference_column="load_id"
+            fk_column="load_id",
+            ref_table="grid.egon_etrago_load",
+            ref_column="load_id"
         )
 
         # Simulate DB result: all 5000 load timeseries reference valid loads
@@ -61,9 +61,9 @@ class TestReferentialIntegrityValidation:
     def test_postprocess_orphaned_references(self):
         """Test with realistic mock data: some timeseries reference non-existent loads"""
         rule = ReferentialIntegrityValidation(rule_id="load_timeseries_integrity", table="grid.egon_etrago_load_timeseries",
-            foreign_column="load_id",
-            reference_dataset="grid.egon_etrago_load",
-            reference_column="load_id"
+            fk_column="load_id",
+            ref_table="grid.egon_etrago_load",
+            ref_column="load_id"
         )
 
         # Simulate DB result: 25 orphaned references (data cleanup needed)
@@ -85,7 +85,7 @@ class TestReferentialIntegrityValidation:
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
         rule = ReferentialIntegrityValidation(rule_id="test_rule", table="test.table",
-            reference_dataset="test.reference"
+            ref_table="test.reference"
         )
 
         mock_db_row = {
@@ -104,9 +104,9 @@ class TestReferentialIntegrityValidation:
     def test_with_mock_data_success_bus_references(self):
         """Test with realistic mock data: all loads reference valid buses"""
         rule = ReferentialIntegrityValidation(rule_id="load_bus_integrity", table="grid.egon_etrago_load", task="grid_validation",
-            foreign_column="bus",
-            reference_dataset="grid.egon_etrago_bus",
-            reference_column="bus_id"
+            fk_column="bus",
+            ref_table="grid.egon_etrago_bus",
+            ref_column="bus_id"
         )
 
         # Simulate DB result: all 12000 loads connected to valid buses
@@ -129,9 +129,9 @@ class TestReferentialIntegrityValidation:
     def test_with_mock_data_failure_missing_buses(self):
         """Test with realistic mock data: some loads reference deleted buses"""
         rule = ReferentialIntegrityValidation(rule_id="generator_bus_integrity", table="grid.egon_etrago_generator",
-            foreign_column="bus",
-            reference_dataset="grid.egon_etrago_bus",
-            reference_column="bus_id"
+            fk_column="bus",
+            ref_table="grid.egon_etrago_bus",
+            ref_column="bus_id"
         )
 
         # Simulate DB result: grid topology changes left orphaned generators
@@ -154,9 +154,9 @@ class TestReferentialIntegrityValidation:
     def test_with_mock_data_success_demand_region_references(self):
         """Test with realistic mock data: demand data references valid regions"""
         rule = ReferentialIntegrityValidation(rule_id="demand_region_integrity", table="demand.egon_demandregio_hh", task="demand_validation",
-            foreign_column="nuts3",
-            reference_dataset="boundaries.vg250_krs",
-            reference_column="nuts"
+            fk_column="nuts3",
+            ref_table="boundaries.vg250_krs",
+            ref_column="nuts"
         )
 
         # Simulate DB result: all household demand entries reference valid districts
@@ -178,9 +178,9 @@ class TestReferentialIntegrityValidation:
     def test_with_mock_data_failure_outdated_region_codes(self):
         """Test with realistic mock data: demand uses outdated region codes"""
         rule = ReferentialIntegrityValidation(rule_id="cts_region_integrity", table="demand.egon_demandregio_cts",
-            foreign_column="nuts3",
-            reference_dataset="boundaries.vg250_krs",
-            reference_column="nuts"
+            fk_column="nuts3",
+            ref_table="boundaries.vg250_krs",
+            ref_column="nuts"
         )
 
         # Simulate DB result: territorial reform created orphaned region references
