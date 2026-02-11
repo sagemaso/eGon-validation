@@ -1,4 +1,3 @@
-import pytest
 from egon_validation.rules.registry import (
     register,
     register_map,
@@ -6,17 +5,19 @@ from egon_validation.rules.registry import (
     list_registered,
     _REGISTRY,
 )
-from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
+from egon_validation.rules.base import Rule, SqlRule
 
 
 class MockRule(Rule):
     """Mock rule for testing registry - returns success=True as placeholder."""
+
     def evaluate(self, engine, ctx):
         return self.create_result(success=True)
 
 
 class MockSqlRule(SqlRule):
     """Mock SQL rule for testing registry - returns success=True as placeholder."""
+
     def get_query(self, ctx):
         return "SELECT 1"
 
@@ -123,9 +124,7 @@ class TestRegistry:
 
     def test_register_map_default_rule_id(self):
         register_map(
-            task="test_task",
-            rule_cls=MockSqlRule,
-            tables_params={"test.table": {}}
+            task="test_task", rule_cls=MockSqlRule, tables_params={"test.table": {}}
         )
 
         rule_id, _, _, _, _ = _REGISTRY[0]
@@ -199,7 +198,8 @@ class TestRegistry:
     def test_register_preserves_original_class(self):
         @register(task="test_task", table="test.table")
         class OriginalRule(MockRule):
-            custom_method = lambda self: "test"
+            def custom_method(self):
+                return "test"
 
         assert hasattr(OriginalRule, "custom_method")
         instance = OriginalRule(rule_id="test_rule", table="test.table")
@@ -221,9 +221,7 @@ class TestRegistry:
         assert stored_params is not original_params
 
     def test_rules_for_instantiation(self):
-        @register(
-            task="test_task", table="schema.table", param="value"
-        )
+        @register(task="test_task", table="schema.table", param="value")
         class TestRuleForInstantiation(MockRule):
             pass
 

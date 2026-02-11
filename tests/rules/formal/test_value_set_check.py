@@ -1,11 +1,11 @@
-import pytest
 from egon_validation.rules.formal.value_set_check import ValueSetValidation
-from egon_validation.rules.base import Severity
 
 
 class TestValueSetValidation:
     def test_sql_generation(self):
-        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
+        rule = ValueSetValidation(
+            rule_id="test_rule",
+            table="test.table",
             column="status",
             expected_values=["active", "inactive"],
         )
@@ -22,7 +22,9 @@ class TestValueSetValidation:
         assert "ARRAY[]" in sql
 
     def test_postprocess_all_valid(self):
-        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
+        rule = ValueSetValidation(
+            rule_id="test_rule",
+            table="test.table",
             expected_values=["active", "inactive"],
         )
         row = {
@@ -40,7 +42,9 @@ class TestValueSetValidation:
         assert result.expected == 0.0
 
     def test_postprocess_invalid_values(self):
-        rule = ValueSetValidation(rule_id="test_rule", table="test.table",
+        rule = ValueSetValidation(
+            rule_id="test_rule",
+            table="test.table",
             expected_values=["active", "inactive"],
         )
         row = {
@@ -74,9 +78,12 @@ class TestValueSetValidation:
     def test_with_mock_data_success_all_values_valid(self):
         """Test with realistic mock data: all values are in expected set"""
         # Mock validating scenario column with valid scenario names
-        rule = ValueSetValidation(rule_id="scenario_value_check", table="demand.egon_demandregio_hh", task="data_validation",
+        rule = ValueSetValidation(
+            rule_id="scenario_value_check",
+            table="demand.egon_demandregio_hh",
+            task="data_validation",
             column="scenario",
-            expected_values=["eGon2035", "eGon100RE", "eGon2021"]
+            expected_values=["eGon2035", "eGon100RE", "eGon2021"],
         )
 
         # Simulate DB result: all 50000 rows have valid scenario values
@@ -84,7 +91,7 @@ class TestValueSetValidation:
             "total_rows": 50000,
             "valid_values": 50000,
             "invalid_values": 0,
-            "invalid_distinct": []
+            "invalid_distinct": [],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -102,9 +109,11 @@ class TestValueSetValidation:
     def test_with_mock_data_failure_invalid_values_found(self):
         """Test with realistic mock data: some values are not in expected set"""
         # Mock validating carrier column with unexpected carrier types
-        rule = ValueSetValidation(rule_id="carrier_value_check", table="grid.egon_etrago_load",
+        rule = ValueSetValidation(
+            rule_id="carrier_value_check",
+            table="grid.egon_etrago_load",
             column="carrier",
-            expected_values=["AC", "heat", "CH4", "H2"]
+            expected_values=["AC", "heat", "CH4", "H2"],
         )
 
         # Simulate DB result: 89 rows have invalid carrier values
@@ -112,7 +121,7 @@ class TestValueSetValidation:
             "total_rows": 12567,
             "valid_values": 12478,
             "invalid_values": 89,
-            "invalid_distinct": ["biomass", "oil", "unknown"]
+            "invalid_distinct": ["biomass", "oil", "unknown"],
         }
 
         result = rule.postprocess(mock_db_row, None)

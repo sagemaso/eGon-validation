@@ -16,7 +16,9 @@ class TestDiscoverTotalTables:
     @patch("egon_validation.runner.coverage_analysis.fetch_one")
     @patch("egon_validation.runner.coverage_analysis.get_env")
     @patch("egon_validation.runner.coverage_analysis.build_db_url")
-    def test_discover_total_tables_success(self, mock_build_db_url, mock_get_env, mock_fetch_one, mock_make_engine):
+    def test_discover_total_tables_success(
+        self, mock_build_db_url, mock_get_env, mock_fetch_one, mock_make_engine
+    ):
         """Test successful discovery of total tables"""
         mock_get_env.return_value = "postgresql://user:pass@localhost:5432/db"
         mock_build_db_url.return_value = None
@@ -27,7 +29,9 @@ class TestDiscoverTotalTables:
         result = discover_total_tables()
 
         assert result == 42
-        mock_make_engine.assert_called_once_with("postgresql://user:pass@localhost:5432/db")
+        mock_make_engine.assert_called_once_with(
+            "postgresql://user:pass@localhost:5432/db"
+        )
         mock_fetch_one.assert_called_once()
         # Verify the SQL query structure
         call_args = mock_fetch_one.call_args
@@ -42,7 +46,9 @@ class TestDiscoverTotalTables:
     @patch("egon_validation.runner.coverage_analysis.fetch_one")
     @patch("egon_validation.runner.coverage_analysis.get_env")
     @patch("egon_validation.runner.coverage_analysis.build_db_url")
-    def test_discover_total_tables_fallback_to_build_db_url(self, mock_build_db_url, mock_get_env, mock_fetch_one, mock_make_engine):
+    def test_discover_total_tables_fallback_to_build_db_url(
+        self, mock_build_db_url, mock_get_env, mock_fetch_one, mock_make_engine
+    ):
         """Test fallback to build_db_url when ENV_DB_URL is not set"""
         mock_get_env.return_value = None
         mock_build_db_url.return_value = "postgresql://fallback:pass@localhost:5432/db"
@@ -54,7 +60,9 @@ class TestDiscoverTotalTables:
 
         assert result == 15
         mock_build_db_url.assert_called_once()
-        mock_make_engine.assert_called_once_with("postgresql://fallback:pass@localhost:5432/db")
+        mock_make_engine.assert_called_once_with(
+            "postgresql://fallback:pass@localhost:5432/db"
+        )
 
     @patch("egon_validation.runner.coverage_analysis.get_env")
     @patch("egon_validation.runner.coverage_analysis.build_db_url")
@@ -81,7 +89,9 @@ class TestDiscoverTotalTables:
     @patch("egon_validation.runner.coverage_analysis.make_engine")
     @patch("egon_validation.runner.coverage_analysis.fetch_one")
     @patch("egon_validation.runner.coverage_analysis.get_env")
-    def test_discover_total_tables_fetch_error(self, mock_get_env, mock_fetch_one, mock_make_engine):
+    def test_discover_total_tables_fetch_error(
+        self, mock_get_env, mock_fetch_one, mock_make_engine
+    ):
         """Test handling of fetch errors"""
         mock_get_env.return_value = "postgresql://user:pass@localhost:5432/db"
         mock_engine = Mock()
@@ -95,7 +105,9 @@ class TestDiscoverTotalTables:
     @patch("egon_validation.runner.coverage_analysis.make_engine")
     @patch("egon_validation.runner.coverage_analysis.fetch_one")
     @patch("egon_validation.runner.coverage_analysis.get_env")
-    def test_discover_total_tables_missing_key(self, mock_get_env, mock_fetch_one, mock_make_engine):
+    def test_discover_total_tables_missing_key(
+        self, mock_get_env, mock_fetch_one, mock_make_engine
+    ):
         """Test handling when result doesn't contain expected key"""
         mock_get_env.return_value = "postgresql://user:pass@localhost:5432/db"
         mock_engine = Mock()
@@ -197,7 +209,7 @@ class TestCalculateCoverageStats:
                 {"rule_class": "RuleClass1", "success": False},
                 {"rule_class": "RuleClass2", "success": True},
             ],
-            "datasets": ["schema1.table1", "schema2.table2"]
+            "datasets": ["schema1.table1", "schema2.table2"],
         }
 
         mock_ctx = Mock()
@@ -230,7 +242,9 @@ class TestCalculateCoverageStats:
 
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
     @patch("egon_validation.runner.coverage_analysis.discover_total_tables")
-    def test_calculate_coverage_stats_no_ctx_fallback_to_discover(self, mock_discover, mock_discover_rules):
+    def test_calculate_coverage_stats_no_ctx_fallback_to_discover(
+        self, mock_discover, mock_discover_rules
+    ):
         """Test fallback to discover_total_tables when no context provided"""
         mock_discover_rules.return_value = set()
         mock_discover.return_value = 25
@@ -245,7 +259,9 @@ class TestCalculateCoverageStats:
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
     @patch("egon_validation.runner.coverage_analysis.load_saved_table_count")
     @patch("egon_validation.runner.coverage_analysis.discover_total_tables")
-    def test_calculate_coverage_stats_saved_count_fallback(self, mock_discover, mock_load_saved, mock_discover_rules):
+    def test_calculate_coverage_stats_saved_count_fallback(
+        self, mock_discover, mock_load_saved, mock_discover_rules
+    ):
         """Test fallback to discover when saved count is 0"""
         mock_discover_rules.return_value = set()
         mock_load_saved.return_value = 0
@@ -293,7 +309,9 @@ class TestCalculateCoverageStats:
 
     @patch("egon_validation.runner.coverage_analysis.discover_total_tables")
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
-    def test_calculate_coverage_stats_missing_keys(self, mock_discover_rules, mock_discover_tables):
+    def test_calculate_coverage_stats_missing_keys(
+        self, mock_discover_rules, mock_discover_tables
+    ):
         """Test handling of items without required keys"""
         mock_discover_rules.return_value = {"RuleClass1"}
         mock_discover_tables.return_value = 10
@@ -303,22 +321,35 @@ class TestCalculateCoverageStats:
                 {},  # Missing rule_class and success - not counted
                 {"rule_class": "RuleClass1"},  # Missing success - counted as failed
                 {"success": True},  # Missing rule_class - not counted
-                {"rule_class": "RuleClass1", "success": True},  # Valid item - counted as success
+                {
+                    "rule_class": "RuleClass1",
+                    "success": True,
+                },  # Valid item - counted as success
             ],
-            "datasets": ["table1"]
+            "datasets": ["table1"],
         }
 
         result = calculate_coverage_stats(collected_data)
 
         # Implementation counts ALL items for pass/fail, treating missing success as False
         assert result["rule_coverage"]["applied_rules"] == 1  # Only RuleClass1 counted
-        assert result["validation_results"]["total_applications"] == 4  # All 4 items counted
-        assert result["validation_results"]["successful"] == 2  # Items with success=True (items 3 and 4)
-        assert result["validation_results"]["failed"] == 2  # Items without success=True (items 1 and 2)
-        assert result["rule_application_stats"] == [{"rule_class": "RuleClass1", "applications": 2}]
+        assert (
+            result["validation_results"]["total_applications"] == 4
+        )  # All 4 items counted
+        assert (
+            result["validation_results"]["successful"] == 2
+        )  # Items with success=True (items 3 and 4)
+        assert (
+            result["validation_results"]["failed"] == 2
+        )  # Items without success=True (items 1 and 2)
+        assert result["rule_application_stats"] == [
+            {"rule_class": "RuleClass1", "applications": 2}
+        ]
 
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
-    def test_calculate_coverage_stats_multiple_rule_applications(self, mock_discover_rules):
+    def test_calculate_coverage_stats_multiple_rule_applications(
+        self, mock_discover_rules
+    ):
         """Test multiple applications of the same rule"""
         mock_discover_rules.return_value = {"RuleClass1", "RuleClass2"}
 
@@ -329,7 +360,7 @@ class TestCalculateCoverageStats:
                 {"rule_class": "RuleClass1", "success": False},
                 {"rule_class": "RuleClass2", "success": True},
             ],
-            "datasets": ["table1", "table2", "table3"]
+            "datasets": ["table1", "table2", "table3"],
         }
 
         result = calculate_coverage_stats(collected_data)
@@ -341,12 +372,17 @@ class TestCalculateCoverageStats:
         assert result["validation_results"]["success_rate"] == 75.0
 
         # Check rule application stats
-        rule_stats = {stat["rule_class"]: stat["applications"] for stat in result["rule_application_stats"]}
+        rule_stats = {
+            stat["rule_class"]: stat["applications"]
+            for stat in result["rule_application_stats"]
+        }
         assert rule_stats["RuleClass1"] == 3
         assert rule_stats["RuleClass2"] == 1
 
     @patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes")
-    def test_calculate_coverage_stats_percentage_calculations(self, mock_discover_rules):
+    def test_calculate_coverage_stats_percentage_calculations(
+        self, mock_discover_rules
+    ):
         """Test percentage calculations with various scenarios"""
         mock_discover_rules.return_value = {"RuleClass1", "RuleClass2", "RuleClass3"}
 
@@ -355,11 +391,14 @@ class TestCalculateCoverageStats:
                 {"rule_class": "RuleClass1", "success": True},
                 {"rule_class": "RuleClass2", "success": False},
             ],
-            "datasets": ["table1", "table2"]
+            "datasets": ["table1", "table2"],
         }
 
         mock_ctx = Mock()
-        with patch("egon_validation.runner.coverage_analysis.load_saved_table_count", return_value=10):
+        with patch(
+            "egon_validation.runner.coverage_analysis.load_saved_table_count",
+            return_value=10,
+        ):
             result = calculate_coverage_stats(collected_data, mock_ctx)
 
         # Table coverage: 2/10 = 20%
@@ -371,7 +410,10 @@ class TestCalculateCoverageStats:
 
     def test_calculate_coverage_stats_missing_datasets_key(self):
         """Test handling when datasets key is missing from collected_data"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value=set()):
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+            return_value=set(),
+        ):
             collected_data = {"items": []}  # Missing 'datasets' key
 
             result = calculate_coverage_stats(collected_data)
@@ -380,7 +422,10 @@ class TestCalculateCoverageStats:
 
     def test_calculate_coverage_stats_missing_items_key(self):
         """Test handling when items key is missing from collected_data"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value=set()):
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+            return_value=set(),
+        ):
             collected_data = {"datasets": []}  # Missing 'items' key
 
             result = calculate_coverage_stats(collected_data)
@@ -407,7 +452,12 @@ class TestCoverageAnalysisIntegration:
                 json.dump({"total_tables": 100}, f)
 
             # Mock discovered rule classes
-            mock_rule_classes = {"NullCheckValidation", "DataTypeValidation", "ValueSetValidation", "CustomRuleValidation"}
+            mock_rule_classes = {
+                "NullCheckValidation",
+                "DataTypeValidation",
+                "ValueSetValidation",
+                "CustomRuleValidation",
+            }
 
             # Realistic collected data with rule_class
             collected_data = {
@@ -420,12 +470,18 @@ class TestCoverageAnalysisIntegration:
                     {"rule_class": "CustomRuleValidation", "success": True},
                 ],
                 "datasets": [
-                    "schema1.table1", "schema1.table2", "schema2.table3",
-                    "grid.egon_data", "demand.load_data"
-                ]
+                    "schema1.table1",
+                    "schema1.table2",
+                    "schema2.table3",
+                    "grid.egon_data",
+                    "demand.load_data",
+                ],
             }
 
-            with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value=mock_rule_classes):
+            with patch(
+                "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+                return_value=mock_rule_classes,
+            ):
                 result = calculate_coverage_stats(collected_data, ctx)
 
             # Verify realistic results
@@ -433,7 +489,9 @@ class TestCoverageAnalysisIntegration:
             assert result["table_coverage"]["total_tables"] == 100
             assert result["table_coverage"]["percentage"] == 5.0
 
-            assert result["rule_coverage"]["applied_rules"] == 4  # All 4 rule classes used
+            assert (
+                result["rule_coverage"]["applied_rules"] == 4
+            )  # All 4 rule classes used
             assert result["rule_coverage"]["total_rules"] == 4
             assert result["rule_coverage"]["percentage"] == 100.0
 
@@ -444,12 +502,17 @@ class TestCoverageAnalysisIntegration:
 
     @patch("egon_validation.runner.coverage_analysis.make_engine")
     @patch("egon_validation.runner.coverage_analysis.fetch_one")
-    def test_discover_total_tables_with_various_table_counts(self, mock_fetch_one, mock_make_engine):
+    def test_discover_total_tables_with_various_table_counts(
+        self, mock_fetch_one, mock_make_engine
+    ):
         """Test discover_total_tables with various realistic table counts"""
         mock_engine = Mock()
         mock_make_engine.return_value = mock_engine
 
-        with patch("egon_validation.runner.coverage_analysis.get_env", return_value="postgresql://test"):
+        with patch(
+            "egon_validation.runner.coverage_analysis.get_env",
+            return_value="postgresql://test",
+        ):
             # Test with zero tables
             mock_fetch_one.return_value = {"total_tables": 0}
             assert discover_total_tables() == 0
@@ -464,31 +527,46 @@ class TestCoverageAnalysisIntegration:
 
     def test_coverage_stats_edge_cases(self):
         """Test coverage statistics with various edge cases"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes") as mock_discover:
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes"
+        ) as mock_discover:
             # Case 1: More applied rule classes than discovered (external rules from pipeline)
             mock_discover.return_value = {"RuleClass1"}
             collected_data = {
                 "items": [
                     {"rule_class": "RuleClass1", "success": True},
-                    {"rule_class": "RuleClass2", "success": True},  # External rule not in codebase
+                    {
+                        "rule_class": "RuleClass2",
+                        "success": True,
+                    },  # External rule not in codebase
                 ],
-                "datasets": ["table1"]
+                "datasets": ["table1"],
             }
 
             result = calculate_coverage_stats(collected_data)
             # Should count both applied rule classes
             # total_rules = union of discovered + applied = {"RuleClass1", "RuleClass2"} = 2
             assert result["rule_coverage"]["applied_rules"] == 2
-            assert result["rule_coverage"]["total_rules"] == 2  # Union of discovered + applied
+            assert (
+                result["rule_coverage"]["total_rules"] == 2
+            )  # Union of discovered + applied
             assert result["rule_coverage"]["percentage"] == 100.0  # 2/2 = 100%
 
     def test_rounding_precision(self):
         """Test that percentage calculations are properly rounded"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value={"RuleClass1"}):
-            with patch("egon_validation.runner.coverage_analysis.discover_total_tables", return_value=3):
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+            return_value={"RuleClass1"},
+        ):
+            with patch(
+                "egon_validation.runner.coverage_analysis.discover_total_tables",
+                return_value=3,
+            ):
                 collected_data = {
-                    "items": [{"rule_class": "RuleClass1", "success": True}],  # 1 success out of 1
-                    "datasets": ["t1"]  # 1 table out of 3
+                    "items": [
+                        {"rule_class": "RuleClass1", "success": True}
+                    ],  # 1 success out of 1
+                    "datasets": ["t1"],  # 1 table out of 3
                 }
 
                 result = calculate_coverage_stats(collected_data)
@@ -530,7 +608,9 @@ class TestCoverageAnalysisEdgeCases:
 
         # Test string number case separately - with improved error handling this now returns 0
         # because the TypeError when comparing string to 0 is caught
-        with patch("builtins.open", mock_open(read_data='{"total_tables": "not_a_number"}')):
+        with patch(
+            "builtins.open", mock_open(read_data='{"total_tables": "not_a_number"}')
+        ):
             with patch("os.path.exists", return_value=True):
                 result = load_saved_table_count(mock_ctx)
                 # With improved error handling, this returns 0 instead of propagating the type error
@@ -542,8 +622,14 @@ class TestCoverageAnalysisEdgeCases:
         mock_engine = Mock()
         mock_make_engine.return_value = mock_engine
 
-        with patch("egon_validation.runner.coverage_analysis.get_env", return_value="postgresql://test"):
-            with patch("egon_validation.runner.coverage_analysis.fetch_one", side_effect=Exception("DB Error")):
+        with patch(
+            "egon_validation.runner.coverage_analysis.get_env",
+            return_value="postgresql://test",
+        ):
+            with patch(
+                "egon_validation.runner.coverage_analysis.fetch_one",
+                side_effect=Exception("DB Error"),
+            ):
                 result = discover_total_tables()
                 assert result == 0
                 # Engine should still be created even if fetch fails
@@ -551,11 +637,20 @@ class TestCoverageAnalysisEdgeCases:
 
     def test_calculate_coverage_stats_very_large_numbers(self):
         """Test with very large numbers to ensure no overflow issues"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value=set()):
-            with patch("egon_validation.runner.coverage_analysis.discover_total_tables", return_value=999999):
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+            return_value=set(),
+        ):
+            with patch(
+                "egon_validation.runner.coverage_analysis.discover_total_tables",
+                return_value=999999,
+            ):
                 collected_data = {
-                    "items": [{"rule_class": f"RuleClass_{i}", "success": True} for i in range(100000)],
-                    "datasets": [f"table_{i}" for i in range(50000)]
+                    "items": [
+                        {"rule_class": f"RuleClass_{i}", "success": True}
+                        for i in range(100000)
+                    ],
+                    "datasets": [f"table_{i}" for i in range(50000)],
                 }
 
                 result = calculate_coverage_stats(collected_data)
@@ -567,7 +662,10 @@ class TestCoverageAnalysisEdgeCases:
 
     def test_rule_application_stats_sorting(self):
         """Test that rule application stats are properly sorted"""
-        with patch("egon_validation.runner.coverage_analysis.discover_all_rule_classes", return_value=set()):
+        with patch(
+            "egon_validation.runner.coverage_analysis.discover_all_rule_classes",
+            return_value=set(),
+        ):
             collected_data = {
                 "items": [
                     {"rule_class": "ZRuleClass", "success": True},
@@ -575,17 +673,22 @@ class TestCoverageAnalysisEdgeCases:
                     {"rule_class": "MRuleClass", "success": True},
                     {"rule_class": "ARuleClass", "success": False},
                 ],
-                "datasets": []
+                "datasets": [],
             }
 
             result = calculate_coverage_stats(collected_data)
 
             # Should be sorted alphabetically by rule_class
-            rule_classes = [stat["rule_class"] for stat in result["rule_application_stats"]]
+            rule_classes = [
+                stat["rule_class"] for stat in result["rule_application_stats"]
+            ]
             assert rule_classes == ["ARuleClass", "MRuleClass", "ZRuleClass"]
 
             # Check application counts
-            rule_counts = {stat["rule_class"]: stat["applications"] for stat in result["rule_application_stats"]}
+            rule_counts = {
+                stat["rule_class"]: stat["applications"]
+                for stat in result["rule_application_stats"]
+            }
             assert rule_counts["ARuleClass"] == 2
             assert rule_counts["MRuleClass"] == 1
             assert rule_counts["ZRuleClass"] == 1

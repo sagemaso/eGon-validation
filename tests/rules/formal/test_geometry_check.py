@@ -1,17 +1,20 @@
-import pytest
 from egon_validation.rules.formal.geometry_check import GeometryContainmentValidation
 from egon_validation.rules.base import Severity
 
 
 class TestGeometryContainmentValidation:
     def test_sql_generation_default_parameters(self):
-        rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
-            ref_table="boundaries.vg250_sta"
+        rule = GeometryContainmentValidation(
+            rule_id="test_rule",
+            table="supply.egon_power_plants_wind",
+            ref_table="boundaries.vg250_sta",
         )
         sql = rule.get_query(None)
 
         assert "WITH reference_geom AS" in sql
-        assert "ST_Union(ST_Transform(geometry, 3035))" in sql  # default reference_geometry
+        assert (
+            "ST_Union(ST_Transform(geometry, 3035))" in sql
+        )  # default reference_geometry
         assert "boundaries.vg250_sta" in sql
         assert "WHERE TRUE" in sql  # default filters
         assert "ST_Contains" in sql
@@ -22,12 +25,14 @@ class TestGeometryContainmentValidation:
         assert "points_outside" in sql
 
     def test_sql_generation_custom_parameters(self):
-        rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
+        rule = GeometryContainmentValidation(
+            rule_id="test_rule",
+            table="supply.egon_power_plants_wind",
             geom="location",
             ref_table="boundaries.vg250_lan",
             ref_geom="geom_polygon",
             ref_filter="state_id = 'NW'",
-            filter_condition="capacity_mw > 5.0"
+            filter_condition="capacity_mw > 5.0",
         )
         sql = rule.get_query(None)
 
@@ -39,26 +44,32 @@ class TestGeometryContainmentValidation:
 
     def test_postprocess_all_points_inside_boundary(self):
         """Test with realistic mock data: all wind plants within Germany"""
-        rule = GeometryContainmentValidation(rule_id="wind_plants_germany", table="supply.egon_power_plants_wind", task="geometry_validation",
+        rule = GeometryContainmentValidation(
+            rule_id="wind_plants_germany",
+            table="supply.egon_power_plants_wind",
+            task="geometry_validation",
             geom="geom",
             ref_table="boundaries.vg250_sta",
             ref_geom="geometry",
             ref_filter="nuts = 'DE' AND gf = 4",
-            filter_condition="site_type = 'Windkraft an Land'"
+            filter_condition="site_type = 'Windkraft an Land'",
         )
 
         # Simulate DB result: all 15000 wind plants are within Germany
         mock_db_row = {
             "total_points": 15000,
             "points_inside": 15000,
-            "points_outside": 0
+            "points_outside": 0,
         }
 
         result = rule.postprocess(mock_db_row, None)
 
         # Should succeed - all points within boundary
         assert result.success is True
-        assert result.message == "All 15000 points are within reference boundary (filter: site_type = 'Windkraft an Land')"
+        assert (
+            result.message
+            == "All 15000 points are within reference boundary (filter: site_type = 'Windkraft an Land')"
+        )
         assert result.rule_id == "wind_plants_germany"
         assert result.task == "geometry_validation"
         assert result.table == "supply.egon_power_plants_wind"
@@ -69,19 +80,21 @@ class TestGeometryContainmentValidation:
 
     def test_postprocess_some_points_outside_boundary(self):
         """Test with realistic mock data: some wind plants outside Germany"""
-        rule = GeometryContainmentValidation(rule_id="wind_plants_germany", table="supply.egon_power_plants_wind",
+        rule = GeometryContainmentValidation(
+            rule_id="wind_plants_germany",
+            table="supply.egon_power_plants_wind",
             geom="geom",
             ref_table="boundaries.vg250_sta",
             ref_geom="geometry",
             ref_filter="nuts = 'DE' AND gf = 4",
-            filter_condition="site_type = 'Windkraft an Land'"
+            filter_condition="site_type = 'Windkraft an Land'",
         )
 
         # Simulate DB result: 25 wind plants are outside Germany (data quality issue)
         mock_db_row = {
             "total_points": 15025,
             "points_inside": 15000,
-            "points_outside": 25
+            "points_outside": 25,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -90,7 +103,10 @@ class TestGeometryContainmentValidation:
         assert result.success is False
         assert "25 points are outside reference boundary" in result.message
         assert "(15000 inside)" in result.message
-        assert "[Filter: site_type = 'Windkraft an Land', Ref: nuts = 'DE' AND gf = 4]" in result.message
+        assert (
+            "[Filter: site_type = 'Windkraft an Land', Ref: nuts = 'DE' AND gf = 4]"
+            in result.message
+        )
         # The debugging SQL is only included for the specific WIND_PLANTS_IN_GERMANY rule_id
         # This test uses "wind_plants_germany" so no debugging SQL should be included
         assert result.observed == 25.0
@@ -98,14 +114,16 @@ class TestGeometryContainmentValidation:
 
     def test_postprocess_with_custom_filter(self):
         """Test with custom geometry filter conditions"""
-        rule = GeometryContainmentValidation(rule_id="large_plants_check", table="supply.egon_power_plants_wind",
-            filter_condition="capacity_mw >= 10.0"
+        rule = GeometryContainmentValidation(
+            rule_id="large_plants_check",
+            table="supply.egon_power_plants_wind",
+            filter_condition="capacity_mw >= 10.0",
         )
 
         mock_db_row = {
             "total_points": 5000,
             "points_inside": 4980,
-            "points_outside": 20
+            "points_outside": 20,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -117,34 +135,35 @@ class TestGeometryContainmentValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = GeometryContainmentValidation(rule_id="test_rule", table="test.table",
-            ref_table="test.boundary"
+        rule = GeometryContainmentValidation(
+            rule_id="test_rule", table="test.table", ref_table="test.boundary"
         )
 
         mock_db_row = {
             "total_points": None,
             "points_inside": None,
-            "points_outside": None
+            "points_outside": None,
         }
 
         result = rule.postprocess(mock_db_row, None)
 
         # Should handle None values gracefully
         assert result.success is True  # 0 points_outside = success
-        assert result.message == "All 0 points are within reference boundary (filter: TRUE)"
+        assert (
+            result.message
+            == "All 0 points are within reference boundary (filter: TRUE)"
+        )
         assert result.observed == 0.0
 
     def test_postprocess_empty_result_set(self):
         """Test when no points match the filter condition"""
-        rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
-            filter_condition="site_type = 'NonExistentType'"
+        rule = GeometryContainmentValidation(
+            rule_id="test_rule",
+            table="supply.egon_power_plants_wind",
+            filter_condition="site_type = 'NonExistentType'",
         )
 
-        mock_db_row = {
-            "total_points": 0,
-            "points_inside": 0,
-            "points_outside": 0
-        }
+        mock_db_row = {"total_points": 0, "points_inside": 0, "points_outside": 0}
 
         result = rule.postprocess(mock_db_row, None)
 
@@ -154,45 +173,49 @@ class TestGeometryContainmentValidation:
 
     def test_with_mock_data_success_solar_plants(self):
         """Test with realistic mock data: solar plants within state boundary"""
-        rule = GeometryContainmentValidation(rule_id="solar_plants_nrw", table="supply.egon_power_plants_pv", task="regional_validation",
+        rule = GeometryContainmentValidation(
+            rule_id="solar_plants_nrw",
+            table="supply.egon_power_plants_pv",
+            task="regional_validation",
             geom="geom",
             ref_table="boundaries.vg250_lan",
             ref_geom="geometry",
             ref_filter="nuts LIKE 'DE5%'",  # NRW
-            filter_condition="site_type = 'Photovoltaik'"
+            filter_condition="site_type = 'Photovoltaik'",
         )
 
         # Simulate DB result: all solar plants in NRW are within NRW boundary
-        mock_db_row = {
-            "total_points": 8500,
-            "points_inside": 8500,
-            "points_outside": 0
-        }
+        mock_db_row = {"total_points": 8500, "points_inside": 8500, "points_outside": 0}
 
         result = rule.postprocess(mock_db_row, None)
 
         # Should succeed - perfect regional data
         assert result.success is True
-        assert result.message == "All 8500 points are within reference boundary (filter: site_type = 'Photovoltaik')"
+        assert (
+            result.message
+            == "All 8500 points are within reference boundary (filter: site_type = 'Photovoltaik')"
+        )
         assert result.rule_id == "solar_plants_nrw"
         assert result.task == "regional_validation"
         assert result.table == "supply.egon_power_plants_pv"
 
     def test_with_mock_data_failure_cross_border_plants(self):
         """Test with realistic mock data: plants incorrectly assigned to wrong region"""
-        rule = GeometryContainmentValidation(rule_id="plants_bavaria", table="supply.egon_power_plants_biomass",
+        rule = GeometryContainmentValidation(
+            rule_id="plants_bavaria",
+            table="supply.egon_power_plants_biomass",
             geom="geom",
             ref_table="boundaries.vg250_lan",
             ref_geom="geometry",
             ref_filter="nuts LIKE 'DE2%'",  # Bavaria
-            filter_condition="federal_state = 'Bayern'"
+            filter_condition="federal_state = 'Bayern'",
         )
 
         # Simulate DB result: some plants marked as "Bayern" are outside Bavaria boundary
         mock_db_row = {
             "total_points": 1200,
             "points_inside": 1180,
-            "points_outside": 20
+            "points_outside": 20,
         }
 
         result = rule.postprocess(mock_db_row, None)

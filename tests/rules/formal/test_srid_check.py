@@ -1,11 +1,14 @@
-import pytest
-from egon_validation.rules.formal.srid_check import SRIDUniqueNonZero, SRIDSpecificValidation
+from egon_validation.rules.formal.srid_check import (
+    SRIDUniqueNonZero,
+    SRIDSpecificValidation,
+)
 from egon_validation.rules.base import Severity
 
 
 class TestSRIDUniqueNonZero:
     def test_sql_generation_default_geom_column(self):
-        rule = SRIDUniqueNonZero(rule_id="test_rule", table="supply.egon_power_plants_pv"
+        rule = SRIDUniqueNonZero(
+            rule_id="test_rule", table="supply.egon_power_plants_pv"
         )
         sql = rule.get_query(None)
 
@@ -16,7 +19,8 @@ class TestSRIDUniqueNonZero:
         assert "srid_zero" in sql
 
     def test_sql_generation_custom_geom_column(self):
-        rule = SRIDUniqueNonZero(rule_id="test_rule", table="boundaries.vg250_sta", geom="geometry"
+        rule = SRIDUniqueNonZero(
+            rule_id="test_rule", table="boundaries.vg250_sta", geom="geometry"
         )
         sql = rule.get_query(None)
 
@@ -25,14 +29,17 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_single_srid_no_zeros(self):
         """Test with realistic mock data: all PV plants have consistent SRID"""
-        rule = SRIDUniqueNonZero(rule_id="pv_srid_consistency", table="supply.egon_power_plants_pv", task="geometry_validation",
-            geom="geom"
+        rule = SRIDUniqueNonZero(
+            rule_id="pv_srid_consistency",
+            table="supply.egon_power_plants_pv",
+            task="geometry_validation",
+            geom="geom",
         )
 
         # Simulate DB result: all geometries have SRID 4326
         mock_db_row = {
             "srids": 1,  # Single SRID across all geometries
-            "srid_zero": 0  # No geometries with SRID=0
+            "srid_zero": 0,  # No geometries with SRID=0
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -50,15 +57,14 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_multiple_srids(self):
         """Test with realistic mock data: mixed SRIDs in wind plant data"""
-        rule = SRIDUniqueNonZero(rule_id="wind_srid_consistency", table="supply.egon_power_plants_wind",
-            geom="geom"
+        rule = SRIDUniqueNonZero(
+            rule_id="wind_srid_consistency",
+            table="supply.egon_power_plants_wind",
+            geom="geom",
         )
 
         # Simulate DB result: inconsistent SRIDs (data quality issue)
-        mock_db_row = {
-            "srids": 3,  # Multiple SRIDs found
-            "srid_zero": 0
-        }
+        mock_db_row = {"srids": 3, "srid_zero": 0}  # Multiple SRIDs found
 
         result = rule.postprocess(mock_db_row, None)
 
@@ -70,14 +76,14 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_zero_srids_present(self):
         """Test with realistic mock data: some geometries have SRID=0"""
-        rule = SRIDUniqueNonZero(rule_id="boundary_srid_check", table="boundaries.vg250_sta",
-            geom="geometry"
+        rule = SRIDUniqueNonZero(
+            rule_id="boundary_srid_check", table="boundaries.vg250_sta", geom="geometry"
         )
 
         # Simulate DB result: some geometries have undefined SRID
         mock_db_row = {
             "srids": 2,  # Mixed SRIDs including 0
-            "srid_zero": 5  # 5 geometries with SRID=0
+            "srid_zero": 5,  # 5 geometries with SRID=0
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -90,13 +96,9 @@ class TestSRIDUniqueNonZero:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = SRIDUniqueNonZero(rule_id="test_rule", table="test.table"
-        )
+        rule = SRIDUniqueNonZero(rule_id="test_rule", table="test.table")
 
-        mock_db_row = {
-            "srids": None,
-            "srid_zero": None
-        }
+        mock_db_row = {"srids": None, "srid_zero": None}
 
         result = rule.postprocess(mock_db_row, None)
 
@@ -108,7 +110,8 @@ class TestSRIDUniqueNonZero:
 
 class TestSRIDSpecificValidation:
     def test_sql_generation_default_parameters(self):
-        rule = SRIDSpecificValidation(rule_id="test_rule", table="grid.egon_mv_grid_district"
+        rule = SRIDSpecificValidation(
+            rule_id="test_rule", table="grid.egon_mv_grid_district"
         )
         sql = rule.get_query(None)
 
@@ -121,9 +124,11 @@ class TestSRIDSpecificValidation:
         assert "grid.egon_mv_grid_district" in sql
 
     def test_sql_generation_custom_parameters(self):
-        rule = SRIDSpecificValidation(rule_id="test_rule", table="boundaries.vg250_sta",
+        rule = SRIDSpecificValidation(
+            rule_id="test_rule",
+            table="boundaries.vg250_sta",
             geom="geometry",
-            expected_srid=4326
+            expected_srid=4326,
         )
         sql = rule.get_query(None)
 
@@ -133,9 +138,12 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_all_correct_srid(self):
         """Test with realistic mock data: all MV grid districts have correct SRID 3035"""
-        rule = SRIDSpecificValidation(rule_id="mv_grid_srid_validation", table="grid.egon_mv_grid_district", task="geometry_validation",
+        rule = SRIDSpecificValidation(
+            rule_id="mv_grid_srid_validation",
+            table="grid.egon_mv_grid_district",
+            task="geometry_validation",
             geom="geom",
-            expected_srid=3035
+            expected_srid=3035,
         )
 
         # Simulate DB result: all 3854 grid districts have SRID 3035
@@ -144,7 +152,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 1,
             "correct_srid_count": 3854,
             "zero_srid_count": 0,
-            "found_srids": [3035]
+            "found_srids": [3035],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -162,9 +170,11 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_wrong_srid(self):
         """Test with realistic mock data: wind plants have wrong SRID"""
-        rule = SRIDSpecificValidation(rule_id="wind_srid_validation", table="supply.egon_power_plants_wind",
+        rule = SRIDSpecificValidation(
+            rule_id="wind_srid_validation",
+            table="supply.egon_power_plants_wind",
             geom="geom",
-            expected_srid=4326
+            expected_srid=4326,
         )
 
         # Simulate DB result: some plants have wrong SRID (projection issue)
@@ -173,7 +183,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 2,
             "correct_srid_count": 14800,
             "zero_srid_count": 0,
-            "found_srids": [4326, 3035]
+            "found_srids": [4326, 3035],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -188,9 +198,11 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_zero_srid_issue(self):
         """Test with realistic mock data: boundary data has undefined SRID"""
-        rule = SRIDSpecificValidation(rule_id="boundary_srid_validation", table="boundaries.vg250_sta",
+        rule = SRIDSpecificValidation(
+            rule_id="boundary_srid_validation",
+            table="boundaries.vg250_sta",
             geom="geometry",
-            expected_srid=4326
+            expected_srid=4326,
         )
 
         # Simulate DB result: some boundaries have SRID=0 (import issue)
@@ -199,7 +211,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 2,
             "correct_srid_count": 15,
             "zero_srid_count": 1,
-            "found_srids": [4326, 0]
+            "found_srids": [4326, 0],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -214,8 +226,8 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_multiple_problems(self):
         """Test with multiple SRID problems combined"""
-        rule = SRIDSpecificValidation(rule_id="test_rule", table="test.table",
-            expected_srid=3035
+        rule = SRIDSpecificValidation(
+            rule_id="test_rule", table="test.table", expected_srid=3035
         )
 
         # Simulate DB result: multiple issues
@@ -224,7 +236,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 3,
             "correct_srid_count": 800,
             "zero_srid_count": 50,
-            "found_srids": [3035, 4326, 0]
+            "found_srids": [3035, 4326, 0],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -237,7 +249,8 @@ class TestSRIDSpecificValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = SRIDSpecificValidation(rule_id="test_rule", table="test.table", expected_srid=4326
+        rule = SRIDSpecificValidation(
+            rule_id="test_rule", table="test.table", expected_srid=4326
         )
 
         mock_db_row = {
@@ -245,7 +258,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": None,
             "correct_srid_count": None,
             "zero_srid_count": None,
-            "found_srids": None
+            "found_srids": None,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -257,9 +270,12 @@ class TestSRIDSpecificValidation:
 
     def test_with_mock_data_success_perfect_boundaries(self):
         """Test with realistic mock data: German states with perfect SRID"""
-        rule = SRIDSpecificValidation(rule_id="german_states_srid", table="boundaries.vg250_lan", task="boundary_validation",
+        rule = SRIDSpecificValidation(
+            rule_id="german_states_srid",
+            table="boundaries.vg250_lan",
+            task="boundary_validation",
             geom="geometry",
-            expected_srid=4326
+            expected_srid=4326,
         )
 
         # Simulate DB result: perfect boundary data
@@ -268,7 +284,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 1,
             "correct_srid_count": 16,
             "zero_srid_count": 0,
-            "found_srids": [4326]
+            "found_srids": [4326],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -281,9 +297,11 @@ class TestSRIDSpecificValidation:
 
     def test_with_mock_data_failure_mixed_projections(self):
         """Test with realistic mock data: power plants with mixed projections"""
-        rule = SRIDSpecificValidation(rule_id="pv_plants_srid", table="supply.egon_power_plants_pv",
+        rule = SRIDSpecificValidation(
+            rule_id="pv_plants_srid",
+            table="supply.egon_power_plants_pv",
             geom="geom",
-            expected_srid=4326
+            expected_srid=4326,
         )
 
         # Simulate DB result: mixed coordinate systems (data migration issue)
@@ -292,7 +310,7 @@ class TestSRIDSpecificValidation:
             "unique_srids": 2,
             "correct_srid_count": 24500,
             "zero_srid_count": 0,
-            "found_srids": [4326, 31467]  # Mix of WGS84 and Gauss-Krüger
+            "found_srids": [4326, 31467],  # Mix of WGS84 and Gauss-Krüger
         }
 
         result = rule.postprocess(mock_db_row, None)

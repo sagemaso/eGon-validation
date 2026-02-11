@@ -1,6 +1,7 @@
-import pytest
 from egon_validation.rules.formal.row_count_check import RowCountValidation
-from egon_validation.rules.custom.row_count_comparison import RowCountComparisonValidation
+from egon_validation.rules.custom.row_count_comparison import (
+    RowCountComparisonValidation,
+)
 from egon_validation.rules.base import Severity
 
 
@@ -19,7 +20,7 @@ class TestRowCountValidation:
             "mv_grid_count_check",
             "grid.egon_mv_grid_district",
             task="data_integrity",
-            expected_count=3854
+            expected_count=3854,
         )
 
         # Simulate DB result: exactly the expected number of MV grid districts
@@ -43,7 +44,7 @@ class TestRowCountValidation:
             "mv_grid_count_check",
             "grid.egon_mv_grid_district",
             task="data_integrity",
-            expected_count=3854
+            expected_count=3854,
         )
 
         # Simulate DB result: fewer MV grid districts than expected (data loss)
@@ -60,7 +61,8 @@ class TestRowCountValidation:
 
     def test_postprocess_none_value_handling(self):
         """Test handling of None value in database result"""
-        rule = RowCountValidation("test_rule", "test.table", task="test_task", expected_count=100
+        rule = RowCountValidation(
+            "test_rule", "test.table", task="test_task", expected_count=100
         )
 
         mock_db_row = {"actual_count": None}
@@ -78,7 +80,7 @@ class TestRowCountValidation:
             "german_states_count",
             "boundaries.vg250_lan",
             task="boundary_validation",
-            expected_count=16
+            expected_count=16,
         )
 
         # Simulate DB result: exactly 16 German states
@@ -98,7 +100,7 @@ class TestRowCountValidation:
             "power_plants_count",
             "supply.egon_power_plants_wind",
             task="import_validation",
-            expected_count=25000
+            expected_count=25000,
         )
 
         # Simulate DB result: import was interrupted, missing data
@@ -122,7 +124,7 @@ class TestRowCountComparisonValidation:
             scenario_col="scenario",
             economic_sector_col="wz",
             reference_dataset="boundaries.vg250_krs",
-            reference_filter="gf = 4"
+            reference_filter="gf = 4",
         )
         sql = rule.get_query(None)
 
@@ -142,7 +144,7 @@ class TestRowCountComparisonValidation:
             scenario_col="scenario",
             economic_sector_col="wz",
             reference_dataset="boundaries.vg250_krs",
-            reference_filter="gf = 4"
+            reference_filter="gf = 4",
         )
 
         # Simulate DB result: all groups have exactly 401 entries (one per Kreis)
@@ -151,7 +153,7 @@ class TestRowCountComparisonValidation:
             "total_groups": 20,  # 2 scenarios * 10 economic sectors
             "matching_groups": 20,
             "mismatching_groups": 0,
-            "found_counts": [401]
+            "found_counts": [401],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -173,7 +175,7 @@ class TestRowCountComparisonValidation:
             "demand.egon_demandregio_cts_ind",
             task="data_completeness",
             scenario_col="scenario",
-            economic_sector_col="wz"
+            economic_sector_col="wz",
         )
 
         # Simulate DB result: some groups missing data for certain Kreise
@@ -182,7 +184,7 @@ class TestRowCountComparisonValidation:
             "total_groups": 20,
             "matching_groups": 17,
             "mismatching_groups": 3,
-            "found_counts": [401, 398, 399, 400]  # Some groups have missing entries
+            "found_counts": [401, 398, 399, 400],  # Some groups have missing entries
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -197,15 +199,14 @@ class TestRowCountComparisonValidation:
 
     def test_postprocess_none_values_handling(self):
         """Test handling of None values in database result"""
-        rule = RowCountComparisonValidation("test_rule", "test.table", task="test_task"
-        )
+        rule = RowCountComparisonValidation("test_rule", "test.table", task="test_task")
 
         mock_db_row = {
             "ref_count": None,
             "total_groups": None,
             "matching_groups": None,
             "mismatching_groups": None,
-            "found_counts": None
+            "found_counts": None,
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -224,7 +225,7 @@ class TestRowCountComparisonValidation:
             scenario_col="scenario",
             economic_sector_col="sector",
             reference_dataset="boundaries.vg250_gem",
-            reference_filter="gf = 4"
+            reference_filter="gf = 4",
         )
 
         # Simulate DB result: residential demand covers all 11014 municipalities
@@ -233,7 +234,7 @@ class TestRowCountComparisonValidation:
             "total_groups": 6,  # 3 scenarios * 2 sectors
             "matching_groups": 6,
             "mismatching_groups": 0,
-            "found_counts": [11014]
+            "found_counts": [11014],
         }
 
         result = rule.postprocess(mock_db_row, None)
@@ -251,7 +252,7 @@ class TestRowCountComparisonValidation:
             "demand.egon_demandregio_cts",
             task="sector_validation",
             scenario_col="scenario",
-            economic_sector_col="sector"
+            economic_sector_col="sector",
         )
 
         # Simulate DB result: some rural municipalities missing commercial demand
@@ -260,7 +261,7 @@ class TestRowCountComparisonValidation:
             "total_groups": 4,  # 2 scenarios * 2 sectors
             "matching_groups": 2,
             "mismatching_groups": 2,
-            "found_counts": [11014, 10950, 10978]  # Some municipalities missing
+            "found_counts": [11014, 10950, 10978],  # Some municipalities missing
         }
 
         result = rule.postprocess(mock_db_row, None)

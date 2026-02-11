@@ -1,7 +1,6 @@
-import pytest
-from unittest.mock import Mock, patch
-from egon_validation.rules.custom.numeric_aggregation_check import DisaggregatedDemandSumValidation
-from egon_validation.rules.base import RuleResult, Severity
+from egon_validation.rules.custom.numeric_aggregation_check import (
+    DisaggregatedDemandSumValidation,
+)
 
 
 class TestDisaggregatedDemandSumValidation:

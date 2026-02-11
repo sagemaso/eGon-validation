@@ -6,9 +6,7 @@ from egon_validation.rules.base import Severity
 class TestDataTypeValidation:
     def test_sql_generation_with_schema(self):
         rule = DataTypeValidation(
-            rule_id="test_rule",
-            table="schema.table",
-            column_types={"year": "integer"}
+            rule_id="test_rule", table="schema.table", column_types={"year": "integer"}
         )
         sql = rule.get_query(None)
 
@@ -20,7 +18,7 @@ class TestDataTypeValidation:
         rule = DataTypeValidation(
             rule_id="test_rule",
             table="schema.table",
-            column_types={"year": "integer", "name": "text"}
+            column_types={"year": "integer", "name": "text"},
         )
         sql = rule.get_query(None)
 
@@ -30,18 +28,14 @@ class TestDataTypeValidation:
     def test_sql_generation_without_schema(self):
         """Test that tables without schema raise an error"""
         rule = DataTypeValidation(
-            rule_id="test_rule",
-            table="table_only",
-            column_types={"year": "integer"}
+            rule_id="test_rule", table="table_only", column_types={"year": "integer"}
         )
         with pytest.raises(ValueError, match="must include schema"):
             rule.get_query(None)
 
     def test_postprocess_no_columns_info(self):
         rule = DataTypeValidation(
-            rule_id="test_rule",
-            table="test.table",
-            column_types={"year": "integer"}
+            rule_id="test_rule", table="test.table", column_types={"year": "integer"}
         )
 
         result = rule.postprocess({"columns_info": None}, None)
@@ -54,7 +48,7 @@ class TestDataTypeValidation:
         rule = DataTypeValidation(
             rule_id="test_rule",
             table="test.table",
-            column_types={"year": "integer", "name": "text"}
+            column_types={"year": "integer", "name": "text"},
         )
 
         columns_info = [
@@ -73,7 +67,7 @@ class TestDataTypeValidation:
         rule = DataTypeValidation(
             rule_id="test_rule",
             table="test.table",
-            column_types={"year": "integer", "name": "text"}
+            column_types={"year": "integer", "name": "text"},
         )
 
         columns_info = [
@@ -92,7 +86,7 @@ class TestDataTypeValidation:
         rule = DataTypeValidation(
             rule_id="test_rule",
             table="test.table",
-            column_types={"year": "integer", "missing": "text"}
+            column_types={"year": "integer", "missing": "text"},
         )
 
         columns_info = [
@@ -108,9 +102,7 @@ class TestDataTypeValidation:
     def test_type_mappings(self):
         """Test that PostgreSQL type mappings work correctly"""
         rule = DataTypeValidation(
-            rule_id="test_rule",
-            table="test.table",
-            column_types={"id": "integer"}
+            rule_id="test_rule", table="test.table", column_types={"id": "integer"}
         )
 
         # bigint should match integer type family
@@ -125,13 +117,15 @@ class TestDataTypeValidation:
     def test_text_type_mappings(self):
         """Test that text type variations match"""
         rule = DataTypeValidation(
-            rule_id="test_rule",
-            table="test.table",
-            column_types={"name": "text"}
+            rule_id="test_rule", table="test.table", column_types={"name": "text"}
         )
 
         columns_info = [
-            {"column_name": "name", "data_type": "character varying", "udt_name": "varchar"}
+            {
+                "column_name": "name",
+                "data_type": "character varying",
+                "udt_name": "varchar",
+            }
         ]
         row = {"columns_info": columns_info}
 
@@ -147,15 +141,19 @@ class TestDataTypeValidation:
                 "bus_id": "integer",
                 "carrier": "text",
                 "scn_name": "text",
-                "p_set": "numeric"
-            }
+                "p_set": "numeric",
+            },
         )
 
         mock_columns_info = [
             {"column_name": "bus_id", "data_type": "integer", "udt_name": "int4"},
             {"column_name": "carrier", "data_type": "text", "udt_name": "text"},
-            {"column_name": "scn_name", "data_type": "character varying", "udt_name": "varchar"},
-            {"column_name": "p_set", "data_type": "numeric", "udt_name": "numeric"}
+            {
+                "column_name": "scn_name",
+                "data_type": "character varying",
+                "udt_name": "varchar",
+            },
+            {"column_name": "p_set", "data_type": "numeric", "udt_name": "numeric"},
         ]
         mock_db_row = {"columns_info": mock_columns_info}
 
@@ -176,15 +174,15 @@ class TestDataTypeValidation:
                 "year": "integer",
                 "nuts3": "text",
                 "demand": "numeric",
-                "sector": "text"
-            }
+                "sector": "text",
+            },
         )
 
         mock_columns_info = [
             {"column_name": "year", "data_type": "text", "udt_name": "text"},
             {"column_name": "nuts3", "data_type": "text", "udt_name": "text"},
             {"column_name": "demand", "data_type": "text", "udt_name": "text"},
-            {"column_name": "sector", "data_type": "text", "udt_name": "text"}
+            {"column_name": "sector", "data_type": "text", "udt_name": "text"},
         ]
         mock_db_row = {"columns_info": mock_columns_info}
 

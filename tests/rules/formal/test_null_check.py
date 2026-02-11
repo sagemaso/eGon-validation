@@ -1,4 +1,3 @@
-import pytest
 from egon_validation.rules.formal.null_check import NotNullAndNotNaNValidation
 from egon_validation.rules.base import Severity
 
@@ -6,9 +5,7 @@ from egon_validation.rules.base import Severity
 class TestNotNullAndNotNaNValidation:
     def test_sql_generation_single_column(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=["demand"]
+            rule_id="test_rule", table="test.table", columns=["demand"]
         )
         sql = rule.get_query(None)
 
@@ -18,9 +15,7 @@ class TestNotNullAndNotNaNValidation:
 
     def test_sql_generation_multiple_columns(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=["demand", "year"]
+            rule_id="test_rule", table="test.table", columns=["demand", "year"]
         )
         sql = rule.get_query(None)
 
@@ -29,9 +24,7 @@ class TestNotNullAndNotNaNValidation:
 
     def test_sql_generation_empty_columns(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=[]
+            rule_id="test_rule", table="test.table", columns=[]
         )
         sql = rule.get_query(None)
 
@@ -39,9 +32,7 @@ class TestNotNullAndNotNaNValidation:
 
     def test_postprocess_success(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=["demand"]
+            rule_id="test_rule", table="test.table", columns=["demand"]
         )
         row = {"columns_info": [{"column_name": "demand", "null_nan_count": 0}]}
 
@@ -52,9 +43,7 @@ class TestNotNullAndNotNaNValidation:
 
     def test_postprocess_failure(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=["demand"]
+            rule_id="test_rule", table="test.table", columns=["demand"]
         )
         row = {"columns_info": [{"column_name": "demand", "null_nan_count": 5}]}
 
@@ -65,9 +54,7 @@ class TestNotNullAndNotNaNValidation:
 
     def test_postprocess_no_columns_info(self):
         rule = NotNullAndNotNaNValidation(
-            rule_id="test_rule",
-            table="test.table",
-            columns=["demand"]
+            rule_id="test_rule", table="test.table", columns=["demand"]
         )
         row = {"columns_info": None}
 
@@ -81,13 +68,13 @@ class TestNotNullAndNotNaNValidation:
         rule = NotNullAndNotNaNValidation(
             rule_id="test_null_check",
             table="demand.egon_demandregio_hh",
-            columns=["demand", "year"]
+            columns=["demand", "year"],
         )
 
         mock_db_row = {
             "columns_info": [
                 {"column_name": "demand", "null_nan_count": 0},
-                {"column_name": "year", "null_nan_count": 0}
+                {"column_name": "year", "null_nan_count": 0},
             ]
         }
 
@@ -102,13 +89,11 @@ class TestNotNullAndNotNaNValidation:
         rule = NotNullAndNotNaNValidation(
             rule_id="demand_null_check",
             table="demand.egon_demandregio_hh",
-            columns=["demand"]
+            columns=["demand"],
         )
 
         mock_db_row = {
-            "columns_info": [
-                {"column_name": "demand", "null_nan_count": 127}
-            ]
+            "columns_info": [{"column_name": "demand", "null_nan_count": 127}]
         }
 
         result = rule.postprocess(mock_db_row, None)

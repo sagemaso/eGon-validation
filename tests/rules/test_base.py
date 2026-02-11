@@ -1,5 +1,6 @@
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
 from egon_validation.rules.base import Rule, SqlRule, RuleResult, Severity
 
 
@@ -58,7 +59,9 @@ class TestRuleResult:
 
 class TestRule:
     def test_rule_initialization(self):
-        rule = Rule(rule_id="test_rule", table="schema.table", task="test_task", param1="value1")
+        rule = Rule(
+            rule_id="test_rule", table="schema.table", task="test_task", param1="value1"
+        )
 
         assert rule.rule_id == "test_rule"
         assert rule.task == "test_task"
@@ -84,7 +87,10 @@ class TestRule:
 
         assert rule.message_suffix == "Includes home batteries and pumped hydro"
         result = rule.create_result(success=True, message="Validation passed")
-        assert result.message == "Validation passed | Includes home batteries and pumped hydro"
+        assert (
+            result.message
+            == "Validation passed | Includes home batteries and pumped hydro"
+        )
 
     def test_rule_message_suffix_none(self):
         rule = Rule(rule_id="test_rule", table="schema.table", task="test_task")
@@ -115,7 +121,9 @@ class TestSqlRule:
             def postprocess(self, row, ctx):
                 return self.create_result(success=True)
 
-        rule = TestSqlRuleImpl(rule_id="test_rule", table="test.table", task="test_task")
+        rule = TestSqlRuleImpl(
+            rule_id="test_rule", table="test.table", task="test_task"
+        )
         assert isinstance(rule, SqlRule)
         assert isinstance(rule, Rule)
 
