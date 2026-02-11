@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-02-11
+
+### Changed
+- Renamed `sql()` to `get_query()` across all SqlRule subclasses for consistency
+- Moved `get_query()` to base `Rule` class as abstract method
+- Moved `_check_table_empty()` from `SqlRule` to base `Rule` class (now available for DataFrameRule)
+- DataFrameRule now checks for empty tables before loading DataFrame
+
+### Fixed
+- Parameter name mismatch in `GeometryContainmentValidation.postprocess()` (`reference_filter` → `ref_filter`)
+- Test parameter names to match rule implementations (`reference_dataset` → `ref_table`, etc.)
+- Test assertions in `test_coverage_analysis.py`
+
+### Maintenance
+- Removed unused imports across test files
+- Applied black formatting
+- Fixed linting issues (E731 lambda expression)
+
+## [1.2.3] - 2026-01-15
+
+### Maintenance
+- Documentation updates
+- Minor code cleanup
+
 ## [1.2.2] - 2025-12-20
 
 ### Changed
@@ -178,6 +202,8 @@ All notable changes to this project will be documented in this file.
 - Add sanity rules
 - Initial project skeleton
 
+[1.3.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.3.0
+[1.2.3]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.3
 [1.2.2]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.2
 [1.1.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.1.1
 [1.0.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.0.0
