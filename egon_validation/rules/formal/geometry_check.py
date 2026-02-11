@@ -48,7 +48,7 @@ class GeometryContainmentValidation(SqlRule):
 
         ok = points_outside == 0
         filter_condition = self.params.get("filter_condition", "TRUE")
-        ref_filter = self.params.get("reference_filter", "TRUE")
+        ref_filter = self.params.get("ref_filter", "TRUE")
 
         if ok:
             message = f"All {total_points} points are within reference boundary (filter: {filter_condition})"
