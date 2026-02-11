@@ -8,7 +8,7 @@ class TestGeometryContainmentValidation:
         rule = GeometryContainmentValidation(rule_id="test_rule", table="supply.egon_power_plants_wind",
             reference_dataset="boundaries.vg250_sta"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "WITH reference_geom AS" in sql
         assert "ST_Union(ST_Transform(geometry, 3035))" in sql  # default reference_geometry
@@ -29,7 +29,7 @@ class TestGeometryContainmentValidation:
             reference_filter="state_id = 'NW'",
             filter_condition="capacity_mw > 5.0"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "ST_Transform(geom_polygon, 3035)" in sql
         assert "boundaries.vg250_lan" in sql

@@ -15,7 +15,7 @@ from egon_validation.config import (
 class ElectricalLoadAggregationValidation(SqlRule):
     """Validates sum, max, min of electrical load profiles against expected values."""
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         base_query = """
         SELECT
             json_agg(
@@ -150,7 +150,7 @@ class ElectricalLoadAggregationValidation(SqlRule):
 class DisaggregatedDemandSumValidation(SqlRule):
     """Validates that sum of disaggregated demands matches original aggregated value."""
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         sector = self.params.get("sector", "residential")
 
         base_query = f"""

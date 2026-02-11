@@ -10,7 +10,7 @@ class TestNotNullAndNotNaNValidation:
             table="test.table",
             columns=["demand"]
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "demand" in sql
         assert "IS NULL OR" in sql
@@ -22,7 +22,7 @@ class TestNotNullAndNotNaNValidation:
             table="test.table",
             columns=["demand", "year"]
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "demand" in sql
         assert "year" in sql
@@ -33,7 +33,7 @@ class TestNotNullAndNotNaNValidation:
             table="test.table",
             columns=[]
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "NULL as columns_info" in sql
 

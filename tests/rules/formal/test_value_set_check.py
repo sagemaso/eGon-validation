@@ -9,7 +9,7 @@ class TestValueSetValidation:
             column="status",
             expected_values=["active", "inactive"],
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "ARRAY['active','inactive']" in sql
         assert "COUNT(*) as total_rows" in sql
@@ -17,7 +17,7 @@ class TestValueSetValidation:
 
     def test_sql_generation_empty_values(self):
         rule = ValueSetValidation(rule_id="test_rule", table="test.table")
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "ARRAY[]" in sql
 

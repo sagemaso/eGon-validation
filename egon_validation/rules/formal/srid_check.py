@@ -10,7 +10,7 @@ from egon_validation.config import DEFAULT_SRID
     geom="geom",
 )
 class SRIDUniqueNonZero(SqlRule):
-    def sql(self, ctx):
+    def get_query(self, ctx):
         geom = self.params.get("geom", "geom")
         return f"""
         SELECT COUNT(DISTINCT ST_SRID({geom})) AS srids,
@@ -36,7 +36,7 @@ class SRIDUniqueNonZero(SqlRule):
 class SRIDSpecificValidation(SqlRule):
     """Validates that geometry column has a specific expected SRID."""
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         geom = self.params.get("geom", "geom")
         expected_srid = self.params.get("expected_srid", DEFAULT_SRID)
 

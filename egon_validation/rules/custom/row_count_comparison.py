@@ -40,7 +40,7 @@ class RowCountComparisonValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         reference_dataset = self.params.get("reference_dataset")
         reference_filter = self.params.get("reference_filter", "TRUE")
         scenario = self.params.get("scenario_col")

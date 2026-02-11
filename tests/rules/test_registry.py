@@ -17,7 +17,7 @@ class MockRule(Rule):
 
 class MockSqlRule(SqlRule):
     """Mock SQL rule for testing registry - returns success=True as placeholder."""
-    def sql(self, ctx):
+    def get_query(self, ctx):
         return "SELECT 1"
 
     def postprocess(self, row, ctx):

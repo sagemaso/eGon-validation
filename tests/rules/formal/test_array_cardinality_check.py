@@ -9,7 +9,7 @@ class TestArrayCardinalityValidation:
             rule_id="test_rule",
             table="grid.egon_etrago_load_timeseries"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "COUNT(*) as total_rows" in sql
         assert "cardinality(values)" in sql  # default array_column
@@ -26,7 +26,7 @@ class TestArrayCardinalityValidation:
             array_column="selected_idp_profiles",
             expected_length=365
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "cardinality(selected_idp_profiles)" in sql
         assert "365" in sql  # custom expected length

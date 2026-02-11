@@ -8,7 +8,7 @@ class TestReferentialIntegrityValidation:
         rule = ReferentialIntegrityValidation(rule_id="test_rule", table="grid.egon_etrago_load_timeseries",
             reference_dataset="grid.egon_etrago_load"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "COUNT(*) FILTER" in sql
         assert "total_non_null_references" in sql
@@ -24,7 +24,7 @@ class TestReferentialIntegrityValidation:
             reference_dataset="grid.egon_etrago_load",
             reference_column="load_id"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "child.load_id" in sql
         assert "parent.load_id" in sql

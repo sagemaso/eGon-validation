@@ -34,7 +34,7 @@ class NotNullAndNotNaNValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         columns = self.params.get("columns", [])
         if not columns:
             return "SELECT NULL as columns_info"

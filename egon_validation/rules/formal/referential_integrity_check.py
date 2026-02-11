@@ -23,7 +23,7 @@ class ReferentialIntegrityValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         foreign_col = self.params.get("fk_column", "id")
         ref_table = self.params.get("ref_table")
         reference_col = self.params.get("ref_column", "id")

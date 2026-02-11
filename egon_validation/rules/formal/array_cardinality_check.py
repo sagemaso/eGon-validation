@@ -30,7 +30,7 @@ class ArrayCardinalityValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         array_col = self.params.get("array_column", "values")
         expected_length = int(
             self.params.get("expected_length", ARRAY_CARDINALITY_ANNUAL_HOURS)

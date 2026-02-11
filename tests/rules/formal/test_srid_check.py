@@ -7,7 +7,7 @@ class TestSRIDUniqueNonZero:
     def test_sql_generation_default_geom_column(self):
         rule = SRIDUniqueNonZero(rule_id="test_rule", table="supply.egon_power_plants_pv"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "COUNT(DISTINCT ST_SRID(geom))" in sql
         assert "SUM(CASE WHEN ST_SRID(geom) = 0" in sql
@@ -18,7 +18,7 @@ class TestSRIDUniqueNonZero:
     def test_sql_generation_custom_geom_column(self):
         rule = SRIDUniqueNonZero(rule_id="test_rule", table="boundaries.vg250_sta", geom="geometry"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "ST_SRID(geometry)" in sql
         assert "boundaries.vg250_sta" in sql
@@ -110,7 +110,7 @@ class TestSRIDSpecificValidation:
     def test_sql_generation_default_parameters(self):
         rule = SRIDSpecificValidation(rule_id="test_rule", table="grid.egon_mv_grid_district"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "COUNT(*) AS total_geometries" in sql
         assert "COUNT(DISTINCT ST_SRID(geom))" in sql
@@ -125,7 +125,7 @@ class TestSRIDSpecificValidation:
             geom="geometry",
             expected_srid=4326
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "ST_SRID(geometry)" in sql
         assert "4326" in sql

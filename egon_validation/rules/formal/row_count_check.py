@@ -26,7 +26,7 @@ class RowCountValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         return f"SELECT COUNT(*) AS actual_count FROM {self.table}"
 
     def postprocess(self, row, ctx):

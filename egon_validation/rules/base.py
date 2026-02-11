@@ -278,10 +278,39 @@ class Rule:
         """
         return abs(actual - expected) <= (expected * tolerance)
 
+    def get_query(self, ctx) -> str:
+        """Return SQL query for validation. Must be overridden by subclasses."""
+        raise NotImplementedError
+
+    def _check_table_empty(self, engine, ctx) -> Optional[RuleResult]:
+        """Check if the table is empty and return failure result if so.
+
+        Args:
+            engine: SQLAlchemy engine
+            ctx: Run context
+
+        Returns:
+            RuleResult if table is empty, None if table has data
+        """
+        try:
+            count_query = f"SELECT COUNT(*) as total_count FROM {self.table}"
+
+            from egon_validation import db
+
+            count_row = db.fetch_one(engine, count_query)
+            total_count = int(count_row.get("total_count", 0))
+
+            if total_count == 0:
+                return self.empty_table_result()
+
+            return None  # Table has data, continue normal validation
+
+        except Exception:
+            # If we can't check the table, let the main query handle it
+            return None
+
 
 class SqlRule(Rule):
-    def sql(self, ctx) -> str:
-        raise NotImplementedError
 
     def postprocess(self, row: Dict[str, Any], ctx) -> RuleResult:
         raise NotImplementedError
@@ -302,32 +331,12 @@ class SqlRule(Rule):
             return json.loads(json_data)
         return json_data
 
-    def _check_table_empty(self, engine, ctx) -> Optional[RuleResult]:
-        """Check if the table is empty and return failure result if so."""
-        try:
-            # Build the count query with same scenario filtering as main query
-            count_query = f"SELECT COUNT(*) as total_count FROM {self.table}"
-
-            from egon_validation import db
-
-            count_row = db.fetch_one(engine, count_query)
-            total_count = int(count_row.get("total_count", 0))
-
-            if total_count == 0:
-                return self.empty_table_result()
-
-            return None  # Table has data, continue normal validation
-
-        except Exception:
-            # If we can't check the table, let the main query handle it
-            return None
-
 
 class DataFrameRule(Rule):
     """Base class for DataFrame-based validation rules."""
 
     def get_query(self, ctx) -> str:
-        """Generate SQL query for DataFrame creation. Override in subclasses."""
+        """Default: fetch all rows from table. Override for filtering/specific columns."""
         return f"SELECT * FROM {self.table}"
 
     def evaluate_df(self, df, ctx) -> RuleResult:
@@ -337,13 +346,18 @@ class DataFrameRule(Rule):
     def evaluate(self, engine, ctx) -> RuleResult:
         """Execute rule by fetching DataFrame and calling evaluate_df."""
         try:
+            # Check if table is empty first (avoids loading empty DataFrame)
+            empty_result = self._check_table_empty(engine, ctx)
+            if empty_result:
+                return empty_result
+
             from egon_validation.db import fetch_dataframe
 
             # Get DataFrame
             query = self.get_query(ctx)
             df = fetch_dataframe(engine, query)
 
-            # Check if query returned no results
+            # Check if query returned no results (e.g., due to WHERE filters)
             if df.empty:
                 return self.empty_table_result(query=query)
 

@@ -9,7 +9,7 @@ class TestElectricalLoadAggregationValidation:
         rule = ElectricalLoadAggregationValidation(
             "test_rule", "test_task", "grid.egon_etrago_load", tolerance=0.05
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "SELECT" in sql
         assert "json_agg" in sql

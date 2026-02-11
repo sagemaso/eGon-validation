@@ -109,7 +109,7 @@ class TestRule:
 class TestSqlRule:
     def test_sql_rule_inheritance(self):
         class TestSqlRuleImpl(SqlRule):
-            def sql(self, ctx):
+            def get_query(self, ctx):
                 return "SELECT 1"
 
             def postprocess(self, row, ctx):
@@ -119,11 +119,11 @@ class TestSqlRule:
         assert isinstance(rule, SqlRule)
         assert isinstance(rule, Rule)
 
-    def test_sql_not_implemented(self):
+    def test_get_query_not_implemented(self):
         rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")
 
         with pytest.raises(NotImplementedError):
-            rule.sql(None)
+            rule.get_query(None)
 
     def test_postprocess_not_implemented(self):
         rule = SqlRule(rule_id="test_rule", table="test.table", task="test_task")

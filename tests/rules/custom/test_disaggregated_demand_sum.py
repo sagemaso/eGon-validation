@@ -11,7 +11,7 @@ class TestDisaggregatedDemandSumValidation:
             table="demand.egon_demandregio_zensus_electricity",
             task="test_task",
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "WITH disaggregated AS" in sql
         assert "sector = 'residential'" in sql
@@ -25,7 +25,7 @@ class TestDisaggregatedDemandSumValidation:
             task="test_task",
             sector="commercial",
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "sector = 'commercial'" in sql
 

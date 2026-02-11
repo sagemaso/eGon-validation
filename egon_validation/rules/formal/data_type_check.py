@@ -38,7 +38,7 @@ class DataTypeValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         # Modify the query to aggregate all results into a single row with JSON
         column_types = self.params.get("column_types", {})
         columns = list(column_types.keys())

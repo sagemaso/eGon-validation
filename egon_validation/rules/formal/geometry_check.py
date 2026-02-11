@@ -15,7 +15,7 @@ from egon_validation.rules.registry import register
 class GeometryContainmentValidation(SqlRule):
     """Validates that point geometries are contained within reference polygon geometries."""
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         geom_col = self.params.get("geom", "geom")
         ref_table = self.params.get("ref_table")
         ref_geom_col = self.params.get("ref_geom", "geometry")

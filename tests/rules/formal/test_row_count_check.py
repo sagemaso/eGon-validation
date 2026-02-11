@@ -9,7 +9,7 @@ class TestRowCountValidation:
         rule = RowCountValidation(
             "test_rule", "grid.egon_mv_grid_district", task="test_task"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert sql == "SELECT COUNT(*) AS actual_count FROM grid.egon_mv_grid_district"
 
@@ -124,7 +124,7 @@ class TestRowCountComparisonValidation:
             reference_dataset="boundaries.vg250_krs",
             reference_filter="gf = 4"
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "WITH reference_count AS" in sql
         assert "boundaries.vg250_krs WHERE gf = 4" in sql

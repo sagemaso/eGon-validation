@@ -29,7 +29,7 @@ class ValueSetValidation(SqlRule):
         ... )
     """
 
-    def sql(self, ctx):
+    def get_query(self, ctx):
         col = self.params.get("column", "value")
         expected_values = self.params.get("expected_values", [])
 

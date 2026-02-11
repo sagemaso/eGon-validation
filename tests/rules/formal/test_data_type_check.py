@@ -10,7 +10,7 @@ class TestDataTypeValidation:
             table="schema.table",
             column_types={"year": "integer"}
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "table_schema = 'schema'" in sql
         assert "table_name = 'table'" in sql
@@ -22,7 +22,7 @@ class TestDataTypeValidation:
             table="schema.table",
             column_types={"year": "integer", "name": "text"}
         )
-        sql = rule.sql(None)
+        sql = rule.get_query(None)
 
         assert "json_agg" in sql
         assert "table_schema = 'schema'" in sql
@@ -35,7 +35,7 @@ class TestDataTypeValidation:
             column_types={"year": "integer"}
         )
         with pytest.raises(ValueError, match="must include schema"):
-            rule.sql(None)
+            rule.get_query(None)
 
     def test_postprocess_no_columns_info(self):
         rule = DataTypeValidation(

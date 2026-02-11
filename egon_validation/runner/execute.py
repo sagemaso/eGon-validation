@@ -51,7 +51,7 @@ def _execute_single_rule(engine, rule, ctx) -> RuleResult:
                     empty_result.rule_class = rule.__class__.__name__
                 return empty_result
 
-            row = db.fetch_one(engine, rule.sql(ctx))
+            row = db.fetch_one(engine, rule.get_query(ctx))
             res = rule.postprocess(row, ctx)
         else:
             res = rule.evaluate(engine, ctx)  # type: ignore
