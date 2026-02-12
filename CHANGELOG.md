@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.3.0] - 2026-02-11
+## [1.3.1] - 2026-02-12
+
+### Added
+- Warning message when task not found in registry
 
 ### Changed
 - Renamed `sql()` to `get_query()` across all SqlRule subclasses for consistency
@@ -202,7 +205,7 @@ All notable changes to this project will be documented in this file.
 - Add sanity rules
 - Initial project skeleton
 
-[1.3.0]: https://github.com/yourusername/egon-validation/releases/tag/v1.3.0
+[1.3.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.3.1
 [1.2.3]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.3
 [1.2.2]: https://github.com/yourusername/egon-validation/releases/tag/v1.2.2
 [1.1.1]: https://github.com/yourusername/egon-validation/releases/tag/v1.1.1
